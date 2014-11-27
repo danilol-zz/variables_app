@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126154058) do
+ActiveRecord::Schema.define(version: 20141127153041) do
 
   create_table "origins", force: true do |t|
     t.string   "file_name"
@@ -27,10 +27,10 @@ ActiveRecord::Schema.define(version: 20141126154058) do
     t.string   "extractor_file_type"
     t.text     "room_1_notes"
     t.string   "mnemonic"
-    t.integer  "cd5_portal_source_code"
-    t.string   "cd5_portal_source_name"
-    t.integer  "cd5_portal_target_code"
-    t.string   "cd5_portal_target_name"
+    t.integer  "cd5_portal_origin_code"
+    t.string   "cd5_portal_origin_name"
+    t.integer  "cd5_portal_destination_code"
+    t.string   "cd5_portal_destination_name"
     t.string   "hive_table_name"
     t.string   "mainframe_storage_type"
     t.text     "room_2_notes"

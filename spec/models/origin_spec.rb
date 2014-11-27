@@ -15,10 +15,10 @@ describe Origin do
   it { should respond_to :extractor_file_type }
   it { should respond_to :room_1_notes }
   it { should respond_to :mnemonic }
-  it { should respond_to :cd5_portal_source_code }
-  it { should respond_to :cd5_portal_source_name }
-  it { should respond_to :cd5_portal_target_code }
-  it { should respond_to :cd5_portal_target_name }
+  it { should respond_to :cd5_portal_origin_code }
+  it { should respond_to :cd5_portal_origin_name }
+  it { should respond_to :cd5_portal_destination_code }
+  it { should respond_to :cd5_portal_destination_name }
   it { should respond_to :hive_table_name }
   it { should respond_to :mainframe_storage_type }
   it { should respond_to :room_2_notes }

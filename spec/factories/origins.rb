@@ -13,10 +13,10 @@ data_retention_type "MyString"
 extractor_file_type "MyString"
 room_1_notes "MyText"
 mnemonic "MyString"
-cd5_portal_source_code 1
-cd5_portal_source_name "MyString"
-cd5_portal_target_code 1
-cd5_portal_target_name "MyString"
+cd5_portal_origin_code 1
+cd5_portal_origin_name "MyString"
+cd5_portal_destination_code 1
+cd5_portal_destination_name "MyString"
 hive_table_name "MyString"
 mainframe_storage_type "MyString"
 room_2_notes "MyText"
