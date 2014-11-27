@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>File name:</strong>
+  <strong><%= t('.file_name') %></strong>
   <%= @origin.file_name %>
 </p>
 
@@ -100,5 +100,5 @@
   <%= @origin.room_2_notes %>
 </p>
 
-<%= link_to 'Edit', edit_origin_path(@origin) %> |
-<%= link_to 'Back', origins_path %>
+<%= link_to t('edit'), edit_origin_path(@origin) %> |
+<%= link_to t('back'), origins_path %>
