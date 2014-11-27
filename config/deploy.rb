@@ -5,6 +5,7 @@ set :deploy_to, '/home/deploy/variables_app'
 
 set :linked_files, %w{config/database.yml config/secrets.yml .env}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :keep_releases, 5
 
 namespace :deploy do
 
