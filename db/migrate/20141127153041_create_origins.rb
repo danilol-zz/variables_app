@@ -14,10 +14,10 @@ class CreateOrigins < ActiveRecord::Migration
       t.string :extractor_file_type
       t.text :room_1_notes
       t.string :mnemonic
-      t.integer :cd5_portal_source_code
-      t.string :cd5_portal_source_name
-      t.integer :cd5_portal_target_code
-      t.string :cd5_portal_target_name
+      t.integer :cd5_portal_origin_code
+      t.string :cd5_portal_origin_name
+      t.integer :cd5_portal_destination_code
+      t.string :cd5_portal_destination_name
       t.string :hive_table_name
       t.string :mainframe_storage_type
       t.text :room_2_notes
