@@ -11,7 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127153041) do
+ActiveRecord::Schema.define(version: 20141127171620) do
+
+  create_table "origin_fields", force: true do |t|
+    t.string   "field_name"
+    t.string   "origin_pic"
+    t.string   "data_type_origin_field"
+    t.string   "fmbase_format_type"
+    t.string   "generic_data_type"
+    t.integer  "decimal_origin_field"
+    t.string   "mask_origin_field"
+    t.integer  "position_origin_field"
+    t.integer  "width_origin_field"
+    t.string   "is_key"
+    t.string   "will_use"
+    t.string   "has_signal"
+    t.string   "room_1_notes"
+    t.integer  "cd5_variable_number"
+    t.integer  "cd5_output_order"
+    t.string   "cd5_variable_name"
+    t.string   "cd5_origin_format"
+    t.string   "cd5_origin_format_desc"
+    t.string   "cd5_format"
+    t.string   "cd5_format_desc"
+    t.string   "default_value"
+    t.string   "room_2_notes"
+    t.integer  "origin_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "origin_fields", ["origin_id"], name: "index_origin_fields_on_origin_id"
 
   create_table "origins", force: true do |t|
     t.string   "file_name"

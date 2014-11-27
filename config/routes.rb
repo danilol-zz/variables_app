@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :origin_fields
+
   root 'welcome#index'
 
   resources :origins
