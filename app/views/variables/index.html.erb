@@ -1,0 +1,51 @@
+<h1>Listing variables</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Sas variable def</th>
+      <th>Sas variable domain</th>
+      <th>Created in sprint</th>
+      <th>Updated in sprint</th>
+      <th>Sas data model status</th>
+      <th>Drs bi diagram name</th>
+      <th>Drs variable status</th>
+      <th>Room 1 notes</th>
+      <th>Physical model name field</th>
+      <th>Width variable</th>
+      <th>Decimal variable</th>
+      <th>Default value</th>
+      <th>Room 2 notes</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @variables.each do |variable| %>
+      <tr>
+        <td><%= variable.name %></td>
+        <td><%= variable.sas_variable_def %></td>
+        <td><%= variable.sas_variable_domain %></td>
+        <td><%= variable.created_in_sprint %></td>
+        <td><%= variable.updated_in_sprint %></td>
+        <td><%= variable.sas_data_model_status %></td>
+        <td><%= variable.drs_bi_diagram_name %></td>
+        <td><%= variable.drs_variable_status %></td>
+        <td><%= variable.room_1_notes %></td>
+        <td><%= variable.physical_model_name_field %></td>
+        <td><%= variable.width_variable %></td>
+        <td><%= variable.decimal_variable %></td>
+        <td><%= variable.default_value %></td>
+        <td><%= variable.room_2_notes %></td>
+        <td><%= link_to 'Show', variable %></td>
+        <td><%= link_to 'Edit', edit_variable_path(variable) %></td>
+        <td><%= link_to 'Destroy', variable, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Variable', new_variable_path %>

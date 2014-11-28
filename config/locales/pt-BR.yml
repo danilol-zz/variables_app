@@ -52,6 +52,21 @@ pt:
         cd5_format_desc: Descricao formato cd5
         default_value: Valor padrao
         room_2_notes: Observacao sala 2
+      variable:
+        name: Nome da variavel
+        sas_variable_def: Definição da variavel SAS
+        sas_variable_domain: Domínio da variavel SAS
+        created_in_sprint: Sprint em que foi criado
+        updated_in_sprint: Sprint em que foi alterado
+        sas_data_model_status: Status Modelo de Dados SAS
+        drs_bi_diagram_name: Nome do Diagrama DRS-BI
+        drs_variable_status: Status DRS da Variavel
+        room_1_notes: Observação Sala 1
+        physical_model_name_field: Nome do campo modelo fisico
+        width_variable: Tamanho
+        decimal_variable: Decimal
+        default_value: Valor padrão
+        room_2_notes: Observação sala 2
   are_you_sure: Você tem certeza?
   show: Visualizar
   edit: Editar

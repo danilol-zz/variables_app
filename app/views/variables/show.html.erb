@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @variable.name %>
+</p>
+
+<p>
+  <strong>Sas variable def:</strong>
+  <%= @variable.sas_variable_def %>
+</p>
+
+<p>
+  <strong>Sas variable domain:</strong>
+  <%= @variable.sas_variable_domain %>
+</p>
+
+<p>
+  <strong>Created in sprint:</strong>
+  <%= @variable.created_in_sprint %>
+</p>
+
+<p>
+  <strong>Updated in sprint:</strong>
+  <%= @variable.updated_in_sprint %>
+</p>
+
+<p>
+  <strong>Sas data model status:</strong>
+  <%= @variable.sas_data_model_status %>
+</p>
+
+<p>
+  <strong>Drs bi diagram name:</strong>
+  <%= @variable.drs_bi_diagram_name %>
+</p>
+
+<p>
+  <strong>Drs variable status:</strong>
+  <%= @variable.drs_variable_status %>
+</p>
+
+<p>
+  <strong>Room 1 notes:</strong>
+  <%= @variable.room_1_notes %>
+</p>
+
+<p>
+  <strong>Physical model name field:</strong>
+  <%= @variable.physical_model_name_field %>
+</p>
+
+<p>
+  <strong>Width variable:</strong>
+  <%= @variable.width_variable %>
+</p>
+
+<p>
+  <strong>Decimal variable:</strong>
+  <%= @variable.decimal_variable %>
+</p>
+
+<p>
+  <strong>Default value:</strong>
+  <%= @variable.default_value %>
+</p>
+
+<p>
+  <strong>Room 2 notes:</strong>
+  <%= @variable.room_2_notes %>
+</p>
+
+<%= link_to 'Edit', edit_variable_path(@variable) %> |
+<%= link_to 'Back', variables_path %>

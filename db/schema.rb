@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127171620) do
+ActiveRecord::Schema.define(version: 20141128174417) do
 
   create_table "origin_fields", force: true do |t|
     t.string   "field_name"
@@ -63,6 +63,25 @@ ActiveRecord::Schema.define(version: 20141127171620) do
     t.string   "cd5_portal_destination_name"
     t.string   "hive_table_name"
     t.string   "mainframe_storage_type"
+    t.text     "room_2_notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "variables", force: true do |t|
+    t.string   "name"
+    t.string   "sas_variable_def"
+    t.string   "sas_variable_domain"
+    t.integer  "created_in_sprint"
+    t.integer  "updated_in_sprint"
+    t.string   "sas_data_model_status"
+    t.string   "drs_bi_diagram_name"
+    t.string   "drs_variable_status"
+    t.text     "room_1_notes"
+    t.string   "physical_model_name_field"
+    t.integer  "width_variable"
+    t.integer  "decimal_variable"
+    t.string   "default_value"
     t.text     "room_2_notes"
     t.datetime "created_at"
     t.datetime "updated_at"
