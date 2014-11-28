@@ -6,6 +6,7 @@ pt:
   activerecord:
     models:
       origin: Origem
+      origin_field: Campos de Origem
     attributes:
       origin:
         file_name: Nome da base / arquivo
@@ -28,6 +29,29 @@ pt:
         hive_table_name: Nome tabela hive
         mainframe_storage_type: Tipo de armazenamento mainframe
         room_2_notes: Observação - sala 2
+      origin_field:
+        field_name: Nome do campo
+        origin_pic: Pic de Origem
+        data_type_origin_field: Tipo de dado
+        fmbase_format_type: Tipo formato fmbase
+        generic_data_type: Tipo de dado generico
+        decimal_origin_field: Decimal
+        mask_origin_field: Mascara
+        position_origin_field: Posicao
+        width_origin_field: Tamanho
+        is_key: E' chave?
+        will_use: Vai usar?
+        has_signal: Tem sinal?
+        room_1_notes: Observacao sala 1
+        cd5_variable_number: Numero variavel cd5
+        cd5_output_order: Ordem de saida cd5
+        cd5_variable_name: Nome variavel cd5
+        cd5_origin_format: Formato origem cd5
+        cd5_origin_format_desc: Descricao formato origem cd5
+        cd5_format: Formato cd5
+        cd5_format_desc: Descricao formato cd5
+        default_value: Valor padrao
+        room_2_notes: Observacao sala 2
   are_you_sure: Você tem certeza?
   show: Visualizar
   edit: Editar

@@ -2,7 +2,7 @@
   <% if @origin_field.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@origin_field.errors.count, "error") %>
-      prohibited this origin_field from being saved:</h2>
+      proibiram esse campo de origem de ser salvo:</h2>
       <ul>
       <% @origin_field.errors.full_messages.each do |message| %>
         <li><%= message %></li>
