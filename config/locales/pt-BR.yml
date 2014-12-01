@@ -7,6 +7,7 @@ pt:
     models:
       origin: Origem
       origin_field: Campos de Origem
+      variable: Variavel
     attributes:
       origin:
         file_name: Nome da base / arquivo

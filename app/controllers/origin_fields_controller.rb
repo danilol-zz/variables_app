@@ -28,7 +28,7 @@ class OriginFieldsController < ApplicationController
 
     respond_to do |format|
       if @origin_field.save
-        format.html { redirect_to @origin_field, notice: 'Origin field was successfully created.' }
+        format.html { redirect_to @origin_field, notice: "#{OriginField.model_name.human.capitalize} criado com sucesso" }
         format.json { render :show, status: :created, location: @origin_field }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class OriginFieldsController < ApplicationController
   def update
     respond_to do |format|
       if @origin_field.update(origin_field_params)
-        format.html { redirect_to @origin_field, notice: 'Origin field was successfully updated.' }
+        format.html { redirect_to @origin_field, notice: "#{OriginField.model_name.human.capitalize} atualizado com sucesso"}
         format.json { render :show, status: :ok, location: @origin_field }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class OriginFieldsController < ApplicationController
   def destroy
     @origin_field.destroy
     respond_to do |format|
-      format.html { redirect_to origin_fields_url, notice: 'Origin field was successfully destroyed.' }
+      format.html { redirect_to origin_fields_url, notice: "#{OriginField.model_name.human.capitalize} excluido com sucesso" }
       format.json { head :no_content }
     end
   end
