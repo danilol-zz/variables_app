@@ -1,5 +1,6 @@
 class OriginFieldsController < ApplicationController
   before_action :set_origin_field, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_authentication
 
   # GET /origin_fields
   # GET /origin_fields.json

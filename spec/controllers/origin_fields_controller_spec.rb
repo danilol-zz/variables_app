@@ -32,18 +32,25 @@ RSpec.describe OriginFieldsController, :type => :controller do
       :origin_id => 'teste' }
   }
 
+  let(:user_attributes) {
+    {
+      :email    => "zekitow@gmail.com",
+      :name     => "José Ribeiro",
+      :profile  => "Sala 1",
+      :password => "123456"
+    }
+  }
+
   let(:invalid_attributes) {
     #skip("Add a hash of attributes invalid for your model")
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # OriginFieldsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET index" do
     it "assigns all origin_fields as @origin_fields" do
       origin_field = OriginField.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :index, {}, valid_session
       expect(assigns(:origin_fields)).to eq([origin_field])
     end
@@ -59,6 +66,7 @@ RSpec.describe OriginFieldsController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new origin_field as @origin_field" do
+      session[:user_id] = User.create! user_attributes
       get :new, {}, valid_session
       expect(assigns(:origin_field)).to be_a_new(OriginField)
     end
@@ -75,18 +83,21 @@ RSpec.describe OriginFieldsController, :type => :controller do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new OriginField" do
+        session[:user_id] = User.create! user_attributes
         expect {
           post :create, {:origin_field => valid_attributes}, valid_session
         }.to change(OriginField, :count).by(1)
       end
 
       it "assigns a newly created origin_field as @origin_field" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:origin_field => valid_attributes}, valid_session
         expect(assigns(:origin_field)).to be_a(OriginField)
         expect(assigns(:origin_field)).to be_persisted
       end
 
       it "redirects to the created origin_field" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:origin_field => valid_attributes}, valid_session
         expect(response).to redirect_to(OriginField.last)
       end
@@ -109,7 +120,7 @@ RSpec.describe OriginFieldsController, :type => :controller do
     describe "with valid params" do
       let(:new_attributes) {
         new_attributes = {
-          :field_name => 'teste',
+          :field_name => 'teste_updated',
           :origin_pic => 'teste',
           :data_type_origin_field => 'teste',
           :fmbase_format_type => 'teste',
@@ -136,9 +147,10 @@ RSpec.describe OriginFieldsController, :type => :controller do
 
       it "updates the requested origin_field" do
         origin_field = OriginField.create! valid_attributes
+        session[:user_id] = User.create! user_attributes
         put :update, {:id => origin_field.to_param, :origin_field => new_attributes}, valid_session
         origin_field.reload
-        #skip("Add assertions for updated state")
+        expect(origin_field.field_name).to eq ("teste_updated")
       end
 
       it "assigns the requested origin_field as @origin_field" do
@@ -149,6 +161,7 @@ RSpec.describe OriginFieldsController, :type => :controller do
 
       it "redirects to the origin_field" do
         origin_field = OriginField.create! valid_attributes
+        session[:user_id] = User.create! user_attributes
         put :update, {:id => origin_field.to_param, :origin_field => valid_attributes}, valid_session
         expect(response).to redirect_to(origin_field)
       end
@@ -172,6 +185,7 @@ RSpec.describe OriginFieldsController, :type => :controller do
   describe "DELETE destroy" do
     it "destroys the requested origin_field" do
       origin_field = OriginField.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       expect {
         delete :destroy, {:id => origin_field.to_param}, valid_session
       }.to change(OriginField, :count).by(-1)
@@ -179,9 +193,9 @@ RSpec.describe OriginFieldsController, :type => :controller do
 
     it "redirects to the origin_fields list" do
       origin_field = OriginField.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       delete :destroy, {:id => origin_field.to_param}, valid_session
       expect(response).to redirect_to(origin_fields_url)
     end
   end
-
 end

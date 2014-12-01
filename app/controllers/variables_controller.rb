@@ -1,5 +1,6 @@
 class VariablesController < ApplicationController
   before_action :set_variable, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_authentication
 
   # GET /variables
   # GET /variables.json
