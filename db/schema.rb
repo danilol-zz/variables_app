@@ -11,7 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141128174417) do
+ActiveRecord::Schema.define(version: 20141201132510) do
+
+  create_table "campaigns", force: true do |t|
+    t.integer  "ident"
+    t.string   "name"
+    t.integer  "priority"
+    t.integer  "created_in_sprint"
+    t.integer  "updated_in_sprint"
+    t.string   "campaign_origin"
+    t.string   "channel"
+    t.string   "communication_channel"
+    t.string   "product"
+    t.string   "description"
+    t.string   "criterion"
+    t.string   "exists_in_legacy"
+    t.string   "automatic_routine"
+    t.string   "factory_criterion_status"
+    t.integer  "prioritized_variables_qty"
+    t.integer  "complied_variables_qty"
+    t.string   "process_type"
+    t.string   "crm_room_suggestion"
+    t.string   "it_status"
+    t.string   "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "origin_fields", force: true do |t|
     t.string   "field_name"

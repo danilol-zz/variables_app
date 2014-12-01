@@ -8,7 +8,29 @@ pt:
       origin: Origem
       origin_field: Campos de Origem
       variable: Variavel
+      campaign: Campanha
     attributes:
+      campaign:
+        ident: ID
+        name: Nome da campanha
+        priority: Prioridade
+        created_in_sprint: Sprint em que foi criada
+        updated_in_sprint: Sprint em que foi alterada
+        campaign_origin: Origem da campanha
+        channel: Canal
+        communication_channel: Codigo de comunicação
+        product: Produto
+        description: Descrição da campanha
+        criterion: Criterio da campanha
+        exists_in_legacy: Campanha existe no legado?
+        automatic_routine: Rotina automatica
+        factory_criterion_status: Status levantam.criterio de fabrica
+        prioritized_variables_qty: Qtd.variaveis priorizadas
+        complied_variables_qty: Qtd.variaveis atendidas
+        process_type: Tipo de processo
+        crm_room_suggestion: Sugestao da sala de CRM
+        it_status: Status de TI
+        notes: Observações
       origin:
         file_name: Nome da base / arquivo
         file_description: Descrição da base

@@ -1,0 +1,5 @@
+<h1>Edição de <%= Campaign.model_name.human.capitalize %></h1>
+<%= render 'form' %>
+
+<%= link_to t('show'), @campaign %> |
+<%= link_to t('back'), campaigns_path %>
