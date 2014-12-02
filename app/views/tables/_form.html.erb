@@ -1,7 +1,7 @@
 <%= form_for(@table) do |f| %>
   <% if @table.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@table.errors.count, "error") %>  proibiram essa origem de ser salva:</h2>
+      <h2><%= pluralize(@table.errors.count, "error") %>  proibiram essa tabela de ser salva:</h2>
       <ul>
       <% @table.errors.full_messages.each do |message| %>
         <li><%= message %></li>

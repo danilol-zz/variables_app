@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141202103116) do
+ActiveRecord::Schema.define(version: 20141202120303) do
 
   create_table "campaigns", force: true do |t|
     t.integer  "ident"
@@ -89,6 +89,20 @@ ActiveRecord::Schema.define(version: 20141202103116) do
     t.string   "hive_table_name"
     t.string   "mainframe_storage_type"
     t.text     "room_2_notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "processids", force: true do |t|
+    t.integer  "process_number"
+    t.string   "mnemonic"
+    t.string   "routine_name"
+    t.string   "var_table_name"
+    t.string   "conference_rule"
+    t.string   "acceptance_percent"
+    t.string   "keep_previous_work"
+    t.string   "counting_rule"
+    t.string   "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

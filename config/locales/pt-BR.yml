@@ -10,7 +10,18 @@ pt:
       variable: Variavel
       campaign: Campanha
       table: Tabela
+      processid: Processo
     attributes:
+      processid:
+        process_number: Numero processo
+        mnemonic: Mnemônico
+        routine_name: Nome da rotina
+        var_table_name: Nome tabela var
+        conference_rule: Regra de conferencia
+        acceptance_percent: Percentual de aceite
+        keep_previous_work: Manter movimento anterior?
+        counting_rule: Regra de contagem
+        notes: Observação
       table:
         logic_table_name: Nome tabela logica
         name: Descrição da tabela

@@ -1,0 +1,53 @@
+<%= form_for(@processid) do |f| %>
+  <% if @processid.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@processid.errors.count, "error") %> proibiram esse processo ser salvo:</h2>
+
+      <ul>
+      <% @processid.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :process_number %><br>
+    <%= f.number_field :process_number %>
+  </div>
+  <div class="field">
+    <%= f.label :mnemonic %><br>
+    <%= f.text_field :mnemonic %>
+  </div>
+  <div class="field">
+    <%= f.label :routine_name %><br>
+    <%= f.text_field :routine_name %>
+  </div>
+  <div class="field">
+    <%= f.label :var_table_name %><br>
+    <%= f.text_field :var_table_name %>
+  </div>
+  <div class="field">
+    <%= f.label :conference_rule %><br>
+    <%= f.text_field :conference_rule %>
+  </div>
+  <div class="field">
+    <%= f.label :acceptance_percent %><br>
+    <%= f.text_field :acceptance_percent %>
+  </div>
+  <div class="field">
+    <%= f.label :keep_previous_work %><br>
+    <%= f.text_field :keep_previous_work %>
+  </div>
+  <div class="field">
+    <%= f.label :counting_rule %><br>
+    <%= f.text_field :counting_rule %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_field :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
