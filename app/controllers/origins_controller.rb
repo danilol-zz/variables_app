@@ -29,7 +29,7 @@ class OriginsController < ApplicationController
 
     respond_to do |format|
       if @origin.save
-        format.html { redirect_to @origin, notice: 'Origem criada com sucesso.' }
+        format.html { redirect_to @origin, notice: "#{Origin.model_name.human.capitalize} criado com sucesso" }
         format.json { render :show, status: :created, location: @origin }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class OriginsController < ApplicationController
   def update
     respond_to do |format|
       if @origin.update(origin_params)
-        format.html { redirect_to @origin, notice: 'Origem atualizada com sucesso.' }
+        format.html { redirect_to @origin, notice: "#{Origin.model_name.human.capitalize} atualizado com sucesso" }
         format.json { render :show, status: :ok, location: @origin }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class OriginsController < ApplicationController
   def destroy
     @origin.destroy
     respond_to do |format|
-      format.html { redirect_to origins_url, notice: 'Origem removida com sucesso.' }
+      format.html { redirect_to origins_url, notice: "#{Origin.model_name.human.capitalize} excluido com sucesso"  }
       format.json { head :no_content }
     end
   end

@@ -1,22 +1,22 @@
-<h1>Listing variables</h1>
+<h1><%= Variable.model_name.human.capitalize %></h1>
 
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Sas variable def</th>
-      <th>Sas variable domain</th>
-      <th>Created in sprint</th>
-      <th>Updated in sprint</th>
-      <th>Sas data model status</th>
-      <th>Drs bi diagram name</th>
-      <th>Drs variable status</th>
-      <th>Room 1 notes</th>
-      <th>Physical model name field</th>
-      <th>Width variable</th>
-      <th>Decimal variable</th>
-      <th>Default value</th>
-      <th>Room 2 notes</th>
+      <th><%= t('activerecord.attributes.variable.name') %></th>
+      <th><%= t('activerecord.attributes.variable.sas_variable_def') %></th>
+      <th><%= t('activerecord.attributes.variable.sas_variable_domain') %></th>
+      <th><%= t('activerecord.attributes.variable.created_in_sprint') %></th>
+      <th><%= t('activerecord.attributes.variable.updated_in_sprint') %></th>
+      <th><%= t('activerecord.attributes.variable.sas_data_model_status') %></th>
+      <th><%= t('activerecord.attributes.variable.drs_bi_diagram_name') %></th>
+      <th><%= t('activerecord.attributes.variable.drs_variable_status') %></th>
+      <th><%= t('activerecord.attributes.variable.room_1_notes') %></th>
+      <th><%= t('activerecord.attributes.variable.physical_model_name_field') %></th>
+      <th><%= t('activerecord.attributes.variable.width_variable') %></th>
+      <th><%= t('activerecord.attributes.variable.decimal_variable') %></th>
+      <th><%= t('activerecord.attributes.variable.default_value') %></th>
+      <th><%= t('activerecord.attributes.variable.room_2_notes') %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -38,9 +38,9 @@
         <td><%= variable.decimal_variable %></td>
         <td><%= variable.default_value %></td>
         <td><%= variable.room_2_notes %></td>
-        <td><%= link_to 'Show', variable %></td>
-        <td><%= link_to 'Edit', edit_variable_path(variable) %></td>
-        <td><%= link_to 'Destroy', variable, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to t('show'), variable %></td>
+        <td><%= link_to t('edit'), edit_variable_path(variable) %></td>
+        <td><%= link_to t('destroy'), variable, method: :delete, data: { confirm: t('are_you_sure') } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -48,4 +48,4 @@
 
 <br>
 
-<%= link_to 'New Variable', new_variable_path %>
+<%= link_to "Nova #{Variable.model_name.human.capitalize}", new_variable_path %>
