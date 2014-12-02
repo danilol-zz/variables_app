@@ -5,13 +5,27 @@ pt:
       update: Atualizar %{model}
   activerecord:
     models:
-      user: Usuário
-      origin: Origem
-      origin_field: Campos de Origem
-      variable: Variavel
-      campaign: Campanha
-      table: Tabela
-      processid: Processo
+      campaign:
+        one: Campanha
+        other: Campanhas
+      origin:
+        one: Origem
+        other: Origens
+      origin_field:
+        one: Campos de Origem
+        other: Campos de Origem
+      processid:
+        one: Processo
+        other: Processos
+      table:
+        one: Tabela
+        other: Tabelas
+      user:
+        one: Usuário
+        other: Usuários
+      variable:
+        one: Variável
+        other: Variáveis
     attributes:
       processid:
         process_number: Numero processo
@@ -130,19 +144,26 @@ pt:
         name: Nome
         profile: Perfil
         password: Senha
+        password_confirmation: Confirmação de senha
         role: Tipo
     errors:
       models:
         user:
           attributes:
             password:
-              too_long: Senha muito grande!
+              too_short: muito curta!
+              too_long: muito grande!
+              blank: não pode ser vazio!
+            password_confirmation:
+              confirmation: deve ser preenchido!
             email:
-              blank: E-mail do usuário não pode ser vazio!
+              blank: não pode ser vazio!
+              invalid: valor inválido!
+              taken: já cadastrado!
             name:
-              blank: Nome do usuário não pode ser vazio!
+              blank: Campo nome não pode ser vazio!
             profile:
-              blank: Perfil do usuário não pode ser vazio!
+              blank: Campo perfil não pode ser vazio!
   are_you_sure: Você tem certeza?
   show: Visualizar
   edit: Editar

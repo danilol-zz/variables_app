@@ -13,27 +13,20 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/new
-  # GET /users/new.json
   def new
     @user = User.new
   end
 
-  # GET /users/1/edit
   def edit
   end
 
-  # GET /users/1
   def show
   end
 
-  # GET /password
   def password
     @user = current_user
   end
 
-  # POST /users
-  # POST /users.json
   def create
     @user = User.new(user_params)
 
@@ -92,6 +85,14 @@ class UsersController < ApplicationController
   def logout
     session[:user_id] = nil
     redirect_to root_url, :alert => "Obrigado por ter usado o Portal de Variáveis!"
+  end
+
+  def destroy
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to users_url, notice: "#{User.model_name.human.capitalize} excluido com sucesso" }
+      format.json { head :no_content }
+    end
   end
 
   def ensure_correct_user

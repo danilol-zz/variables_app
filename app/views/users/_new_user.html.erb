@@ -4,6 +4,7 @@
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       <h2>Novo Usuário</h2>
     </div>
+   %>
     <div class="modal-body">
     <% if @new_user.errors.any? %>
       <div class="alert alert-error">
@@ -37,7 +38,7 @@
       </div>
       <div class="field">
         <div class="span3 input-append">
-          <%= u.collection_select(:profile, User::PROFILES, :id, :name) %>
+          <%= u.select(:profile, User::PROFILES) %>
         </div>
       </div>
       <div class="field">
@@ -51,6 +52,7 @@
     </div>
     <div class="modal-footer">
       <%= u.submit "Salvar", class: "btn btn-primary" %>
+      <%= link_to t('back'), users_path %>
     </div>
   </div>
 <% end %>

@@ -1,3 +1,15 @@
+<% if flash[:notice] %>
+  <div>
+    <%=flash[:notice]%>
+  </div>
+<% end %>
+
+<% if flash[:error] %>
+  <div>
+    <h4>Ooops!</h4>
+    <%=flash[:error]%>
+  </div>
+<% end %>
 <div class="span6">
   <h3>Cadastre-se</h3>
   <b>Novo Usuário</b>

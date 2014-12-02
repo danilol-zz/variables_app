@@ -12,20 +12,32 @@
         <div>
           <div class="nav-collapse">
             <% if @current_user %>
-              <%= link_to 'Campanhas', campaigns_path %> | <%= link_to 'Processos', processids_path %> | <%= link_to 'Tabelas', tables_path %> |
-              <%= link_to 'Origens', origins_path %> | <%= link_to 'Origens Campos', origin_fields_path %> | <%= link_to 'Variáveis', variables_path %>
-              <% if @current_user.role == "admin" %>
-                <%= link_to "Usuários", users_path %>
-              <% end %>
-              <%= link_to @current_user.name, edit_user_path(@current_user) %>
-              <%= link_to "Alterar senha", password_path %> |
-              <%= link_to "Sair", logout_path %>
+              <div>
+                <%= link_to 'Campanhas', campaigns_path %> |
+                <%= link_to 'Origens', origins_path %> |
+                <%= link_to 'Origens Campos', origin_fields_path %> |
+                <%= link_to 'Processos', processids_path %> |
+                <%= link_to 'Tabelas', tables_path %> |
+                <%= link_to 'Variáveis', variables_path %>
+                <% if @current_user.admin? %>
+                  <%= link_to "Usuários", users_path %>
+                <% end %>
+              </div>
+              <div align="right">
+                <%= link_to @current_user.name, edit_user_path(@current_user) %>
+                <%= link_to "Alterar senha", password_path %> |
+                <%= link_to "Sair", logout_path %>
+              </div>
             <% end %>
           </div>
         </div>
       </div>
     </div>
     <div>
+      <ul class="breadcrumb">
+        <li><%= link_to @current_user.name, users_path %> <span class="divider">/</span></li>
+        <li><b><%= t("activerecord.models.#{controller_name.singularize.downcase}.other") %></b></li>
+      </ul>
       <%= yield %>
     </div>
     <footer>
