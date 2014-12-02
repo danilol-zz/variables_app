@@ -1,0 +1,100 @@
+<%= form_for(@table) do |f| %>
+  <% if @table.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@table.errors.count, "error") %>  proibiram essa origem de ser salva:</h2>
+      <ul>
+      <% @table.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :logic_table_name %><br>
+    <%= f.text_field :logic_table_name %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :initial_volume %><br>
+    <%= f.number_field :initial_volume %>
+  </div>
+  <div class="field">
+    <%= f.label :growth_estimation %><br>
+    <%= f.number_field :growth_estimation %>
+  </div>
+  <div class="field">
+    <%= f.label :created_in_sprint %><br>
+    <%= f.number_field :created_in_sprint %>
+  </div>
+  <div class="field">
+    <%= f.label :updated_in_sprint %><br>
+    <%= f.number_field :updated_in_sprint %>
+  </div>
+  <div class="field">
+    <%= f.label :room_1_notes %><br>
+    <%= f.text_field :room_1_notes %>
+  </div>
+  <div class="field">
+    <%= f.label :final_physical_table_name %><br>
+    <%= f.text_field :final_physical_table_name %>
+  </div>
+  <div class="field">
+    <%= f.label :mirror_physical_table_name %><br>
+    <%= f.text_field :mirror_physical_table_name %>
+  </div>
+  <div class="field">
+    <%= f.label :final_table_number %><br>
+    <%= f.number_field :final_table_number %>
+  </div>
+  <div class="field">
+    <%= f.label :mirror_table_number %><br>
+    <%= f.number_field :mirror_table_number %>
+  </div>
+  <div class="field">
+    <%= f.label :mnemonic %><br>
+    <%= f.text_field :mnemonic %>
+  </div>
+  <div class="field">
+    <%= f.label :routine_number %><br>
+    <%= f.number_field :routine_number %>
+  </div>
+  <div class="field">
+    <%= f.label :master_base %><br>
+    <%= f.text_field :master_base %>
+  </div>
+  <div class="field">
+    <%= f.label :hive_table %><br>
+    <%= f.text_field :hive_table %>
+  </div>
+  <div class="field">
+    <%= f.label :big_data_routine_name %><br>
+    <%= f.text_field :big_data_routine_name %>
+  </div>
+  <div class="field">
+    <%= f.label :output_routine_name %><br>
+    <%= f.text_field :output_routine_name %>
+  </div>
+  <div class="field">
+    <%= f.label :ziptrans_routine_name %><br>
+    <%= f.text_field :ziptrans_routine_name %>
+  </div>
+  <div class="field">
+    <%= f.label :mirror_data_stage_routine_name %><br>
+    <%= f.text_field :mirror_data_stage_routine_name %>
+  </div>
+  <div class="field">
+    <%= f.label :final_data_stage_routine_name %><br>
+    <%= f.text_field :final_data_stage_routine_name %>
+  </div>
+  <div class="field">
+    <%= f.label :room_2_notes %><br>
+    <%= f.text_field :room_2_notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

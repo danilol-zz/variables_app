@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141201132510) do
+ActiveRecord::Schema.define(version: 20141202103116) do
 
   create_table "campaigns", force: true do |t|
     t.integer  "ident"
@@ -89,6 +89,58 @@ ActiveRecord::Schema.define(version: 20141201132510) do
     t.string   "hive_table_name"
     t.string   "mainframe_storage_type"
     t.text     "room_2_notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "table_idents", force: true do |t|
+    t.string   "logic_table_name"
+    t.string   "name"
+    t.integer  "initial_volume"
+    t.integer  "growth_estimation"
+    t.integer  "created_in_sprint"
+    t.integer  "updated_in_sprint"
+    t.string   "room_1_notes"
+    t.string   "final_physical_table_name"
+    t.string   "mirror_physical_table_name"
+    t.integer  "final_table_number"
+    t.integer  "mirror_table_number"
+    t.string   "mnemonic"
+    t.integer  "routine_number"
+    t.string   "master_base"
+    t.string   "hive_table"
+    t.string   "big_data_routine_name"
+    t.string   "output_routine_name"
+    t.string   "ziptrans_routine_name"
+    t.string   "mirror_data_stage_routine_name"
+    t.string   "final_data_stage_routine_name"
+    t.string   "room_2_notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tables", force: true do |t|
+    t.string   "logic_table_name"
+    t.string   "name"
+    t.integer  "initial_volume"
+    t.integer  "growth_estimation"
+    t.integer  "created_in_sprint"
+    t.integer  "updated_in_sprint"
+    t.string   "room_1_notes"
+    t.string   "final_physical_table_name"
+    t.string   "mirror_physical_table_name"
+    t.integer  "final_table_number"
+    t.integer  "mirror_table_number"
+    t.string   "mnemonic"
+    t.integer  "routine_number"
+    t.string   "master_base"
+    t.string   "hive_table"
+    t.string   "big_data_routine_name"
+    t.string   "output_routine_name"
+    t.string   "ziptrans_routine_name"
+    t.string   "mirror_data_stage_routine_name"
+    t.string   "final_data_stage_routine_name"
+    t.string   "room_2_notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

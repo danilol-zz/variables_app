@@ -9,7 +9,30 @@ pt:
       origin_field: Campos de Origem
       variable: Variavel
       campaign: Campanha
+      table: Tabela
     attributes:
+      table:
+        logic_table_name: Nome tabela logica
+        name: Descrição da tabela
+        initial_volume: Volume inicial
+        growth_estimation: Estimativa de crescimento
+        created_in_sprint: Sprint em que foi criada
+        updated_in_sprint: Sprint em que foi alterada
+        room_1_notes: Observação da sala 1
+        final_physical_table_name: Nome tabela fisica definitiva
+        mirror_physical_table_name: Nome tabela fisica espelho
+        final_table_number: Numero tabela fisica
+        mirror_table_number: Numero tabela espelho
+        mnemonic: Mnemônico
+        routine_number: Numero rotina
+        master_base: Base mestre
+        hive_table: Tabela hive
+        big_data_routine_name: Nome rotina big data
+        output_routine_name: Nome rotina saida
+        ziptrans_routine_name: Nome rotina ziptrans
+        mirror_data_stage_routine_name: Nome rotina data stage espelho
+        final_data_stage_routine_name: Nome rotina data stage difinitivo
+        room_2_notes: Observação sala 2
       campaign:
         ident: ID
         name: Nome da campanha
