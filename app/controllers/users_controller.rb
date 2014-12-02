@@ -84,7 +84,8 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect_to "/origins", notice: "Olá #{user.name}, bem vindo ao Portal de Variáveis!"
     else
-      redirect_to root_url, notice: 'Usuário ou senha inválida'
+      flash[:error] = "Usuário ou senha inválida"
+      redirect_to root_url
     end
   end
 
