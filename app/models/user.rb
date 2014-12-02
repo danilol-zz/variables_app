@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   before_create :encrypt_password
 
   validates :email,    :presence =>true, :uniqueness=>true
+  validates :email,     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :name,     :presence =>true
   validates :profile,  :presence =>true
   validates :password, :presence =>true, :length => { :minimum => 5, :maximum => 40 }, :confirmation => true

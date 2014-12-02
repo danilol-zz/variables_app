@@ -31,6 +31,15 @@ RSpec.describe CampaignsController, :type => :controller do
     }
   }
 
+  let(:user_attributes) {
+    {
+      :email    => "zekitow@gmail.com",
+      :name     => "José Ribeiro",
+      :profile  => "Sala 1",
+      :password => "123456"
+    }
+  }
+
   let(:invalid_attributes) {
     #skip("Add a hash of attributes invalid for your model")
   }
@@ -43,6 +52,7 @@ RSpec.describe CampaignsController, :type => :controller do
   describe "GET index" do
     it "assigns all campaigns as @campaigns" do
       campaign = Campaign.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :index, {}, valid_session
       expect(assigns(:campaigns)).to eq([campaign])
     end
@@ -51,6 +61,7 @@ RSpec.describe CampaignsController, :type => :controller do
   describe "GET show" do
     it "assigns the requested campaign as @campaign" do
       campaign = Campaign.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :show, {:id => campaign.to_param}, valid_session
       expect(assigns(:campaign)).to eq(campaign)
     end
@@ -58,6 +69,7 @@ RSpec.describe CampaignsController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new campaign as @campaign" do
+      session[:user_id] = User.create! user_attributes
       get :new, {}, valid_session
       expect(assigns(:campaign)).to be_a_new(Campaign)
     end
@@ -66,6 +78,7 @@ RSpec.describe CampaignsController, :type => :controller do
   describe "GET edit" do
     it "assigns the requested campaign as @campaign" do
       campaign = Campaign.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :edit, {:id => campaign.to_param}, valid_session
       expect(assigns(:campaign)).to eq(campaign)
     end
@@ -75,17 +88,20 @@ RSpec.describe CampaignsController, :type => :controller do
     describe "with valid params" do
       it "creates a new Campaign" do
         expect {
+          session[:user_id] = User.create! user_attributes
           post :create, {:campaign => valid_attributes}, valid_session
         }.to change(Campaign, :count).by(1)
       end
 
       it "assigns a newly created campaign as @campaign" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:campaign => valid_attributes}, valid_session
         expect(assigns(:campaign)).to be_a(Campaign)
         expect(assigns(:campaign)).to be_persisted
       end
 
       it "redirects to the created campaign" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:campaign => valid_attributes}, valid_session
         expect(response).to redirect_to(Campaign.last)
       end
@@ -148,6 +164,7 @@ RSpec.describe CampaignsController, :type => :controller do
 
       it "redirects to the campaign" do
         campaign = Campaign.create! valid_attributes
+        session[:user_id] = User.create! user_attributes
         put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session
         expect(response).to redirect_to(campaign)
       end
@@ -172,12 +189,14 @@ RSpec.describe CampaignsController, :type => :controller do
     it "destroys the requested campaign" do
       campaign = Campaign.create! valid_attributes
       expect {
+        session[:user_id] = User.create! user_attributes
         delete :destroy, {:id => campaign.to_param}, valid_session
       }.to change(Campaign, :count).by(-1)
     end
 
     it "redirects to the campaigns list" do
       campaign = Campaign.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       delete :destroy, {:id => campaign.to_param}, valid_session
       expect(response).to redirect_to(campaigns_url)
     end

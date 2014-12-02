@@ -1,5 +1,6 @@
 class ProcessidsController < ApplicationController
   before_action :set_processid, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_authentication
 
   # GET /processids
   # GET /processids.json

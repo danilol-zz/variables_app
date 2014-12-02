@@ -30,6 +30,15 @@ RSpec.describe TablesController, :type => :controller do
     }
   }
 
+  let(:user_attributes) {
+    {
+      :email    => "zekitow@gmail.com",
+      :name     => "José Ribeiro",
+      :profile  => "Sala 1",
+      :password => "123456"
+    }
+  }
+
   let(:invalid_attributes) {
     #skip("Add a hash of attributes invalid for your model")
   }
@@ -42,6 +51,7 @@ RSpec.describe TablesController, :type => :controller do
   describe "GET index" do
     it "assigns all tables as @tables" do
       table = Table.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :index, {}, valid_session
       expect(assigns(:tables)).to eq([table])
     end
@@ -50,6 +60,7 @@ RSpec.describe TablesController, :type => :controller do
   describe "GET show" do
     it "assigns the requested table as @table" do
       table = Table.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :show, {:id => table.to_param}, valid_session
       expect(assigns(:table)).to eq(table)
     end
@@ -57,6 +68,7 @@ RSpec.describe TablesController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new table as @table" do
+      session[:user_id] = User.create! user_attributes
       get :new, {}, valid_session
       expect(assigns(:table)).to be_a_new(Table)
     end
@@ -65,6 +77,7 @@ RSpec.describe TablesController, :type => :controller do
   describe "GET edit" do
     it "assigns the requested table as @table" do
       table = Table.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :edit, {:id => table.to_param}, valid_session
       expect(assigns(:table)).to eq(table)
     end
@@ -74,17 +87,20 @@ RSpec.describe TablesController, :type => :controller do
     describe "with valid params" do
       it "creates a new Table" do
         expect {
+          session[:user_id] = User.create! user_attributes
           post :create, {:table => valid_attributes}, valid_session
         }.to change(Table, :count).by(1)
       end
 
       it "assigns a newly created table as @table" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:table => valid_attributes}, valid_session
         expect(assigns(:table)).to be_a(Table)
         expect(assigns(:table)).to be_persisted
       end
 
       it "redirects to the created table" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:table => valid_attributes}, valid_session
         expect(response).to redirect_to(Table.last)
       end
@@ -132,6 +148,7 @@ RSpec.describe TablesController, :type => :controller do
 
       it "updates the requested table" do
         table = Table.create! valid_attributes
+        session[:user_id] = User.create! user_attributes
         put :update, {:id => table.to_param, :table => new_attributes}, valid_session
         table.reload
         #skip("Add assertions for updated state")
@@ -145,6 +162,7 @@ RSpec.describe TablesController, :type => :controller do
 
       it "redirects to the table" do
         table = Table.create! valid_attributes
+        session[:user_id] = User.create! user_attributes
         put :update, {:id => table.to_param, :table => valid_attributes}, valid_session
         expect(response).to redirect_to(table)
       end
@@ -169,15 +187,16 @@ RSpec.describe TablesController, :type => :controller do
     it "destroys the requested table" do
       table = Table.create! valid_attributes
       expect {
+        session[:user_id] = User.create! user_attributes
         delete :destroy, {:id => table.to_param}, valid_session
       }.to change(Table, :count).by(-1)
     end
 
     it "redirects to the tables list" do
       table = Table.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       delete :destroy, {:id => table.to_param}, valid_session
       expect(response).to redirect_to(tables_url)
     end
   end
-
 end

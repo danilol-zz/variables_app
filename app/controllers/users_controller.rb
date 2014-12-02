@@ -42,7 +42,7 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       flash[:error] = "Less!! #{@user.errors.full_messages}"
-      render action: "new", layout: false
+      render action: "new"
     end
   end
 

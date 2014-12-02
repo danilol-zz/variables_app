@@ -1,44 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>VariablesApp</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <%= link_to 'Origens', origins_path %> | <%= link_to 'Origens Campos', origin_fields_path %> | <%= link_to 'Variáveis', variables_path %>
+  <head>
+    <title>VariablesApp</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div>
+      <div>
+        <div>
           <div class="nav-collapse">
-            <ul class="nav pull-right">
-              <% if @current_user %>
-                <% if @current_user.role == "admin" %>
-                 <%= link_to "Usuários", users_path %>
-                <% end %>
-                <li><%= link_to @current_user.name, edit_user_path(@current_user) %>
-                  <%= link_to "Alterar senha", password_path %> |
-                  <%= link_to "Sair", logout_path %>
+            <% if @current_user %>
+              <%= link_to 'Campanhas', campaigns_path %> | <%= link_to 'Processos', processids_path %> | <%= link_to 'Tabelas', tables_path %> |
+              <%= link_to 'Origens', origins_path %> | <%= link_to 'Origens Campos', origin_fields_path %> | <%= link_to 'Variáveis', variables_path %>
+              <% if @current_user.role == "admin" %>
+                <%= link_to "Usuários", users_path %>
               <% end %>
-            </ul><!-- /nav pull-right -->
-          </div><!-- /div.nav-collapse -->
+              <%= link_to @current_user.name, edit_user_path(@current_user) %>
+              <%= link_to "Alterar senha", password_path %> |
+              <%= link_to "Sair", logout_path %>
+            <% end %>
+          </div>
         </div>
-      </div><!-- /div:container -->
+      </div>
     </div>
-    <div class="container">
+    <div>
       <%= yield %>
-    </div><!-- /div:container-->
+    </div>
     <footer>
-      <div class="container">
+      <div>
         <br/>
         <p> </p>
-      </div><!-- /div:container-->
+      </div>
     </footer>
-</body>
+  </body>
 </html>

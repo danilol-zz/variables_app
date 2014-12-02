@@ -19,6 +19,15 @@ RSpec.describe ProcessidsController, :type => :controller do
     }
   }
 
+  let(:user_attributes) {
+    {
+      :email    => "zekitow@gmail.com",
+      :name     => "José Ribeiro",
+      :profile  => "Sala 1",
+      :password => "123456"
+    }
+  }
+
   let(:invalid_attributes) {
     #skip("Add a hash of attributes invalid for your model")
   }
@@ -31,6 +40,7 @@ RSpec.describe ProcessidsController, :type => :controller do
   describe "GET index" do
     it "assigns all processids as @processids" do
       processid = Processid.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :index, {}, valid_session
       expect(assigns(:processids)).to eq([processid])
     end
@@ -39,6 +49,7 @@ RSpec.describe ProcessidsController, :type => :controller do
   describe "GET show" do
     it "assigns the requested processid as @processid" do
       processid = Processid.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :show, {:id => processid.to_param}, valid_session
       expect(assigns(:processid)).to eq(processid)
     end
@@ -46,6 +57,7 @@ RSpec.describe ProcessidsController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new processid as @processid" do
+      session[:user_id] = User.create! user_attributes
       get :new, {}, valid_session
       expect(assigns(:processid)).to be_a_new(Processid)
     end
@@ -54,6 +66,7 @@ RSpec.describe ProcessidsController, :type => :controller do
   describe "GET edit" do
     it "assigns the requested processid as @processid" do
       processid = Processid.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :edit, {:id => processid.to_param}, valid_session
       expect(assigns(:processid)).to eq(processid)
     end
@@ -63,17 +76,20 @@ RSpec.describe ProcessidsController, :type => :controller do
     describe "with valid params" do
       it "creates a new Processid" do
         expect {
+          session[:user_id] = User.create! user_attributes
           post :create, {:processid => valid_attributes}, valid_session
         }.to change(Processid, :count).by(1)
       end
 
       it "assigns a newly created processid as @processid" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:processid => valid_attributes}, valid_session
         expect(assigns(:processid)).to be_a(Processid)
         expect(assigns(:processid)).to be_persisted
       end
 
       it "redirects to the created processid" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:processid => valid_attributes}, valid_session
         expect(response).to redirect_to(Processid.last)
       end
@@ -122,6 +138,7 @@ RSpec.describe ProcessidsController, :type => :controller do
       end
 
       it "redirects to the processid" do
+        session[:user_id] = User.create! user_attributes
         processid = Processid.create! valid_attributes
         put :update, {:id => processid.to_param, :processid => valid_attributes}, valid_session
         expect(response).to redirect_to(processid)
@@ -147,15 +164,16 @@ RSpec.describe ProcessidsController, :type => :controller do
     it "destroys the requested processid" do
       processid = Processid.create! valid_attributes
       expect {
+        session[:user_id] = User.create! user_attributes
         delete :destroy, {:id => processid.to_param}, valid_session
       }.to change(Processid, :count).by(-1)
     end
 
     it "redirects to the processids list" do
       processid = Processid.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       delete :destroy, {:id => processid.to_param}, valid_session
       expect(response).to redirect_to(processids_url)
     end
   end
-
 end
