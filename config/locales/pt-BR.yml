@@ -5,6 +5,7 @@ pt:
       update: Atualizar %{model}
   activerecord:
     models:
+      user: Usuário
       origin: Origem
       origin_field: Campos de Origem
       variable: Variavel
@@ -124,9 +125,30 @@ pt:
         decimal_variable: Decimal
         default_value: Valor padrão
         room_2_notes: Observação sala 2
+      user:
+        email: E-mail
+        name: Nome
+        profile: Perfil
+        password: Senha
+        role: Tipo
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              too_long: Senha muito grande!
+            email:
+              blank: E-mail do usuário não pode ser vazio!
+            name:
+              blank: Nome do usuário não pode ser vazio!
+            profile:
+              blank: Perfil do usuário não pode ser vazio!
   are_you_sure: Você tem certeza?
   show: Visualizar
   edit: Editar
   destroy: Remover
   back: Voltar
+  signin: Entrar
+  new_user: Novo usuário?
+  forgot_password: Esqueceu a senha?
 

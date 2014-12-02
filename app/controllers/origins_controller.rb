@@ -1,5 +1,6 @@
 class OriginsController < ApplicationController
   before_action :set_origin, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_authentication
 
   # GET /origins
   # GET /origins.json
@@ -62,13 +63,13 @@ class OriginsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_origin
-      @origin = Origin.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_origin
+    @origin = Origin.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def origin_params
-      params.require(:origin).permit(:file_name, :file_description, :created_in_sprint, :updated_in_sprint, :abbreviation, :base_type, :book_mainframe, :periodicity, :periodicity_details, :data_retention_type, :extractor_file_type, :room_1_notes, :mnemonic, :cd5_portal_origin_code, :cd5_portal_origin_name, :cd5_portal_destination_code, :cd5_portal_destination_name, :hive_table_name, :mainframe_storage_type, :room_2_notes)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def origin_params
+    params.require(:origin).permit(:file_name, :file_description, :created_in_sprint, :updated_in_sprint, :abbreviation, :base_type, :book_mainframe, :periodicity, :periodicity_details, :data_retention_type, :extractor_file_type, :room_1_notes, :mnemonic, :cd5_portal_origin_code, :cd5_portal_origin_name, :cd5_portal_destination_code, :cd5_portal_destination_name, :hive_table_name, :mainframe_storage_type, :room_2_notes)
+  end
 end

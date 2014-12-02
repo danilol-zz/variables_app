@@ -34,18 +34,25 @@ RSpec.describe OriginsController, :type => :controller do
 
   }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+  #let(:invalid_attributes) {
+    #skip("Add a hash of attributes invalid for your model")
+  #}
+
+  let(:user_attributes) {
+    {
+      :email    => "zekitow@gmail.com",
+      :name     => "José Ribeiro",
+      :profile  => "Sala 1",
+      :password => "123456"
+    }
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # OriginsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET index" do
     it "assigns all origins as @origins" do
       origin = Origin.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       get :index, {}, valid_session
       expect(assigns(:origins)).to eq([origin])
     end
@@ -61,6 +68,7 @@ RSpec.describe OriginsController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new origin as @origin" do
+      session[:user_id] = User.create! user_attributes
       get :new, {}, valid_session
       expect(assigns(:origin)).to be_a_new(Origin)
     end
@@ -77,18 +85,21 @@ RSpec.describe OriginsController, :type => :controller do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Origin" do
+        session[:user_id] = User.create! user_attributes
         expect {
           post :create, {:origin => valid_attributes}, valid_session
         }.to change(Origin, :count).by(1)
       end
 
       it "assigns a newly created origin as @origin" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:origin => valid_attributes}, valid_session
         expect(assigns(:origin)).to be_a(Origin)
         expect(assigns(:origin)).to be_persisted
       end
 
       it "redirects to the created origin" do
+        session[:user_id] = User.create! user_attributes
         post :create, {:origin => valid_attributes}, valid_session
         expect(response).to redirect_to(Origin.last)
       end
@@ -112,7 +123,7 @@ RSpec.describe OriginsController, :type => :controller do
       let(:new_attributes) {
         #skip("Add a hash of attributes valid for your model")
         new_attributes = {
-          :file_name => 'teste',
+          :file_name => 'teste2',
           :file_description => 'teste',
           :created_in_sprint => 'teste',
           :updated_in_sprint => 'teste',
@@ -138,9 +149,10 @@ RSpec.describe OriginsController, :type => :controller do
 
       it "updates the requested origin" do
         origin = Origin.create! valid_attributes
+        session[:user_id] = User.create! user_attributes
         put :update, {:id => origin.to_param, :origin => new_attributes}, valid_session
         origin.reload
-        #skip("Add assertions for updated state")
+        expect(origin.file_name).to eq 'teste2'
       end
 
       it "assigns the requested origin as @origin" do
@@ -151,6 +163,7 @@ RSpec.describe OriginsController, :type => :controller do
 
       it "redirects to the origin" do
         origin = Origin.create! valid_attributes
+        session[:user_id] = User.create! user_attributes
         put :update, {:id => origin.to_param, :origin => valid_attributes}, valid_session
         expect(response).to redirect_to(origin)
       end
@@ -174,6 +187,7 @@ RSpec.describe OriginsController, :type => :controller do
   describe "DELETE destroy" do
     it "destroys the requested origin" do
       origin = Origin.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       expect {
         delete :destroy, {:id => origin.to_param}, valid_session
       }.to change(Origin, :count).by(-1)
@@ -181,6 +195,7 @@ RSpec.describe OriginsController, :type => :controller do
 
     it "redirects to the origins list" do
       origin = Origin.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
       delete :destroy, {:id => origin.to_param}, valid_session
       expect(response).to redirect_to(origins_url)
     end

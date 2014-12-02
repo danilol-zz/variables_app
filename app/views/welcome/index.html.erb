@@ -1,2 +1,28 @@
-<h1><%=t :hello %></h1>
-<p><%= flash[:notice] %></p>
+<% if flash[:notice] %>
+  <div>
+    <%=flash[:notice]%>
+  </div>
+<% end %>
+
+<% if flash[:error] %>
+  <div>
+    <h4>Ooops!</h4>
+    <%=flash[:error]%>
+  </div>
+<% end %>
+
+<%= form_for("user", :url => "/signin") do |f| %>
+  <h3>Login</h3>
+  <div class="field">
+    <%= f.label :email %><br>
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :password %><br>
+    <%= f.password_field :password %>
+  </div>
+
+  <%= f.submit t('signin') %>
+  <%= link_to t('new_user'), signup_path %>
+  <%= link_to t('forgot_password'), remember_password_path %>
+<% end %>

@@ -159,6 +159,14 @@ ActiveRecord::Schema.define(version: 20141202120303) do
     t.datetime "updated_at"
   end
 
+  create_table "users", force: true do |t|
+    t.string "email"
+    t.string "name"
+    t.string "profile"
+    t.string "password"
+    t.string "role"
+  end
+
   create_table "variables", force: true do |t|
     t.string   "name"
     t.string   "sas_variable_def"
