@@ -92,12 +92,12 @@ pt:
         periodicity_details: Detalhe da periodicidade
         data_retention_type: Tipo de retenção dos dados
         extractor_file_type: Característica do arquivo no Extrator
-        room_1_notes: Observação - Sala 1
+        room_1_notes: Observação
         mnemonic: Mnemônico
-        cd5_portal_source_code: Código origem portal cd5
-        cd5_portal_source_name: Nome origem portal cd5
-        cd5_portal_target_code: Código destino portal cd5
-        cd5_portal_target_name: Nome destino portal cd5
+        cd5_portal_origin_code: Cód. origem CD5
+        cd5_portal_origin_name: Nome origem CD5
+        cd5_portal_destination_code: Cód. destino CD5
+        cd5_portal_destination_name: Nome destino CD5
         hive_table_name: Nome tabela hive
         mainframe_storage_type: Tipo de armazenamento mainframe
         room_2_notes: Observação - sala 2
@@ -172,4 +172,5 @@ pt:
   signin: Entrar
   new_user: Novo usuário?
   forgot_password: Esqueceu a senha?
+  reset_password: Redefinir senha
 

@@ -7,7 +7,9 @@ class User < ActiveRecord::Base
   validates :profile,  :presence =>true
   validates :password, :presence =>true, :length => { :minimum => 5, :maximum => 40 }, :confirmation => true
 
-  PROFILES = ["Sala 1", "Sala 2"]
+  ROOM1 = "Sala 1"
+  ROOM2 = "Sala 2"
+  PROFILES = [ROOM1, ROOM2]
 
   def self.md5(text)
     Digest::MD5.hexdigest(text)

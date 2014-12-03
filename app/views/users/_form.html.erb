@@ -9,7 +9,7 @@
   </div>
   <div class="field">
     <%= f.label :profile %>
-    <%= f.select(:profile, User::PROFILES) %>
+    <%= f.select(:profile,  User::PROFILES, {:include_blank => 'Selecione'}) %>
   </div>
   <div class="field">
     <%= f.label :password %>
@@ -24,5 +24,6 @@
 
   <div class="field">
     <%= f.submit "Salvar" %>
+    <%= link_to t('back'), users_path %>
   </div>
 <% end %>

@@ -13,20 +13,33 @@
           <div class="nav-collapse">
             <% if @current_user %>
               <div>
-                <%= link_to 'Campanhas', campaigns_path %> |
-                <%= link_to 'Origens', origins_path %> |
-                <%= link_to 'Origens Campos', origin_fields_path %> |
-                <%= link_to 'Processos', processids_path %> |
-                <%= link_to 'Tabelas', tables_path %> |
-                <%= link_to 'Variáveis', variables_path %>
+                <div><b>Cadastro</b></div>
+                <% if @current_user.profile == User::ROOM1 %>
+                  <div><%= link_to 'Origem', origins_path %></div>
+                  <div><%= link_to 'Campanha', campaigns_path %></div>
+                  <div><%= link_to 'Variável', variables_path %></div>
+                <% end %>
+
+                <% if @current_user.profile == User::ROOM2 %>
+                  <div><%= link_to 'Origem', origins_path %></div>
+                  <div><%= link_to 'Variável', variables_path %></div>
+                  <div><%= link_to 'Tabela', tables_path %></div>
+                  <div><%= link_to 'Processo', processids_path %></div>
+                <% end %>
+
                 <% if @current_user.admin? %>
-                  <%= link_to "Usuários", users_path %>
+                  <div><%= link_to ">> Usuários", users_path %></div>
                 <% end %>
               </div>
+
               <div align="right">
-                <%= link_to @current_user.name, edit_user_path(@current_user) %>
-                <%= link_to "Alterar senha", password_path %> |
-                <%= link_to "Sair", logout_path %>
+                <div>
+                  <b>Portal de Variáveis</b>
+                  <b><%= @current_user.profile %></b>
+                  <%= link_to @current_user.name, edit_user_path(@current_user) %>
+                  <%= link_to "Alterar senha", password_path %> |
+                  <%= link_to "Sair", logout_path %>
+                </div>
               </div>
             <% end %>
           </div>
@@ -34,10 +47,12 @@
       </div>
     </div>
     <div>
-      <ul class="breadcrumb">
-        <li><%= link_to @current_user.name, users_path %> <span class="divider">/</span></li>
-        <li><b><%= t("activerecord.models.#{controller_name.singularize.downcase}.other") %></b></li>
-      </ul>
+      <% if @current_user %>
+        <div>
+          <div><%= link_to @current_user.name, users_path %> <span class="divider">/</span>
+            <b><%= t("activerecord.models.#{controller_name.singularize.downcase}.other") %></b></div>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
     <footer>

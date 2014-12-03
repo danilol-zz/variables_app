@@ -16,6 +16,6 @@ Rails.application.routes.draw do
   get  "/password"         => "users#password"
   post "/password_update"  => "users#password_update"
 
-  get  "/remember_password"          => "remember_password#index"
-  get  "/remember_password/remember" => "remember_password#remember_password"
+  get  "/remember_password/:id" => "users#remember_password_index", :as => "remember"
+  post "/remember_password"     => "users#remember_password"
 end

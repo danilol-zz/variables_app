@@ -2,28 +2,20 @@ class OriginsController < ApplicationController
   before_action :set_origin, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_authentication
 
-  # GET /origins
-  # GET /origins.json
   def index
     @origins = Origin.all
   end
 
-  # GET /origins/1
-  # GET /origins/1.json
   def show
   end
 
-  # GET /origins/new
   def new
     @origin = Origin.new
   end
 
-  # GET /origins/1/edit
   def edit
   end
 
-  # POST /origins
-  # POST /origins.json
   def create
     @origin = Origin.new(origin_params)
 
@@ -38,8 +30,6 @@ class OriginsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /origins/1
-  # PATCH/PUT /origins/1.json
   def update
     respond_to do |format|
       if @origin.update(origin_params)
@@ -52,8 +42,6 @@ class OriginsController < ApplicationController
     end
   end
 
-  # DELETE /origins/1
-  # DELETE /origins/1.json
   def destroy
     @origin.destroy
     respond_to do |format|
@@ -72,4 +60,12 @@ class OriginsController < ApplicationController
   def origin_params
     params.require(:origin).permit(:file_name, :file_description, :created_in_sprint, :updated_in_sprint, :abbreviation, :base_type, :book_mainframe, :periodicity, :periodicity_details, :data_retention_type, :extractor_file_type, :room_1_notes, :mnemonic, :cd5_portal_origin_code, :cd5_portal_origin_name, :cd5_portal_destination_code, :cd5_portal_destination_name, :hive_table_name, :mainframe_storage_type, :room_2_notes)
   end
+
+  #def room1_params
+    #params.require(:origin).permit(:file_name, :file_description, :created_in_sprint, :updated_in_sprint, :abbreviation, :base_type, :book_mainframe, :periodicity, :periodicity_details, :data_retention_type, :extractor_file_type, :room_1_notes, :mnemonic, :cd5_portal_origin_code, :cd5_portal_origin_name, :cd5_portal_destination_code, :cd5_portal_destination_name, :hive_table_name, :mainframe_storage_type, :room_2_notes)
+  #end
+
+  #def room2_params
+    #params.require(:origin).permit(:file_name, :file_description, :created_in_sprint, :updated_in_sprint, :abbreviation, :base_type, :book_mainframe, :periodicity, :periodicity_details, :data_retention_type, :extractor_file_type, :room_1_notes, :mnemonic, :cd5_portal_origin_code, :cd5_portal_origin_name, :cd5_portal_destination_code, :cd5_portal_destination_name, :hive_table_name, :mainframe_storage_type, :room_2_notes)
+  #end
 end

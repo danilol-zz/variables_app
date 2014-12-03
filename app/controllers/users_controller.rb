@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   before_filter :ensure_authentication, :only => [:edit, :update, :destroy, :index, :show]
-  before_filter :ensure_correct_user, :only => [:edit, :update]
 
   def index
     @users = User.order(:profile, :name, :role)
@@ -90,16 +89,29 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "#{User.model_name.human.capitalize} excluido com sucesso" }
+      format.html { redirect_to users_url, notice: "#{User.model_name.human.capitalize} excluído com sucesso" }
       format.json { head :no_content }
     end
   end
 
-  def ensure_correct_user
-    raise TentandoSerEspertaoException  if !current_user.admin? && session[:user_id].to_s != params[:id].to_s
+  def remember_password_index
+    @user = User.find(params[:id])
   end
 
-  class TentandoSerEspertaoException < StandardError
+  def remember_password
+    @user = User.find(params[:id])
+    @user.password = params[:user][:password]
+    @user.password_confirmation = params[:user][:password_confirmation]
+
+    if !params[:user][:password].blank? and @user.valid?
+      @user.password = User.md5(params[:user][:password])
+      @user.password_confirmation = User.md5(params[:user][:password_confirmation])
+      @user.save
+      redirect_to root_path, notice: "Sua senha do usuário #{@user.name} foi alterada!"
+    else
+      flash[:error] = "Less!! #{@user.errors.full_messages}"
+      render action: "remember_password_index"
+    end
   end
 
   private
