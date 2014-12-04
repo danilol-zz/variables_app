@@ -1,10 +1,5 @@
-
-class WelcomeController < ActionController::Base
+class WelcomeController < ApplicationController
   def index
-    if session[:user_id]
-      redirect_to origins_path
-    else
-      render layout: false
-    end
+    redirect_to origins_path if session[:user_id]
   end
 end

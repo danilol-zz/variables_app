@@ -1,0 +1,22 @@
+    <!-- start Header e Menu -->
+    <a name="top" class="link-ancora"></a>
+    <header class="clearfix">
+      <section class="container">
+        <section class="content-main" role="banner">
+          Espaço reservado para o conteúdo principal do Header
+        </section>
+        <nav class="menu" role="navigation">
+          <%= link_to 'Origens', origins_path %> | <%= link_to 'Origens Campos', origin_fields_path %> | <%= link_to 'Variáveis', variables_path %>
+          <% if @current_user %>
+            <% if @current_user.role == "admin" %>
+              <%= link_to "Usuários", users_path %>
+            <% end %>
+            <li><%= link_to @current_user.name, edit_user_path(@current_user) %>
+            <%= link_to "Alterar senha", password_path %> |
+            <%= link_to "Sair", logout_path %>
+          <% end %>
+        </nav>
+      </section>
+    </header>
+    <!-- end Header e Menu -->
+

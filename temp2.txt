@@ -1,0 +1,9 @@
+           <div class="btn-sair left">
+             <%= link_to( "Sair", logout_path, :class => "btn btn-fluxo btn-ico" ) do  %>
+             <a href="javascript:;" class="btn btn-fluxo btn-ico" title="Sair">
+               <span class="ico-seguro">
+               </span>Sair
+             </a>
+             <% end %>
+           </div>
+           <%= link_to "Sair", logout_path %>

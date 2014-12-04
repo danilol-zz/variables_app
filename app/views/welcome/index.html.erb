@@ -1,13 +1,6 @@
-<% if flash[:notice] %>
+<% unless flash.empty? %>
   <div>
-    <%=flash[:notice]%>
-  </div>
-<% end %>
-
-<% if flash[:error] %>
-  <div>
-    <h4>Ooops!</h4>
-    <%=flash[:error]%>
+    <%= render 'messages/message' %>
   </div>
 <% end %>
 

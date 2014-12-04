@@ -1,0 +1,11 @@
+<section class="alerta">
+  <div class="box-info box-info-alerta">
+    <span class="icone"></span>
+    <p>
+      <% flash.each do |key, value| %>
+        <%= content_tag :div, value, class: "flash #{key}" %>
+      <% end %>
+    </p>
+  </div>
+</section>
+

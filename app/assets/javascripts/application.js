@@ -12,5 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require modernizr
+//= jquery.magnific-popup.min
+//= jqeury.mask.min
+//= moment-with-locales
+//= require pikaday
+//= require scripts
+//= script-biblioteca-elementos
 //= require turbolinks
 //= require_tree .

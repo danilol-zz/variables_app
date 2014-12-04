@@ -1,0 +1,137 @@
+/** 
+*** ------------------------------------------
+*** Autor: 
+*** Data da última alteração: 
+*** 
+*** HEADER - Configuração principal para portais Varejo, Uniclass, Personnalité, PJ e Cartonistas.
+*** ------------------------------------------
+**/
+
+/**
+*** ------------------------------------------
+*** Header Itaú - Principal
+*** ------------------------------------------
+**/
+header { width: 100%; height: 94px; background: #fff url("../img/bg-header.png") repeat-x; position: fixed; *left: 0; z-index: 9999; }
+header section.content-main { height: 47px; }
+header section.content-main div.logo { width: 30px; margin-top: 9px; margin-right: 35px; }
+
+/* ----- Busca ----- */
+header section.content-main .busca { margin-top: 8px; }
+header section.content-main .busca input.busca-header { padding: 8px 20px; width: 520px; position: relative;
+	-webkit-border-radius: 16px;
+	   -moz-border-radius: 16px;
+	        border-radius: 16px;
+}
+header section.content-main .busca-lupa { background: url("../img/ico-busca.png") center center no-repeat #fff; width: 30px; height: 29px;
+	border: 0; position: absolute; margin-top: -31px; margin-top/*\**/: 0\9; margin-left: 485px; margin-left/*\**/: 465px\9; margin-left/*\**/: 0\9;
+	-webkit-border-top-right-radius: 16px;
+	        border-top-right-radius: 16px;
+	-webkit-border-bottom-right-radius: 16px;
+	        border-bottom-right-radius: 16px;
+	         -moz-border-radius-topright: 16px;
+	         -moz-border-radius-bottomright: 16px;
+}
+
+.dados-usuario { margin-top: 10px; margin-left: 10px; margin-left/*\**/: 40px\9; }
+.dados-usuario p.nome { font-weight: bold; margin-bottom: 0; }
+.dados-usuario p.ultimo-acesso { font-size: 10px; }
+
+span.ico-config { width: 20px; height: 20px; background: url("../img/sprite-config.png") 0 0 no-repeat; display: block; }
+span.ico-config:hover { background-position: 0 -20px; cursor: pointer; }
+
+header section.content-main .ico-configuracoes { margin-top: 13px; margin-left: 80px; margin-left/*\**/: 40px\9; }
+header section.content-main .btn-sair { margin-top: 16px; margin-left: 15px; }
+header section.content-main .ico-30h { width: 30px; margin-top: 9px; }
+
+/* ----- Menu ----- */
+header section nav.menu { height: 47px; }
+header section nav.menu ul { margin: 0; margin-left: -40px; }
+
+header section nav.menu ul li.mnu { height: 47px; border-right: 1px solid #fff; color: #fff; font-size: 14px; font-weight: bold;
+	display: block; float: left; margin-bottom: 0; background: none; padding-left: 0; }
+header section nav.menu ul li.mnu:first-child { border-left: 1px solid #fff; }
+
+header section nav.menu ul li.mnu.ativo,
+header section nav.menu ul li.mnu:hover { background: url("../img/bg-header-sub-ativo.png") left top repeat-x; }
+
+header section nav.menu ul li.mnu a { color: #fff; height: 47px; display: block; padding: 15px 20px 0 12px; }
+header section nav.menu ul li.mnu a:hover { text-decoration: none; }
+header section nav.menu ul li.mnu a span.seta-mnu { background: url("../img/seta-mnu-header.png") left top no-repeat; height: 6px; width: 7px;
+	display: block; float: right; margin-left: 15px; margin-top: 5px; }
+header section nav.menu ul li.mnu a { padding-right: 10px!important; }
+
+header section nav.menu ul li.mnu-produtos { width/*\**/: 200px\9; }
+
+/* ----- Sub-Menu ----- */
+header section nav.menu ul li .sub-mnu { position: absolute; background: #e8e8e8; border/*\**/: 1px solid #888\9;
+	-webkit-border-radius: 6px;
+	   -moz-border-radius: 6px;
+	        border-radius: 6px;
+	-webkit-box-shadow: 0 2px 8px #888;
+	   -mox-box-shadow: 0 2px 8px #888;
+	        box-shadow: 0 2px 8px #888;
+}
+header section nav.menu ul li .sub-mnu div.col { float: left; padding: 16px 20px 0 20px; background: #f5f6f5; !margin-left: 50px;
+	-webkit-border-radius: 6px;
+	   -moz-border-radius: 6px;
+	        border-radius: 6px;
+}
+header section nav.menu ul li .sub-mnu div.col.last { background: #e8e8e8; padding-right: 30px; }
+
+header section nav.menu ul li .sub-mnu div.col ul { margin: 0; margin-left: -40px; margin-bottom: 20px; }
+header section nav.menu ul li .sub-mnu div.col ul li { color: #464646; height: 20px;  list-style: none;
+	margin: 0; padding: 0; font-weight: normal; background: none; }
+
+header section nav.menu ul li .sub-mnu div.col ul li.titulo { font-weight: bold; }
+header section nav.menu ul li .sub-mnu div.col.last ul li.titulo { font-weight: bold; margin-bottom: 15px; }
+
+header section nav.menu ul li .sub-mnu div.col ul li a { color: #464646; height: 20px; padding: 0; margin: 0; }
+header section nav.menu ul li .sub-mnu div.col ul li a:hover { text-decoration: underline; color: #ec7404; }
+
+/* ----- Configurações ----- */
+header .ico-configuracoes .content-config { position:absolute; width:120px;  
+	border:1px solid #d5d5d5; z-index:9888; font-size: 12px; background: #fff; color: #373d45; margin-left: -49px; margin-top: 20px;
+    -webkit-border-radius: 6px;
+	   -moz-border-radius: 6px;
+	        border-radius: 6px;
+	-webkit-box-shadow: 0 2px 8px #888;
+	   -mox-box-shadow: 0 2px 8px #888;
+	        box-shadow: 0 2px 8px #888;
+}
+header .ico-configuracoes .content-config a { color: #373d45; text-decoration: underline; }
+header .ico-configuracoes .content-config a:hover { color: #ec7404; }
+header .ico-configuracoes .content-config ul { padding: 10px 0 2px 0; margin: 0 0 2px 0; }
+header .ico-configuracoes .content-config ul li { list-style: none; color: #373d45; margin-bottom: 8px; margin-left: 12px;
+	background: none; padding-left: 0;
+}
+header .ico-configuracoes .seta-msg { background: url(../img/seta-msg.png) top left; width: 25px; height: 15px;
+	position: absolute; left: 45px; top: -14px;
+}
+
+/**
+*** ------------------------------------------
+*** Header Uniclass
+*** ------------------------------------------
+**/
+body#uniclass header { width: 100%; height: 94px; background: #fff url("../img/bg-header-uniclass.png") repeat-x; position: fixed; *left: 0; z-index: 9999; }
+body#uniclass header section.content-main { height: 47px; }
+body#uniclass header section nav.menu { height: 47px; }
+
+/**
+*** ------------------------------------------
+*** Header Personnalité
+*** ------------------------------------------
+**/
+body#person header { width: 100%; height: 118px; background: #fff url("../img/bg-header-personnalite.png") repeat-x; position: fixed; *left: 0; z-index: 9999; }
+body#person header section.content-main { height: 47px; }
+body#person header section nav.menu { height: 71px; }
+
+/**
+*** ------------------------------------------
+*** Header PJ
+*** ------------------------------------------
+**/
+header#pj { width: 100%; height: 94px; background: #fff url("../img/bg-header-pj.png") repeat-x; position: fixed; *left: 0; z-index: 9999; }
+header#pj section.content-main { height: 47px; }
+header#pj section nav.menu { height: 47px; }

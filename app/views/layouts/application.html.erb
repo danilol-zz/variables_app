@@ -1,65 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br" class="no-js">
   <head>
-    <title>VariablesApp</title>
+    <meta charset="utf-8" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <![endif]-->
+    <title>Variablespp - Portal de Variáveis</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
-  </head>
-  <body>
-    <div>
-      <div>
-        <div>
-          <div class="nav-collapse">
-            <% if @current_user %>
-              <div>
-                <div><b>Cadastro</b></div>
-                <% if @current_user.profile == User::ROOM1 %>
-                  <div><%= link_to 'Origem', origins_path %></div>
-                  <div><%= link_to 'Campanha', campaigns_path %></div>
-                  <div><%= link_to 'Variável', variables_path %></div>
-                <% end %>
+ </head>
+ <body> <!-- Para trocar o segmento, basta inserir um ID identificador. Ex: id="person" -->
 
-                <% if @current_user.profile == User::ROOM2 %>
-                  <div><%= link_to 'Origem', origins_path %></div>
-                  <div><%= link_to 'Variável', variables_path %></div>
-                  <div><%= link_to 'Tabela', tables_path %></div>
-                  <div><%= link_to 'Processo', processids_path %></div>
-                <% end %>
+   <!-- start Header e Menu -->
+   <header class="clearfix">
+     <section class="container">
+       <section class="content-main header" role="banner">
+         <div class="logo left"><img src=<%= asset_path("logo-itau-mini.png")%> alt="Logo Itaú" /></div>
+         <div class="busca left">
+           <form id="" action="" method="">
+             <fieldset>
+               <input type="text" id="" name="q" class="busca-header" onfocus="if(this.value=='O que você procura?')this.value='';" onblur="if(this.value=='')this.value='O que você procura?';" value="O que você procura?" tabindex="1" />
+               <input type="submit" value="" class="busca-lupa" title="search" />
+             </fieldset>
+           </form>
+         </div>
+         <div class="dados-usuario left">
+           <p class="nome">
+             <% if @current_user %>
+               Olá
+               <%= link_to @current_user.name, edit_user_path(@current_user) %>
+             <% end %>
+           </p>
+           <p class="ultimo-acesso">
+             <% if @current_user %>
+               Último acesso às 99:99 99/99/9999
+             <% end %>
+           </p>
+         </div>
+         <% if @current_user %>
+           <div class="ico-configuracoes left">
+             <a href="javascript:;" title="Acessar configurações"><span class="ico-config"></span></a>
+             <div class="content-config hide">
+               <span class="seta-msg"></span>
+               <ul>
+                 <li><%= link_to "Configurações", edit_user_path(@current_user) %></li>
+               </ul>
+             </div>
+           </div>
+           <div class="btn-sair left">
+             <%= link_to( logout_path, :class => "btn btn-fluxo btn-ico" ) do  %>
+               <span class="ico-seguro">
+               </span>Sair
+             <% end %>
+           </div>
+         <% end %>
+         <div class="ico-30h right"><img src=<%= asset_path("ico-30h-medio.png")%> alt="Ícone 30 horas" /></div>
+       </section>
+       <nav class="menu" role="navigation">
+         <ul class="itens">
+           <li class="mnu"><a href="#">Meu Itaú</a></li>
+           <li class="mnu mnu-produtos">
+             <a href="#">Produtos e serviços<span class="seta-mnu"></span></a>
+             <div class="sub-mnu hide">
+               <div class="col">
+                 <ul>
+                   <li class="titulo"><a href="#">Cartões</a></li>
+                   <li><a href="#">Fatura e limites</a></li>
+                   <li><a href="#">Fatura digital</a></li>
+                   <li><a href="#">Parcelamento da fatura</a></li>
+                   <li><a href="#">Mais serviços</a></li>
+                 </ul>
+                 <ul>
+                   <li class="titulo"><a href="#">Consórcio</a></li>
+                   <li><a href="#">Posição consolidada</a></li>
+                   <li><a href="#">Histórico de pagamentos</a></li>
+                   <li><a href="#">Parcelas em aberto</a></li>
+                   <li><a href="#">Mais serviços</a></li>
+                 </ul>
+               </div>
+               <div class="col">
+                 <ul>
+                   <li class="titulo"><a href="#">Previdência</a></li>
+                   <li><a href="#">Posição consolidada</a></li>
+                   <li><a href="#">Extrato de contribuição</a></li>
+                   <li><a href="#">Mais serviços</a></li>
+                 </ul>
+                 <ul>
+                   <li class="titulo"><a href="#">Crédito e financiamentos</a></li>
+                   <li><a href="#">Acompanhar propostas</a></li>
+                   <li><a href="#">Crédito pessoal</a></li>
+                   <li><a href="#">Mais serviços</a></li>
+                 </ul>
+                 <ul>
+                   <li class="titulo"><a href="#">Meu arquivo digital</a></li>
+                 </ul>
+               </div>
+               <div class="col last">
+                 <ul>
+                   <li class="titulo">Conheça e contrate:</li>
+                   <li><a href="#">Seguros</a></li>
+                 </ul>
+               </div>
+             </div>
+           </li>
+           <li class="mnu"><a href="#">Precisa de ajuda?</a></li>
+         </ul>
+       </nav>
+     </section>
+   </header>
+   <!-- end Header e Menu -->
 
-                <% if @current_user.admin? %>
-                  <div><%= link_to ">> Usuários", users_path %></div>
-                <% end %>
-              </div>
-
-              <div align="right">
-                <div>
-                  <b>Portal de Variáveis</b>
-                  <b><%= @current_user.profile %></b>
-                  <%= link_to @current_user.name, edit_user_path(@current_user) %>
-                  <%= link_to "Alterar senha", password_path %> |
-                  <%= link_to "Sair", logout_path %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <% if @current_user %>
-        <div>
-          <div><%= link_to @current_user.name, users_path %> <span class="divider">/</span>
-            <b><%= t("activerecord.models.#{controller_name.singularize.downcase}.other") %></b></div>
-        </div>
-      <% end %>
+   <!-- start Conteúdo Principal -->
+    <section class="container clearfix">
+      <section class="alerta">
+      </section>
       <%= yield %>
-    </div>
-    <footer>
-      <div>
-        <br/>
-        <p> </p>
-      </div>
+    </section>
+    <!-- end Conteúdo Principal -->
+
+    <!-- start Footer -->
+    <footer class="clearfix">
+      <section class="container" role="contentinfo">
+        Espaço reservado para o Footer do site
+      </section>
     </footer>
+    <!-- end Conteúdo Principal -->
+    <!-- JS -->
+    <!-- JS -->
   </body>
 </html>
+
