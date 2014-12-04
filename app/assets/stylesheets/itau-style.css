@@ -1366,7 +1366,7 @@ span.bullet-prev.rendafixa { background-position: 0 -30px; }
 /* Posicionamentos e Exibições */
 .left { float: left; }
 .right { float: right; }
-.center { float:}
+.center { float: center; }
 .hide { display: none; }
 .block { display: block; }
 

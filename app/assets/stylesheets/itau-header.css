@@ -72,7 +72,7 @@ header section nav.menu ul li .sub-mnu { position: absolute; background: #e8e8e8
 	   -mox-box-shadow: 0 2px 8px #888;
 	        box-shadow: 0 2px 8px #888;
 }
-header section nav.menu ul li .sub-mnu div.col { float: left; padding: 16px 20px 0 20px; background: #f5f6f5; !margin-left: 50px;
+header section nav.menu ul li .sub-mnu div.col { float: left; padding: 16px 20px 0 20px; background: #f5f6f5; margin-left: 50px;
 	-webkit-border-radius: 6px;
 	   -moz-border-radius: 6px;
 	        border-radius: 6px;
