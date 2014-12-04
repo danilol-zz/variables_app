@@ -32,12 +32,9 @@
          <div class="dados-usuario left">
            <p class="nome">
              <% if @current_user %>
-               Olá
-               <%= link_to @current_user.name, edit_user_path(@current_user) %>
-             <% end %>
+               Olá <%= link_to @current_user.name, edit_user_path(@current_user) %> - <%= @current_user.profile %>
            </p>
            <p class="ultimo-acesso">
-             <% if @current_user %>
                Último acesso às 99:99 99/99/9999
              <% end %>
            </p>

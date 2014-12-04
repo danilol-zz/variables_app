@@ -1,0 +1,88 @@
+</table>
+
+<table border="1">
+  <thead>
+    <% if @current_user.profile == User::ROOM1 %>
+      <tr>
+        <th colspan="15"><h1>Cadastro de <%= OriginField.model_name.human.capitalize %></h1></th>
+      </tr>
+      <tr>
+        <th><%= t('activerecord.attributes.origin_field.field_name') %></th>
+        <th><%= t('activerecord.attributes.origin_field.origin_pic') %></th>
+        <th><%= t('activerecord.attributes.origin_field.data_type_origin_field') %></th>
+        <th><%= t('activerecord.attributes.origin_field.fmbase_format_type') %></th>
+        <th><%= t('activerecord.attributes.origin_field.generic_data_type') %></th>
+        <th><%= t('activerecord.attributes.origin_field.decimal_origin_field') %></th>
+        <th><%= t('activerecord.attributes.origin_field.mask_origin_field') %></th>
+        <th><%= t('activerecord.attributes.origin_field.position_origin_field') %></th>
+        <th><%= t('activerecord.attributes.origin_field.width_origin_field') %></th>
+        <th><%= t('activerecord.attributes.origin_field.is_key') %></th>
+        <th><%= t('activerecord.attributes.origin_field.will_use') %></th>
+        <th><%= t('activerecord.attributes.origin_field.has_signal') %></th>
+        <th><%= t('activerecord.attributes.origin_field.room_1_notes') %></th>
+      <% end %>
+
+      <% if @current_user.profile == User::ROOM2 %>
+        <tr>
+          <th colspan="12"><h1>Cadastro de <%= OriginField.model_name.human.capitalize %></h1></th>
+        </tr>
+        <th><%= t('activerecord.attributes.origin_field.cd5_variable_number') %></th>
+        <th><%= t('activerecord.attributes.origin_field.cd5_output_order') %></th>
+        <th><%= t('activerecord.attributes.origin_field.cd5_variable_name') %></th>
+        <th><%= t('activerecord.attributes.origin_field.cd5_origin_format') %></th>
+        <th><%= t('activerecord.attributes.origin_field.cd5_origin_format_desc') %></th>
+        <th><%= t('activerecord.attributes.origin_field.cd5_format') %></th>
+        <th><%= t('activerecord.attributes.origin_field.cd5_format_desc') %></th>
+        <th><%= t('activerecord.attributes.origin_field.default_value') %></th>
+        <th><%= t('activerecord.attributes.origin_field.room_2_notes') %></th>
+        <th><%= t('activerecord.attributes.origin.file_name') %></th>
+        <th colspan="2"></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% unless @origin.origin_fields.count > 0 %>
+      <tr>
+        <td colspan="25">Não há nenhum campo de origem cadastrado!</td>
+      </tr>
+    <% else %>
+      <% @origin.origin_fields.each do |origin_field| %>
+        <tr>
+          <% if @current_user.profile == User::ROOM1 %>
+            <td><%= origin_field.field_name %></td>
+            <td><%= origin_field.origin_pic %></td>
+            <td><%= origin_field.data_type_origin_field %></td>
+            <td><%= origin_field.fmbase_format_type %></td>
+            <td><%= origin_field.generic_data_type %></td>
+            <td><%= origin_field.decimal_origin_field %></td>
+            <td><%= origin_field.mask_origin_field %></td>
+            <td><%= origin_field.position_origin_field %></td>
+            <td><%= origin_field.width_origin_field %></td>
+            <td><%= origin_field.is_key %></td>
+            <td><%= origin_field.will_use %></td>
+            <td><%= origin_field.has_signal %></td>
+            <td><%= origin_field.room_1_notes %></td>
+          <% end %>
+
+          <% if @current_user.profile == User::ROOM2 %>
+            <td><%= origin_field.cd5_variable_number %></td>
+            <td><%= origin_field.cd5_output_order %></td>
+            <td><%= origin_field.cd5_variable_name %></td>
+            <td><%= origin_field.cd5_origin_format %></td>
+            <td><%= origin_field.cd5_origin_format_desc %></td>
+            <td><%= origin_field.cd5_format %></td>
+            <td><%= origin_field.cd5_format_desc %></td>
+            <td><%= origin_field.default_value %></td>
+            <td><%= origin_field.room_2_notes %></td>
+            <td><%= @origin.file_name %></td>
+            <td><%= link_to t('edit'), edit_origin_field_path(origin_field) %></td>
+            <td><%= link_to t('destroy'), origin_field, method: :delete, data: { confirm: t('are_you_sure') } %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

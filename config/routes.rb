@@ -1,12 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :users
-  resources :origins
-  resources :processids
-  resources :tables
-  resources :campaigns
-  resources :variables
-  resources :origin_fields
+  resources :users, :origins, :origin_fields, :processids, :tables, :campaigns, :variables
+  post "/create_origin_field" => "origins#create_origin_field"
 
   get "user/index"
   root 'welcome#index'

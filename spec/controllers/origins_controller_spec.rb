@@ -21,17 +21,17 @@ RSpec.describe OriginsController, :type => :controller do
       :data_retention_type => 'teste',
       :extractor_file_type => 'teste',
       :room_1_notes => 'teste',
-      :mnemonic => 'teste',
-      :cd5_portal_origin_code => 'teste',
-      :cd5_portal_origin_name => 'teste',
-      :cd5_portal_destination_code => 'teste',
-      :cd5_portal_destination_name => 'teste',
-      :hive_table_name => 'teste',
-      :mainframe_storage_type => 'teste',
-      :room_2_notes => 'teste',
-      :created_at => 'teste',
-      :updated_at => 'teste' }
-
+      #:mnemonic => 'teste',
+      #:cd5_portal_origin_code => 'teste',
+      #:cd5_portal_origin_name => 'teste',
+      #:cd5_portal_destination_code => 'teste',
+      #:cd5_portal_destination_name => 'teste',
+      #:hive_table_name => 'teste',
+      #:mainframe_storage_type => 'teste',
+      #:room_2_notes => 'teste',
+      #:created_at => 'teste',
+      #:updated_at => 'teste'
+    }
   }
 
   #let(:invalid_attributes) {
@@ -199,6 +199,63 @@ RSpec.describe OriginsController, :type => :controller do
       delete :destroy, {:id => origin.to_param}, valid_session
       expect(response).to redirect_to(origins_url)
     end
+  end
+
+  let(:valid_origin_field_attributes) {
+    valid_origin_field_attributes = {
+      :field_name => 'teste',
+      :origin_pic => 'teste',
+      :data_type_origin_field => 'teste',
+      :fmbase_format_type => 'teste',
+      :generic_data_type => 'teste',
+      :decimal_origin_field => 'teste',
+      :mask_origin_field => 'teste',
+      :position_origin_field => 'teste',
+      :width_origin_field => 'teste',
+      :is_key  => 'teste',
+      :will_use => 'teste',
+      :has_signal => 'teste',
+      :room_1_notes => 'teste',
+      :origin_id => @origin.id
+    }
+  }
+
+  describe "POST create origin field" do
+    before do
+      @origin = Origin.create! valid_attributes
+      session[:user_id] = User.create! user_attributes
+    end
+
+    describe "with valid params" do
+      it "creates a new OriginField" do
+        expect {
+          post :create_origin_field, {:origin_field => valid_origin_field_attributes}, valid_session
+        }.to change(OriginField, :count).by(1)
+      end
+
+      it "assigns a newly created origin_field as @origin_field" do
+        post :create_origin_field, {:origin_field => valid_origin_field_attributes}, valid_session
+        expect(assigns(:origin_field)).to be_a(OriginField)
+        expect(assigns(:origin_field)).to be_persisted
+      end
+
+      it "redirects to the created origin_field" do
+        post :create_origin_field, {:origin_field => valid_origin_field_attributes}, valid_session
+        expect(response).to redirect_to(@origin)
+      end
+    end
+
+    #describe "with invalid params" do
+    #  it "assigns a newly created but unsaved origin_field as @origin_field" do
+    #    post :create, {:origin_field => invalid_attributes}, valid_session
+    #    expect(assigns(:origin_field)).to be_a_new(OriginField)
+    #  end
+
+    #  it "re-renders the 'new' template" do
+    #    post :create, {:origin_field => invalid_attributes}, valid_session
+    #    expect(response).to render_template("new")
+    #  end
+    #end
   end
 
 end

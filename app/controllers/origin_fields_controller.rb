@@ -22,22 +22,6 @@ class OriginFieldsController < ApplicationController
   def edit
   end
 
-  # POST /origin_fields
-  # POST /origin_fields.json
-  def create
-    @origin_field = OriginField.new(origin_field_params)
-
-    respond_to do |format|
-      if @origin_field.save
-        format.html { redirect_to @origin_field, notice: "#{OriginField.model_name.human.capitalize} criado com sucesso" }
-        format.json { render :show, status: :created, location: @origin_field }
-      else
-        format.html { render :new }
-        format.json { render json: @origin_field.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # PATCH/PUT /origin_fields/1
   # PATCH/PUT /origin_fields/1.json
   def update

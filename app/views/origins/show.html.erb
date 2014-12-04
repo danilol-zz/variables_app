@@ -1,84 +1,40 @@
 <p id="notice"><%= notice %></p>
 
 <% if @current_user.profile == User::ROOM1 %>
-  <p>
-    <strong><%= t('activerecord.attributes.origin.file_name') %>:</strong>
-    <%= @origin.file_name %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.file_description') %>:</strong>
-    <%= @origin.file_description %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.created_in_sprint') %>:</strong>
-    <%= @origin.created_in_sprint %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.updated_in_sprint') %>:</strong>
-    <%= @origin.updated_in_sprint %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.abbreviation') %>:</strong>
-    <%= @origin.abbreviation %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.base_type') %>:</strong>
-    <%= @origin.base_type %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.book_mainframe') %>:</strong>
-    <%= @origin.book_mainframe %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.periodicity') %>:</strong>
-    <%= @origin.periodicity %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.periodicity_details') %>:</strong>
-    <%= @origin.periodicity_details %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.data_retention_type') %>:</strong>
-    <%= @origin.data_retention_type %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.extractor_file_type') %>:</strong>
-    <%= @origin.extractor_file_type %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.origin.room_1_notes') %>:</strong>
-    <%= @origin.room_1_notes %>
-  </p>
+  <table border="1">
+    <tr>
+      <th colspan="2" align="left"><b>Cadastro de <%= Origin.model_name.human.capitalize %></b> - <%= @current_user.profile %></th>
+    </tr>
+    <tr>
+      <td><strong><%= t('activerecord.attributes.origin.file_name') %>:</strong></td>
+      <td><strong><%= t('activerecord.attributes.origin.file_description') %>:</strong></td>
+    </tr>
+    <tr>
+      <td><%= @origin.file_name %></td>
+      <td><%= @origin.file_description %></td>
+    </tr>
+  </table>
 <% end %>
+<br>
 
 <% if @current_user.profile == User::ROOM2 %>
-  <p>
+  <div>
     <strong><%= t('activerecord.attributes.origin.mnemonic') %>:</strong>
     <%= @origin.mnemonic %>
-  </p>
+  </div>
 
-  <p>
+  <div>
     <strong><%= t('activerecord.attributes.origin.cd5_portal_origin_code') %>:</strong>
-    <%= @origin.cd5_portal_origin_code %>
-  </p>
+      <%= @origin.cd5_portal_origin_code %>
+  </div>
 
-  <p>
+  <div>
     <strong><%= t('activerecord.attributes.origin.cd5_portal_origin_name') %>:</strong>
     <%= @origin.cd5_portal_origin_name %>
-  </p>
+  </div>
 
-  <p>
+  <div>
+    <strong><%= t('activerecord.attributes.origin.cd5_portal_origin_code') %>:</strong>
     <strong><%= t('activerecord.attributes.origin.cd5_portal_destination_code') %>:</strong>
     <%= @origin.cd5_portal_destination_code %>
   </p>
@@ -102,7 +58,10 @@
     <strong><%= t('activerecord.attributes.origin.room_2_notes') %>:</strong>
     <%= @origin.room_2_notes %>
   </p>
+  </div>
 
 <% end %>
-<%= link_to t('edit'), edit_origin_path(@origin) %> |
-<%= link_to t('back'), origins_path %>
+<%= render 'origin_fields_index' %>
+<%= render 'origin_fields_form' %>
+<br>
+<br>
