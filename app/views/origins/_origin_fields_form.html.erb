@@ -1,4 +1,4 @@
-<%= form_for :origin_field, url: "origin#create_origin_field" do |f| %>
+<%= form_for :origin_field, url: create_origin_field_path do |f| %>
   <% if @origin_field.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@origin_field.errors.count, "error") %> proibiram esse campo de origem de ser salvo:</h2>
@@ -10,67 +10,110 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <table>
-      <tr>
-        <td></td>
-      </tr>
+  <fieldset>
+    <div class="row clearfix modulo gray" style="width: 1645px;">
+    <h3>Adicionar campos de origem</h3>
       <% if @current_user.profile == User::ROOM1 %>
-        <%= f.label :field_name %>
-        <%= f.label :origin_pic %>
-        <%= f.label :data_type_origin_field %>
-        <%= f.label :fmbase_format_type %>
-        <%= f.label :generic_data_type %>
-        <%= f.label :decimal_origin_field %>
-        <%= f.label :mask_origin_field %>
-        <%= f.label :position_origin_field %>
-        <%= f.label :width_origin_field %>
-        <%= f.label :is_key %>
-        <%= f.label :will_use %>
-        <%= f.label :has_signal %>
-        <%= f.label :room_1_notes %><br>
-        <%= f.text_field :field_name, :size=>"20" %>
-        <%= f.text_field :origin_pic, :size=>"5"  %>
-        <%= f.text_field :data_type_origin_field, :size=>"5"  %>
-        <%= f.select(:data_type_origin_field,  ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"], {:include_blank => 'Selecione'}) %>
-        <%= f.text_field :fmbase_format_type, :size=>"5"  %>
-        <%= f.text_field :generic_data_type, :size=>"5"  %>
-        <%= f.text_field :decimal_origin_field, :size=>"5"  %>
-        <%= f.text_field :position_origin_field, :size=>"5"  %>
-        <%= f.text_field :mask_origin_field, :size=>"5"  %>
-        <%= f.text_field :width_origin_field, :size=>"5"  %>
-        <%= f.check_box :is_key %>
-        <%= f.check_box :will_use %>
-        <%= f.check_box :has_signal %>
-        <%= f.text_field :room_1_notes, :size=>"5"  %>
+        <div class="left t6">
+          <%= f.label :field_name %>
+          <%= f.text_field :field_name %>
+        </div>
+        <div class="left t11">
+          <%= f.label :origin_pic %>
+          <%= f.text_field :origin_pic %>
+        </div>
+        <div class="left t11">
+          <%= f.label :data_type_origin_field %>
+          <%= f.select(:data_type_origin_field,  ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"], {:include_blank => 'Selecione'}) %>
+        </div>
+        <div class="left t11">
+          <%= f.label :fmbase_format_type %>
+          <%= f.text_field :fmbase_format_type %>
+        </div>
+        <div class="left t11">
+          <%= f.label :generic_data_type %>
+          <%= f.text_field :generic_data_type %>
+        </div>
+        <div class="left t11">
+          <%= f.label :decimal_origin_field %>
+          <%= f.text_field :decimal_origin_field %>
+        </div>
+        <div class="left t11">
+          <%= f.label :position_origin_field %>
+          <%= f.text_field :position_origin_field %>
+        </div>
+        <div class="left t6">
+          <%= f.label :mask_origin_field %>
+          <%= f.text_field :mask_origin_field %>
+        </div>
+        <div class="left t11">
+          <%= f.label :width_origin_field %>
+          <%= f.text_field :width_origin_field %>
+        </div>
+        <div class="left">
+          <p>
+            <%= f.check_box :is_key %>
+            <%= f.label :is_key %>
+          </p>
+          <p>
+            <%= f.check_box :will_use %>
+            <%= f.label :will_use %>
+          </p>
+          <p>
+            <%= f.check_box :has_signal %>
+            <%= f.label :has_signal %>
+          </p>
+        </div>
+        <div class="left t6">
+          <%= f.label :room_1_notes %>
+          <%= f.text_field :room_1_notes %>
+        </div>
       <% end %>
 
       <% if @current_user.profile == User::ROOM2 %>
-        <%= f.label :cd5_variable_number %>
-        <%= f.label :cd5_output_order %>
-        <%= f.label :cd5_variable_name %>
-        <%= f.label :cd5_origin_format %>
-        <%= f.label :cd5_origin_format_desc %>
-        <%= f.label :cd5_format %>
-        <%= f.label :cd5_format_desc %>
-        <%= f.label :default_value %>
-        <%= f.label :room_2_notes %>
-        <%= f.label :origin_id %><br>
-        <%= f.text_field :cd5_variable_number, width: "5" %>
-        <%= f.text_field :cd5_output_order %>
-        <%= f.text_field :cd5_variable_name %>
-        <%= f.text_field :cd5_origin_format %>
-        <%= f.text_field :cd5_origin_format_desc %>
-        <%= f.text_field :cd5_format %>
-        <%= f.text_field :cd5_format_desc %>
-        <%= f.text_field :default_value %>
-        <%= f.text_field :room_2_notes %>
+        <div class="left t11">
+          <%= f.label :cd5_variable_number %>
+          <%= f.text_field :cd5_variable_number %>
+        </div>
+        <div class="left t11">
+          <%= f.label :cd5_output_order %>
+          <%= f.text_field :cd5_output_order %>
+        </div>
+        <div class="left t6">
+          <%= f.label :cd5_variable_name %>
+          <%= f.text_field :cd5_variable_name %>
+        </div>
+        <div class="left t11">
+          <%= f.label :cd5_origin_format %>
+          <%= f.text_field :cd5_origin_format %>
+        </div>
+        <div class="left t6">
+          <%= f.label :cd5_origin_format_desc %>
+          <%= f.text_field :cd5_origin_format_desc %>
+        </div>
+        <div class="left t11">
+          <%= f.label :cd5_format %>
+          <%= f.text_field :cd5_format %>
+        </div>
+        <div class="left t6">
+          <%= f.label :cd5_format_desc %>
+          <%= f.text_field :cd5_format_desc %>
+        </div>
+        <div class="left t11">
+          <%= f.label :default_value %>
+          <%= f.text_field :default_value %>
+        </div>
+        <div class="left t6">
+          <%= f.label :room_2_notes %>
+          <%= f.text_field :room_2_notes %>
+        </div>
       <% end %>
     </div>
+  </fieldset>
 
-    <%= f.hidden_field :origin_id, value: @origin.id%>
+  <%= f.hidden_field :origin_id, value: @origin.id%>
 
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-  <% end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

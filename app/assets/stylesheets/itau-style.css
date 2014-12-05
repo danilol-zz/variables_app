@@ -233,6 +233,13 @@ section h4:hover .seta-link { width:14px; height:14px; margin-right: 10px; displ
 .modulo-lightbox > button.mfp-close {  }
 .modulo-lightbox > .mfp-close { /*position: relative!important; float: right;*/ }
 
+/* Fundo cinza */
+.gray { background: #e6e6e6; }
+
+.modulo-login .dados { float: left; width: 310px; }
+.modulo-login .dados > .margem-top { margin-top: 85px!important; }
+.modulo-login .teclado { float: right; width: 260px; margin-right: -10px; }
+
 /* Módulos - Login */
 .modulo-login { background: #e6e6e6; }
 

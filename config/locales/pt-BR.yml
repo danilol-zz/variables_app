@@ -77,20 +77,20 @@ pt:
         generic_data_type: Tipo de dado
         decimal_origin_field: Decimal
         mask_origin_field: Máscara
-        position_origin_field: Posiao
+        position_origin_field: Posição
         width_origin_field: Tamanho
         is_key: É chave?
         will_use: Vai usar?
         has_signal: Tem sinal?
         room_1_notes: Observacao sala 1
-        cd5_variable_number: Numero variavel cd5
-        cd5_output_order: Ordem de saida cd5
-        cd5_variable_name: Nome variavel cd5
-        cd5_origin_format: Formato origem cd5
-        cd5_origin_format_desc: Descricao formato origem cd5
-        cd5_format: Formato cd5
+        cd5_variable_number: Número var
+        cd5_output_order: Ordem de saída
+        cd5_variable_name: Nome variável
+        cd5_origin_format: Formato origem
+        cd5_origin_format_desc: Descrição formato origem
+        cd5_format: Formato CD5
         cd5_format_desc: Descricao formato cd5
-        default_value: Valor padrao
+        default_value: Valor padrão
         room_2_notes: Observacao sala 2
       processid:
         process_number: Numero processo
