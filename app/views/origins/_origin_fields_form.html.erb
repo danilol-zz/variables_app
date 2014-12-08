@@ -10,7 +10,9 @@
     </div>
   <% end %>
 
+
   <div class="field">
+  <%= content_tag :div, :class => "row clearfix"  do %>
     <table>
       <tr>
         <td></td>
@@ -29,7 +31,9 @@
         <%= f.label :will_use %>
         <%= f.label :has_signal %>
         <%= f.label :room_1_notes %><br>
-        <%= f.text_field :field_name, :size=>"20" %>
+        <%= content_tag :div, :class => "left t3" do %>
+          <%= f.text_field :field_name %>
+        <% end %>
         <%= f.text_field :origin_pic, :size=>"5"  %>
         <%= f.text_field :data_type_origin_field, :size=>"5"  %>
         <%= f.select(:data_type_origin_field,  ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"], {:include_blank => 'Selecione'}) %>
@@ -68,6 +72,7 @@
       <% end %>
     </div>
 
+  <% end %>
     <%= f.hidden_field :origin_id, value: @origin.id%>
 
     <div class="actions">
