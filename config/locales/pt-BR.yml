@@ -21,11 +21,11 @@ pt:
         one: Tabela
         other: Tabelas
       user:
-        one: Usuário
-        other: Usuários
+        one: Usuario
+        other: Usuarios
       variable:
-        one: Variável
-        other: Variáveis
+        one: Variavel
+        other: Variaveis
     attributes:
       campaign:
         ident: ID

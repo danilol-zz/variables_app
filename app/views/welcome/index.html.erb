@@ -6,13 +6,13 @@
         <h4>Cadastros</h4>
         <div class="botoes clearfix">
           <div class="row clearfix">
-            <%= link_to 'Origem', origins_path, :class => "btn btn-secundario left txt-no-transform" %>
+            <%= link_to "#{Origin.model_name.human.capitalize}", origins_path, :class => "btn btn-secundario left txt-no-transform" %>
           </div>
           <div class="row clearfix">
-            <%= link_to 'Campanha', campaigns_path, :class => "btn btn-secundario left txt-no-transform" %>
+            <%= link_to "#{Campaign.model_name.human.capitalize}", campaigns_path, :class => "btn btn-secundario left txt-no-transform" %>
           </div>
           <div class="row clearfix">
-            <%= link_to 'Variavel', variables_path, :class => "btn btn-secundario left txt-no-transform" %>
+            <%= link_to "#{Variable.model_name.human.capitalize}", variables_path, :class => "btn btn-secundario left txt-no-transform" %>
           </div>
         </div>
       </div>
@@ -28,16 +28,16 @@
             <%= form_tag( index_path ) do  %>
             <div id="status" class="row clearfix line-bottom">
               <p class="left">
-                <input type="radio" value="origem" id="status01" name="status", onclick="this.form.submit();" />
-                <label for="status01">ORIGEM</label>
+                <input type="radio" value="origem" <%='checked' if @status_id == 'OR' %> id="status01" name="status", onclick="this.form.submit();" />
+                <label for="status01"><%= Origin.model_name.human.upcase %></label>
               </p>
               <p class="left">
-                <input type="radio" value="campanha" id="status02" name="status", onclick="this.form.submit();" />
-                <label for="status02">CAMPANHA</label>
+                <input type="radio" value="campanha" <%='checked' if @status_id == 'CA' %> id="status02" name="status", onclick="this.form.submit();" />
+                <label for="status02"><%= Campaign.model_name.human.upcase %></label>
               </p>
               <p class="left">
-                <input type="radio" value="variavel" id="status03" name="status", onclick="this.form.submit();" />
-                <label for="status03">VARIAVEL</label>
+                <input type="radio" value="variavel" <%='checked' if @status_id == 'VA' %> id="status03" name="status", onclick="this.form.submit();" />
+                <label for="status03"><%= Variable.model_name.human.upcase %></label>
               </p>
             </div> <!-- row clearfix -->
           <% end %>
@@ -56,9 +56,9 @@
                <tbody>
                  <% @status.each do |s| %>
                    <tr>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')}", s %></td>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')}", s %></td>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')}", s %></td>
+                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
+                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
+                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
                    </tr>
                  <% end %>
                </tbody>
