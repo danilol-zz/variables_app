@@ -1,0 +1,5 @@
+nome tabela logica,Descrição da tabela,chave da tabela,Volume Inicial,Estimativa de Crescimento,sprint em que foi criada,sprint em que foi alterada,selecionar variaveis,observações sala 1,Nome tabela fisica definitiva,nome tabela fisica espelho,numero tabela definitiva,numero tabela espelho,mnmonico,numero rotina,base mestra,tabela hive,nome rotina big data,nome rotina saida,nome rotina ziptrans,nome rotina data stage espelho,nome rotina data stage definitivo,observação sala 2
+CONT_CORE_CAMP,tabela de conta corrente,conta corrente,62000000,10000,1,10,"Elegibilidade basica
+Segmento
+Efetuou Recarga
+Perfil Recarga",,TBCD5239_CONT_CORE_CAMP_PFIS,TBCD5242_ESPL_CAMP_PFIS,5239,5242,CCR,2,ORG_DM303_CHV_CNT,TAB_CCR,CD5PT002,CD5PS002,CD5T5CCR,CD5PE002,CD5PD002,

@@ -1,0 +1,4 @@
+﻿numero processo;mnmonico;nome rotina ;nome tabela var;selecionar variaveis;regra de conferencia;percentual de aceite;pode manter movimento anterior?;regra de contagem;Observação
+1;ELE_BAS_CNT;CD5PV001;VAR_ELE_BAS_CNT;Elegibilidade basica;1-2-3-4-5-6-7-8-9;50;S;6-7-8-9;
+29;COD_OFER_RECAR_CEL_CCR;CD5PV029;VAR_COD_OFER_RECAR_CEL_CCR;Perfil Recarga;1-2-3-4-5;50;S;5;
+91;IND_CONT_RCGA_CELL_CCR;CD5PV091;VAR_IND_CONT_RCGA_CELL_CCR;Efetuou Recarga;C;50;N;N;

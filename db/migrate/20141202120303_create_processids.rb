@@ -4,6 +4,7 @@ class CreateProcessids < ActiveRecord::Migration
       t.integer :process_number
       t.string :mnemonic
       t.string :routine_name
+      t.string :var_select
       t.string :var_table_name
       t.string :conference_rule
       t.string :acceptance_percent

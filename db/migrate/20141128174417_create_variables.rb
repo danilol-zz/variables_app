@@ -4,6 +4,11 @@ class CreateVariables < ActiveRecord::Migration
       t.string :name
       t.string :sas_variable_def
       t.string :sas_variable_domain
+      t.string :sas_update_periodicity
+      t.string :variable_key
+      t.string :origin_and_fields
+      t.string :data_type
+      t.string :variable_type
       t.integer :created_in_sprint
       t.integer :updated_in_sprint
       t.string :sas_data_model_status

@@ -20,6 +20,7 @@ class CreateCampaigns < ActiveRecord::Migration
       t.string :process_type
       t.string :crm_room_suggestion
       t.string :it_status
+      t.string :variable_selection
       t.string :notes
 
       t.timestamps

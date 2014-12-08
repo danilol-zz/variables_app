@@ -1,0 +1,265 @@
+﻿ID;nome da campanha;prioridade;sprint em que foi criada;sprint em que foi alterada;origem da campanha;canal;codigo da comunicação;produto;descrição da campanha;critério da campanha;Campanha existe no legado?;rotina automatica;Status de Levantamento de critério de fábrica;quantidade de variáveis priorizadas;quantidade de variáveis atendidas;Tipo de processo;Sugestão da Sala de CRM;Status TI;Seleção de Variaveis;Observações
+58;CRE-INT - CREDIARIO INTELIGENTE;1;10;10;Sala de CRM;Warning;CREINT;Crediário;warnings crediario inteligente - tombamento do legado;Mesmo critério de campanha legada;sim;QORCC01 ;Guilherme;0;0;Automática;Não é necessário implantação. As variaveis atuais já atendem;Tubo C;;"Programa HI7A
+
+Público: clientes do produto 130 (crediário) com marcação de crediário inteligente e valor de limite disponível maior que 0 (TUBO C)."
+238;INSTA2 - PERDA DE ISENCAO DE TARIFA -;2;9;10;backlog sprint 9;Warning;INSTA2;informativo;" PERDA DE MARCA 
+CLIENTES PF COM O PRAZO DE FINALIZAÇÃO DOS DESCONTOS PARA ISENÇÃO INDIVIDUAL DA COBRANÇA DE TARIFAS DOS PACOTES MAXICONTA, ENVIADOS DIRETAMENTE PELO SISTEMA BT. FILTRANDO CONTA ENCERRADA, INATIVA, ESPÓLIO, RECADASTRADA, VIRTUAL, DIR., FUNC. E BENEFIC";"Batimento base do BT com a BGL de conta corrente por agencia/conta/dac.
+Base de origem: BT.BASE.MVTOQO - book BT0LQO01  -  base do BT com o público
+Campos selecionados no BT: CDINSTTR, AGENCIA, CONTA, DA10, 
+Base de origem: QO.BASE.CCCBI99 - book GTWCCCB
+Campos selecionados no CC: AGENCIA, CONTA, DAC10, PORTADOR, PES, IDCTAENC, ICPCC, IDCTABLQ, INCTADES, INCTAESP, ICCCNREC, INCTAVIR, ICCRGDIR, ICFUNC, CODBANCO, CATEG, CLICL, CTATRANS, CDSEGCC, 
+Gravar registro na igualdade.
+Regras de exclusão:
+IF  AGENCIA-QO0LBN10  EQUAL  SPACES OR ZEROS       
+    ADD  1                  TO  WCT-DESPAGE-SYS010 
+    MOVE '04'               TO  CODRETQO-QO0LBN10  
+    PERFORM  RT340-GRAVAR-SYS021                   
+    GO                      TO  RT240-LER-SYS010   
+END-IF.                                            
+IF  CONTA-QO0LBN10    EQUAL  SPACES OR ZEROS       
+    ADD  1                  TO  WCT-DESPCON-SYS010 
+    MOVE '05'               TO  CODRETQO-QO0LBN10  
+    PERFORM  RT340-GRAVAR-SYS021                   
+    GO                      TO  RT240-LER-SYS010   
+END-IF.                                            
+IF  DAC-QO0LBN10      EQUAL  ' '                   
+    ADD  1                  TO  WCT-DESPDAC-SYS010 
+    MOVE '06'               TO  CODRETQO-QO0LBN10  
+    PERFORM  RT340-GRAVAR-SYS021                   
+    GO                      TO  RT240-LER-SYS010   
+END-IF.                                            
+IF  AGENCIA-GTWCCCB11 EQUAL   SPACES OR ZEROS      
+    ADD  1                  TO  WCT-DESPAGE-SYS011 
+    GO                      TO  RT260-LER-SYS011   
+END-IF.                                            
+IF  CONTA-GTWCCCB11   EQUAL  SPACES OR ZEROS       
+    ADD  1                  TO  WCT-DESPCON-SYS011 
+    GO                      TO  RT260-LER-SYS011   
+END-IF.                                            
+IF  DAC10-GTWCCCB11         EQUAL  ' '             
+    ADD  1                  TO  WCT-DESPDAC-SYS011 
+    GO                      TO  RT260-LER-SYS011   
+END-IF.                                            
+IF  IDCTABLQ-GTWCCCB11  EQUAL  'S'           -  elegibilidade minima        
+    ADD  1                  TO  WCT-CONTA-BLOQUEADA  
+    MOVE '10'               TO  CODRETQO-QO0LBN10    
+    PERFORM  RT340-GRAVAR-SYS021                     
+    GO                      TO  RT300-TRATAR-IGUAISX 
+END-IF.                                              
+IF  INCTADES-GTWCCCB11  EQUAL  'S'                   - -  elegibilidade minima 
+    ADD  1                  TO  WCT-CONTA-INATIVA    
+    MOVE '11'               TO  CODRETQO-QO0LBN10    
+    PERFORM  RT340-GRAVAR-SYS021                     
+    GO                      TO  RT300-TRATAR-IGUAISX 
+END-IF.                                              
+IF  INCTAESP-GTWCCCB11  EQUAL  'S'    -  -  elegibilidade minima 
+    ADD  1                  TO  WCT-CONTA-ESPOLIO    
+    MOVE '12'               TO  CODRETQO-QO0LBN10    
+    PERFORM  RT340-GRAVAR-SYS021                     
+    GO                      TO  RT300-TRATAR-IGUAISX 
+END-IF.                                              
+IF  ICCCNREC-GTWCCCB11  EQUAL  'S'     -  -  elegibilidade minima                     
+    ADD  1                  TO  WCT-CONTA-N-RECADASTRADA
+    MOVE '13'               TO  CODRETQO-QO0LBN10       
+    PERFORM  RT340-GRAVAR-SYS021                        
+    GO                      TO  RT300-TRATAR-IGUAISX    
+END-IF.                                                 
+IF  INCTAVIR-GTWCCCB11  EQUAL  'S'                      -  elegibilidade minima 
+    ADD  1                  TO  WCT-CONTA-VIRTUAL       
+    MOVE '14'               TO  CODRETQO-QO0LBN10       
+    PERFORM  RT340-GRAVAR-SYS021                        
+    GO                      TO  RT300-TRATAR-IGUAISX    
+END-IF.                                                 
+IF  ICCRGDIR-GTWCCCB11  EQUAL  'S'                    -  elegibilidade minima   
+    ADD  1                  TO  WCT-DIRETOR             
+    MOVE '15'               TO  CODRETQO-QO0LBN10       
+    PERFORM  RT340-GRAVAR-SYS021                        
+    GO                      TO  RT300-TRATAR-IGUAISX    
+END-IF.                                                 
+IF  ICFUNC-GTWCCCB11    EQUAL  'S'                  -  elegibilidade minima 
+    ADD  1                  TO  WCT-FUNCIONARIO     
+    MOVE '16'               TO  CODRETQO-QO0LBN10   
+    PERFORM  RT340-GRAVAR-SYS021                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.                                             
+IF  CODBANCO-GTWCCCB11  EQUAL  '341'                
+AND CATEG-GTWCCCB11     EQUAL  '398'                
+    ADD  1                  TO  WCT-CATEG398        
+    MOVE '17'               TO  CODRETQO-QO0LBN10   
+    PERFORM  RT340-GRAVAR-SYS021                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.                                             
+IF  CLICL-GTWCCCB11 NOT EQUAL  ' '                  -  ja existe no CC no CD5 (ciclo 8)
+    ADD  1                  TO  WCT-CONTA-CL        
+    MOVE '18'               TO  CODRETQO-QO0LBN10   
+    PERFORM  RT340-GRAVAR-SYS021                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.                                             
+IF  CTATRANS-GTWCCCB11  NOT EQUAL  ' '              -  ja existe no CC no CD5  (ciclo 9)
+    ADD  1                  TO  WCT-CONTA-TRANSF    
+    MOVE '19'               TO  CODRETQO-QO0LBN10   
+    PERFORM  RT340-GRAVAR-SYS021                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.   
+
+Regra de seleção de warning:                                          
+IF  CDSEGCC-GTWCCCB11   NOT EQUAL '3' AND 'L' AND '4'
+    ADD  1                  TO  WCT-SEGMENTO         
+    MOVE '20'               TO  CODRETQO-QO0LBN10    
+    PERFORM  RT340-GRAVAR-SYS021                     
+    GO                      TO  RT300-TRATAR-IGUAISX 
+ELSE                                                 
+    PERFORM  RT380-GRAVAR-SYS023 (gravação de warning)                    
+    MOVE '00'               TO  CODRETQO-QO0LBN10    
+    PERFORM  RT340-GRAVAR-SYS021                     
+END-IF.                                              
+
+MOVE  'INSTA2'              TO  PWARNING-HIWWPA23. 
+MOVE  'F'                   TO  PESSOA-HIWWPA23.   
+MOVE  AGENCIA-QO0LBN10      TO  AGENCIA-HIWWPA23.  
+MOVE  CONTA-QO0LBN10(3:5)   TO  CONTAA-HIWWPA23.   
+MOVE  DAC-QO0LBN10          TO  DAC-HIWWPA23.      
+MOVE  '341'                 TO  CODBANCO-HIWWPA23. 
+MOVE  PORTADOR-GTWCCCB11    TO  PORTADOR-HIWWPA23. 
+MOVE  CDSEGCC-GTWCCCB11     TO  SEGMENTO-HIWWPA23. 
+";sim;QORRL30;Rosemar;1;0;Automática;;concluido;"Codigo Perda Isencao Tarifa
+COD_PERD_ISEN_TARI
+PIC 9(2)
+";Rotina QORRL30 - Rosemar
+239;INSTAR -  PERDA DE ISENCAO TARIFA;2;9;10;backlog sprint 9;Warning;INSTAR;informativo;" FOLHA ATIVA 
+SSTI 192044 - PERDA DE ISENCAO TARIFA AÇÃO FOLHA ATIVA PUBLICO ENVIADO PELO BT";"Batimento base do BT com a BGL de conta corrente por agencia/conta/dac.
+Base de origem: BT.BASE.PFC01 - book BTWPFC  -  rotina QORRL11B - pgm QO0BCA5
+Campos selecionados no BT: CDINSTTR, AGENCIA, CONTA, DA10, DTCBTAR
+
+Base de origem: QO.BASE.CCCBI99 - book GTWCCCB (conta corrente)
+Campos selecionados no CC: AGENCIA, CONTA, DAC10, PORTADOR, PES, IDCTAENC, INCTAESP, INCTAVIR, ICCTDESA, IDCTABLR, CLICL, CDSEGCC, 
+Aplica elegibilidade mínima.
+Tem variável de colagem: tem variável de colagem: código '182'. É a descrição do mês da data de cobrança da tarifa. 
+Gravar registro na igualdade.
+Regras de exclusão:
+IF  AGENCIA-BTWPFC10  EQUAL  SPACES OR ZEROS      
+    ADD  1                  TO  WCT-DESPAGE-SYS010
+    GO                      TO  RT240-LER-SYS010  
+END-IF.                                           
+IF  CONTA-BTWPFC10    EQUAL  SPACES OR ZEROS      
+    ADD  1                  TO  WCT-DESPCON-SYS010
+    GO                      TO  RT240-LER-SYS010  
+END-IF.                                           
+IF  DAC10-BTWPFC10    EQUAL  ' '                  
+    ADD  1                  TO  WCT-DESPDAC-SYS010
+    GO                      TO  RT240-LER-SYS010  
+END-IF.          
+                                 
+Informações do CC - pode ser o arquivo do CD5
+IF  AGENCIA-GTWCCCB11 EQUAL   SPACES OR ZEROS     
+    ADD  1                  TO  WCT-DESPAGE-SYS011
+    GO                      TO  RT260-LER-SYS011  
+END-IF.                                           
+IF  CONTA-GTWCCCB11   EQUAL  SPACES OR ZEROS      
+    ADD  1                  TO  WCT-DESPCON-SYS011
+    GO                      TO  RT260-LER-SYS011  
+END-IF.                                           
+IF  DAC10-GTWCCCB11         EQUAL  ' '            
+    ADD  1                  TO  WCT-DESPDAC-SYS011
+    GO                      TO  RT260-LER-SYS011  
+END-IF.                                           
+
+aplica filtro de elegibilidade:
+IF  PES-GTWCCCB11       EQUAL  'J'               -  elegibilidade minima    
+    ADD  1                  TO  WCT-PESSOA-JURIDICA 
+    PERFORM  RT380-GRAVAR-SYS022                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.                                             
+IF  IDCTAENC-GTWCCCB11  EQUAL  'S'                    -  elegibilidade minima    
+    ADD  1                  TO  WCT-CONTA-ENCERRADA 
+    PERFORM  RT380-GRAVAR-SYS022                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.                                             
+IF  INCTAESP-GTWCCCB11  EQUAL  'S'                  
+    ADD  1                  TO  WCT-CONTA-ESPOLIO   
+    PERFORM  RT380-GRAVAR-SYS022                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF. 
+IF  INCTAVIR-GTWCCCB11  EQUAL  'S'                  
+    ADD  1                  TO  WCT-CONTA-VIRTUAL   
+    PERFORM  RT380-GRAVAR-SYS022                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.                                             
+IF  ICCTDESA-GTWCCCB11  NOT  EQUAL  ' '             
+    ADD  1                  TO  WCT-CONTA-INATIVA   
+    PERFORM  RT380-GRAVAR-SYS022                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.                                             
+IF  IDCTABLR-GTWCCCB11  NOT  EQUAL  ' '             
+    ADD  1                  TO  WCT-CONTA-BLOQUEADA 
+    PERFORM  RT380-GRAVAR-SYS022                    
+    GO                      TO  RT300-TRATAR-IGUAISX
+END-IF.
+IF  CLICL-GTWCCCB11     NOT  EQUAL  ' '              
+    ADD  1                  TO  WCT-CONTA-EMCL       
+    PERFORM  RT380-GRAVAR-SYS022                     
+    GO                      TO  RT300-TRATAR-IGUAISX 
+END-IF.                                              
+                                                     
+IF  CDSEGCC-GTWCCCB11   NOT EQUAL '3' AND 'L' AND '4'
+    ADD  1                  TO  WCT-SEGMENTO         
+    PERFORM  RT380-GRAVAR-SYS022                     
+    GO                      TO  RT300-TRATAR-IGUAISX 
+END-IF.                             
+
+Grava WPA: SEGMENTO 3, L e 4
+MOVE  'INSTAR'              TO  PWARNING-HIWWPA20.
+MOVE  'F'                   TO  PESSOA-HIWWPA20.  
+MOVE  AGENCIA-BTWPFC10      TO  AGENCIA-HIWWPA20. 
+MOVE  CONTA-BTWPFC10(3:5)   TO  CONTAA-HIWWPA20.  
+MOVE  DAC10-BTWPFC10        TO  DAC-HIWWPA20.     
+MOVE  CDINSTTR-BTWPFC10     TO  CODBANCO-HIWWPA20.
+
+Grava HI:
+MOVE  '1'                   TO  CDTPREGI-HIWVRV21.      
+MOVE  'F'                   TO  PES-HIWVRV21.           
+MOVE  '000000000'           TO  CPFCGC-HIWVRV21.        
+MOVE  '0000'                TO  FCGC-HIWVRV21.          
+MOVE  '00'                  TO  DACPFCGC-HIWVRV21.      
+MOVE  CDINSTTR-BTWPFC10     TO  CDBCO-HIWVRV21.         
+MOVE  AGENCIA-BTWPFC10      TO  AGENCIA-HIWVRV21.       
+MOVE  CONTA-BTWPFC10        TO  CONTA-HIWVRV21.         
+MOVE  DAC10-BTWPFC10        TO  DAC10-HIWVRV21.         
+MOVE  PORTADOR-GTWCCCB11    TO  PORTADOR-HIWVRV21.      
+                                                        
+MOVE  DTCBTAR-BTWPFC10(4:2)  TO  WMES-MES.              
+MOVE  WTABNOME-MES(WMES-MES) TO  WNOME-MES.             
+STRING                                                  
+   '¦182' WNOME-MES(1:WTABLENG-MES(WMES-MES)) '/'       
+    DTCBTAR-BTWPFC10(7:4)                               
+  DELIMITED BY SIZE   INTO DADVARIA-HIWVRV21.           
+                                                        
+COMPUTE  TMDADVAR-HIWVRV21 = 9 + WTABLENG-MES(WMES-MES).
+MOVE  '182'                 TO  CODVARIA-HIWVRV21.                       
+";sim;QORRL11B;Rosemar;0;0;Automática;;concluido;"Codigo Perda Isencao Tarifa
+COD_PERD_ISEN_TARI
+PIC 9(2)
+";Rotina QORRL11B - Rosemar
+40;Recarga de Celular ;1;4;4;Legado;Warning;;recarga;Oferta de recarga de celular;"Público 1:
+1.Clientes que possuem MaxiBônus 
+2.Clientes que não realizaram recarga no ultimo mês
+3.Utilizar os filtros sinalizados abaixo: ***
+
+Público 2:
+1.Clientes que possuem MaxiBônus 
+2.Clientes que realizaram recarga no ultimo mês
+3.Utilizar os filtros sinalizados abaixo: ***
+
+(***)
+NAO ENCONTRADO NA BGL
+PESSOA DIFERENTE DE FÍSICA
+NÃO CORRENTISTA
+CONTA BLOQUEADA
+CONTA ENCERRADA/TOMBADA
+CONTA INATIVA
+CONTA ESPÓLIO
+CONTA NÃO RECADASTRADA
+CONTA VIRTUAL
+DIRETOR
+PROBLEMA NO CPF
+CLIENTE COM APONTAMENTO CADASTRAL";sim;publico externo;Rosemar;0;0;Gestor;"Maxi Bonus base (BT)- OK Aguardando devolutiva X0 (informação recarga)_Jeferson Silva irá enviar nome da base A base é mensal e só tem quem fez recarga";concluido;- Elegibilidade basica;- Segmento ;- Efetuou Recarga ; - Perfil Recarga;
