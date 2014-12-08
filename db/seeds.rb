@@ -3,7 +3,7 @@ require 'csv'
 puts "####### deleting all process"
 Processid.delete_all
 
-CSV.read("/home/danilo/Documentos/itau/massa de teste/processo.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
+CSV.read("db/fixtures/processo.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
   puts "####### creating process #{i + 1}"
 
   Processid.create(
@@ -24,7 +24,7 @@ puts ""
 puts "####### deleting all origins"
 Origin.delete_all
 
-CSV.read("/home/danilo/Documentos/itau/massa de teste/origem.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
+CSV.read("db/fixtures/origem.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
   puts "####### creating origin #{i + 1}"
 
   Origin.create(
