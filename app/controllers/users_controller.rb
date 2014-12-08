@@ -4,6 +4,10 @@ class UsersController < ApplicationController
 
   before_filter :ensure_authentication, :only => [:edit, :update, :destroy, :index, :show]
 
+  def login
+
+  end
+
   def index
     @users = User.order(:profile, :name, :role)
     @new_user = User.new
@@ -71,14 +75,15 @@ class UsersController < ApplicationController
 
   def authenticate
     user = User.authenticate(params[:user][:email], params[:user][:password])
-
     if user
       session[:user_id] = user.id
-      redirect_to "/origins", notice: "Olá #{user.name}, bem vindo ao Portal de Variáveis!"
+      #redirect_to "/origins", notice: "Olá #{user.name}, bem vindo ao Portal de Variáveis!"
+      flash[:notice] = "Olá #{user.name}, bem vindo ao Portal de Variáveis!"
     else
       flash[:error] = "Usuário ou senha inválida"
-      redirect_to root_url
+      #redirect_to root_url
     end
+    redirect_to root_url
   end
 
   def logout

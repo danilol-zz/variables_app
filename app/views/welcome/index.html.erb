@@ -1,20 +1,74 @@
-<% unless flash.empty? %>
-  <div>
-    <%= render 'messages/message' %>
-  </div>
-<% end %>
 
-<%= form_for("user", :url => "/signin") do |f| %>
-  <h3>Login</h3>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password %><br>
-    <%= f.password_field :password %>
-  </div>
+<section class="main">
+  <div class="row clearfix">
+    <div class="col2" role="complementary">
+      <div class="modulo modulo-sidebar" id="guide-move">
+        <h4>Cadastros</h4>
+        <div class="botoes clearfix">
+          <div class="row clearfix">
+            <%= link_to 'Origem', origins_path, :class => "btn btn-secundario left txt-no-transform" %>
+          </div>
+          <div class="row clearfix">
+            <%= link_to 'Campanha', campaigns_path, :class => "btn btn-secundario left txt-no-transform" %>
+          </div>
+          <div class="row clearfix">
+            <%= link_to 'Variavel', variables_path, :class => "btn btn-secundario left txt-no-transform" %>
+          </div>
+        </div>
+      </div>
+    </div> <!-- div class=col2 -->
 
-  <%= f.submit t('signin') %>
-  <%= link_to t('new_user'), signup_path %>
-<% end %>
+    <div class="col10" role="main">
+      <div class="modulo">
+        <section class="formulario">
+          <h3 class="line-bottom">Status</h3>
+
+          <fieldset>
+            <legend></legend>
+            <%= form_tag( index_path ) do  %>
+            <div id="status" class="row clearfix line-bottom">
+              <p class="left">
+                <input type="radio" value="origem" id="status01" name="status", onclick="this.form.submit();" />
+                <label for="status01">ORIGEM</label>
+              </p>
+              <p class="left">
+                <input type="radio" value="campanha" id="status02" name="status", onclick="this.form.submit();" />
+                <label for="status02">CAMPANHA</label>
+              </p>
+              <p class="left">
+                <input type="radio" value="variavel" id="status03" name="status", onclick="this.form.submit();" />
+                <label for="status03">VARIAVEL</label>
+              </p>
+            </div> <!-- row clearfix -->
+          <% end %>
+          </fieldset>
+
+
+          <section>
+            <table summary="" class="tabela-zebra tabela-hover">
+              <thead>
+                <tr class="txt-no-transform">
+                  <th>Em Desenho</th>
+                  <th><div>Pronto para</div><div>Desenvolvimento</div></th>
+                  <th>Efetivado</th>
+                </tr>
+               </thead>
+               <tbody>
+                 <% @status.each do |s| %>
+                   <tr>
+                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')}", s %></td>
+                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')}", s %></td>
+                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')}", s %></td>
+                   </tr>
+                 <% end %>
+               </tbody>
+             </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
+          </section> <!-- grid section -->
+
+        </section> <!-- formulario -->
+      </div> <!-- modulo -->
+    </div> <!-- col -->
+
+  </div> <!-- row clearfix -->
+</section> <!-- main -->
+

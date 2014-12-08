@@ -1,9 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  before_filter :ensure_authentication
 
   def ensure_authentication
     if not session[:user_id]
-      redirect_to root_url, :notice => "Você esqueceu de fazer o login!"
+      redirect_to login_path, :notice => "Você esqueceu de fazer o login!"
     else
       @current_user = current_user
     end
