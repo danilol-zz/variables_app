@@ -49,7 +49,7 @@ pt:
         it_status: Status de TI
         notes: Observações
       origin:
-        file_name: Nome da base / arquivo
+        file_name: Nome da base/arquivo
         file_description: Descrição da base
         created_in_sprint: Sprint em que foi criado
         updated_in_sprint: Sprint em que foi alterado
