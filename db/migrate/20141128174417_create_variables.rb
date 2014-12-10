@@ -19,6 +19,7 @@ class CreateVariables < ActiveRecord::Migration
       t.integer :width_variable
       t.integer :decimal_variable
       t.string :default_value
+      t.string :status
       t.text :room_2_notes
 
       t.timestamps

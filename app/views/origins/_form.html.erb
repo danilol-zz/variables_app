@@ -64,6 +64,10 @@
             <%= f.select(:extractor_file_type,  ["Novo", "Alterado"], {:include_blank => 'Selecione'}) %>
           </div>
         </div>
+        <div class="field">
+          <%= f.label :status %><br>
+          <%= f.select(:status,  Origin::STATUS, {:include_blank => 'Selecione'}) %>
+        </div>
         <div class="field t4">
           <%= f.label :room_1_notes %><br>
           <%= f.text_area :room_1_notes %>
@@ -111,63 +115,62 @@
           <%= f.text_area :room_2_notes %>
         </div>
 
+        <div class="right">
+          <div><strong>Resumo Sala 1</strong></div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.file_name') %>:</strong>
+            <%= @origin.file_name %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.file_description') %>:</strong>
+            <%= @origin.file_description %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.created_in_sprint') %>:</strong>
+            <%= @origin.created_in_sprint %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.updated_in_sprint') %>:</strong>
+            <%= @origin.updated_in_sprint %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.abbreviation') %>:</strong>
+            <%= @origin.abbreviation %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.base_type.cd5_portal_destination_name') %>:</strong>
+            <%= @origin.base_type %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.book_mainframe') %>:</strong>
+            <%= @origin.book_mainframe %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.periodicity') %>:</strong>
+            <%= @origin.periodicity %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.periodicity_details') %>:</strong>
+            <%= @origin.periodicity_details %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.data_retention_type') %>:</strong>
+            <%= @origin.data_retention_type %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.extractor_file_type') %>:</strong>
+            <%= @origin.extractor_file_type %>
+          </div>
+          <div>
+            <strong><%= t('activerecord.attributes.origin.room_1_notes') %>:</strong>
+            <%= @origin.room_1_notes %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
         <div class="actions">
           <%= f.submit %>
           <%= link_to t('back'), origins_path %>
         </div>
-      <% end %>
-
-    </div>
-    <div class="right">
-      <div><strong>Resumo Sala 1</strong></div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.file_name') %>:</strong>
-        <%= @origin.file_name %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.file_description') %>:</strong>
-        <%= @origin.file_description %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.created_in_sprint') %>:</strong>
-        <%= @origin.created_in_sprint %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.updated_in_sprint') %>:</strong>
-        <%= @origin.updated_in_sprint %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.abbreviation') %>:</strong>
-        <%= @origin.abbreviation %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.base_type.cd5_portal_destination_name') %>:</strong>
-        <%= @origin.base_type %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.book_mainframe') %>:</strong>
-        <%= @origin.book_mainframe %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.periodicity') %>:</strong>
-        <%= @origin.periodicity %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.periodicity_details') %>:</strong>
-        <%= @origin.periodicity_details %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.data_retention_type') %>:</strong>
-        <%= @origin.data_retention_type %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.extractor_file_type') %>:</strong>
-        <%= @origin.extractor_file_type %>
-      </div>
-      <div>
-        <strong><%= t('activerecord.attributes.origin.room_1_notes') %>:</strong>
-        <%= @origin.room_1_notes %>
-      </div>
-    </div>
-  </div>
 <% end %>

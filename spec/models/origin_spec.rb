@@ -23,4 +23,23 @@ describe Origin do
   it { should respond_to :mainframe_storage_type }
   it { should respond_to :room_2_notes }
 
+  context "statuses" do
+    before do
+      FactoryGirl.create(:origin, status: "Rascunho")
+      FactoryGirl.create(:origin, status: "Rascunho")
+      FactoryGirl.create(:origin, status: "Finalizado")
+      FactoryGirl.create(:origin, status: "Finalizado")
+      FactoryGirl.create(:origin, status: "Desenvolvimento")
+      FactoryGirl.create(:origin, status: "Desenvolvimento")
+      FactoryGirl.create(:origin, status: "Desenvolvimento")
+      FactoryGirl.create(:origin, status: "Desenvolvimento")
+      FactoryGirl.create(:origin, status: "Rascunho")
+    end
+
+    it "check the scopes" do
+      expect(Origin.draft.count).to eq 3
+      expect(Origin.development.count).to eq 4
+      expect(Origin.done.count).to eq 2
+    end
+  end
 end

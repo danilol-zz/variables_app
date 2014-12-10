@@ -17,4 +17,23 @@ describe Variable do
   it { should respond_to :default_value }
   it { should respond_to :room_2_notes }
 
+  context "statuses" do
+    before do
+      FactoryGirl.create(:variable, status: "Rascunho")
+      FactoryGirl.create(:variable, status: "Rascunho")
+      FactoryGirl.create(:variable, status: "Finalizado")
+      FactoryGirl.create(:variable, status: "Finalizado")
+      FactoryGirl.create(:variable, status: "Desenvolvimento")
+      FactoryGirl.create(:variable, status: "Desenvolvimento")
+      FactoryGirl.create(:variable, status: "Desenvolvimento")
+      FactoryGirl.create(:variable, status: "Desenvolvimento")
+      FactoryGirl.create(:variable, status: "Rascunho")
+    end
+
+    it "check the scopes" do
+      expect(Variable.draft.count).to eq 3
+      expect(Variable.development.count).to eq 4
+      expect(Variable.done.count).to eq 2
+    end
+  end
 end

@@ -23,4 +23,23 @@ describe Campaign do
   it { should respond_to :it_status }
   it { should respond_to :notes }
 
+  context "statuses" do
+    before do
+      FactoryGirl.create(:campaign, status: "Rascunho")
+      FactoryGirl.create(:campaign, status: "Rascunho")
+      FactoryGirl.create(:campaign, status: "Finalizado")
+      FactoryGirl.create(:campaign, status: "Finalizado")
+      FactoryGirl.create(:campaign, status: "Desenvolvimento")
+      FactoryGirl.create(:campaign, status: "Desenvolvimento")
+      FactoryGirl.create(:campaign, status: "Desenvolvimento")
+      FactoryGirl.create(:campaign, status: "Desenvolvimento")
+      FactoryGirl.create(:campaign, status: "Rascunho")
+    end
+
+    it "check the scopes" do
+      expect(Campaign.draft.count).to eq 3
+      expect(Campaign.development.count).to eq 4
+      expect(Campaign.done.count).to eq 2
+    end
+  end
 end

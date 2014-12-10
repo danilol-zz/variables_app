@@ -19,6 +19,7 @@ class CreateOrigins < ActiveRecord::Migration
       t.integer :cd5_portal_destination_code
       t.string :cd5_portal_destination_name
       t.string :hive_table_name
+      t.string :status
       t.string :mainframe_storage_type
       t.text :room_2_notes
 

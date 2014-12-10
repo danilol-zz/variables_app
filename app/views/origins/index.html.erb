@@ -11,11 +11,7 @@
         <th><%= t('activerecord.attributes.origin.abbreviation') %></td>
         <th><%= t('activerecord.attributes.origin.base_type') %></td>
         <th><%= t('activerecord.attributes.origin.book_mainframe') %></td>
-        <th><%= t('activerecord.attributes.origin.periodicity') %></td>
-        <th><%= t('activerecord.attributes.origin.periodicity_details') %></td>
-        <th><%= t('activerecord.attributes.origin.data_retention_type') %></td>
-        <th><%= t('activerecord.attributes.origin.extractor_file_type') %></td>
-        <th><%= t('activerecord.attributes.origin.room_1_notes') %></td>
+        <th><%= t('activerecord.attributes.origin.status') %></td>
       </tr>
     </thead>
 
@@ -29,11 +25,7 @@
           <td><%= origin.abbreviation %></td>
           <td><%= origin.base_type %></td>
           <td><%= origin.book_mainframe %></td>
-          <td><%= origin.periodicity %></td>
-          <td><%= origin.periodicity_details %></td>
-          <td><%= origin.data_retention_type %></td>
-          <td><%= origin.extractor_file_type %></td>
-          <td><%= origin.room_1_notes %></td>
+          <td><%= t(origin.status) %></td>
           <td><%= link_to t('show'), origin %></td>
           <td><%= link_to t('edit'), edit_origin_path(origin) %></td>
           <td><%= link_to t('destroy'), origin, method: :delete, data: { confirm: t('are_you_sure') } %></td>

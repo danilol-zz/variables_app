@@ -49,16 +49,24 @@
               <thead>
                 <tr class="txt-no-transform">
                   <th>Em Desenho</th>
-                  <th><div>Pronto para</div><div>Desenvolvimento</div></th>
+                  <th>Pronto para<br>Desenvolvimento</div></th>
                   <th>Efetivado</th>
                 </tr>
                </thead>
                <tbody>
-                 <% @status.each do |s| %>
+                 <% @draft.each do |origin| %>
                    <tr>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
+                     <td><%= link_to "#{@status_id}#{origin.id.to_s.rjust(3,'0')} #{origin.status_screen_name}", origin %></td>
+                   </tr>
+                 <% end %>
+                 <% @development.each do |origin| %>
+                   <tr>
+                     <td><%= link_to "#{@status_id}#{origin.id.to_s.rjust(3,'0')} #{origin.status_screen_name}", origin %></td>
+                   </tr>
+                 <% end %>
+                 <% @done.each do |origin| %>
+                   <tr>
+                     <td><%= link_to "#{@status_id}#{origin.id.to_s.rjust(3,'0')} #{origin.status_screen_name}", origin %></td>
                    </tr>
                  <% end %>
                </tbody>
