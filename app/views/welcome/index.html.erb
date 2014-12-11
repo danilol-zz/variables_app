@@ -1,4 +1,3 @@
-
 <section class="main">
   <div class="row clearfix">
     <div class="col2" role="complementary">
@@ -8,12 +7,22 @@
           <div class="row clearfix">
             <%= link_to "#{Origin.model_name.human.capitalize}", origins_path, :class => "btn btn-secundario left txt-no-transform" %>
           </div>
-          <div class="row clearfix">
-            <%= link_to "#{Campaign.model_name.human.capitalize}", campaigns_path, :class => "btn btn-secundario left txt-no-transform" %>
-          </div>
+          <% if @current_user.profile == User::ROOM1 %>
+            <div class="row clearfix">
+              <%= link_to "#{Campaign.model_name.human.capitalize}", campaigns_path, :class => "btn btn-secundario left txt-no-transform" %>
+            </div>
+          <% end %>
           <div class="row clearfix">
             <%= link_to "#{Variable.model_name.human.capitalize}", variables_path, :class => "btn btn-secundario left txt-no-transform" %>
           </div>
+          <% if @current_user.profile == User::ROOM2 %>
+            <div class="row clearfix">
+              <%= link_to "#{Table.model_name.human.capitalize}", tables_path, :class => "btn btn-secundario left txt-no-transform" %>
+            </div>
+            <div class="row clearfix">
+              <%= link_to "#{Processid.model_name.human.capitalize}", processids_path, :class => "btn btn-secundario left txt-no-transform" %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div> <!-- div class=col2 -->
@@ -28,21 +37,32 @@
             <%= form_tag( index_path ) do  %>
             <div id="status" class="row clearfix line-bottom">
               <p class="left">
-                <input type="radio" value="origem" <%='checked' if @status_id == 'OR' %> id="status01" name="status", onclick="this.form.submit();" />
+                <input type="radio" value="origem" <%='checked' if @status.model.name.downcase == 'origin' %> id="status01" name="status", onclick="this.form.submit();" />
                 <label for="status01"><%= Origin.model_name.human.upcase %></label>
               </p>
+              <% if @current_user.profile == User::ROOM1 %>
+                <p class="left">
+                  <input type="radio" value="campanha" <%='checked' if @status.model.name.downcase == 'campaign' %> id="status02" name="status", onclick="this.form.submit();" />
+                  <label for="status02"><%= Campaign.model_name.human.upcase %></label>
+                </p>
+              <% end %>
               <p class="left">
-                <input type="radio" value="campanha" <%='checked' if @status_id == 'CA' %> id="status02" name="status", onclick="this.form.submit();" />
-                <label for="status02"><%= Campaign.model_name.human.upcase %></label>
-              </p>
-              <p class="left">
-                <input type="radio" value="variavel" <%='checked' if @status_id == 'VA' %> id="status03" name="status", onclick="this.form.submit();" />
+                <input type="radio" value="variavel" <%='checked' if @status.model.name.downcase == 'variable' %> id="status03" name="status", onclick="this.form.submit();" />
                 <label for="status03"><%= Variable.model_name.human.upcase %></label>
               </p>
+              <% if @current_user.profile == User::ROOM2 %>
+                <p class="left">
+                  <input type="radio" value="tabela" <%='checked' if @status.model.name.downcase == 'table' %> id="status04" name="status", onclick="this.form.submit();" />
+                  <label for="status04"><%= Table.model_name.human.upcase %></label>
+                </p>
+                <p class="left">
+                  <input type="radio" value="processo" <%='checked' if @status.model.name.downcase == 'processid' %> id="status05" name="status", onclick="this.form.submit();" />
+                  <label for="status05"><%= Processid.model_name.human.upcase %></label>
+                </p>
+              <% end %>
             </div> <!-- row clearfix -->
           <% end %>
           </fieldset>
-
 
           <section>
             <table summary="" class="tabela-zebra tabela-hover">
@@ -56,9 +76,9 @@
                <tbody>
                  <% @status.each do |s| %>
                    <tr>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
-                     <td><%= link_to "#{@status_id}#{s.id.to_s.rjust(3,'0')} #{s.status_screen_name}", s %></td>
+                     <td><%= link_to "#{s.code} #{s.status_screen_name}", s %></td>
+                     <td><%= link_to "#{s.code} #{s.status_screen_name}", s %></td>
+                     <td><%= link_to "#{s.code} #{s.status_screen_name}", s %></td>
                    </tr>
                  <% end %>
                </tbody>

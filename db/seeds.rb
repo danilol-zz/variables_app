@@ -1,3 +1,9 @@
+unless User.exists?( :email => 'admin@admin.com', :name => 'administrador' )
+  User.create( :email => 'admin@admin.com', :name => 'administrador',
+               :profile => 'Sala 1', :password => 'admin', :role => 'admin' )
+end
+
+
 require 'csv'
 # This file should contain all the record creation needed to seed the database with its default values.
 puts "####### deleting all process"
@@ -55,7 +61,7 @@ puts ""
 puts "####### deleting all origin fields"
 OriginField.delete_all
 
-CSV.read("/home/danilo/Documentos/itau/massa de teste/campo de origem.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
+CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
   puts "####### creating origin field #{i + 1}"
 
   OriginField.create(
@@ -89,8 +95,8 @@ puts ""
 
 puts "####### deleting all campaign"
 Campaign.delete_all
-
-CSV.read("/home/danilo/Documentos/itau/massa de teste/campanha.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
+=begin
+CSV.read("db/fixtures/campanha.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
   puts "####### creating campaign #{i + 1}"
 
   Campaign.create(
@@ -117,7 +123,7 @@ CSV.read("/home/danilo/Documentos/itau/massa de teste/campanha.csv", { headers: 
     notes: campo["Observações"],
   )
 end
-
+=end
 puts ""
 
 puts "####### deleting all tables"
