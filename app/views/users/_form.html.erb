@@ -1,21 +1,21 @@
 <%= form_for(@user, html: {class: "nav-form"}) do |f| %>
-  <div class="field">
+  <div class="field t6">
     <%= f.label :name %><br>
     <%= f.text_field :name  %>
   </div>
-  <div class="field">
+  <div class="field t6">
     <%= f.label :email %><br>
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :profile %>
+    <%= f.label :profile %><br>
     <%= f.select(:profile,  User::PROFILES, {:include_blank => 'Selecione'}) %>
   </div>
-  <div class="field">
+  <div class="field t7">
     <%= f.label :password %>
     <%= f.password_field :password %>
   </div>
-  <div class="field">
+  <div class="field t7">
     <%= f.label :password_confirmation %>
     <%= f.password_field :password_confirmation %>
   </div>

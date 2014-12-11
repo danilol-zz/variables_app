@@ -53,7 +53,9 @@ CSV.read("db/fixtures/origem.csv", { headers: true, :col_sep => ","}).each_with_
     cd5_portal_destination_name:campo["nome destino portal cd5"],
     hive_table_name: campo["nome tabela hive"],
     mainframe_storage_type: campo["tipo de armazenamento mainframe"],
-    room_2_notes: campo["observação - sala 2"])
+    room_2_notes: campo["observação - sala 2"],
+    status: "Rascunho"
+    )
 end
 
 puts ""
@@ -121,6 +123,7 @@ CSV.read("db/fixtures/campanha.csv", { headers: true, :col_sep => ","}).each_wit
     variable_selection: campo["Seleção de Variaveis"],
     it_status: campo["Status TI"],
     notes: campo["Observações"],
+    status: "Rascunho"
   )
 end
 =end
@@ -185,6 +188,7 @@ CSV.read("db/fixtures/variavel.csv", { headers: true, :col_sep => ","}).each_wit
     decimal_variable: campo[" decimal"],
     default_value: campo[" valor padrão"],
     room_2_notes: campo[" observação sala 2"],
+    status: "Rascunho"
   )
 end
 
