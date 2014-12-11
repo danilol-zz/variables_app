@@ -22,24 +22,47 @@ describe Origin do
   it { should respond_to :hive_table_name }
   it { should respond_to :mainframe_storage_type }
   it { should respond_to :room_2_notes }
+  it { should respond_to :dmt_advice }
+  it { should respond_to :dmt_classification }
+  it { should respond_to :status }
+  it { should respond_to :created_at }
+  it { should respond_to :updated_at }
+
+  context ".code" do
+    before do
+      @a = FactoryGirl.create(:origin)
+      @b = FactoryGirl.create(:origin)
+      @c = FactoryGirl.create(:origin, id: 10)
+      @d = FactoryGirl.create(:origin, id: 100)
+      @e = FactoryGirl.create(:origin, id: 1000)
+    end
+
+    it "should generate right codes" do
+      expect(@a.code).to eq "OR001"
+      expect(@b.code).to eq "OR002"
+      expect(@c.code).to eq "OR010"
+      expect(@d.code).to eq "OR100"
+      expect(@e.code).to eq "OR1000"
+    end
+  end
 
   context "statuses" do
     before do
-      FactoryGirl.create(:origin, status: "Rascunho")
-      FactoryGirl.create(:origin, status: "Rascunho")
-      FactoryGirl.create(:origin, status: "Finalizado")
-      FactoryGirl.create(:origin, status: "Finalizado")
-      FactoryGirl.create(:origin, status: "Desenvolvimento")
-      FactoryGirl.create(:origin, status: "Desenvolvimento")
-      FactoryGirl.create(:origin, status: "Desenvolvimento")
-      FactoryGirl.create(:origin, status: "Desenvolvimento")
-      FactoryGirl.create(:origin, status: "Rascunho")
+      FactoryGirl.create(:origin, status: "sala1")
+      FactoryGirl.create(:origin, status: "sala1")
+      FactoryGirl.create(:origin, status: "efetivo")
+      FactoryGirl.create(:origin, status: "efetivo")
+      FactoryGirl.create(:origin, status: "sala2")
+      FactoryGirl.create(:origin, status: "sala2")
+      FactoryGirl.create(:origin, status: "sala2")
+      FactoryGirl.create(:origin, status: "sala2")
+      FactoryGirl.create(:origin, status: "sala1")
     end
 
     it "check the scopes" do
-      expect(Origin.draft.count).to eq 3
+      expect(Origin.draft.count).to       eq 3
       expect(Origin.development.count).to eq 4
-      expect(Origin.done.count).to eq 2
+      expect(Origin.done.count).to        eq 2
     end
   end
 end

@@ -20,6 +20,9 @@ FactoryGirl.define do
     hive_table_name "MyString"
     mainframe_storage_type "MyString"
     room_2_notes "MyText"
+    dmt_advice "MyString"
+    dmt_classification "MyString"
+    status "sala1"
   end
-
 end
+

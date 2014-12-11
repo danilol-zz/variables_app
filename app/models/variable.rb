@@ -1,9 +1,7 @@
 class Variable < ActiveRecord::Base
-  STATUS = [ "Rascunho", "Desenvolvimento", "Finalizado" ]
-
-  scope :draft, -> { where(status: 'Rascunho') }
-  scope :development, -> { where(status: 'Desenvolvimento') }
-  scope :done, -> { where(status: 'Finalizado') }
+  scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
+  scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
+  scope :done,        -> { where(status: Constants::STATUS[:EFETIVO]) }
 
   def code
     "VA#{self.id.to_s.rjust(3,'0')}"

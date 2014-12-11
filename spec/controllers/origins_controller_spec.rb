@@ -21,16 +21,17 @@ RSpec.describe OriginsController, :type => :controller do
       :data_retention_type => 'teste',
       :extractor_file_type => 'teste',
       :room_1_notes => 'teste',
-      #:mnemonic => 'teste',
-      #:cd5_portal_origin_code => 'teste',
-      #:cd5_portal_origin_name => 'teste',
-      #:cd5_portal_destination_code => 'teste',
-      #:cd5_portal_destination_name => 'teste',
-      #:hive_table_name => 'teste',
-      #:mainframe_storage_type => 'teste',
-      #:room_2_notes => 'teste',
-      #:created_at => 'teste',
-      #:updated_at => 'teste'
+      :mnemonic => 'teste',
+      :cd5_portal_origin_code => 'teste',
+      :cd5_portal_origin_name => 'teste',
+      :cd5_portal_destination_code => 'teste',
+      :cd5_portal_destination_name => 'teste',
+      :hive_table_name => 'teste',
+      :mainframe_storage_type => 'teste',
+      :room_2_notes => 'teste',
+      :dmt_advice => 'teste',
+      :dmt_classification => 'teste',
+      :status => 'sala1',
     }
   }
 
@@ -143,9 +144,11 @@ RSpec.describe OriginsController, :type => :controller do
           :hive_table_name => 'teste',
           :mainframe_storage_type => 'teste',
           :room_2_notes => 'teste',
-          :created_at => 'teste',
-          :updated_at => 'teste' }
+          :dmt_advice => 'teste',
+          :dmt_classification => 'teste',
+          :status => 'sala1',}
       }
+
 
       it "updates the requested origin" do
         origin = Origin.create! valid_attributes
@@ -203,19 +206,29 @@ RSpec.describe OriginsController, :type => :controller do
 
   let(:valid_origin_field_attributes) {
     valid_origin_field_attributes = {
-      :field_name => 'teste',
-      :origin_pic => 'teste',
-      :data_type_origin_field => 'teste',
-      :fmbase_format_type => 'teste',
-      :generic_data_type => 'teste',
-      :decimal_origin_field => 'teste',
-      :mask_origin_field => 'teste',
-      :position_origin_field => 'teste',
-      :width_origin_field => 'teste',
-      :is_key  => 'teste',
-      :will_use => 'teste',
-      :has_signal => 'teste',
+      :file_name => 'teste2',
+      :file_description => 'teste',
+      :created_in_sprint => 'teste',
+      :updated_in_sprint => 'teste',
+      :abbreviation => 'teste',
+      :base_type => 'teste',
+      :book_mainframe => 'teste',
+      :periodicity => 'teste',
+      :periodicity_details => 'teste',
+      :data_retention_type => 'teste',
+      :extractor_file_type => 'teste',
       :room_1_notes => 'teste',
+      :mnemonic => 'teste',
+      :cd5_portal_origin_code => 'teste',
+      :cd5_portal_origin_name => 'teste',
+      :cd5_portal_destination_code => 'teste',
+      :cd5_portal_destination_name => 'teste',
+      :hive_table_name => 'teste',
+      :mainframe_storage_type => 'teste',
+      :room_2_notes => 'teste',
+      :dmt_advice => 'teste',
+      :dmt_classification => 'teste',
+      :status => 'sala1',
       :origin_id => @origin.id
     }
   }

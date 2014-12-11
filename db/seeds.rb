@@ -1,11 +1,17 @@
-unless User.exists?( :email => 'admin@admin.com', :name => 'administrador' )
-  User.create( :email => 'admin@admin.com', :name => 'administrador',
-               :profile => 'Sala 1', :password => 'admin', :role => 'admin' )
-end
-
-
-require 'csv'
 # This file should contain all the record creation needed to seed the database with its default values.
+require 'csv'
+
+puts "####### deleting all users"
+User.delete_all
+
+puts "####### creating user 1"
+User.create( :email => 'admin@admin.com', :name => 'administrador', :profile => 'Sala 1', :password => 'admin', :role => 'admin' )
+
+puts "####### creating user 2"
+User.create( :email => 'danilo.moura.lima@gmail.com', :name => 'Danilo', :profile => 'Sala 1', :password => '123456', :role => 'admin' )
+
+puts ""
+
 puts "####### deleting all process"
 Processid.delete_all
 
@@ -17,7 +23,6 @@ CSV.read("db/fixtures/processo.csv", { headers: true, :col_sep => ","}).each_wit
     mnemonic:  campo["mnmonico"],
     routine_name:  campo["nome rotina"],
     var_table_name:  campo["nome tabela var"],
-    var_select:  campo["selecionar variaveis"],
     conference_rule:  campo["regra de conferencia"],
     acceptance_percent:  campo["percentual de aceite"],
     keep_previous_work:  campo["pode manter movimento anterior?"],
@@ -47,14 +52,14 @@ CSV.read("db/fixtures/origem.csv", { headers: true, :col_sep => ","}).each_with_
     extractor_file_type: campo["Característica do arquivo no Extrator"],
     room_1_notes: campo["observação - sala 1"],
     mnemonic:  campo["mnmonico"],
-    cd5_portal_origin_code: campo["codigo origem portal cd 5"],
+    cd5_portal_origin_code: campo["codigo origem portal cd5"],
     cd5_portal_origin_name: campo["nome origem portal cd5"],
     cd5_portal_destination_code: campo["codigo destino portal cd5"],
     cd5_portal_destination_name:campo["nome destino portal cd5"],
     hive_table_name: campo["nome tabela hive"],
     mainframe_storage_type: campo["tipo de armazenamento mainframe"],
     room_2_notes: campo["observação - sala 2"],
-    status: "Rascunho"
+    status: Constants::STATUS[:SALA1]
     )
 end
 
@@ -69,13 +74,13 @@ CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ","}).e
   OriginField.create(
     field_name: campo["nome do campo"],
     origin_pic: campo["pic de origem"],
-    data_type_origin_field: campo["tipo de dado"],
+    data_type: campo["tipo de dado"],
     fmbase_format_type: campo["tipo formato fmbase"],
     generic_data_type: campo["tipo de dado generico"],
-    decimal_origin_field: campo["decimal"],
-    mask_origin_field: campo["mascara"],
-    position_origin_field: campo["posição"],
-    width_origin_field: campo["tamanho"],
+    decimal: campo["decimal"],
+    mask: campo["mascara"],
+    position: campo["posição"],
+    width: campo["tamanho"],
     is_key: campo["é chave?"],
     will_use: campo["vai usar?"],
     has_signal: campo["tem sinal?"],
@@ -89,7 +94,7 @@ CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ","}).e
     cd5_format_desc: "",
     default_value: campo["Valor padrão"],
     room_2_notes: campo["observação dala 2"],
-    #origin_id: campo[""]
+    origin: campo["mnmonico Origem"],
   )
 end
 
@@ -97,8 +102,8 @@ puts ""
 
 puts "####### deleting all campaign"
 Campaign.delete_all
-=begin
-CSV.read("db/fixtures/campanha.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
+
+CSV.read("db/fixtures/campanha.csv", { headers: true, :col_sep => ";"}).each_with_index do |campo, i|
   puts "####### creating campaign #{i + 1}"
 
   Campaign.create(
@@ -120,13 +125,12 @@ CSV.read("db/fixtures/campanha.csv", { headers: true, :col_sep => ","}).each_wit
     complied_variables_qty: campo["quantidade de variáveis atendidas"],
     process_type: campo["Tipo de processo"],
     crm_room_suggestion: campo["Sugestão da Sala de CRM"],
-    variable_selection: campo["Seleção de Variaveis"],
     it_status: campo["Status TI"],
     notes: campo["Observações"],
-    status: "Rascunho"
+    status: Constants::STATUS[:SALA1]
   )
 end
-=end
+
 puts ""
 
 puts "####### deleting all tables"
@@ -138,12 +142,11 @@ CSV.read("db/fixtures/tabela.csv", { headers: true, :col_sep => ","}).each_with_
   Table.create(
     logic_table_name: campo["nome tabela logica"],
     name: campo["Descrição da tabela"],
-    table_key: campo["chave da tabela"],
+    key: campo["chave da tabela"],
     initial_volume: campo["Volume Inicial"],
     growth_estimation: campo["Estimativa de Crescimento"],
     created_in_sprint: campo["sprint em que foi criada"],
     updated_in_sprint: campo["sprint em que foi alterada"],
-    variables: campo["selecionar variaveis"],
     room_1_notes: campo["observações sala 1"],
     final_physical_table_name: campo["Nome tabela fisica definitiva"],
     mirror_physical_table_name: campo["nome tabela fisica espelho"],
@@ -170,25 +173,24 @@ CSV.read("db/fixtures/variavel.csv", { headers: true, :col_sep => ","}).each_wit
 
   Variable.create(
     name: campo["nome da variavel"],
-    sas_variable_def: campo[" Definição da variavel SAS"],
-    sas_variable_domain: campo[" Domínio da variavel SAS"],
+    sas_variable_def: campo["Definição da variavel SAS"],
+    sas_variable_domain: campo["Domínio da variavel SAS"],
     sas_update_periodicity: campo["Periodicidade da atualização SAS"],
-    variable_key: campo["chave da variavel"],
-    origin_and_fields: campo["Seleção de origem e campos"],
+    key: campo["chave da variavel"],
     data_type: campo["tipo de dado"],
     variable_type: campo["tipo de variavel"],
-    created_in_sprint: campo[" sprint em que foi criado"],
-    updated_in_sprint: campo[" sprint em que foi alterado"],
-    sas_data_model_status: campo[" Status Modelo de Dados SAS"],
-    drs_bi_diagram_name: campo[" Nome do Diagrama DRS-BI"],
-    drs_variable_status: campo[" Status DRS da Variavel"],
+    created_in_sprint: campo["sprint em que foi criado"],
+    updated_in_sprint: campo["sprint em que foi alterado"],
+    sas_data_model_status: campo["Status Modelo de Dados SAS"],
+    drs_bi_diagram_name: campo["Nome do Diagrama DRS-BI"],
+    drs_variable_status: campo["Status DRS da Variavel"],
     room_1_notes: campo[" Observação Sala 1"],
-    physical_model_name_field: campo[" nome do campo modelo fisico"],
-    width_variable: campo["tamanho"],
-    decimal_variable: campo[" decimal"],
+    model_field_name: campo["nome do campo modelo fisico"],
+    width: campo["tamanho"],
+    decimal: campo["decimal"],
     default_value: campo[" valor padrão"],
     room_2_notes: campo[" observação sala 2"],
-    status: "Rascunho"
+    status: Constants::STATUS[:SALA1]
   )
 end
 

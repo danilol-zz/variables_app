@@ -34,34 +34,6 @@
 
           <fieldset>
             <legend></legend>
-            <%= form_tag( index_path ) do  %>
-            <div id="status" class="row clearfix line-bottom">
-              <p class="left">
-                <input type="radio" value="origem" <%='checked' if @status.model.name.downcase == 'origin' %> id="status01" name="status", onclick="this.form.submit();" />
-                <label for="status01"><%= Origin.model_name.human.upcase %></label>
-              </p>
-              <% if @current_user.profile == User::ROOM1 %>
-                <p class="left">
-                  <input type="radio" value="campanha" <%='checked' if @status.model.name.downcase == 'campaign' %> id="status02" name="status", onclick="this.form.submit();" />
-                  <label for="status02"><%= Campaign.model_name.human.upcase %></label>
-                </p>
-              <% end %>
-              <p class="left">
-                <input type="radio" value="variavel" <%='checked' if @status.model.name.downcase == 'variable' %> id="status03" name="status", onclick="this.form.submit();" />
-                <label for="status03"><%= Variable.model_name.human.upcase %></label>
-              </p>
-              <% if @current_user.profile == User::ROOM2 %>
-                <p class="left">
-                  <input type="radio" value="tabela" <%='checked' if @status.model.name.downcase == 'table' %> id="status04" name="status", onclick="this.form.submit();" />
-                  <label for="status04"><%= Table.model_name.human.upcase %></label>
-                </p>
-                <p class="left">
-                  <input type="radio" value="processo" <%='checked' if @status.model.name.downcase == 'processid' %> id="status05" name="status", onclick="this.form.submit();" />
-                  <label for="status05"><%= Processid.model_name.human.upcase %></label>
-                </p>
-              <% end %>
-            </div> <!-- row clearfix -->
-          <% end %>
           </fieldset>
 
           <section>
