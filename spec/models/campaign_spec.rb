@@ -29,15 +29,15 @@ describe Campaign do
 
   context "statuses" do
     before do
-      FactoryGirl.create(:campaign, status: "sala1")
-      FactoryGirl.create(:campaign, status: "sala1")
-      FactoryGirl.create(:campaign, status: "efetivo")
-      FactoryGirl.create(:campaign, status: "efetivo")
-      FactoryGirl.create(:campaign, status: "sala2")
-      FactoryGirl.create(:campaign, status: "sala2")
-      FactoryGirl.create(:campaign, status: "sala2")
-      FactoryGirl.create(:campaign, status: "sala2")
-      FactoryGirl.create(:campaign, status: "sala1")
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1])
     end
 
     it "check the scopes" do

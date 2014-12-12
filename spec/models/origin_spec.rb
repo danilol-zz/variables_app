@@ -48,15 +48,15 @@ describe Origin do
 
   context "statuses" do
     before do
-      FactoryGirl.create(:origin, status: "sala1")
-      FactoryGirl.create(:origin, status: "sala1")
-      FactoryGirl.create(:origin, status: "efetivo")
-      FactoryGirl.create(:origin, status: "efetivo")
-      FactoryGirl.create(:origin, status: "sala2")
-      FactoryGirl.create(:origin, status: "sala2")
-      FactoryGirl.create(:origin, status: "sala2")
-      FactoryGirl.create(:origin, status: "sala2")
-      FactoryGirl.create(:origin, status: "sala1")
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
     end
 
     it "check the scopes" do

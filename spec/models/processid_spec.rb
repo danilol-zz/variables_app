@@ -14,6 +14,28 @@ describe Processid do
   it { should respond_to :created_at }
   it { should respond_to :updated_at }
 
+
+  context "statuses" do
+    before do
+      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
+    end
+
+    it "check the scopes" do
+      expect(Processid.draft.count).to eq 3
+      expect(Processid.development.count).to eq 4
+      expect(Processid.done.count).to eq 2
+    end
+  end  
+
+
   context ".code" do
     before do
       @a = FactoryGirl.create(:processid)

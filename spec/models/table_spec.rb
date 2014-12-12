@@ -26,8 +26,30 @@ describe Table do
   it { should respond_to :final_data_stage_routine_name }
   it { should respond_to :room_2_notes }
   it { should respond_to :key_fields_hive_script }
+  it { should respond_to :status }  
   it { should respond_to :created_at }
   it { should respond_to :updated_at }
+
+
+  context "statuses" do
+    before do
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:table, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:table, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
+    end
+
+    it "check the scopes" do
+      expect(Table.draft.count).to eq 3
+      expect(Table.development.count).to eq 4
+      expect(Table.done.count).to eq 2
+    end
+  end  
 
   context ".code" do
     before do

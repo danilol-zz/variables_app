@@ -29,15 +29,15 @@ describe Variable do
 
   context "statuses" do
     before do
-      FactoryGirl.create(:variable, status: "sala1")
-      FactoryGirl.create(:variable, status: "sala1")
-      FactoryGirl.create(:variable, status: "efetivo")
-      FactoryGirl.create(:variable, status: "efetivo")
-      FactoryGirl.create(:variable, status: "sala2")
-      FactoryGirl.create(:variable, status: "sala2")
-      FactoryGirl.create(:variable, status: "sala2")
-      FactoryGirl.create(:variable, status: "sala2")
-      FactoryGirl.create(:variable, status: "sala1")
+      FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:variable, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:variable, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
+      FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
     end
 
     it "check the scopes" do
