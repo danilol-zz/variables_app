@@ -37,7 +37,7 @@ class UsersController < ApplicationController
       flash[:notice] = 'Seu usuário foi criado com sucesso!'
       redirect_to root_path
     else
-      flash[:error] = "Less!! #{@user.errors.full_messages}"
+      flash[:error] = "#{@user.errors.full_messages}"
       render action: "new"
     end
   end
@@ -114,7 +114,7 @@ class UsersController < ApplicationController
       @user.save
       redirect_to root_path, notice: "Sua senha do usuário #{@user.name} foi alterada!"
     else
-      flash[:error] = "Less!! #{@user.errors.full_messages}"
+      flash[:error] = "#{@user.errors.full_messages}"
       render action: "remember_password_index"
     end
   end
