@@ -6,9 +6,9 @@ class Origin < ActiveRecord::Base
   end
 
   STATUS = [ "Rascunho", "Desenvolvimento", "Finalizado" ]
-  scope :draft, -> { where(status: 'Rascunho') }
-  scope :development, -> { where(status: 'Desenvolvimento') }
-  scope :done, -> { where(status: 'Finalizado') }
+  #scope :draft, -> { where(status: 'Rascunho').order( :id => :desc ) }
+  #scope :development, -> { where(status: 'Desenvolvimento').order( :id => :desc ) }
+  #scope :done, -> { where(status: 'Finalizado').order( :id => :desc ) }
 
   def status_screen_name
     unless file_name.nil?

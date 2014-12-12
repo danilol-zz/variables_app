@@ -34,34 +34,34 @@
 
           <fieldset>
             <legend></legend>
-            <%= form_tag( index_path ) do  %>
-            <div id="status" class="row clearfix line-bottom">
-              <p class="left">
-                <input type="radio" value="origem" <%='checked' if @status.model.name.downcase == 'origin' %> id="status01" name="status", onclick="this.form.submit();" />
-                <label for="status01"><%= Origin.model_name.human.upcase %></label>
-              </p>
-              <% if @current_user.profile == User::ROOM1 %>
-                <p class="left">
-                  <input type="radio" value="campanha" <%='checked' if @status.model.name.downcase == 'campaign' %> id="status02" name="status", onclick="this.form.submit();" />
-                  <label for="status02"><%= Campaign.model_name.human.upcase %></label>
-                </p>
-              <% end %>
-              <p class="left">
-                <input type="radio" value="variavel" <%='checked' if @status.model.name.downcase == 'variable' %> id="status03" name="status", onclick="this.form.submit();" />
-                <label for="status03"><%= Variable.model_name.human.upcase %></label>
-              </p>
-              <% if @current_user.profile == User::ROOM2 %>
-                <p class="left">
-                  <input type="radio" value="tabela" <%='checked' if @status.model.name.downcase == 'table' %> id="status04" name="status", onclick="this.form.submit();" />
-                  <label for="status04"><%= Table.model_name.human.upcase %></label>
-                </p>
-                <p class="left">
-                  <input type="radio" value="processo" <%='checked' if @status.model.name.downcase == 'processid' %> id="status05" name="status", onclick="this.form.submit();" />
-                  <label for="status05"><%= Processid.model_name.human.upcase %></label>
-                </p>
-              <% end %>
-            </div> <!-- row clearfix -->
-          <% end %>
+              <div id="status" class="row clearfix line-bottom">
+                <%= form_tag( index_path ) do  %>
+                  <p class="left">
+                    <input type="radio" value="origin" <%='checked' if @filter == 'origin' %> id="status01" name="status", onclick="this.form.submit();" />
+                    <label for="status01"><%= this_model_name( Origin ) %></label>
+                  </p>
+                  <% if @current_user.profile == User::ROOM1 %>
+                    <p class="left">
+                      <input type="radio" value="campaign" <%='checked' if @filter == 'campaign' %> id="status02" name="status", onclick="this.form.submit();" />
+                      <label for="status02"><%= this_model_name( Campaign ) %></label>
+                    </p>
+                  <% end %>
+                  <p class="left">
+                    <input type="radio" value="variable" <%='checked' if @filter == 'variable' %> id="status03" name="status", onclick="this.form.submit();" />
+                    <label for="status03"><%= this_model_name( Variable ) %></label>
+                  </p>
+                  <% if @current_user.profile == User::ROOM2 %>
+                    <p class="left">
+                      <input type="radio" value="table" <%='checked' if @filter == 'table' %> id="status04" name="status", onclick="this.form.submit();" />
+                      <label for="status04"><%= this_model_name( Table ) %></label>
+                    </p>
+                    <p class="left">
+                      <input type="radio" value="processid" <%='checked' if @filter == 'processid' %> id="status05" name="status", onclick="this.form.submit();" />
+                      <label for="status05"><%= this_model_name( Processid ) %></label>
+                    </p>
+                  <% end %>
+                <% end %>  
+              </div> <!-- row clearfix -->
           </fieldset>
 
           <section>
@@ -69,28 +69,27 @@
               <thead>
                 <tr class="txt-no-transform">
                   <th>Em Desenho</th>
-                  <th>Pronto para<br>Desenvolvimento</div></th>
+                  <th>Pronto para<div>Desenvolvimento</div></th>
                   <th>Efetivado</th>
                 </tr>
-               </thead>
-               <tbody>
-                 <% @draft.each do |origin| %>
-                   <tr>
-                     <td><%= link_to "#{origin.code} #{origin.status_screen_name}", origin %></td>
-                   </tr>
-                 <% end %>
-                 <% @development.each do |origin| %>
-                   <tr>
-                     <td><%= link_to "#{origin.code} #{origin.status_screen_name}", origin %></td>
-                   </tr>
-                 <% end %>
-                 <% @done.each do |origin| %>
-                   <tr>
-                     <td><%= link_to "#{origin.code} #{origin.status_screen_name}", origin %></td>
-                   </tr>
-                 <% end %>
-               </tbody>
-             </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
+              </thead>
+              <tbody>
+                <% if @entity_status.empty? %>
+                  <tr><td></td><td></td><td></td></tr>
+                <% else %> 
+                  <% 0.upto(@max_size) do |t| %>
+                    <tr>
+                      <% 3.times do |e| %>
+                        <td>
+                          <%= link_to "#{@entity_status[e][t].code} #{@entity_status[e][t].status_screen_name}",   
+                           send("edit_#{@filter}_path", @entity_status[e][t].id) unless @entity_status[e][t].nil? %>                
+                        </td>
+                      <% end %>
+                    </tr>  
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
           </section> <!-- grid section -->
 
         </section> <!-- formulario -->

@@ -1,9 +1,9 @@
 class Campaign < ActiveRecord::Base
   STATUS = [ "Rascunho", "Desenvolvimento", "Finalizado" ]
 
-  scope :draft, -> { where(status: 'Rascunho') }
-  scope :development, -> { where(status: 'Desenvolvimento') }
-  scope :done, -> { where(status: 'Finalizado') }
+  #scope :draft, -> { where(status: 'Rascunho') }
+  #scope :development, -> { where(status: 'Desenvolvimento') }
+  #scope :done, -> { where(status: 'Finalizado') }
 
 
   def code
