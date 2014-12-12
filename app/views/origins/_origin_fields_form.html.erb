@@ -16,16 +16,17 @@
         <tr>
           <td></td>
         </tr>
+
         <% if @current_user.profile == User::ROOM1 %>
           <%= f.label :field_name %>
           <%= f.label :origin_pic %>
-          <%= f.label :data_type_origin_field %>
+          <%= f.label :data_type %>
           <%= f.label :fmbase_format_type %>
           <%= f.label :generic_data_type %>
-          <%= f.label :decimal_origin_field %>
-          <%= f.label :mask_origin_field %>
-          <%= f.label :position_origin_field %>
-          <%= f.label :width_origin_field %>
+          <%= f.label :decimal %>
+          <%= f.label :mask %>
+          <%= f.label :position %>
+          <%= f.label :width %>
           <%= f.label :is_key %>
           <%= f.label :will_use %>
           <%= f.label :has_signal %>
@@ -34,14 +35,14 @@
             <%= f.text_field :field_name %>
           <% end %>
           <%= f.text_field :origin_pic, :size=>"5"  %>
-          <%= f.text_field :data_type_origin_field, :size=>"5"  %>
-          <%= f.select(:data_type_origin_field,  ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"], {:include_blank => 'Selecione'}) %>
+          <%= f.text_field :data_type, :size=>"5"  %>
+          <%= f.select(:data_type,  ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"], {:include_blank => 'Selecione'}) %>
           <%= f.text_field :fmbase_format_type, :size=>"5"  %>
           <%= f.text_field :generic_data_type, :size=>"5"  %>
-          <%= f.text_field :decimal_origin_field, :size=>"5"  %>
-          <%= f.text_field :position_origin_field, :size=>"5"  %>
-          <%= f.text_field :mask_origin_field, :size=>"5"  %>
-          <%= f.text_field :width_origin_field, :size=>"5"  %>
+          <%= f.text_field :decimal, :size=>"5"  %>
+          <%= f.text_field :mask, :size=>"5"  %>
+          <%= f.text_field :position, :size=>"5"  %>
+          <%= f.text_field :width, :size=>"5"  %>
           <%= f.check_box :is_key %>
           <%= f.check_box :will_use %>
           <%= f.check_box :has_signal %>
@@ -80,6 +81,14 @@
           <div class="left t11">
             <%= f.label :default_value %>
             <%= f.text_field :default_value %>
+          </div>
+          <div class="left t11">
+            <%= f.label :domain %>
+            <%= f.text_field :domain %>
+          </div>
+          <div class="left t11">
+            <%= f.label :dmt_notes %>
+            <%= f.text_field :dmt_notes %>
           </div>
           <div class="left t6">
             <%= f.label :room_2_notes %>

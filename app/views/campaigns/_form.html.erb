@@ -10,7 +10,6 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= f.label :ident %><br>
     <%= f.number_field :ident %>
@@ -24,16 +23,16 @@
     <%= f.number_field :priority %>
   </div>
   <div class="field">
+    <%= f.label :campaign_origin %><br>
+    <%= f.number_field :campaign_origin %>
+  </div>
+  <div class="field">
     <%= f.label :created_in_sprint %><br>
     <%= f.number_field :created_in_sprint %>
   </div>
   <div class="field">
     <%= f.label :updated_in_sprint %><br>
     <%= f.number_field :updated_in_sprint %>
-  </div>
-  <div class="field">
-    <%= f.label :campaign_origin %><br>
-    <%= f.text_field :campaign_origin %>
   </div>
   <div class="field">
     <%= f.label :channel %><br>
@@ -90,6 +89,14 @@
   <div class="field">
     <%= f.label :notes %><br>
     <%= f.text_field :notes %>
+  </div>
+  <div class="field">
+    <%= f.label :owner %><br>
+    <%= f.text_field :owner %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br>
+    <%= f.text_field :status %>
   </div>
   <div class="actions">
     <%= f.submit %>

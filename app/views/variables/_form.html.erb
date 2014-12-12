@@ -16,12 +16,40 @@
     <%= f.text_field :name %>
   </div>
   <div class="field t4">
+    <%= f.label :model_field_name %><br>
+    <%= f.text_field :model_field_name %>
+  </div>
+  <div class="field t4">
+    <%= f.label :data_type %><br>
+    <%= f.text_field :data_type %>
+  </div>
+  <div class="field t4">
     <%= f.label :sas_variable_def %><br>
     <%= f.text_field :sas_variable_def %>
   </div>
   <div class="field t4">
+    <%= f.label :sas_variable_rule_def %><br>
+    <%= f.text_field :sas_variable_rule_def %>
+  </div>
+  <div class="field t4">
+    <%= f.label :sas_update_periodicity %><br>
+    <%= f.text_field :sas_update_periodicity %>
+  </div>
+  <div class="field t4">
+    <%= f.label :domain_type %><br>
+    <%= f.text_field :domain_type %>
+  </div>
+  <div class="field t4">
     <%= f.label :sas_variable_domain %><br>
     <%= f.text_field :sas_variable_domain %>
+  </div>
+  <div class="field t4">
+    <%= f.label :key %><br>
+    <%= f.text_field :key %>
+  </div>
+  <div class="field t4">
+    <%= f.label :variable_type %><br>
+    <%= f.text_field :variable_type %>
   </div>
   <div class="row clearfix">
     <div class="left t10">
@@ -49,23 +77,27 @@
     <%= f.label :room_1_notes %><br>
     <%= f.text_area :room_1_notes %>
   </div>
-  <div class="field t4">
-    <%= f.label :physical_model_name_field %><br>
-    <%= f.text_field :physical_model_name_field %>
-  </div>
   <div class="row clearfix">
     <div class="left t10">
-      <%= f.label :width_variable %>
-      <%= f.text_field :width_variable %>
+      <%= f.label :width%>
+      <%= f.text_field :width%>
     </div>
     <div class="left t10">
-      <%= f.label :decimal_variable %>
-      <%= f.text_field :decimal_variable %>
+      <%= f.label :decimal %>
+      <%= f.text_field :decimal %>
     </div>
   </div>
   <div class="field t10">
     <%= f.label :default_value %><br>
     <%= f.text_field :default_value %>
+  </div>
+  <div class="field t10">
+    <%= f.label :owner %><br>
+    <%= f.text_field :owner %>
+  </div>
+  <div class="field t10">
+    <%= f.label :status %><br>
+    <%= f.text_field :status %>
   </div>
   <div class="field t4">
     <%= f.label :room_2_notes %><br>
