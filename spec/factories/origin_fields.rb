@@ -2,13 +2,13 @@ FactoryGirl.define do
   factory :origin_field do
     field_name  "MyString"
     origin_pic  "MyString"
-    data_type_origin_field  "MyString"
+    data_type "MyString"
     fmbase_format_type  "MyString"
     generic_data_type  "MyString"
-    decimal_origin_field  ""
-    mask_origin_field  "MyString"
-    position_origin_field  ""
-    width_origin_field  ""
+    decimal  ""
+    mask  "MyString"
+    position  ""
+    width  ""
     is_key  "MyString"
     will_use  "MyString"
     has_signal  "MyString"
@@ -23,6 +23,9 @@ FactoryGirl.define do
     default_value  "MyString"
     room_2_notes  "MyString"
     origin nil
+    domain "MyString"
+    dmt_notes  "MyString"
+    origin_id "MyString"
   end
-
 end
+

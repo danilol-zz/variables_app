@@ -27,9 +27,12 @@ RSpec.describe CampaignsController, :type => :controller do
       :process_type => 'teste',
       :crm_room_suggestion => 'teste',
       :it_status => 'teste',
-      :notes => 'teste'
+      :notes => 'teste',
+      :owner => 'teste',
+      :status => 'sala1',
     }
   }
+
 
   let(:user_attributes) {
     {

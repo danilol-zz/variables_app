@@ -9,14 +9,14 @@ RSpec.describe OriginFieldsController, :type => :controller do
     valid_attributes = {
       :field_name => 'teste',
       :origin_pic => 'teste',
-      :data_type_origin_field => 'teste',
+      :data_type => 'teste',
       :fmbase_format_type => 'teste',
       :generic_data_type => 'teste',
-      :decimal_origin_field => 'teste',
-      :mask_origin_field => 'teste',
-      :position_origin_field => 'teste',
-      :width_origin_field => 'teste',
-      :is_key  => 'teste',
+      :decimal => 'teste',
+      :mask => 'teste',
+      :position => 'teste',
+      :width => 'teste',
+      :is_key => 'teste',
       :will_use => 'teste',
       :has_signal => 'teste',
       :room_1_notes => 'teste',
@@ -29,7 +29,11 @@ RSpec.describe OriginFieldsController, :type => :controller do
       :cd5_format_desc => 'teste',
       :default_value => 'teste',
       :room_2_notes => 'teste',
-      :origin_id => 'teste' }
+      :domain => 'teste',
+      :dmt_notes => 'teste',
+      :origin_id => 'teste',
+      :created_at => 'teste',
+      :updated_at => 'teste', }
   }
 
   let(:user_attributes) {
@@ -122,14 +126,14 @@ RSpec.describe OriginFieldsController, :type => :controller do
         new_attributes = {
           :field_name => 'teste_updated',
           :origin_pic => 'teste',
-          :data_type_origin_field => 'teste',
+          :data_type => 'teste',
           :fmbase_format_type => 'teste',
           :generic_data_type => 'teste',
-          :decimal_origin_field => 'teste',
-          :mask_origin_field => 'teste',
-          :position_origin_field => 'teste',
-          :width_origin_field => 'teste',
-          :is_key  => 'teste',
+          :decimal => 'teste',
+          :mask => 'teste',
+          :position => 'teste',
+          :width => 'teste',
+          :is_key => 'teste',
           :will_use => 'teste',
           :has_signal => 'teste',
           :room_1_notes => 'teste',
@@ -142,7 +146,11 @@ RSpec.describe OriginFieldsController, :type => :controller do
           :cd5_format_desc => 'teste',
           :default_value => 'teste',
           :room_2_notes => 'teste',
-          :origin_id => 'teste' }
+          :domain => 'teste',
+          :dmt_notes => 'teste',
+          :origin_id => 'teste',
+          :created_at => 'teste',
+          :updated_at => 'teste', }
       }
 
       it "updates the requested origin_field" do

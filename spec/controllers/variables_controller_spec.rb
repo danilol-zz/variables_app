@@ -9,19 +9,27 @@ RSpec.describe VariablesController, :type => :controller do
 
     valid_attributes = {
       :name => 'teste',
+      :model_field_name => 'teste',
+      :data_type => 'teste',
+      :width => 'teste',
+      :decimal => 'teste',
       :sas_variable_def => 'teste',
+      :sas_variable_rule_def => 'teste',
+      :sas_update_periodicity => 'teste',
+      :domain_type => 'teste',
       :sas_variable_domain => 'teste',
+      :key => 'teste',
+      :variable_type => 'teste',
       :created_in_sprint => 'teste',
       :updated_in_sprint => 'teste',
       :sas_data_model_status => 'teste',
       :drs_bi_diagram_name => 'teste',
       :drs_variable_status => 'teste',
       :room_1_notes => 'teste',
-      :physical_model_name_field => 'teste',
-      :width_variable => 'teste',
-      :decimal_variable => 'teste',
       :default_value => 'teste',
-      :room_2_notes => 'teste'
+      :room_2_notes => 'teste',
+      :owner => 'teste',
+      :status => 'teste',
     }
   }
 
@@ -117,19 +125,27 @@ RSpec.describe VariablesController, :type => :controller do
       let(:new_attributes) {
         new_attributes = {
           :name => 'teste',
+          :model_field_name => 'teste',
+          :data_type => 'teste',
+          :width => 'teste',
+          :decimal => 'teste',
           :sas_variable_def => 'teste',
+          :sas_variable_rule_def => 'teste',
+          :sas_update_periodicity => 'teste',
+          :domain_type => 'teste',
           :sas_variable_domain => 'teste',
+          :key => 'teste',
+          :variable_type => 'teste',
           :created_in_sprint => 'teste',
           :updated_in_sprint => 'teste',
           :sas_data_model_status => 'teste',
           :drs_bi_diagram_name => 'teste',
           :drs_variable_status => 'teste',
           :room_1_notes => 'teste',
-          :physical_model_name_field => 'teste',
-          :width_variable => 'teste',
-          :decimal_variable => 'teste',
           :default_value => 'teste',
-          :room_2_notes => 'teste'
+          :room_2_notes => 'teste',
+          :owner => 'teste',
+          :status => 'teste',
         }
       }
 
