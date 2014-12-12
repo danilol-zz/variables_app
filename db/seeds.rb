@@ -27,7 +27,8 @@ CSV.read("db/fixtures/processo.csv", { headers: true, :col_sep => ","}).each_wit
     acceptance_percent:  campo["percentual de aceite"],
     keep_previous_work:  campo["pode manter movimento anterior?"],
     counting_rule:  campo["regra de contagem"],
-    notes:  campo["Observação"])
+    notes:  campo["Observação"],
+    status: Constants::STATUS[:SALA2] )
 end
 
 puts ""
@@ -162,6 +163,7 @@ CSV.read("db/fixtures/tabela.csv", { headers: true, :col_sep => ","}).each_with_
     mirror_data_stage_routine_name: campo["nome rotina data stage espelho"],
     final_data_stage_routine_name: campo["nome rotina data stage definitivo"],
     room_2_notes: campo["observação sala 2"],
+    status: Constants::STATUS[:SALA2]
   )
 end
 

@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 20141202120303) do
     t.string   "keep_previous_work"
     t.string   "counting_rule"
     t.string   "notes"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(version: 20141202120303) do
     t.string   "final_data_stage_routine_name"
     t.text     "room_2_notes"
     t.string   "key_fields_hive_script"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

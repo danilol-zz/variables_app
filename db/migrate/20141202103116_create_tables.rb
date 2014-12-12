@@ -25,7 +25,8 @@ class CreateTables < ActiveRecord::Migration
       t.string  :final_data_stage_routine_name
       t.text    :room_2_notes
       t.string  :key_fields_hive_script
-
+      t.string  :status
+      
       t.timestamps
     end
   end
