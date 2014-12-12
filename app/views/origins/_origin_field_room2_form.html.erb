@@ -1,0 +1,69 @@
+<%= form_for :origin_field, url: create_origin_field_path do |f| %>
+  <% if @origin_field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@origin_field.errors.count, "error") %> proibiram esse campo de origem de ser salvo:</h2>
+      <ul>
+        <% @origin_field.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= content_tag :div, :class => "row clearfix"  do %>
+      <div class="left t11">
+        <%= f.label :cd5_variable_number %>
+        <%= f.text_field :cd5_variable_number %>
+      </div>
+      <div class="left t11">
+        <%= f.label :cd5_output_order %>
+        <%= f.text_field :cd5_output_order %>
+      </div>
+      <div class="left t6">
+        <%= f.label :cd5_variable_name %>
+        <%= f.text_field :cd5_variable_name %>
+      </div>
+      <div class="left t11">
+        <%= f.label :cd5_origin_format %>
+        <%= f.text_field :cd5_origin_format %>
+      </div>
+      <div class="left t6">
+        <%= f.label :cd5_origin_format_desc %>
+        <%= f.text_field :cd5_origin_format_desc %>
+      </div>
+      <div class="left t11">
+        <%= f.label :cd5_format %>
+        <%= f.text_field :cd5_format %>
+      </div>
+      <div class="left t6">
+        <%= f.label :cd5_format_desc %>
+        <%= f.text_field :cd5_format_desc %>
+      </div>
+      <div class="left t11">
+        <%= f.label :default_value %>
+        <%= f.text_field :default_value %>
+      </div>
+      <div class="left t11">
+        <%= f.label :domain %>
+        <%= f.text_field :domain %>
+      </div>
+      <div class="left t11">
+        <%= f.label :dmt_notes %>
+        <%= f.text_field :dmt_notes %>
+      </div>
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :room_2_notes %>
+          <%= f.text_field :room_2_notes %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  </div>
+
+  <%= f.hidden_field :origin_id, value: @origin.id%>
+<% end %>
+

@@ -69,16 +69,18 @@ pt:
         hive_table_name: Nome tabela hive
         mainframe_storage_type: Tipo de armazenamento mainframe
         room_2_notes: Observação - sala 2
+        dmt_advice: Parecer DMT
+        dmt_classification: Classificação DMT
       origin_field:
         field_name: Nome do campo
         origin_pic: Pic Origem
-        data_type_origin_field: Tipo de dado
+        data_type: Tipo de dado
         fmbase_format_type: Tipo formato
         generic_data_type: Tipo de dado
-        decimal_origin_field: Decimal
-        mask_origin_field: Máscara
-        position_origin_field: Posição
-        width_origin_field: Tamanho
+        decimal: Decimal
+        mask: Máscara
+        position: Posição
+        width: Tamanho
         is_key: É chave?
         will_use: Vai usar?
         has_signal: Tem sinal?
@@ -133,7 +135,14 @@ pt:
         role: Tipo
       variable:
         name: Nome da variavel
+        model_field_name: Nome do campo modelo
+        data_type: Tipo de dado
+        sas_variable_rule_def: Definição Regra da Variável SAS
         sas_variable_def: Definição da variavel SAS
+        sas_update_periodicity: Periodicidade da atualização SAS
+        domain_type: Tipo de domínio
+        key: Chave da variável
+        variable_type: Tipo da variável
         sas_variable_domain: Domínio da variavel SAS
         created_in_sprint: Sprint em que foi criado
         updated_in_sprint: Sprint em que foi alterado
@@ -142,8 +151,9 @@ pt:
         drs_variable_status: Status DRS da Variavel
         room_1_notes: Observação Sala 1
         physical_model_name_field: Nome do campo modelo fisico
-        width_variable: Tamanho
-        decimal_variable: Decimal
+        width: Tamanho
+        decimal: Decimal
+        owner: Responsável
         default_value: Valor padrão
         room_2_notes: Observação sala 2
     errors:

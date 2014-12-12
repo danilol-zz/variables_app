@@ -51,28 +51,11 @@ RSpec.describe OriginFieldsController, :type => :controller do
 
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all origin_fields as @origin_fields" do
-      origin_field = OriginField.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:origin_fields)).to eq([origin_field])
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested origin_field as @origin_field" do
       origin_field = OriginField.create! valid_attributes
       get :show, {:id => origin_field.to_param}, valid_session
       expect(assigns(:origin_field)).to eq(origin_field)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new origin_field as @origin_field" do
-      session[:user_id] = User.create! user_attributes
-      get :new, {}, valid_session
-      expect(assigns(:origin_field)).to be_a_new(OriginField)
     end
   end
 

@@ -1,0 +1,80 @@
+<%= form_for :origin_field, url: create_origin_field_path do |f| %>
+  <% if @origin_field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@origin_field.errors.count, "error") %> proibiram esse campo de origem de ser salvo:</h2>
+      <ul>
+        <% @origin_field.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= content_tag :div, :class => "row clearfix"  do %>
+      <div class="row clearfix">
+        <div class="left t7">
+          <%= f.label :field_name %>
+          <%= f.text_field :field_name %>
+        </div>
+        <div class="left t11">
+          <%= f.label :origin_pic %>
+          <%= f.text_field :origin_pic %>
+        </div>
+        <div class="left t7">
+          <%= f.label :data_type %><br>
+          <%= f.select(:data_type,  ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"], {:include_blank => 'Selecione'}) %>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="left t11">
+          <%= f.label :fmbase_format_type %>
+          <%= f.text_field :fmbase_format_type, :size=>"5"  %>
+        </div>
+        <div class="left t11">
+          <%= f.label :generic_data_type %>
+          <%= f.text_field :generic_data_type, :size=>"5"  %>
+        </div>
+        <div class="left t11">
+          <%= f.label :decimal %>
+          <%= f.text_field :decimal %>
+        </div>
+        <div class="left t11">
+          <%= f.label :mask %>
+          <%= f.text_field :mask %>
+        </div>
+        <div class="left t11">
+          <%= f.label :position %>
+          <%= f.text_field :position %>
+        </div>
+        <div class="left t11">
+          <%= f.label :width %>
+          <%= f.text_field :width %>
+        </div>
+        <div class="left t11">
+          <%= f.label :is_key %>
+          <%= f.select(:is_key,  ["Sim", "Não"], {:include_blank => 'Selecione'}) %>
+        </div>
+        <div class="left t11">
+          <%= f.label :will_use %>
+          <%= f.select(:will_use,  ["Sim", "Não"], {:include_blank => 'Selecione'}) %>
+        </div>
+        <div class="left t11">
+          <%= f.label :has_signal %>
+          <%= f.select(:has_signal,  ["Sim", "Não"], {:include_blank => 'Selecione'}) %>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="left t4">
+          <%= f.label :room_1_notes %>
+          <%= f.text_area :room_1_notes, rows: 5  %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  </div>
+
+  <%= f.hidden_field :origin_id, value: @origin.id %>
+<% end %>

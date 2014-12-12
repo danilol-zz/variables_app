@@ -10,182 +10,116 @@
     </div>
   <% end %>
 
-  <div>
-    <div class="left">
-      <% if @current_user.profile == User::ROOM1 %>
-        <div class="field t4">
-          <%= f.label :file_name %><br>
-          <%= f.text_field :file_name %>
-        </div>
-        <div class="field t3">
-          <%= f.label :file_description %><br>
-          <%= f.text_area :file_description, rows: 3 %>
-        </div>
-        <div class="row clearfix">
-          <div class="left t10">
-            <%= f.label :created_in_sprint %>
-            <%= f.text_field :created_in_sprint %>
-          </div>
-          <div class="left t10">
-            <%= f.label :updated_in_sprint %><br>
-            <%= f.text_field :updated_in_sprint %>
-          </div>
-        </div>
-        <div class="field t12">
-          <%= f.label :abbreviation %><br>
-          <%= f.text_field :abbreviation %>
-        </div>
-        <div class="field">
-          <%= f.label :base_type %><br>
-          <%= f.select(:base_type,  ["Arquivo Mainframe", "Tabela Mainframe", "Base Hadoop", "Outro"], {:include_blank => 'Selecione'}) %>
-        </div>
-
-        <div class="field t10">
-          <%= f.label :book_mainframe %>
-          <%= f.text_field :book_mainframe %>
-        </div>
-        <div class="row clearfix">
-          <div class="left t8">
-            <%= f.label :periodicity %><br>
-            <%= f.select(:periodicity,  ["Diária", "Semanal", "Quinzenal", "Mensal", "Anual", "Exporádica", "Outro"], {:include_blank => 'Selecione'}) %>
-          </div>
-          <div class="left t4">
-            <%= f.label :periodicity_details %>
-            <%= f.text_field :periodicity_details %>
-          </div>
-        </div>
-
-        <div class="row clearfix">
-          <div class="left t8">
-            <%= f.label :data_retention_type %><br>
-            <%= f.select(:data_retention_type,  ["Movimento do dia", "Apenas registros alterados", "Histórica", "Acumulado de um período"], {:include_blank => 'Selecione'}) %>
-          </div>
-          <div class="t2">
-            <%= f.label :extractor_file_type %><br>
-            <%= f.select(:extractor_file_type,  ["Novo", "Alterado"], {:include_blank => 'Selecione'}) %>
-          </div>
-        </div>
-        <div class="field">
-          <%= f.label :status %><br>
-          <%= f.select(:status,  Constants::STATUS, {:include_blank => 'Selecione'}) %>
-        </div>
-        <div class="field t1">
-          <%= f.label :room_1_notes %><br>
-          <%= f.text_area :room_1_notes, rows: 5 %>
-        </div>
-        <br>
-        <br>
-      <% end %>
-
-
-      <% if @current_user.profile == User::ROOM2 %>
-        <div class="field t10">
-          <%= f.label :mnemonic %><br>
-          <%= f.text_field :mnemonic %>
-        </div>
-        <div class="row clearfix">
-          <div class="left t10">
-            <%= f.label :cd5_portal_origin_code %>
-            <%= f.text_field :cd5_portal_origin_code %>
-          </div>
-          <div class="left t5">
-            <%= f.label :cd5_portal_origin_name %>
-            <%= f.text_field :cd5_portal_origin_name %>
-          </div>
-        </div>
-
-        <div class="row clearfix">
-          <div class="left t10">
-            <%= f.label :cd5_portal_destination_code %>
-            <%= f.text_field:cd5_portal_destination_code %>
-          </div>
-          <div class="left t5">
-            <%= f.label :cd5_portal_destination_name %>
-            <%= f.text_field :cd5_portal_destination_name %>
-          </div>
-        </div>
-        <div class="row clearfix">
-          <div class="left t10">
-            <%= f.label :dmt_advice %>
-            <%= f.text_field:dmt_advice %>
-          </div>
-          <div class="left t5">
-            <%= f.label :dmt_classification %>
-            <%= f.text_field :dmt_classification %>
-          </div>
-        </div>
-        <div class="row clearfix">
-          <div class="left t5">
-            <%= f.label :hive_table_name %>
-            <%= f.text_field :hive_table_name %>
-          </div>
-          <div class="left t7">
-            <%= f.label :mainframe_storage_type %><br>
-            <%= f.select(:mainframe_storage_type,  ["Disco", "Fita"], {:include_blank => 'Selecione'}) %>
-          </div>
-        </div>
-        <div class="field t4">
-          <%= f.label :room_2_notes %><br>
-          <%= f.text_area :room_2_notes %>
-        </div>
-
-        <div class="right">
-          <div><strong>Resumo Sala 1</strong></div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.file_name') %>:</strong>
-            <%= @origin.file_name %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.file_description') %>:</strong>
-            <%= @origin.file_description %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.created_in_sprint') %>:</strong>
-            <%= @origin.created_in_sprint %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.updated_in_sprint') %>:</strong>
-            <%= @origin.updated_in_sprint %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.abbreviation') %>:</strong>
-            <%= @origin.abbreviation %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.base_type.cd5_portal_destination_name') %>:</strong>
-            <%= @origin.base_type %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.book_mainframe') %>:</strong>
-            <%= @origin.book_mainframe %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.periodicity') %>:</strong>
-            <%= @origin.periodicity %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.periodicity_details') %>:</strong>
-            <%= @origin.periodicity_details %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.data_retention_type') %>:</strong>
-            <%= @origin.data_retention_type %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.extractor_file_type') %>:</strong>
-            <%= @origin.extractor_file_type %>
-          </div>
-          <div>
-            <strong><%= t('activerecord.attributes.origin.room_1_notes') %>:</strong>
-            <%= @origin.room_1_notes %>
-          </div>
-  <div class="actions">
-    <%= f.submit %>
-    <%= link_to t('back'), origins_path %>
-  </div>
-        </div>
-      <% end %>
+  <div class="left">
+    <div class="field t11">
+      <%= f.label :mnemonic %><br>
+      <%= f.text_field :mnemonic %>
     </div>
+    <div class="row clearfix">
+      <div class="left t10">
+        <%= f.label :cd5_portal_origin_code %>
+        <%= f.text_field :cd5_portal_origin_code %>
+      </div>
+      <div class="left t5">
+        <%= f.label :cd5_portal_origin_name %>
+        <%= f.text_field :cd5_portal_origin_name %>
+      </div>
+    </div>
+
+    <div class="row clearfix">
+      <div class="left t10">
+        <%= f.label :cd5_portal_destination_code %>
+        <%= f.text_field:cd5_portal_destination_code %>
+      </div>
+      <div class="left t5">
+        <%= f.label :cd5_portal_destination_name %>
+        <%= f.text_field :cd5_portal_destination_name %>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="left t10">
+        <%= f.label :dmt_advice %>
+        <%= f.text_field:dmt_advice %>
+      </div>
+      <div class="left t5">
+        <%= f.label :dmt_classification %>
+        <%= f.text_field :dmt_classification, rows: 3 %>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="left t5">
+        <%= f.label :hive_table_name %>
+        <%= f.text_field :hive_table_name %>
+      </div>
+      <div class="left t7">
+        <%= f.label :mainframe_storage_type %><br>
+        <%= f.select(:mainframe_storage_type,  ["Disco", "Fita"], {:include_blank => 'Selecione'}) %>
+      </div>
+    </div>
+    <div class="field t4">
+      <%= f.label :room_2_notes %><br>
+      <%= f.text_area :room_2_notes, rows: 5 %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+      <%= link_to t('back'), origins_path %>
+    </div>
+    <br>
+    <br>
   </div>
+  <% if @origin.persisted? %>
+    <div class="right">
+      <div><strong>Resumo Sala 1</strong></div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.file_name') %>:</strong>
+        <%= @origin.file_name %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.file_description') %>:</strong>
+        <%= @origin.file_description %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.created_in_sprint') %>:</strong>
+        <%= @origin.created_in_sprint %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.updated_in_sprint') %>:</strong>
+        <%= @origin.updated_in_sprint %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.abbreviation') %>:</strong>
+        <%= @origin.abbreviation %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.base_type.cd5_portal_destination_name') %>:</strong>
+        <%= @origin.base_type %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.book_mainframe') %>:</strong>
+        <%= @origin.book_mainframe %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.periodicity') %>:</strong>
+        <%= @origin.periodicity %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.periodicity_details') %>:</strong>
+        <%= @origin.periodicity_details %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.data_retention_type') %>:</strong>
+        <%= @origin.data_retention_type %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.extractor_file_type') %>:</strong>
+        <%= @origin.extractor_file_type %>
+      </div>
+      <div>
+        <strong><%= t('activerecord.attributes.origin.room_1_notes') %>:</strong>
+        <%= @origin.room_1_notes %>
+      </div>
+    </div>
+  <% end %>
 <% end %>
 
