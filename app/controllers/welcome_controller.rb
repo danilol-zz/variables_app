@@ -25,8 +25,17 @@ class WelcomeController < ApplicationController
       @entity_status  = Variable.select( :id ).select(:status).select( :name ).where( :status => 'Rascunho').order( :id => :desc ).to_a, 
         Variable.select( :id ).select( :status).select( :name ).where( :status => 'Desenvolvimento').order( :id => :desc ).to_a, 
         Variable.select( :id ).select(:status).select( :name ).where( :status => 'Finalizado').order( :id => :desc ).to_a            
+    elsif  @filter == "table" 
+      @entity_status  = Table.select( :id ).select(:status).select( :name ).where( :status => 'Rascunho').order( :id => :desc ).to_a, 
+        Table.select( :id ).select( :status).select( :name ).where( :status => 'Desenvolvimento').order( :id => :desc ).to_a, 
+        Table.select( :id ).select(:status).select( :name ).where( :status => 'Finalizado').order( :id => :desc ).to_a
+    elsif  @filter == "processid" 
+      @entity_status  = Processid.select( :id ).select(:status).select( :name ).where( :status => 'Rascunho').order( :id => :desc ).to_a, 
+        Processid.select( :id ).select( :status).select( :name ).where( :status => 'Desenvolvimento').order( :id => :desc ).to_a, 
+        Processid.select( :id ).select(:status).select( :name ).where( :status => 'Finalizado').order( :id => :desc ).to_a
     end
-    # get the max size array 
+
+    # get the maximum size array 
     @max_size = @entity_status[0].size
     @max_size = @entity_status[1].size if @entity_status[1].size > @max_size 
     @max_size = @entity_status[2].size if @entity_status[2].size > @max_size  

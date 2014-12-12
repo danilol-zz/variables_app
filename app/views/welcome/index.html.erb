@@ -5,22 +5,22 @@
         <h4>Cadastros</h4>
         <div class="botoes clearfix">
           <div class="row clearfix">
-            <%= link_to "#{Origin.model_name.human.capitalize}", origins_path, :class => "btn btn-secundario left txt-no-transform" %>
+            <%= link_to "#{Origin.model_name.human.capitalize}", new_origin_path, :class => "btn btn-secundario left txt-no-transform" %>
           </div>
           <% if @current_user.profile == User::ROOM1 %>
             <div class="row clearfix">
-              <%= link_to "#{Campaign.model_name.human.capitalize}", campaigns_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to "#{Campaign.model_name.human.capitalize}", new_campaign_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>
           <div class="row clearfix">
-            <%= link_to "#{Variable.model_name.human.capitalize}", variables_path, :class => "btn btn-secundario left txt-no-transform" %>
+            <%= link_to "#{Variable.model_name.human.capitalize}", new_variable_path, :class => "btn btn-secundario left txt-no-transform" %>
           </div>
           <% if @current_user.profile == User::ROOM2 %>
             <div class="row clearfix">
-              <%= link_to "#{Table.model_name.human.capitalize}", tables_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
             <div class="row clearfix">
-              <%= link_to "#{Processid.model_name.human.capitalize}", processids_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to "#{Processid.model_name.human.capitalize}", new_processid_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>
         </div>
