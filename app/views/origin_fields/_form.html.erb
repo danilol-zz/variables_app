@@ -1,0 +1,110 @@
+<%= form_for(@origin_field) do |f| %>
+  <% if @origin_field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@origin_field.errors.count, "error") %>
+      proibiram esse campo de origem de ser salvo:</h2>
+      <ul>
+      <% @origin_field.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :field_name %><br>
+    <%= f.text_field :field_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :origin_pic %><br>
+    <%= f.text_field :origin_pic %>
+  </div>
+  <div class="field">
+    <%= f.label :data_type %><br>
+    <%= f.text_field :data_type %>
+  </div>
+  <div class="field">
+    <%= f.label :fmbase_format_type %><br>
+    <%= f.text_field :fmbase_format_type %>
+  </div>
+  <div class="field">
+    <%= f.label :generic_data_type %><br>
+    <%= f.text_field :generic_data_type %>
+  </div>
+  <div class="field">
+    <%= f.label :decimal_origin_field %><br>
+    <%= f.text_field :decimal_origin_field %>
+  </div>
+  <div class="field">
+    <%= f.label :mask_origin_field %><br>
+    <%= f.text_field :mask_origin_field %>
+  </div>
+  <div class="field">
+    <%= f.label :position_origin_field %><br>
+    <%= f.text_field :position_origin_field %>
+  </div>
+  <div class="field">
+    <%= f.label :width_origin_field %><br>
+    <%= f.text_field :width_origin_field %>
+  </div>
+  <div class="field">
+    <%= f.label :is_key %><br>
+    <%= f.text_field :is_key %>
+  </div>
+  <div class="field">
+    <%= f.label :will_use %><br>
+    <%= f.text_field :will_use %>
+  </div>
+  <div class="field">
+    <%= f.label :has_signal %><br>
+    <%= f.text_field :has_signal %>
+  </div>
+  <div class="field">
+    <%= f.label :room_1_notes %><br>
+    <%= f.text_field :room_1_notes %>
+  </div>
+  <div class="field">
+    <%= f.label :cd5_variable_number %><br>
+    <%= f.text_field :cd5_variable_number %>
+  </div>
+  <div class="field">
+    <%= f.label :cd5_output_order %><br>
+    <%= f.text_field :cd5_output_order %>
+  </div>
+  <div class="field">
+    <%= f.label :cd5_variable_name %><br>
+    <%= f.text_field :cd5_variable_name %>
+  </div>
+  <div class="field">
+    <%= f.label :cd5_origin_format %><br>
+    <%= f.text_field :cd5_origin_format %>
+  </div>
+  <div class="field">
+    <%= f.label :cd5_origin_format_desc %><br>
+    <%= f.text_field :cd5_origin_format_desc %>
+  </div>
+  <div class="field">
+    <%= f.label :cd5_format %><br>
+    <%= f.text_field :cd5_format %>
+  </div>
+  <div class="field">
+    <%= f.label :cd5_format_desc %><br>
+    <%= f.text_field :cd5_format_desc %>
+  </div>
+  <div class="field">
+    <%= f.label :default_value %><br>
+    <%= f.text_field :default_value %>
+  </div>
+  <div class="field">
+    <%= f.label :room_2_notes %><br>
+    <%= f.text_field :room_2_notes %>
+  </div>
+  <div class="field">
+    <%= f.label :origin_id %><br>
+    <%= f.text_field :origin_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

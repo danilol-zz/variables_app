@@ -2,16 +2,30 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :ensure_authentication
 
+  #def ensure_authentication
+  #  if not session[:user_id] 
+  #    redirect_to login_path, :notice => "Faça o login para entrar no sistema, por favor."
+  #  else
+  #    @current_user = current_user
+  #  end
+  #end
+
   def ensure_authentication
-    if not session[:user_id]
-      redirect_to login_path, :notice => "Você esqueceu de fazer o login!"
-    else
-      @current_user = current_user
+    unless current_user
+      redirect_to login_path, :notice => "Faça o login para entrar no sistema, por favor."
     end
   end
 
   def current_user
-    return unless session[:user_id]
-    User.find(session[:user_id])
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  rescue ActiveRecord::RecordNotFound
+    session.delete(:user_id)
+    nil
   end
+
+  #def current_user
+  #  return unless session[:user_id]
+  #  User.find(session[:user_id])
+  #end
+
 end
