@@ -29,7 +29,7 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       if @variable.save
-        format.html { redirect_to @variable, notice: "#{Variable.model_name.human.capitalize} criada com sucesso"  }
+        format.html { redirect_to root_path, notice: "#{Variable.model_name.human.capitalize} criada com sucesso"  }
         format.json { render :show, status: :created, location: @variable }
       else
         format.html { render :new }

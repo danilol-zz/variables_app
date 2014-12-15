@@ -30,6 +30,7 @@ RSpec.describe CampaignsController, :type => :controller do
       :notes => 'teste',
       :owner => 'teste',
       :status => 'sala1',
+      :variable_list => {"1" => "checked", "2" => "checked" }
     }
   }
 
@@ -89,6 +90,11 @@ RSpec.describe CampaignsController, :type => :controller do
 
   describe "POST create" do
     describe "with valid params" do
+      before do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+      end
+
       it "creates a new Campaign" do
         expect {
           session[:user_id] = User.create! user_attributes
@@ -166,6 +172,8 @@ RSpec.describe CampaignsController, :type => :controller do
       end
 
       it "redirects to the campaign" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
         campaign = Campaign.create! valid_attributes
         session[:user_id] = User.create! user_attributes
         put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session

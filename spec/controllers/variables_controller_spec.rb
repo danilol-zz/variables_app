@@ -103,7 +103,7 @@ RSpec.describe VariablesController, :type => :controller do
       it "redirects to the created variable" do
         session[:user_id] = User.create! user_attributes
         post :create, {:variable => valid_attributes}, valid_session
-        expect(response).to redirect_to(Variable.last)
+        expect(response).to redirect_to(root_path)
       end
     end
 
