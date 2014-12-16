@@ -1,4 +1,6 @@
 class Variable < ActiveRecord::Base
+  has_and_belongs_to_many :campaigns
+
   scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:EFETIVO]) }

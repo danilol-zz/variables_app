@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141202120303) do
+ActiveRecord::Schema.define(version: 20141215135549) do
 
   create_table "campaigns", force: true do |t|
     t.string   "ident"
@@ -38,6 +38,11 @@ ActiveRecord::Schema.define(version: 20141202120303) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "campaigns_variables", id: false, force: true do |t|
+    t.integer "campaign_id"
+    t.integer "variable_id"
   end
 
   create_table "origin_fields", force: true do |t|
@@ -70,32 +75,36 @@ ActiveRecord::Schema.define(version: 20141202120303) do
   add_index "origin_fields", ["origin_id"], name: "index_origin_fields_on_origin_id"
 
   create_table "origins", force: true do |t|
-    t.string   "file_name"
-    t.string   "file_description"
-    t.integer  "created_in_sprint"
-    t.integer  "updated_in_sprint"
-    t.string   "abbreviation"
-    t.string   "base_type"
-    t.string   "book_mainframe"
-    t.string   "periodicity"
-    t.string   "periodicity_details"
-    t.string   "data_retention_type"
-    t.string   "extractor_file_type"
-    t.text     "room_1_notes"
-    t.string   "mnemonic"
-    t.integer  "cd5_portal_origin_code"
+    t.string   "file_name",                   limit: 50,  null: false
+    t.string   "file_description",            limit: 200, null: false
+    t.integer  "created_in_sprint",                       null: false
+    t.integer  "updated_in_sprint",                       null: false
+    t.string   "abbreviation",                limit: 3,   null: false
+    t.string   "base_type",                               null: false
+    t.string   "book_mainframe",              limit: 10
+    t.string   "periodicity",                             null: false
+    t.string   "periodicity_details",         limit: 50
+    t.string   "data_retention_type",                     null: false
+    t.string   "extractor_file_type",                     null: false
+    t.text     "room_1_notes",                limit: 500
+    t.string   "mnemonic",                    limit: 4,   null: false
+    t.integer  "cd5_portal_origin_code",                  null: false
     t.string   "cd5_portal_origin_name"
-    t.integer  "cd5_portal_destination_code"
+    t.integer  "cd5_portal_destination_code",             null: false
     t.string   "cd5_portal_destination_name"
     t.string   "hive_table_name"
-    t.string   "mainframe_storage_type"
-    t.text     "room_2_notes"
-    t.string   "dmt_advice"
-    t.string   "dmt_classification"
-    t.string   "status"
+    t.string   "mainframe_storage_type",                  null: false
+    t.text     "room_2_notes",                limit: 500
+    t.string   "dmt_advice",                  limit: 200
+    t.string   "dmt_classification",                      null: false
+    t.string   "status",                                  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "origins", ["created_in_sprint"], name: "index_origins_on_created_in_sprint"
+  add_index "origins", ["status"], name: "index_origins_on_status"
+  add_index "origins", ["updated_in_sprint"], name: "index_origins_on_updated_in_sprint"
 
   create_table "processids", force: true do |t|
     t.integer  "process_number"

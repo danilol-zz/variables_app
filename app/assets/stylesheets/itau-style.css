@@ -704,7 +704,7 @@ div.dropdown .dropdown_menu .opcao:hover { background-color: #dadada; }
 label + p,
 input + p {	margin-top: 20px; }
 
-p > input {	margin: 0 2px 0 0; padding: 0; float: left;	opacity: 0; }
+p > input {	margin: 0 2px 0 0; padding: 0; float: left;}
 p > label { float: left; line-height: 16px; }
 
 p:not(#foo) > input:hover + label,

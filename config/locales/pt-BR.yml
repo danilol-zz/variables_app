@@ -173,6 +173,56 @@ pt:
               blank: Campo nome não pode ser vazio!
             profile:
               blank: Campo perfil não pode ser vazio!
+        origin:
+          attributes:
+            file_name:
+              blank: Campo Nome da base/arquivo não pode ser vazio!
+              too_long: Campo Nome da base/arquivo deve ter no máximo 50 caracteres!
+            file_description:
+              blank: Campo Descrição da base/arquivo não pode ser vazio!
+              too_long: Campo Descrição da base/arquivo deve ter no máximo 200 caracteres!
+            created_in_sprint:
+              blank: Campo Sprint em que foi criada não pode ser vazio!
+            updated_in_sprint:
+              blank: Campo Sprint em que foi alterada não pode ser vazio!
+            abbreviation:
+              blank: Campo Sigla não pode ser vazio!
+              too_long: Campo Sigla deve ter no máximo 3 caracteres!
+            base_type:
+              blank: Campo Tipo de base não pode ser vazio!
+            book_mainframe:
+              too_long: Campo Book mainframe deve ter no máximo 10 caracteres!
+            periodicity:
+              blank: Campo Periodicidade não pode ser vazio!
+            periodicity_details:
+              too_long: Campo Detalhe da periodicidade deve ter no máximo 50 caracteres!
+            data_retention_type:
+              blank: Campo Tipo de retenção dos dados não pode ser vazio!
+            extractor_file_type:
+              blank: Campo Característica do arquivo no Extrator não pode ser vazio!
+            room_1_notes:
+              too_long: Campo Observação deve ter no máximo 500 caracteres!
+            mnemonic:
+              blank: Campo Mnemônico não pode ser vazio!
+              too_long: Campo Mnemônico deve ter no máximo 4 caracteres!
+              uniqueness: Campo Mnemônico deve ser único!
+            cd5_portal_origin_code:
+              blank: Campo Cód. origem CD5 não pode ser vazio!
+              uniqueness: Campo Cód. origem CD5 deve ser único!
+            cd5_portal_destination_code:
+              blank: Campo Cód. destino CD5 não pode ser vazio!
+              uniqueness: Campo Cód. destino CD5 deve ser único!
+            mainframe_storage_type:
+              blank: Campo Tipo de armazenamento mainframe não pode ser vazio!
+            room_2_notes:
+              too_long: Campo Observação - sala 2 deve ter no máximo 500 caracteres!
+            dmt_advice:
+              blank: Campo Parecer DMT não pode ser vazio!
+            dmt_classification:
+              blank: Campo Classificação DMT não pode ser vazio!
+            status:
+              blank: Campo Status não pode ser vazio!
+
   are_you_sure: Você tem certeza?
   show: Visualizar
   edit: Editar
