@@ -29,7 +29,7 @@ class ProcessidsController < ApplicationController
 
     respond_to do |format|
       if @processid.save
-        format.html { redirect_to @processid, notice: "#{Processid.model_name.human.capitalize} criado com sucesso" }
+        format.html { redirect_to root_path({ status: 'processid', notice: "#{Processid.model_name.human.capitalize} criado com sucesso" }) }
         format.json { render :show, status: :created, location: @processid }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class ProcessidsController < ApplicationController
   def update
     respond_to do |format|
       if @processid.update(processid_params)
-        format.html { redirect_to @processid, notice: "#{Processid.model_name.human.capitalize} atualizado com sucesso" }
+        format.html { redirect_to root_path({ status: 'processid', notice: "#{Processid.model_name.human.capitalize} atualizado com sucesso" }) }
         format.json { render :show, status: :ok, location: @processid }
       else
         format.html { render :edit }

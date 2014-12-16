@@ -29,7 +29,7 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       if @variable.save
-        format.html { redirect_to root_path, notice: "#{Variable.model_name.human.capitalize} criada com sucesso"  }
+        format.html { redirect_to root_path({ status: "variable", notice: "#{Variable.model_name.human.capitalize} criada com sucesso" } ) }
         format.json { render :show, status: :created, location: @variable }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class VariablesController < ApplicationController
   def update
     respond_to do |format|
       if @variable.update(variable_params)
-        format.html { redirect_to @variable, notice: "#{Variable.model_name.human.capitalize} atualizada com sucesso" }
+        format.html { redirect_to root_path({ status: "variable", notice: "#{Variable.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @variable }
       else
         format.html { render :edit }

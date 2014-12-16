@@ -91,7 +91,7 @@ RSpec.describe ProcessidsController, :type => :controller do
       it "redirects to the created processid" do
         session[:user_id] = User.create! user_attributes
         post :create, {:processid => valid_attributes}, valid_session
-        expect(response).to redirect_to(Processid.last)
+        expect(response).to redirect_to(root_path({status: 'processid', notice: 'Processo criado com sucesso'}))
       end
     end
 
@@ -141,7 +141,7 @@ RSpec.describe ProcessidsController, :type => :controller do
         session[:user_id] = User.create! user_attributes
         processid = Processid.create! valid_attributes
         put :update, {:id => processid.to_param, :processid => valid_attributes}, valid_session
-        expect(response).to redirect_to(processid)
+        expect(response).to redirect_to(root_path({status: 'processid', notice: 'Processo atualizado com sucesso'}))
       end
     end
 

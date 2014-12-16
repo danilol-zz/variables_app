@@ -102,7 +102,7 @@ RSpec.describe TablesController, :type => :controller do
       it "redirects to the created table" do
         session[:user_id] = User.create! user_attributes
         post :create, {:table => valid_attributes}, valid_session
-        expect(response).to redirect_to(Table.last)
+        expect(response).to redirect_to(root_path({status: 'table', notice: 'Tabela criada com sucesso'}))
       end
     end
 
@@ -164,7 +164,7 @@ RSpec.describe TablesController, :type => :controller do
         table = Table.create! valid_attributes
         session[:user_id] = User.create! user_attributes
         put :update, {:id => table.to_param, :table => valid_attributes}, valid_session
-        expect(response).to redirect_to(table)
+        expect(response).to redirect_to(root_path({status: 'table', notice: 'Tabela atualizada com sucesso'}))
       end
     end
 

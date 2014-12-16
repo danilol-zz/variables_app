@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 describe Campaign do
-
-  describe "attributes validations" do
+  context "attributes validations" do
     it { should respond_to :ident }
     it { should respond_to :name }
     it { should respond_to :priority }

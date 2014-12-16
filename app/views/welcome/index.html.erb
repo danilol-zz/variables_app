@@ -60,7 +60,7 @@
                       <label for="status05"><%= this_model_name( Processid ) %></label>
                     </p>
                   <% end %>
-                <% end %>  
+                <% end %>
               </div> <!-- row clearfix -->
           </fieldset>
 
@@ -76,16 +76,16 @@
               <tbody>
                 <% if @entity_status.empty? %>
                   <tr><td></td><td></td><td></td></tr>
-                <% else %> 
+                <% else %>
                   <% 0.upto(@max_size - 1) do |t| %>
                     <tr>
                       <% 3.times do |e| %>
                         <td>
-                          <%= link_to "#{@entity_status[e][t].code} #{@entity_status[e][t].status_screen_name}",   
-                           "#{@filter}s/#{@entity_status[e][t].id}" unless @entity_status[e][t].nil? %>       
+                          <%= link_to "#{@entity_status[e][t].code} #{@entity_status[e][t].status_screen_name}",
+                           "#{@filter}s/#{@entity_status[e][t].id}/edit" unless @entity_status[e][t].nil? %>
                         </td>
                       <% end %>
-                    </tr>  
+                    </tr>
                   <% end %>
                 <% end %>
               </tbody>

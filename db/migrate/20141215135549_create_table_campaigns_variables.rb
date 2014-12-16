@@ -1,4 +1,4 @@
-class CrateTableCampaignsVariables < ActiveRecord::Migration
+class CreateTableCampaignsVariables < ActiveRecord::Migration
   def change
     create_table :campaigns_variables, :id => false do |t|
       t.integer :campaign_id
