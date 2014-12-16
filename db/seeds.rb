@@ -5,10 +5,16 @@ puts "####### deleting all users"
 User.delete_all
 
 puts "####### creating user 1"
-User.create( :email => 'admin@admin.com', :name => 'administrador', :profile => 'Sala 1', :password => 'admin', :role => 'admin' )
+User.create( :email => 'admin@admin.com', :name => 'administrador', :profile => Constants::STATUS[:SALA1], :password => 'admin', :role => 'admin' )
 
 puts "####### creating user 2"
-User.create( :email => 'danilo.moura.lima@gmail.com', :name => 'Danilo', :profile => 'Sala 1', :password => '123456', :role => 'admin' )
+User.create( :email => 'danilo.moura.lima@gmail.com', :name => 'Danilo', :profile => Constants::STATUS[:SALA1], :password => '123456', :role => 'admin' )
+
+puts "####### creating user 3"
+User.create( :email => 'sergiosouzalima@gmail.com', :name => 'Sergio Lima 1', :profile => Constants::STATUS[:SALA1], :password => '123456', :role => 'admin' )
+
+puts "####### creating user 4"
+User.create( :email => 'sergiosouzalima@outlook.com', :name => 'Sergio Lima 2', :profile => Constants::STATUS[:SALA2], :password => '123456', :role => 'admin' )
 
 puts ""
 
@@ -76,8 +82,8 @@ CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ","}).e
     field_name: campo["nome do campo"],
     origin_pic: campo["pic de origem"],
     data_type: campo["tipo de dado"],
-    fmbase_format_type: campo["tipo formato fmbase"],
-    generic_data_type: campo["tipo de dado generico"],
+    #fmbase_format_type: campo["tipo formato fmbase"],
+    #generic_data_type: campo["tipo de dado generico"],
     decimal: campo["decimal"],
     mask: campo["mascara"],
     position: campo["posição"],
@@ -86,16 +92,23 @@ CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ","}).e
     will_use: campo["vai usar?"],
     has_signal: campo["tem sinal?"],
     room_1_notes: campo["observação sala 1"],
-    cd5_variable_number: campo["numero variavel cd5"],
+    #cd5_variable_number: campo["numero variavel cd5"],
     cd5_output_order: campo["ordem de saida CD5"],
-    cd5_variable_name: campo["nome variavel cd5"],
-    cd5_origin_format: campo["formato CD5"],
-    cd5_origin_format_desc: campo["Descrição formato origem CD5"],
-    cd5_format: campo["formato origem CD5"],
-    cd5_format_desc: "",
-    default_value: campo["Valor padrão"],
+    #cd5_variable_name: campo["nome variavel cd5"],
+    #cd5_origin_format: campo["formato CD5"],
+    #cd5_origin_format_desc: campo["Descrição formato origem CD5"],
+    #cd5_format: campo["formato origem CD5"],
+    #cd5_format_desc: "",
+    #default_value: campo["Valor padrão"],
     room_2_notes: campo["observação dala 2"],
-    origin: campo["mnmonico Origem"],
+    domain: "a verificar",
+    dmt_notes: "a verificar",
+    fmbase_format_datyp: "a verificar", 
+    generic_datyp: "a verificar",
+    cd5_origin_frmt_datyp: "a verificar", 
+    cd5_frmt_origin_desc_datyp: "a verificar",
+    default_value_datyp: "a verificar",
+    origin: campo["mnmonico Origem"]
   )
 end
 

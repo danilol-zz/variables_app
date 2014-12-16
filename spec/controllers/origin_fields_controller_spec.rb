@@ -10,8 +10,6 @@ RSpec.describe OriginFieldsController, :type => :controller do
       :field_name => 'teste',
       :origin_pic => 'teste',
       :data_type => 'teste',
-      :fmbase_format_type => 'teste',
-      :generic_data_type => 'teste',
       :decimal => 'teste',
       :mask => 'teste',
       :position => 'teste',
@@ -22,18 +20,17 @@ RSpec.describe OriginFieldsController, :type => :controller do
       :room_1_notes => 'teste',
       :cd5_variable_number => 'teste',
       :cd5_output_order => 'teste',
-      :cd5_variable_name => 'teste',
-      :cd5_origin_format => 'teste',
-      :cd5_origin_format_desc => 'teste',
-      :cd5_format => 'teste',
-      :cd5_format_desc => 'teste',
-      :default_value => 'teste',
       :room_2_notes => 'teste',
       :domain => 'teste',
       :dmt_notes => 'teste',
+      :fmbase_format_datyp => 'teste',
+      :generic_datyp => 'teste',
+      :cd5_origin_frmt_datyp => 'teste',
+      :cd5_frmt_origin_desc_datyp => 'teste',
+      :default_value_datyp => 'teste',
       :origin_id => 'teste',
       :created_at => 'teste',
-      :updated_at => 'teste', }
+      :updated_at => 'teste'}
   }
 
   let(:user_attributes) {
@@ -67,41 +64,6 @@ RSpec.describe OriginFieldsController, :type => :controller do
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      xit "creates a new OriginField" do
-        session[:user_id] = User.create! user_attributes
-        expect {
-          post :create, {:origin_field => valid_attributes}, valid_session
-        }.to change(OriginField, :count).by(1)
-      end
-
-      xit "assigns a newly created origin_field as @origin_field" do
-        session[:user_id] = User.create! user_attributes
-        post :create, {:origin_field => valid_attributes}, valid_session
-        expect(assigns(:origin_field)).to be_a(OriginField)
-        expect(assigns(:origin_field)).to be_persisted
-      end
-
-      xit "redirects to the created origin_field" do
-        session[:user_id] = User.create! user_attributes
-        post :create, {:origin_field => valid_attributes}, valid_session
-        expect(response).to redirect_to(OriginField.last)
-      end
-    end
-
-    #describe "with invalid params" do
-    #  it "assigns a newly created but unsaved origin_field as @origin_field" do
-    #    post :create, {:origin_field => invalid_attributes}, valid_session
-    #    expect(assigns(:origin_field)).to be_a_new(OriginField)
-    #  end
-
-    #  it "re-renders the 'new' template" do
-    #    post :create, {:origin_field => invalid_attributes}, valid_session
-    #    expect(response).to render_template("new")
-    #  end
-    #end
-  end
 
   describe "PUT update" do
     describe "with valid params" do
@@ -110,8 +72,6 @@ RSpec.describe OriginFieldsController, :type => :controller do
           :field_name => 'teste_updated',
           :origin_pic => 'teste',
           :data_type => 'teste',
-          :fmbase_format_type => 'teste',
-          :generic_data_type => 'teste',
           :decimal => 'teste',
           :mask => 'teste',
           :position => 'teste',
@@ -122,18 +82,17 @@ RSpec.describe OriginFieldsController, :type => :controller do
           :room_1_notes => 'teste',
           :cd5_variable_number => 'teste',
           :cd5_output_order => 'teste',
-          :cd5_variable_name => 'teste',
-          :cd5_origin_format => 'teste',
-          :cd5_origin_format_desc => 'teste',
-          :cd5_format => 'teste',
-          :cd5_format_desc => 'teste',
-          :default_value => 'teste',
           :room_2_notes => 'teste',
           :domain => 'teste',
           :dmt_notes => 'teste',
+          :fmbase_format_datyp => 'teste',
+          :generic_datyp => 'teste',
+          :cd5_origin_frmt_datyp => 'teste',
+          :cd5_frmt_origin_desc_datyp => 'teste',
+          :default_value_datyp => 'teste',
           :origin_id => 'teste',
           :created_at => 'teste',
-          :updated_at => 'teste', }
+          :updated_at => 'teste' }
       }
 
       it "updates the requested origin_field" do

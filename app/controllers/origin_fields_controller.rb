@@ -54,6 +54,29 @@ class OriginFieldsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def origin_field_params
-      params.require(:origin_field).permit(:field_name, :origin_pic, :data_type, :fmbase_format_type, :generic_data_type, :decimal_origin_field, :mask_origin_field, :position_origin_field, :width_origin_field, :is_key, :will_use, :has_signal, :room_1_notes, :cd5_variable_number, :cd5_output_order, :cd5_variable_name, :cd5_origin_format, :cd5_origin_format_desc, :cd5_format, :cd5_format_desc, :default_value, :room_2_notes, :origin_id)
+      params.require(:origin_field).
+        permit(      
+          :field_name,
+          :origin_pic,
+          :data_type,
+          :decimal,
+          :mask,
+          :position,
+          :width,
+          :is_key,
+          :will_use,
+          :has_signal,
+          :room_1_notes,
+          :cd5_variable_number,
+          :cd5_output_order,
+          :room_2_notes,
+          :domain,
+          :dmt_notes,
+          :fmbase_format_datyp,
+          :generic_datyp,
+          :cd5_origin_frmt_datyp,
+          :cd5_frmt_origin_desc_datyp,
+          :default_value_datyp,
+          :origin_id)
     end
 end

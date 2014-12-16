@@ -1,3 +1,4 @@
+
 <section class="main">
   <div class="row clearfix">
     <div class="col2" role="complementary">
@@ -15,10 +16,10 @@
           <div class="row clearfix">
             <%= link_to "#{Variable.model_name.human.capitalize}", new_variable_path, :class => "btn btn-secundario left txt-no-transform" %>
           </div>
+          <div class="row clearfix">
+            <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
+          </div>          
           <% if @current_user.profile == User::ROOM2 %>
-            <div class="row clearfix">
-              <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
-            </div>
             <div class="row clearfix">
               <%= link_to "#{Processid.model_name.human.capitalize}", new_processid_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
@@ -82,7 +83,7 @@
                       <% 3.times do |e| %>
                         <td>
                           <%= link_to "#{@entity_status[e][t].code} #{@entity_status[e][t].status_screen_name}",   
-                           "#{@filter}s/#{@entity_status[e][t].id}" unless @entity_status[e][t].nil? %>       
+                           "#{@filter}s/#{@entity_status[e][t].id}/edit" unless @entity_status[e][t].nil? %>       
                         </td>
                       <% end %>
                     </tr>  
