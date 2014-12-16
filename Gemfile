@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '4.1.7'
 gem 'sqlite3'
 gem 'sass-rails', '~> 4.0.3'
@@ -19,7 +18,6 @@ gem 'capistrano-rvm', github: "capistrano/rvm"
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 
-
 group :development, :test do
   gem 'shoulda-matchers'
   gem 'pry'
@@ -27,9 +25,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
+
 group :test do
   gem 'database_cleaner'
 end
-
-
-
