@@ -2,26 +2,20 @@ require 'rails_helper'
 
 RSpec.describe OriginsController, type: :controller do
 
+  before do
+    session[:user_id] = User.create(user_attributes)
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # Origin. As you add validations to Origin, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) { FactoryGirl.attributes_for(:origin) }
-
-  let(:user_attributes) {
-    {
-      email:    "zekitow@gmail.com",
-      name:     "José Ribeiro",
-      profile:  "Sala 1",
-      password: "123456"
-    }
-  }
-
-  let(:valid_session) { {} }
+  let(:user_attributes)  { FactoryGirl.attributes_for(:user) }
+  let(:valid_session)    { {} }
 
   describe "GET index" do
     it "assigns all origins as @origins" do
-      origin            = Origin.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
+      origin = Origin.create(valid_attributes)
 
       get :index, {}, valid_session
 
@@ -31,7 +25,7 @@ RSpec.describe OriginsController, type: :controller do
 
   describe "GET show" do
     it "assigns the requested origin as @origin" do
-      origin = Origin.create! valid_attributes
+      origin = Origin.create(valid_attributes)
 
       get :show, { id: origin.to_param }, valid_session
 
@@ -41,8 +35,6 @@ RSpec.describe OriginsController, type: :controller do
 
   describe "GET new" do
     it "assigns a new origin as @origin" do
-      session[:user_id] = User.create! user_attributes
-
       get :new, {}, valid_session
 
       expect(assigns(:origin)).to be_a_new(Origin)
@@ -51,7 +43,7 @@ RSpec.describe OriginsController, type: :controller do
 
   describe "GET edit" do
     it "assigns the requested origin as @origin" do
-      origin = Origin.create! valid_attributes
+      origin = Origin.create(valid_attributes)
 
       get :edit, { id: origin.to_param }, valid_session
 
@@ -62,14 +54,10 @@ RSpec.describe OriginsController, type: :controller do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Origin" do
-        session[:user_id] = User.create! user_attributes
-
         expect { post :create, { origin: valid_attributes}, valid_session }.to change(Origin, :count).by(1)
       end
 
       it "assigns a newly created origin as @origin" do
-        session[:user_id] = User.create! user_attributes
-
         post :create, { origin: valid_attributes }, valid_session
 
         expect(assigns(:origin)).to be_a(Origin)
@@ -77,8 +65,6 @@ RSpec.describe OriginsController, type: :controller do
       end
 
       it "redirects to the created origin" do
-        session[:user_id] = User.create! user_attributes
-
         post :create, { origin: valid_attributes }, valid_session
 
         expect(response).to redirect_to(Origin.last)
@@ -103,9 +89,7 @@ RSpec.describe OriginsController, type: :controller do
       let(:new_attributes) { FactoryGirl.attributes_for(:origin, file_name: 'teste2') }
 
       it "updates the requested origin" do
-        origin = Origin.create! valid_attributes
-
-        session[:user_id] = User.create! user_attributes
+        origin = Origin.create(valid_attributes)
 
         put :update, { id: origin.to_param, origin: new_attributes }, valid_session
 
@@ -115,7 +99,7 @@ RSpec.describe OriginsController, type: :controller do
       end
 
       it "assigns the requested origin as @origin" do
-        origin = Origin.create! valid_attributes
+        origin = Origin.create(valid_attributes)
 
         put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
 
@@ -123,10 +107,9 @@ RSpec.describe OriginsController, type: :controller do
       end
 
       it "redirects to the origin" do
-        origin            = Origin.create! valid_attributes
-        session[:user_id] = User.create! user_attributes
+        origin = Origin.create(valid_attributes)
 
-        put :update, { id: origin.to_param, origin: valid_attributes}, valid_session
+        put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
 
         expect(response).to redirect_to(origin)
       end
@@ -149,15 +132,13 @@ RSpec.describe OriginsController, type: :controller do
 
   describe "DELETE destroy" do
     it "destroys the requested origin" do
-      origin            = Origin.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
+      origin = Origin.create(valid_attributes)
 
       expect { delete :destroy, { id: origin.to_param }, valid_session }.to change(Origin, :count).by(-1)
     end
 
     it "redirects to the origins list" do
-      origin            = Origin.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
+      origin = Origin.create! valid_attributes
 
       delete :destroy, { id: origin.to_param }, valid_session
 
@@ -165,12 +146,11 @@ RSpec.describe OriginsController, type: :controller do
     end
   end
 
-  let(:valid_origin_field_attributes) { FactoryGirl.attributes_for(:origin).merge(origin_id: @origin.id) }
+  let(:valid_origin_field_attributes) { FactoryGirl.attributes_for(:origin, origin_id: @origin.id) }
 
   describe "POST create origin field" do
     before do
-      @origin           = Origin.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
+      @origin  = Origin.create! valid_attributes
     end
 
     describe "with valid params" do
