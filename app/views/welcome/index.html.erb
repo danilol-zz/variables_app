@@ -82,7 +82,7 @@
                       <% 3.times do |e| %>
                         <td>
                           <%= link_to "#{@entity_status[e][t].code} #{@entity_status[e][t].status_screen_name}",   
-                           send("edit_#{@filter}_path", @entity_status[e][t].id) unless @entity_status[e][t].nil? %>       
+                           "#{@filter}s/#{@entity_status[e][t].id}" unless @entity_status[e][t].nil? %>       
                         </td>
                       <% end %>
                     </tr>  

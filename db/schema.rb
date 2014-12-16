@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141202120303) do
+ActiveRecord::Schema.define(version: 20141215135549) do
 
   create_table "campaigns", force: true do |t|
     t.string   "ident"
@@ -38,6 +38,11 @@ ActiveRecord::Schema.define(version: 20141202120303) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "campaigns_variables", id: false, force: true do |t|
+    t.integer "campaign_id"
+    t.integer "variable_id"
   end
 
   create_table "origin_fields", force: true do |t|
