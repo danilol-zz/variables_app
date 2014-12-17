@@ -23,7 +23,7 @@ class CreateOrigins < ActiveRecord::Migration
       t.text    :room_2_notes,                  limit: 500
       t.string  :dmt_advice,                    limit: 200
       t.string  :dmt_classification,            null: false
-      t.string  :status,                        null: false
+      t.string  :status,                        null: false, default: Constants::STATUS[:SALA1]
 
       t.timestamps
     end
