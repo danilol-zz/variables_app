@@ -1,56 +1,43 @@
-
-<table border="1">
-  <tr>
-    <th colspan="2" align="left"><b>Cadastro de <%= Origin.model_name.human.capitalize %></b> - <%= @current_user.profile %></th>
-  </tr>
-  <% if @current_user.profile == User::ROOM1 %>
-    <tr>
-      <td><strong><%= t('activerecord.attributes.origin.file_name') %>:</strong></td>
-      <td><strong><%= t('activerecord.attributes.origin.file_description') %>:</strong></td>
-    </tr>
-    <tr>
-      <td><%= @origin.file_name %></td>
-      <td><%= @origin.file_description %></td>
-    </tr>
-  <% end %>
-<% if @current_user.profile == User::ROOM2 %>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.mnemonic') %>:</strong></td>
-    <td> <%= @origin.mnemonic %></td>
-  </tr>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.cd5_portal_origin_code') %>:</strong></td>
-    <td> <%= @origin.cd5_portal_origin_code %></td>
-  </tr>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.cd5_portal_origin_name') %>:</strong></td>
-    <td> <%= @origin.cd5_portal_origin_name %></td>
-  </tr>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.cd5_portal_origin_code') %>:</strong></td>
-    <td> <%= @origin.cd5_portal_origin_code %></td>
-  </tr>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.cd5_portal_destination_code') %>:</strong></td>
-    <td> <%= @origin.cd5_portal_destination_code %></td>
-  </tr>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.cd5_portal_destination_name') %>:</strong></td>
-    <td> <%= @origin.cd5_portal_destination_name %></td>
-  </tr>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.hive_table_name') %>:</strong></td>
-    <td> <%= @origin.hive_table_name %></td>
-  </tr>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.mainframe_storage_type') %>:</strong></td>
-    <td> <%= @origin.mainframe_storage_type %></td>
-  </tr>
-  <tr>
-    <td><strong><%= t('activerecord.attributes.origin.room_2_notes') %>:</strong></td>
-    <td> <%= @origin.room_2_notes %></td>
-  </tr>
-<% end %>
-  </table>
-<br>
-
+<section>
+  <h3 class="line-bottom">Cadastro de <%= Origin.model_name.human.capitalize %></h3>
+  
+  <h2><%= @current_user.profile %></h2>
+  <div class="box-info">
+    <table class="resumo">
+      <tbody>
+       <% if @current_user.profile == User::ROOM1 %>
+         <tr>
+           <th><%= t('activerecord.attributes.origin.file_name') %>:</th>
+           <td><%= @origin.file_name %></td>
+         </tr>
+         <tr>
+          <th><%= t('activerecord.attributes.origin.file_description') %>:</th>
+          <td><%= @origin.file_description %></td>
+         </tr>
+       <% end %>
+       <% if @current_user.profile == User::ROOM2 %>
+         <tr>
+           <th><%= t('activerecord.attributes.origin.mnemonic') %>:</th>
+           <td><%= @origin.mnemonic %></td>
+         </tr>
+         <tr>
+           <th><%= t('activerecord.attributes.origin.file_description') %>:</th>
+           <td><%= @origin.file_description %></td>
+         </tr>
+         <tr>
+           <th><%= t('activerecord.attributes.origin.hive_table_name') %>:</th>
+           <td><%= @origin.hive_table_name %></td>
+         </tr>
+         <tr>
+           <th><%= t('activerecord.attributes.origin.mainframe_storage_type') %>:</th>
+           <td><%= @origin.mainframe_storage_type %></td>
+         </tr>                   
+         <tr>
+           <th><%= t('activerecord.attributes.origin.room_2_notes') %>:</th>
+           <td><%= @origin.room_2_notes %></td>
+         </tr>
+       <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

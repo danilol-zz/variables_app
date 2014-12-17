@@ -154,19 +154,21 @@ RSpec.describe OriginsController, type: :controller do
     end
 
     describe "with valid params" do
-      it "creates a new OriginField" do
-        expect { post :create_origin_field, { origin_field: valid_origin_field_attributes }, valid_session }.to change(OriginField, :count).by(1)
+      it "creates or updates an OriginField" do
+        expect {
+          post :create_or_update_origin_field, {:origin_field => valid_origin_field_attributes}, valid_session
+        }.to change(OriginField, :count).by(1)
       end
 
       it "assigns a newly created origin_field as @origin_field" do
-        post :create_origin_field, { origin_field: valid_origin_field_attributes }, valid_session
+        post :create_or_update_origin_field, {:origin_field => valid_origin_field_attributes}, valid_session
 
         expect(assigns(:origin_field)).to be_a(OriginField)
         expect(assigns(:origin_field)).to be_persisted
       end
 
       it "redirects to the created origin_field" do
-        post :create_origin_field, { origin_field: valid_origin_field_attributes }, valid_session
+        post :create_or_update_origin_field, {:origin_field => valid_origin_field_attributes}, valid_session
 
         expect(response).to redirect_to(@origin)
       end
@@ -184,4 +186,73 @@ RSpec.describe OriginsController, type: :controller do
     #  end
     #end
   end
+
+  describe "GET origin field" do
+    let(:valid_attributes) {
+      valid_attributes = {
+        :file_name => 'teste',
+        :file_description => 'teste',
+        :created_in_sprint => 'teste',
+        :updated_in_sprint => 'teste',
+        :abbreviation => 'tes',
+        :base_type => 'teste',
+        :book_mainframe => 'teste',
+        :periodicity => 'teste',
+        :periodicity_details => 'teste',
+        :data_retention_type => 'teste',
+        :extractor_file_type => 'teste',
+        :room_1_notes => 'teste',
+        :mnemonic => 'test',
+        :cd5_portal_origin_code => 'teste',
+        :cd5_portal_origin_name => 'teste',
+        :cd5_portal_destination_code => 'teste',
+        :cd5_portal_destination_name => 'teste',
+        :hive_table_name => 'teste',
+        :mainframe_storage_type => 'teste',
+        :room_2_notes => 'teste',
+        :dmt_advice => 'teste',
+        :dmt_classification => 'teste',
+        :status => 'sala1',
+      }
+    }
+
+    let(:valid_origin_field_attributes) {
+      valid_origin_field_attributes = {
+        :field_name => 'teste',
+        :origin_pic => 'teste',
+        :data_type => 'teste',
+        :decimal => 'teste',
+        :mask => 'teste',
+        :position => 'teste',
+        :width => 'teste',
+        :is_key => 'teste',
+        :will_use => 'teste',
+        :has_signal => 'teste',
+        :room_1_notes => 'teste',
+        :cd5_variable_number => 'teste',
+        :cd5_output_order => 'teste',
+        :room_2_notes => 'teste',
+        :domain => 'teste',
+        :dmt_notes => 'teste',
+        :fmbase_format_datyp => 'teste',
+        :generic_datyp => 'teste',
+        :cd5_origin_frmt_datyp => 'teste',
+        :cd5_frmt_origin_desc_datyp => 'teste',
+        :default_value_datyp => 'teste',
+        :origin_id => 1,
+        :created_at => 'teste',
+        :updated_at => 'teste'}
+    }
+
+    before do
+      @origin = Origin.create! valid_attributes
+      @origin_field = OriginField.create! valid_origin_field_attributes
+    end
+
+    it "to update" do
+      get :get_origin_field_to_update, {:format => @origin_field.id}, valid_session
+      expect(response).to render_template("show")
+    end
+  end
+
 end

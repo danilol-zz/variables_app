@@ -3,12 +3,12 @@ class User < ActiveRecord::Base
 
   validates :email,    :presence =>true, :uniqueness=>true
   validates :email,     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
-  validates :name,     :presence =>true
+  validates :name,     :presence =>true, :uniqueness=>true
   validates :profile,  :presence =>true
   validates :password, :presence =>true, :length => { :minimum => 5, :maximum => 40 }, :confirmation => true
 
-  ROOM1 = "Sala 1"
-  ROOM2 = "Sala 2"
+  ROOM1 = Constants::STATUS[:SALA1] # sala 1
+  ROOM2 = Constants::STATUS[:SALA2] # sala 2
   PROFILES = [ROOM1, ROOM2]
 
   def self.md5(text)
