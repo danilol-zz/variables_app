@@ -8,10 +8,10 @@ module UserSession
   end
 
   def current_user_is_room1?
-    current_user.profile == 'room1'
+    current_user.profile == 'sala1'
   end
 
   def current_user_is_room2?
-    current_user.profile == 'room2'
+    current_user.profile == 'sala2'
   end
 end
