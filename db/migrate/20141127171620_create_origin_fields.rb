@@ -1,10 +1,10 @@
 class CreateOriginFields < ActiveRecord::Migration
   def change
-    create_table :origin_fields do |t|      
-      t.string  :field_name         
-      t.string  :origin_pic 
-      t.string  :data_type 
-      t.integer :decimal 
+    create_table :origin_fields do |t|
+      t.string  :field_name
+      t.string  :origin_pic
+      t.string  :data_type
+      t.integer :decimal
       t.string  :mask
       t.integer :position
       t.integer :width

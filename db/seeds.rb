@@ -45,7 +45,7 @@ Origin.delete_all
 CSV.read("db/fixtures/origem.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
   puts "####### creating origin #{i + 1}"
 
-  Origin.create(
+    Origin.create(
     file_name: campo["nome da base / arquivo"],
     file_description: campo["descrição da base"],
     created_in_sprint: campo["sprint em que foi criado"],
@@ -53,17 +53,18 @@ CSV.read("db/fixtures/origem.csv", { headers: true, :col_sep => ","}).each_with_
     abbreviation: campo["sigla"],
     base_type: campo["tipo de base"],
     book_mainframe: campo["book mainframe"],
-    periodicity: campo[" periodicidade"],
+    periodicity: campo["periodicidade"],
     periodicity_details: campo["detalhe da periodicidade"],
     data_retention_type: campo["tipo de retenção dos dados"],
     extractor_file_type: campo["Característica do arquivo no Extrator"],
     room_1_notes: campo["observação - sala 1"],
-    mnemonic:  campo["mnmonico"],
+    mnemonic:  campo["mnmonico"] || "test",
     cd5_portal_origin_code: campo["codigo origem portal cd5"],
     cd5_portal_origin_name: campo["nome origem portal cd5"],
     cd5_portal_destination_code: campo["codigo destino portal cd5"],
     cd5_portal_destination_name:campo["nome destino portal cd5"],
     hive_table_name: campo["nome tabela hive"],
+    dmt_classification: "pending",
     mainframe_storage_type: campo["tipo de armazenamento mainframe"],
     room_2_notes: campo["observação - sala 2"],
     status: Constants::STATUS[:SALA1]
@@ -75,15 +76,13 @@ puts ""
 puts "####### deleting all origin fields"
 OriginField.delete_all
 
-CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ","}).each_with_index do |campo, i|
+CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ";"}).each_with_index do |campo, i|
   puts "####### creating origin field #{i + 1}"
 
   OriginField.create(
     field_name: campo["nome do campo"],
     origin_pic: campo["pic de origem"],
     data_type: campo["tipo de dado"],
-    #fmbase_format_type: campo["tipo formato fmbase"],
-    #generic_data_type: campo["tipo de dado generico"],
     decimal: campo["decimal"],
     mask: campo["mascara"],
     position: campo["posição"],
@@ -92,23 +91,17 @@ CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ","}).e
     will_use: campo["vai usar?"],
     has_signal: campo["tem sinal?"],
     room_1_notes: campo["observação sala 1"],
-    #cd5_variable_number: campo["numero variavel cd5"],
+    cd5_variable_number: campo["numero variavel cd5"],
     cd5_output_order: campo["ordem de saida CD5"],
-    #cd5_variable_name: campo["nome variavel cd5"],
-    #cd5_origin_format: campo["formato CD5"],
-    #cd5_origin_format_desc: campo["Descrição formato origem CD5"],
-    #cd5_format: campo["formato origem CD5"],
-    #cd5_format_desc: "",
-    #default_value: campo["Valor padrão"],
     room_2_notes: campo["observação dala 2"],
     domain: "a verificar",
     dmt_notes: "a verificar",
-    fmbase_format_datyp: "a verificar", 
+    fmbase_format_datyp: "a verificar",
     generic_datyp: "a verificar",
-    cd5_origin_frmt_datyp: "a verificar", 
+    cd5_origin_frmt_datyp: "a verificar",
     cd5_frmt_origin_desc_datyp: "a verificar",
     default_value_datyp: "a verificar",
-    origin: campo["mnmonico Origem"]
+    origin: Origin.all.shuffle.first
   )
 end
 

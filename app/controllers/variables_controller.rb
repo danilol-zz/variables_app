@@ -15,17 +15,21 @@ class VariablesController < ApplicationController
 
   # GET /variables/new
   def new
+    @origin_fields = OriginField.order(:field_name)
     @variable = Variable.new
   end
 
   # GET /variables/1/edit
   def edit
+    @origin_fields = OriginField.order(:field_name)
   end
 
   # POST /variables
   # POST /variables.json
   def create
     @variable = Variable.new(variable_params)
+
+    @variable.set_origin_fields(params[:variable][:origin_fields_list])
 
     respond_to do |format|
       if @variable.save
@@ -41,6 +45,8 @@ class VariablesController < ApplicationController
   # PATCH/PUT /variables/1
   # PATCH/PUT /variables/1.json
   def update
+    @variable.set_origin_fields(params[:variable][:origin_fields_list])
+
     respond_to do |format|
       if @variable.update(variable_params)
         format.html { redirect_to root_path({ status: "variable", notice: "#{Variable.model_name.human.capitalize} atualizada com sucesso" }) }
