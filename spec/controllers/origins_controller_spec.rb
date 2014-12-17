@@ -188,34 +188,6 @@ RSpec.describe OriginsController, type: :controller do
   end
 
   describe "GET origin field" do
-    let(:valid_attributes) {
-      valid_attributes = {
-        :file_name => 'teste',
-        :file_description => 'teste',
-        :created_in_sprint => 'teste',
-        :updated_in_sprint => 'teste',
-        :abbreviation => 'tes',
-        :base_type => 'teste',
-        :book_mainframe => 'teste',
-        :periodicity => 'teste',
-        :periodicity_details => 'teste',
-        :data_retention_type => 'teste',
-        :extractor_file_type => 'teste',
-        :room_1_notes => 'teste',
-        :mnemonic => 'test',
-        :cd5_portal_origin_code => 'teste',
-        :cd5_portal_origin_name => 'teste',
-        :cd5_portal_destination_code => 'teste',
-        :cd5_portal_destination_name => 'teste',
-        :hive_table_name => 'teste',
-        :mainframe_storage_type => 'teste',
-        :room_2_notes => 'teste',
-        :dmt_advice => 'teste',
-        :dmt_classification => 'teste',
-        :status => 'sala1',
-      }
-    }
-
     let(:valid_origin_field_attributes) {
       valid_origin_field_attributes = {
         :field_name => 'teste',
