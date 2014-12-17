@@ -33,8 +33,47 @@ describe Processid do
       expect(Processid.development.count).to eq 4
       expect(Processid.done.count).to eq 2
     end
-  end  
+  end
 
+  context ".set_variables" do
+    context "on create" do
+      subject(:saved_processid) { @processid.save }
+
+      before do
+        @processid = FactoryGirl.build(:processid)
+        FactoryGirl.create(:variable, id: 1, name: "v1")
+        FactoryGirl.create(:variable, id: 5, name: "v2")
+        FactoryGirl.create(:variable, id: 9, name: "v3")
+      end
+
+      context "with no variables selected" do
+        it "not saves variables" do
+          @processid.set_variables(nil)
+          expect{saved_processid}.to_not change{@processid.variables.count}
+        end
+      end
+
+      context "with variables selected" do
+        context "with one variable selected" do
+          let(:processid_params) { {"5"=>"checked" } }
+
+          it "saves variables" do
+            @processid.set_variables(processid_params)
+            expect{subject}.to change{@processid.variables.count}.by(1)
+          end
+        end
+
+        context "with many variable selected" do
+          let(:processid_params) { {"1"=>"checked", "5" => "checked", "9" => "checked"} }
+
+          it "saves variables" do
+            @processid.set_variables(processid_params)
+            expect{subject}.to change{@processid.variables.count}.by(3)
+          end
+        end
+      end
+    end
+  end
 
   context ".code" do
     before do

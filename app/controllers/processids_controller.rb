@@ -15,17 +15,21 @@ class ProcessidsController < ApplicationController
 
   # GET /processids/new
   def new
+    @variables = Variable.order(:name)
     @processid = Processid.new
   end
 
   # GET /processids/1/edit
   def edit
+    @variables = Variable.order(:name)
   end
 
   # POST /processids
   # POST /processids.json
   def create
     @processid = Processid.new(processid_params)
+
+    #@processid.set_variables(params[:processid][:variable_list])
 
     respond_to do |format|
       if @processid.save

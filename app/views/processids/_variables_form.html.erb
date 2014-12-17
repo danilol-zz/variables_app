@@ -1,0 +1,10 @@
+<fieldset>
+  <legend>Variáveis</legend>
+  <h1>Variáveis</h1>
+  <p>
+    <% @variables.each do |var| %>
+      <%= check_box_tag( "processid[variable_list][#{var.id}]", "checked", @processid.variables.detect{|v| v == var}) %>
+      <%= "#{var.name}"%><br />
+    <% end %>
+  </p>
+</fieldset>

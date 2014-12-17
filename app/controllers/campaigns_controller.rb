@@ -29,9 +29,7 @@ class CampaignsController < ApplicationController
   def create
     @campaign = Campaign.new(campaign_params)
 
-    params[:campaign][:variable_list].each do |var|
-      @campaign.variables << Variable.find(var.first)
-    end
+    @campaign.set_variables(params[:campaign][:variable_list])
 
     respond_to do |format|
       if @campaign.save
