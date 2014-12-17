@@ -1,4 +1,6 @@
 class Origin < ActiveRecord::Base
+  include UserSession
+
   has_many :origin_fields
 
   scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
@@ -17,11 +19,11 @@ class Origin < ActiveRecord::Base
   validates :data_retention_type,         presence: true
   validates :extractor_file_type,         presence: true
   validates :room_1_notes,                length: { maximum: 500 }
-  validates :mnemonic,                    uniqueness: true, presence: true, length: { maximum: 4 }
-  validates :cd5_portal_origin_code,      uniqueness: true, presence: true
-  validates :cd5_portal_destination_code, uniqueness: true, presence: true
-  validates :mainframe_storage_type,      presence: true
-  validates :room_2_notes,                length: { maximum: 500 }
+  validates :mnemonic,                    uniqueness: true, presence: true, length: { maximum: 4 }, if: :current_user_is_room2?
+  validates :cd5_portal_origin_code,      uniqueness: true, presence: true, if: :current_user_is_room2?
+  validates :cd5_portal_destination_code, uniqueness: true, presence: true, if: :current_user_is_room2?
+  validates :mainframe_storage_type,      presence: true, if: :current_user_is_room2?
+  validates :room_2_notes,                length: { maximum: 500 }, if: :current_user_is_room2?
   validates :dmt_advice,                  length: { maximum: 200 }
   validates :dmt_classification,          presence: true
   validates :status,                      presence: true

@@ -105,7 +105,7 @@ class OriginsController < ApplicationController
       :dmt_advice,
       :dmt_classification,
       :status
-    )
+    ).merge(current_user_id: current_user.id)
   end
 
   def set_origin_field

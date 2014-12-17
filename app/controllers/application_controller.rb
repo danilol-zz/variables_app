@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   def ensure_authentication
     unless current_user
-      redirect_to login_path, :notice => "Faça o login para entrar no sistema, por favor."
+      redirect_to login_path, notice: "Faça o login para entrar no sistema, por favor."
     end
   end
 
@@ -22,10 +22,4 @@ class ApplicationController < ActionController::Base
     session.delete(:user_id)
     nil
   end
-
-  #def current_user
-  #  return unless session[:user_id]
-  #  User.find(session[:user_id])
-  #end
-
 end
