@@ -1,20 +1,12 @@
 require 'rails_helper'
 
+describe ExportScript do
 script_ref = '
 
-#!/usr/bin/ksh
-set -x -a
-. /PROD/INCLUDE/include.prod
-echo "\n`date +%d/%m/%y_%H:%M:%S`\n "
-$DIREXE/bigdata_exec_proc.sh <Tabela.[Nome rotina big data]> <Tabela.[Nome rotina big data]>.SQL
-
-
+insert into controle_bigdata.tah6_regr_arqu_cerf values ( “CD5.RETR.B<Origem.[mnmonico]>” , "<Origem.[nome da base / arquivo]>" , "T" , “CD5.RETR.B<Origem.[mnmonico]>” , “” , “CD5P<Origem.[mnmonico]>" , "" , "" , "" , "N" , "N" , "N" , "NORMAL" , "NORMAL" , "NORMAL" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" );
 '
 script_mini = "<Processo.[Nome da rotina]>.SQL 
 <Processo.[Nome tabela var]>"
-
-describe ExportScript do
-
 	context '.get_list_entits' do
 
 		it "should return error script empty" do
@@ -89,13 +81,24 @@ describe ExportScript do
 	end
 
 
-# comentado para dar commit, depois voltar para continuar
-
-=begin
 	context '.get_entits_by_sprint' do
+		before do
+			FactoryGirl.create(:user, id: 1  )
+			FactoryGirl.create(:origin      , id:1, updated_in_sprint:1 , mnemonic: "L001"   )
+			
+			FactoryGirl.create(:origin_field, id:1, origin_id: 1        , field_name: "CPF"  )
+			FactoryGirl.create(:origin_field, id:2, origin_id:1         , field_name: "LIMIT")
+			
+			FactoryGirl.create(:campaign    , id:1, updated_in_sprint:1 , communication_channel: "CRE300")
 
-		
+			FactoryGirl.create(:variable    , id:1, updated_in_sprint:1 , name: "Indicador Elegibilidade")
+
+
+
+		end
+=begin		
 		it 'should return erro if the parms is invalid' do
+			#let(:tb) {FactoryGirl.create(:table, updated_in_sprint: 10 , big_data_routine_name: "CD5PT002" )}
 			sprint = nil
 			entity = "Table_Erro"
 			expect(ExportScript.get_entits_by_sprint(sprint,entity)).to eq nil
@@ -121,38 +124,66 @@ describe ExportScript do
 			expect(ExportScript.get_entits_by_sprint(sprint,entity)).to eq nil
 		end
 
-
-
-
-
-
-
 		it 'should return erro if the entity is invalid' do
-			FactoryGirl.create(:table, updated_in_sprint: 10 )
+			#FactoryGirl.create(:table, updated_in_sprint: 10 , big_data_routine_name: "CD5PT002" )
 			sprint = 10
 			entity = "Table_Erro"
 			expect(ExportScript.get_entits_by_sprint(sprint,entity)).to eq nil
 		end
 
 		it 'should return erro if the sprint dont exists' do
-			FactoryGirl.create(:table, updated_in_sprint: 10 )
+			
 			sprint = 1111
 			entity = "Table"
 			expect(ExportScript.get_entits_by_sprint(sprint,entity)).to eq nil
 		end
-
-		it 'should return sucessfull' do
-			FactoryGirl.create(:table, updated_in_sprint: 10 )
-			sprint = 10
-			entity = "Table"
+=end
+		it 'should return sucessfull Origin' do
+			#FactoryGirl.create(:table, updated_in_sprint: 10 , big_data_routine_name: "CD5PT002" )
+			sprint = 1
+			entity = "Origin"
 			result=ExportScript.get_entits_by_sprint(sprint,entity)
 			expect(result).to be_kind_of(Array)
 			expect(result.size).to eq 1
-			expect(result[0]["sprint"]).to eq 1
-			expect(reject[0]["id"]).to 1
-			expect(reject[0]["big_data_routine_name"]).to "CD5PT002"
+			expect(result[0]["updated_in_sprint"]).to eq 1
+			expect(result[0]["mnemonic"]).to eq "L001"
+
+		end
+		it 'should return sucessfull OriginField' do
+			sprint = 1
+			entity = "OriginField"
+			result=ExportScript.get_entits_by_sprint(sprint,entity)
+			expect(result).to be_kind_of(Array)
+			
+			expect(result.size).to eq 2
+			
+			expect(result[0]["id"]).to eq 1
+			expect(result[0]["field_name"]).to eq "CPF"
+
+			expect(result[1]["id"]).to eq 2
+			expect(result[1]["field_name"]).to eq "LIMIT"
+		end
+
+		it 'should return sucessfull Campaign' do
+			sprint = 1
+			entity = "Campaign"
+			result=ExportScript.get_entits_by_sprint(sprint,entity)
+			expect(result).to be_kind_of(Array)
+			expect(result.size).to eq 1
+			expect(result[0]["updated_in_sprint"]).to eq 1
+			expect(result[0]["communication_channel"]).to eq "CRE300"
+		end
+
+		it 'should return sucessfull variable' do
+			sprint = 1
+			entity = "Variable"
+			result=ExportScript.get_entits_by_sprint(sprint,entity)
+			expect(result).to be_kind_of(Array)
+			expect(result.size).to eq 1
+			expect(result[0]["updated_in_sprint"]).to eq 1
+			expect(result[0]["name"]).to eq "Indicador Elegibilidade"
 		end
 
 	end
-=end
+
 end

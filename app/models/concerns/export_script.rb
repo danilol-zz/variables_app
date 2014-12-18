@@ -132,7 +132,7 @@ module ExportScript
 
 
 #comentado para dar comiti, depois voltar
-=begin
+
 
 	def self.get_entits_by_sprint(sprint, entity)
 		
@@ -170,6 +170,8 @@ module ExportScript
 		else
 
 			case entity
+			when "Campaign"
+				return_value = get_Campaign_by_sprint(sprint)
 			when "Table"
 				return_value = get_Table_by_sprint(sprint)
 			when "Origin"
@@ -191,6 +193,34 @@ module ExportScript
 
 	end
 
+	def self.get_Campaign_by_sprint(sprint)
+		return_value = ''
+		
+		#concect = Table.connection
+		#p concect.class
+		#p concect
+		#p Table.connected?
+		#result = Table.select { |m| m.updated_in_sprint == sprint }
+		result = Campaign.where(updated_in_sprint: sprint).to_a
+		
+		#p sprint
+		#p result.class
+		#p result.size
+
+		#require 'pry' ; binding.pry;
+
+		if result.size == 0
+			return_value = nil
+		else
+			return_value = result
+		end
+		
+		return_value
+		#nil
+
+	end
+
+
 
 	def self.get_Table_by_sprint(sprint)
 		return_value = ''
@@ -200,13 +230,13 @@ module ExportScript
 		#p concect
 		#p Table.connected?
 		#result = Table.select { |m| m.updated_in_sprint == sprint }
-		result = Table.where(updated_in_sprint: sprint)
+		result = Table.where(updated_in_sprint: sprint).to_a
 		
-		p sprint
-		p result.class
-		p result.size
+		#p sprint
+		#p result.class
+		#p result.size
 
-		require 'pry' ; binding.pry;
+		#require 'pry' ; binding.pry;
 
 		if result.size == 0
 			return_value = nil
@@ -219,23 +249,119 @@ module ExportScript
 	end
 
 	def self.get_Origin_by_sprint(sprint)
+		return_value = ''
+		
+		#concect = Table.connection
+		#p concect.class
+		#p concect
+		#p Table.connected?
+		#result = Table.select { |m| m.updated_in_sprint == sprint }
+		result = Origin.where(updated_in_sprint: sprint).to_a
+		
+		#p sprint
+		#p result.class
+		#p result.size
+		#p result
+
+		#require 'pry' ; binding.pry;
+
+		if result.size == 0
+			return_value = nil
+		else
+			return_value = result
+		end
+		
+		return_value
 	end
 
 	def self.get_OriginField_by_sprint(sprint)
-		nil
+		return_value = ''
+		
+		#concect = Table.connection
+		#p concect.class
+		#p concect
+		#p Table.connected?
+		#result = Table.select { |m| m.updated_in_sprint == sprint }
+		result = []
+		Origin.where(updated_in_sprint: sprint).to_a.each do |org| 
+			result = result + org.origin_fields.to_a
+		end
+
+		#p sprint
+		#p result.class
+		#p result[0].class
+		#p result.size
+		#p result
+
+		#require 'pry' ; binding.pry;
+
+		if result.size == 0
+			return_value = nil
+		else
+			return_value = result
+		end
+		
+		return_value
 	end
 
 	def self.get_Processid_by_sprint(sprint)
-		nil
+		return_value = ''
+		
+		#concect = Table.connection
+		#p concect.class
+		#p concect
+		#p Table.connected?
+		#result = Table.select { |m| m.updated_in_sprint == sprint }
+		result = []
+		Variable.where(updated_in_sprint: sprint).to_a.each do |var| 
+			result = result + var.processid.to_a
+		end
+
+		#p sprint
+		#p result.class
+		#p result[0].class
+		#p result.size
+		#p result
+
+		#require 'pry' ; binding.pry;
+
+		if result.size == 0
+			return_value = nil
+		else
+			return_value = result
+		end
+		
+		return_value
 	end
 
 	def self.get_Variable_by_sprint(sprint)
-		nil
+		return_value = ''
+		
+		#concect = Table.connection
+		#p concect.class
+		#p concect
+		#p Table.connected?
+		#result = Table.select { |m| m.updated_in_sprint == sprint }
+		result = Variable.where(updated_in_sprint: sprint).to_a
+		
+		#p sprint
+		#p result.class
+		#p result.size
+		#p result
+
+		#require 'pry' ; binding.pry;
+
+		if result.size == 0
+			return_value = nil
+		else
+			return_value = result
+		end
+		
+		return_value
 	end
-=end
-
-
-
-
-
 end
+		
+
+
+
+
