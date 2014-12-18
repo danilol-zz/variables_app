@@ -92,5 +92,57 @@ describe Processid do
       expect(@e.code).to eq "PR1000"
     end
   end
+
+
+  describe "before_save calculate fields" do
+    context "when the mnemonic is fill out" do
+      let(:resource) { FactoryGirl.create(:processid, mnemonic: "XPTO") }
+
+      it "the 'var_table_name' begin with string 'VAR_' append with the mnemonic value" do
+        expect(resource.var_table_name).to eq "VAR_XPTO"
+      end
+
+      it "the 'var_table_name' NOT equal nil" do
+        expect(resource.var_table_name).not_to eq nil
+      end
+    end
+
+    context "when the mnemonic is not fill out" do
+      let(:resource) { FactoryGirl.create(:processid, mnemonic: nil) }
+
+      it "the 'var_table_name' NOT begin with string 'VAR_' append with the mnemonic value" do
+        expect(resource.var_table_name).not_to eq "VAR_XPTO"
+      end
+
+      it "the 'var_table_name' equal nil" do
+        expect(resource.var_table_name).to eq nil
+      end
+    end
+
+    context "when the process_number is fill out" do
+      let(:resource) { FactoryGirl.create(:processid, process_number: 100) }
+
+      it "the 'routine_name' begin with string 'CD5PV' append with the process_number" do
+        expect(resource.routine_name).to eq "CD5PV#{resource.process_number}"
+      end
+
+      it "the 'routine_name' NOT equal nil" do
+        expect(resource.routine_name).not_to eq nil
+      end
+    end
+
+    context "when the process_number is not fill out" do
+      let(:resource) { FactoryGirl.create(:processid, process_number: nil) }
+
+      it "the 'routine_name' begin with string 'CD5PV' append with the process_number" do
+        expect(resource.routine_name).not_to eq "CD5PV#{resource.process_number}"
+      end
+
+      it "the 'routine_name' equal nil" do
+        expect(resource.routine_name).to eq nil
+      end
+    end
+  end
+
 end
 

@@ -58,7 +58,7 @@ class Table < ActiveRecord::Base
 
   def calculate_field_ziptrans_routine_name
     if self.mnemonic?
-      self.ziptrans_routine_name = "CD5T5#{self.mnemonic}"
+      self.ziptrans_routine_name = "CD5T5#{self.mnemonic}".upcase
     else
       self.ziptrans_routine_name = nil
     end
