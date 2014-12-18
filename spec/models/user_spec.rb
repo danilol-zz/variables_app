@@ -44,7 +44,7 @@ describe User do
       end
 
       it "should check the room" do
-        expect(@user.room1?).to eq true
+        expect(@user.room1?).to be true
       end
     end
 
@@ -54,7 +54,7 @@ describe User do
       end
 
       it "should check the room" do
-        expect(@user.room1?).to eq false
+        expect(@user.room1?).to be false
       end
     end    
 

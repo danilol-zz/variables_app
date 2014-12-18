@@ -18,17 +18,11 @@
               <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>   
-          <div class="row clearfix">
-            <%= link_to "#{Variable.model_name.human.capitalize}", new_variable_path, :class => "btn btn-secundario left txt-no-transform" %>
-          </div>
           <% if @current_user.profile == User::ROOM2 %>
             <div class="row clearfix">
               <%= link_to "#{Processid.model_name.human.capitalize}", new_processid_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>
-          <div class="row clearfix">
-            <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
-          </div>
         </div>
       </div>
     </div> <!-- div class=col2 -->
