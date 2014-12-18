@@ -75,6 +75,8 @@ pt:
         field_name: Nome do campo        
         origin_pic: Pic Origem
         data_type: Tipo de dado
+        fmbase_format_type: Tipo formato fmbase
+        generic_data_type: Tipo de dado generico
         decimal: Decimal
         mask: Mascara
         position: Posição
@@ -85,6 +87,12 @@ pt:
         room_1_notes: Observação sala 1
         cd5_variable_number: Núm var cd5
         cd5_output_order: Ordem saida cd5
+        cd5_variable_name: Nome variavel cd5
+        cd5_origin_format: Formato origem CD5
+        cd5_origin_format_desc: Descrição formato origem CD5
+        cd5_format: Formato CD5 
+        cd5_format_desc: Descrição formato CD5
+        default_value: Valor padrão
         room_2_notes: Observação sala 2
         domain: Domínio
         dmt_notes: Observação DMT
