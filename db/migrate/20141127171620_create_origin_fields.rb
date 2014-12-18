@@ -4,8 +4,6 @@ class CreateOriginFields < ActiveRecord::Migration
       t.string  :field_name
       t.string  :origin_pic
       t.string  :data_type
-      t.string  :fmbase_format_type
-      t.string  :generic_data_type
       t.integer :decimal
       t.string  :mask
       t.integer :position
@@ -16,15 +14,14 @@ class CreateOriginFields < ActiveRecord::Migration
       t.text    :room_1_notes
       t.integer :cd5_variable_number
       t.integer :cd5_output_order
-      t.string  :cd5_variable_name
-      t.string  :cd5_origin_format
-      t.string  :cd5_origin_format_desc
-      t.string  :cd5_format
-      t.string  :cd5_format_desc
-      t.string  :default_value
       t.text    :room_2_notes
       t.string  :domain
       t.text    :dmt_notes
+      t.string  :fmbase_format_datyp
+      t.string  :generic_datyp
+      t.string  :cd5_origin_frmt_datyp
+      t.string  :cd5_frmt_origin_desc_datyp
+      t.string  :default_value_datyp
       t.references :origin,  index: true
 
       t.timestamps

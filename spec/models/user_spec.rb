@@ -6,12 +6,13 @@ describe User do
     context 'name' do
       it { should respond_to :name }
       it { should validate_presence_of(:name) }
+      it { should validate_uniqueness_of(:name) }
     end
 
     context 'profile' do
       it { should respond_to :profile }
       it { should validate_presence_of(:profile) }
-      it { expect(User::PROFILES).to eq ["Sala 1", "Sala 2"] }
+      it { expect(User::PROFILES).to eq ["sala1", "sala2"] }
     end
 
     context 'password' do

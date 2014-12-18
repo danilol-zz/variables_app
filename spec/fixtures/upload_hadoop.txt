@@ -1,0 +1,11 @@
+"Name","Code","Comment","Data Type"
+"tbwh2004","tbwh2004","","<Undefined>"
+"dat_ref","dat_ref","","<Undefined>"
+"num_aut","num_aut","","<Undefined>"
+"num_bin","num_bin","","<Undefined>"
+"num_seq_bin","num_seq_bin","","<Undefined>"
+"num_dig_bin","num_dig_bin","","<Undefined>"
+"num_car","num_car","","<Undefined>"
+"cod_indc_vip","cod_indc_vip","","<Undefined>"
+
+

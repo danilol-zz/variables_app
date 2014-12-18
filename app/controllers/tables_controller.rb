@@ -15,11 +15,13 @@ class TablesController < ApplicationController
 
   # GET /tables/new
   def new
+    @variables = Variable.order(:name)
     @table = Table.new
   end
 
   # GET /tables/1/edit
   def edit
+    @variables = Variable.order(:name)
   end
 
   # POST /tables
@@ -27,9 +29,11 @@ class TablesController < ApplicationController
   def create
     @table = Table.new(table_params)
 
+    @table.set_variables(params[:table][:variable_list])
+
     respond_to do |format|
       if @table.save
-        format.html { redirect_to @table, notice: "#{Table.model_name.human.capitalize} criada com sucesso" }
+        format.html { redirect_to root_path({ status: 'table', notice: "#{Table.model_name.human.capitalize} criada com sucesso" }) }
         format.json { render :show, status: :created, location: @table }
       else
         format.html { render :new }
@@ -41,9 +45,13 @@ class TablesController < ApplicationController
   # PATCH/PUT /tables/1
   # PATCH/PUT /tables/1.json
   def update
+    @table.variables.delete_all
+
+    @table.set_variables(params[:table][:variable_list])
+
     respond_to do |format|
       if @table.update(table_params)
-        format.html { redirect_to @table, notice: "#{Table.model_name.human.capitalize} atualizada com sucesso" }
+        format.html { redirect_to root_path({ status: 'table', notice: "#{Table.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @table }
       else
         format.html { render :edit }

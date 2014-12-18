@@ -13,6 +13,15 @@ class Campaign < ActiveRecord::Base
     "CA#{self.id.to_s.rjust(3,'0')}"
   end
 
+  def set_variables(variable_list = nil)
+    if variable_list
+      self.variables = []
+      variable_list.each { |var| self.variables << Variable.find(var.first) }
+    else
+      self.variables = []
+    end
+  end
+
   def status_screen_name
     unless name.nil?
       res = name[0..20]

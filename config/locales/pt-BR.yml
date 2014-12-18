@@ -72,28 +72,27 @@ pt:
         dmt_advice: Parecer DMT
         dmt_classification: Classificação DMT
       origin_field:
-        field_name: Nome do campo
+        field_name: Nome do campo        
         origin_pic: Pic Origem
         data_type: Tipo de dado
-        fmbase_format_type: Tipo formato
-        generic_data_type: Tipo de dado
         decimal: Decimal
-        mask: Máscara
+        mask: Mascara
         position: Posição
-        width: Tamanho
-        is_key: É chave?
-        will_use: Vai usar?
-        has_signal: Tem sinal?
-        room_1_notes: Observacao sala 1
-        cd5_variable_number: Número var
-        cd5_output_order: Ordem de saída
-        cd5_variable_name: Nome variável
-        cd5_origin_format: Formato origem
-        cd5_origin_format_desc: Descrição formato origem
-        cd5_format: Formato CD5
-        cd5_format_desc: Descricao formato cd5
-        default_value: Valor padrão
-        room_2_notes: Observacao sala 2
+        width: Tam.
+        is_key: É chave ?
+        will_use: Vai usar ?
+        has_signal: Tem sinal ?
+        room_1_notes: Observação sala 1
+        cd5_variable_number: Núm var cd5
+        cd5_output_order: Ordem saida cd5
+        room_2_notes: Observação sala 2
+        domain: Domínio
+        dmt_notes: Observação DMT
+        fmbase_format_datyp: Formato Base (Tipo Dado)
+        generic_datyp: Generico (Tipo Dado)
+        cd5_origin_frmt_datyp: Form. Origem cd5 (Tipo Dado)
+        cd5_frmt_origin_desc_datyp: Desc. form. origem cd5 (Tipo Dado)
+        default_value_datyp: Valor Padrao (Tipo Dado)
       processid:
         process_number: Numero processo
         mnemonic: Mnemônico
@@ -126,6 +125,9 @@ pt:
         mirror_data_stage_routine_name: Nome rotina data stage espelho
         final_data_stage_routine_name: Nome rotina data stage difinitivo
         room_2_notes: Observação sala 2
+        type: Tipo
+        key: Chave
+        key_fields_hive_script: Campos chave script Hive
       user:
         email: E-mail
         name: Nome
@@ -174,6 +176,57 @@ pt:
               blank: Campo nome não pode ser vazio!
             profile:
               blank: Campo perfil não pode ser vazio!
+        origin:
+          attributes:
+            file_name:
+              blank: Campo Nome da base/arquivo não pode ser vazio!
+              too_long: Campo Nome da base/arquivo deve ter no máximo 50 caracteres!
+            file_description:
+              blank: Campo Descrição da base/arquivo não pode ser vazio!
+              too_long: Campo Descrição da base/arquivo deve ter no máximo 200 caracteres!
+            created_in_sprint:
+              blank: Campo Sprint em que foi criada não pode ser vazio!
+            updated_in_sprint:
+              blank: Campo Sprint em que foi alterada não pode ser vazio!
+            abbreviation:
+              blank: Campo Sigla não pode ser vazio!
+              too_long: Campo Sigla deve ter no máximo 3 caracteres!
+            base_type:
+              blank: Campo Tipo de base não pode ser vazio!
+            book_mainframe:
+              too_long: Campo Book mainframe deve ter no máximo 10 caracteres!
+            periodicity:
+              blank: Campo Periodicidade não pode ser vazio!
+            periodicity_details:
+              too_long: Campo Detalhe da periodicidade deve ter no máximo 50 caracteres!
+            data_retention_type:
+              blank: Campo Tipo de retenção dos dados não pode ser vazio!
+            extractor_file_type:
+              blank: Campo Característica do arquivo no Extrator não pode ser vazio!
+            room_1_notes:
+              too_long: Campo Observação deve ter no máximo 500 caracteres!
+            mnemonic:
+              blank: Campo Mnemônico não pode ser vazio!
+              too_long: Campo Mnemônico deve ter no máximo 4 caracteres!
+              uniqueness: Campo Mnemônico deve ser único!
+            cd5_portal_origin_code:
+              blank: Campo Cód. origem CD5 não pode ser vazio!
+              uniqueness: Campo Cód. origem CD5 deve ser único!
+            cd5_portal_destination_code:
+              blank: Campo Cód. destino CD5 não pode ser vazio!
+              uniqueness: Campo Cód. destino CD5 deve ser único!
+            mainframe_storage_type:
+              blank: Campo Tipo de armazenamento mainframe não pode ser vazio!
+            room_2_notes:
+              too_long: Campo Observação - sala 2 deve ter no máximo 500 caracteres!
+            dmt_advice:
+              blank: Campo Parecer DMT não pode ser vazio!
+              too_long: Campo Mnemônico deve ter no máximo 200 caracteres!
+            dmt_classification:
+              blank: Campo Classificação DMT não pode ser vazio!
+            status:
+              blank: Campo Status não pode ser vazio!
+
   are_you_sure: Você tem certeza?
   show: Visualizar
   edit: Editar

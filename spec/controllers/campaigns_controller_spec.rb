@@ -112,7 +112,7 @@ RSpec.describe CampaignsController, :type => :controller do
       it "redirects to the created campaign" do
         session[:user_id] = User.create! user_attributes
         post :create, {:campaign => valid_attributes}, valid_session
-        expect(response).to redirect_to(Campaign.last)
+        expect(response).to redirect_to(root_path({status: 'campaign', notice: 'Campanha criada com sucesso'}))
       end
     end
 
@@ -177,7 +177,7 @@ RSpec.describe CampaignsController, :type => :controller do
         campaign = Campaign.create! valid_attributes
         session[:user_id] = User.create! user_attributes
         put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session
-        expect(response).to redirect_to(campaign)
+        expect(response).to redirect_to(root_path({status: 'campaign', notice: 'Campanha atualizada com sucesso'}))
       end
     end
 
