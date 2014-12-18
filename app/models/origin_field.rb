@@ -1,6 +1,7 @@
 class OriginField < ActiveRecord::Base
   include UserSession
-
+  before_save :calculate_field_fmbase_format_datyp
+  before_save :calculate_field_generic_datyp
   belongs_to :origin
 
 
@@ -138,6 +139,30 @@ class OriginField < ActiveRecord::Base
       end
 
     return_value
+  end
+
+  def calculate_field_generic_datyp
+    case self.data_type
+      when "Alfanumérico"
+        self.generic_datyp = "texto"
+      when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"
+        self.generic_datyp = "numero"
+      when "Data"
+        self.generic_datyp = "data"
+      end
+  end
+
+  def calculate_field_fmbase_format_datyp
+    case self.data_type
+      when "Alfanumérico"
+        self.fmbase_format_datyp = "AN"
+      when "Numérico", "Data", "Numérico com vírgula"
+        self.fmbase_format_datyp = "ZD"
+      when "Compactado", "Compactado com vírgula"
+        self.fmbase_format_datyp = "PD"
+      when "Binário Mainframe"
+        self.fmbase_format_datyp = "BI"
+    end
   end
 
 end
