@@ -221,6 +221,7 @@ pt:
               too_long: Campo Observação - sala 2 deve ter no máximo 500 caracteres!
             dmt_advice:
               blank: Campo Parecer DMT não pode ser vazio!
+              too_long: Campo Mnemônico deve ter no máximo 200 caracteres!
             dmt_classification:
               blank: Campo Classificação DMT não pode ser vazio!
             status:
