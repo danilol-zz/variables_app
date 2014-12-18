@@ -78,63 +78,57 @@
       <div class="row clearfix">
         <div class="left t4">
           <%= f.label :mnemonic %>
-          <%= f.text_field :mnemonic %>    
+          <%= f.text_field :mnemonic %>
         </div>
       </div>
-      <div class="row clearfix">  
+      <div class="row clearfix">
         <div class="left t10">
           <%= f.label :cd5_portal_origin_code %>
-          <%= f.text_field :cd5_portal_origin_code %>        
+          <%= f.text_field :cd5_portal_origin_code %>
         </div>
         <div class="left t6">
           <%= f.label :cd5_portal_origin_name %>
           <%= f.text_field :cd5_portal_origin_name, :disabled => true %>
-        </div>  
+        </div>
         <div class="left t10">
           <%= f.label :cd5_portal_destination_code %>
           <%= f.text_field :cd5_portal_destination_code %>
-        </div>      
+        </div>
         <div class="left t6">
           <%= f.label :cd5_portal_destination_name %>
-          <%= f.text_field :cd5_portal_destination_name, :disabled => true %> 
-        </div>     
+          <%= f.text_field :cd5_portal_destination_name, :disabled => true %>
+        </div>
       </div>
 
-      <div class="row clearfix">                           
+      <div class="row clearfix">
         <div class="left t4">
           <%= f.label :hive_table_name %>
           <%= f.text_field :hive_table_name, :disabled => true %>
-        </div>        
+        </div>
         <div class="left t5">
           <%= f.label :mainframe_storage_type %>
-          <%= f.select(:mainframe_storage_type,  ["Disco", "Fita"], {:include_blank => 'Selecione'}) %>       
+          <%= f.select(:mainframe_storage_type,  ["Disco", "Fita"], {:include_blank => 'Selecione'}) %>
         </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t4">
           <%= f.label :room_2_notes %>
-          <%= f.text_area :room_2_notes, rows: 5 %>      
-        </div>        
-      </div>      
-                
-      <div class="row clearfix">
-        <div class="left t10">
-          <%= f.label :status %>
-          <%= f.select(:status,  Constants::STATUS, {:include_blank => 'Selecione'}) %>
-        </div>                             
-      </div>
-
-    </fieldset>
-
-    <section>      
-      <div class="botoes clearfix">
-        <div class="row clearfix">
-          <%= f.submit %>
+          <%= f.text_area :room_2_notes, rows: 5 %>
         </div>
       </div>
-    </section>    
+    </fieldset>
 
+    <section>
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <% if @current_user.room2? && @origin.status == Constants::STATUS[:SALA2] %>
+            <%= f.submit "Salvar" %>
+            <%= f.button "Finalizar", name: 'finish', value: "producao" %>
+          <% end %>
+          <%= link_to t('back'), root_path %>
+        </div>
+      </div>
+    </section>
   <% end %>
-
 </section>

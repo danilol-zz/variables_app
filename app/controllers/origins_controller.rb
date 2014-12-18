@@ -2,10 +2,6 @@ class OriginsController < ApplicationController
   before_action :set_origin, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_authentication
 
-  def index
-    @origins = Origin.all
-  end
-
   def show
     @origin_field = OriginField.new
   end
@@ -18,7 +14,7 @@ class OriginsController < ApplicationController
   end
 
   def create
-    @origin = Origin.new(origin_params)
+    @origin = Origin.new(origin_params.merge(status: Constants::STATUS[:SALA1]))
 
     respond_to do |format|
       if @origin.save
@@ -32,9 +28,11 @@ class OriginsController < ApplicationController
   end
 
   def update
+    status = params[:finish] ? { status: params[:finish] } : {}
+
     respond_to do |format|
-      if @origin.update(origin_params)
-        format.html { redirect_to @origin, notice: "#{Origin.model_name.human.capitalize} atualizado com sucesso" }
+      if @origin.update(origin_params.merge(status))
+        format.html { redirect_to root_path, notice: "#{Origin.model_name.human.capitalize} atualizado com sucesso" }
         format.json { render :show, status: :ok, location: @origin }
       else
         format.html { render :edit }
@@ -101,14 +99,14 @@ class OriginsController < ApplicationController
 
     resultado = false
 
-    # abre o arquivo temporario 
+    # abre o arquivo temporario
     File.open(@data_file.tempfile) do |txt|
       txt.each_line() do |linha|
 
         # ignora o header e linhas vazias para oa arquivos do hadoop
-        array_linha = linha.split(",")        
+        array_linha = linha.split(",")
         if @file_type == "hadoop" && array_linha.size > 1 && conta_linha > 0
-          resultado = OriginField.text_parser(@file_type, linha, @origin.id) 
+          resultado = OriginField.text_parser(@file_type, linha, @origin.id)
           conta_valido += 1
         elsif (!linha.downcase.include? "end of data") && @file_type == "mainframe"
           resultado = OriginField.text_parser(@file_type, linha, @origin.id)
@@ -127,7 +125,7 @@ class OriginsController < ApplicationController
       redirect_to @origin, notice: "Nenhum #{OriginField.model_name.human.capitalize} foi criado!"
     end
   end
-  
+
   private
 
   def set_desabled_fields
