@@ -52,82 +52,52 @@ RSpec.describe OriginsController, type: :controller do
   end
 
   describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Origin" do
-        expect { post :create, { origin: valid_attributes}, valid_session }.to change(Origin, :count).by(1)
-      end
-
-      it "assigns a newly created origin as @origin" do
-        post :create, { origin: valid_attributes }, valid_session
-
-        expect(assigns(:origin)).to be_a(Origin)
-        expect(assigns(:origin)).to be_persisted
-      end
-
-      it "redirects to the created origin" do
-        post :create, { origin: valid_attributes }, valid_session
-
-        expect(response).to redirect_to(Origin.last)
-      end
+    it "creates a new Origin" do
+      expect { post :create, { origin: valid_attributes}, valid_session }.to change(Origin, :count).by(1)
     end
 
-    #describe "with invalid params" do
-    #  it "assigns a newly created but unsaved origin as @origin" do
-    #    post :create, {:origin => invalid_attributes}, valid_session
-    #    expect(assigns(:origin)).to be_a_new(Origin)
-    #  end
+    it "assigns a newly created origin as @origin" do
+      post :create, { origin: valid_attributes }, valid_session
 
-    #  it "re-renders the 'new' template" do
-    #    post :create, {:origin => invalid_attributes}, valid_session
-    #    expect(response).to render_template("new")
-    #  end
-    #end
+      expect(assigns(:origin)).to be_a(Origin)
+      expect(assigns(:origin)).to be_persisted
+    end
+
+    it "redirects to the created origin" do
+      post :create, { origin: valid_attributes }, valid_session
+
+      expect(response).to redirect_to(Origin.last)
+    end
   end
 
   describe "PUT update" do
-    describe "with valid params" do
-      let(:new_attributes) { FactoryGirl.attributes_for(:origin, file_name: 'teste2') }
+    let(:new_attributes) { FactoryGirl.attributes_for(:origin, file_name: 'teste2') }
 
-      it "updates the requested origin" do
-        origin = Origin.create(valid_attributes)
+    it "updates the requested origin" do
+      origin = Origin.create(valid_attributes)
 
-        put :update, { id: origin.to_param, origin: new_attributes }, valid_session
+      put :update, { id: origin.to_param, origin: new_attributes }, valid_session
 
-        origin.reload
+      origin.reload
 
-        expect(origin.file_name).to eq 'teste2'
-      end
-
-      it "assigns the requested origin as @origin" do
-        origin = Origin.create(valid_attributes)
-
-        put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
-
-        expect(assigns(:origin)).to eq(origin)
-      end
-
-      it "redirects to the origin" do
-        origin = Origin.create(valid_attributes)
-
-        put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
-
-        expect(response).to redirect_to(origin)
-      end
+      expect(origin.file_name).to eq 'teste2'
     end
 
-    #describe "with invalid params" do
-    #  it "assigns the origin as @origin" do
-    #    origin = Origin.create! valid_attributes
-    #    put :update, {:id => origin.to_param, :origin => invalid_attributes}, valid_session
-    #    expect(assigns(:origin)).to eq(origin)
-    #  end
+    it "assigns the requested origin as @origin" do
+      origin = Origin.create(valid_attributes)
 
-    #  it "re-renders the 'edit' template" do
-    #    origin = Origin.create! valid_attributes
-    #    put :update, {:id => origin.to_param, :origin => invalid_attributes}, valid_session
-    #    expect(response).to render_template("edit")
-    #  end
-    #end
+      put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
+
+      expect(assigns(:origin)).to eq(origin)
+    end
+
+    it "redirects to the origin" do
+      origin = Origin.create(valid_attributes)
+
+      put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
+
+      expect(response).to redirect_to(origin)
+    end
   end
 
   describe "DELETE destroy" do

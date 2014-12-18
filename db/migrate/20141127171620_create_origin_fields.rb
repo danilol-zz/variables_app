@@ -23,6 +23,7 @@ class CreateOriginFields < ActiveRecord::Migration
       t.string  :cd5_frmt_origin_desc_datyp
       t.string  :default_value_datyp
       t.references :origin,  index: true
+
       t.timestamps
     end
   end

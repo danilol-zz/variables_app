@@ -2,9 +2,9 @@ class OriginField < ActiveRecord::Base
   belongs_to :origin
 
   def self.text_parser(origin_type, text_value, origin_id)
-      
+
       return_value=nil
-        
+
       # remove quebra de linha windows
       text_value = text_value.gsub(/\n/, '').gsub(/\r/, '')
 
@@ -21,7 +21,7 @@ class OriginField < ActiveRecord::Base
 
   def self.text_parser_mainframe(text_value, origin_id) 
      captura = /(.{0,5})(.{0,40})(.{0,10})(.{0,8})(.{0,6})(.{0,6})(.{0,6})/.match(text_value)
-     
+
      field_name = ""
      origin_pic = ""
      fmbase_value = ""
@@ -31,12 +31,12 @@ class OriginField < ActiveRecord::Base
 
      ind_comma=""
      data_type=""
-  
-     
+
+
 
       unless ( captura[7].empty? ) || 
-             (/^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip).nil? )  
-        
+          (/^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip).nil? )  
+
         field_name = /^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip)[1]
           origin_pic = captura[3].strip
           fmbase_value = captura[4].strip
@@ -74,8 +74,8 @@ class OriginField < ActiveRecord::Base
               data_type=""
           end
         end
-        end    
-        
+        end
+
         unless
            (/^[0-9A-Za-z\ \_\-]+$/.match(field_name).nil?) ||
            (/^AN|ZD|BI|PD$/.match(fmbase_value).nil?) ||
