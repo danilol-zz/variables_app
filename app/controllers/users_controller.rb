@@ -77,11 +77,9 @@ class UsersController < ApplicationController
     user = User.authenticate(params[:user][:email], params[:user][:password])
     if user
       session[:user_id] = user.id
-      #redirect_to "/origins", notice: "Olá #{user.name}, bem vindo ao Portal de Variáveis!"
       flash[:notice] = "Olá #{user.name}, bem vindo ao Portal de Variáveis!"
     else
       flash[:error] = "Usuário ou senha inválida"
-      #redirect_to root_url
     end
     redirect_to root_url
   end

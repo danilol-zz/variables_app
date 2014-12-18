@@ -26,7 +26,8 @@ RSpec.describe TablesController, :type => :controller do
       :ziptrans_routine_name => 'teste',
       :mirror_data_stage_routine_name => 'teste',
       :final_data_stage_routine_name => 'teste',
-      :room_2_notes => 'teste'
+      :room_2_notes => 'teste',
+      :variable_list => {"1" => "checked", "2" => "checked" }
     }
   }
 
@@ -85,6 +86,11 @@ RSpec.describe TablesController, :type => :controller do
 
   describe "POST create" do
     describe "with valid params" do
+      before do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+      end
+
       it "creates a new Table" do
         expect {
           session[:user_id] = User.create! user_attributes
@@ -102,7 +108,7 @@ RSpec.describe TablesController, :type => :controller do
       it "redirects to the created table" do
         session[:user_id] = User.create! user_attributes
         post :create, {:table => valid_attributes}, valid_session
-        expect(response).to redirect_to(Table.last)
+        expect(response).to redirect_to(root_path({status: 'table', notice: 'Tabela criada com sucesso'}))
       end
     end
 
@@ -161,10 +167,12 @@ RSpec.describe TablesController, :type => :controller do
       end
 
       it "redirects to the table" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
         table = Table.create! valid_attributes
         session[:user_id] = User.create! user_attributes
         put :update, {:id => table.to_param, :table => valid_attributes}, valid_session
-        expect(response).to redirect_to(table)
+        expect(response).to redirect_to(root_path({status: 'table', notice: 'Tabela atualizada com sucesso'}))
       end
     end
 

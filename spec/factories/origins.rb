@@ -36,6 +36,7 @@ FactoryGirl.define do
     dmt_advice "MyString"
     dmt_classification "MyString"
     status "sala1"
+    current_user_id 1
   end
 end
 

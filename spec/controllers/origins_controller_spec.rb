@@ -52,55 +52,51 @@ RSpec.describe OriginsController, type: :controller do
   end
 
   describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Origin" do
-        expect { post :create, { origin: valid_attributes}, valid_session }.to change(Origin, :count).by(1)
-      end
+    it "creates a new Origin" do
+      expect { post :create, { origin: valid_attributes}, valid_session }.to change(Origin, :count).by(1)
+    end
 
-      it "assigns a newly created origin as @origin" do
-        post :create, { origin: valid_attributes }, valid_session
+    it "assigns a newly created origin as @origin" do
+      post :create, { origin: valid_attributes }, valid_session
 
-        expect(assigns(:origin)).to be_a(Origin)
-        expect(assigns(:origin)).to be_persisted
-      end
+      expect(assigns(:origin)).to be_a(Origin)
+      expect(assigns(:origin)).to be_persisted
+    end
 
-      it "redirects to the created origin" do
-        post :create, { origin: valid_attributes }, valid_session
+    it "redirects to the created origin" do
+      post :create, { origin: valid_attributes }, valid_session
 
-        expect(response).to redirect_to(Origin.last)
-      end
+      expect(response).to redirect_to(Origin.last)
     end
   end
 
   describe "PUT update" do
-    describe "with valid params" do
-      let(:new_attributes) { FactoryGirl.attributes_for(:origin, file_name: 'teste2') }
+    let(:new_attributes) { FactoryGirl.attributes_for(:origin, file_name: 'teste2') }
 
-      it "updates the requested origin" do
-        origin = Origin.create(valid_attributes)
+    it "updates the requested origin" do
+      origin = Origin.create(valid_attributes)
 
-        put :update, { id: origin.to_param, origin: new_attributes }, valid_session
+      put :update, { id: origin.to_param, origin: new_attributes }, valid_session
 
-        origin.reload
+      origin.reload
 
-        expect(origin.file_name).to eq 'teste2'
-      end
+      expect(origin.file_name).to eq 'teste2'
+    end
 
-      it "assigns the requested origin as @origin" do
-        origin = Origin.create(valid_attributes)
+    it "assigns the requested origin as @origin" do
+      origin = Origin.create(valid_attributes)
 
-        put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
+      put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
 
-        expect(assigns(:origin)).to eq(origin)
-      end
+      expect(assigns(:origin)).to eq(origin)
+    end
 
-      it "redirects to the origin" do
-        origin = Origin.create(valid_attributes)
+    it "redirects to the origin" do
+      origin = Origin.create(valid_attributes)
 
-        put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
+      put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
 
-        expect(response).to redirect_to(origin)
-      end
+      expect(response).to redirect_to(origin)
     end
   end
 
@@ -152,6 +148,35 @@ RSpec.describe OriginsController, type: :controller do
   end
 
   let(:valid_origin_field_attributes)   { FactoryGirl.attributes_for(:origin_field) }
+  
+  describe "GET origin field" do
+    let(:valid_origin_field_attributes) {
+      valid_origin_field_attributes = {
+        :field_name => 'teste',
+        :origin_pic => 'teste',
+        :data_type => 'teste',
+        :decimal => 'teste',
+        :mask => 'teste',
+        :position => 'teste',
+        :width => 'teste',
+        :is_key => 'teste',
+        :will_use => 'teste',
+        :has_signal => 'teste',
+        :room_1_notes => 'teste',
+        :cd5_variable_number => 'teste',
+        :cd5_output_order => 'teste',
+        :room_2_notes => 'teste',
+        :domain => 'teste',
+        :dmt_notes => 'teste',
+        :fmbase_format_datyp => 'teste',
+        :generic_datyp => 'teste',
+        :cd5_origin_frmt_datyp => 'teste',
+        :cd5_frmt_origin_desc_datyp => 'teste',
+        :default_value_datyp => 'teste',
+        :origin_id => 1,
+        :created_at => 'teste',
+        :updated_at => 'teste'}
+    }
 
   describe "GET origin field" do
     before do
@@ -177,5 +202,74 @@ RSpec.describe OriginsController, type: :controller do
     end
   end
 
+  describe "POST create origin field upload hadoop file" do
+    context "with valid file type and valid file" do
+      it "assigns new created origin_fields" do
+        #require "pry";binding.pry;
+       # session[:user_id] = User.create! user_attributes
+        origin = FactoryGirl.create(:origin)
+
+        file_test = File.new(Rails.root + 'spec/fixtures/upload_hadoop.txt')
+        file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_hadoop.txt"), content_type: "text/plain")
+
+        expect {
+          post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "hadoop" }, valid_session
+        }.to change(OriginField, :count).by(8)
+
+        #expect(response).to redirect_to(origin_field)
+      end
+    end
+
+    context "with invalid file type and valid file" do
+      it "not created any origin_fields" do
+        #require "pry";binding.pry;
+        #session[:user_id] = User.create! user_attributes
+        origin = FactoryGirl.create(:origin)
+
+        file_test = File.new(Rails.root + 'spec/fixtures/upload_hadoop.txt')
+        file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_hadoop.txt"), content_type: "text/plain")
+
+        expect {
+          post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  }, file_type: "invalid" }, valid_session
+        }.to change(OriginField, :count).by(0)
+
+        #expect(response).to redirect_to(origin_field)
+      end
+    end
+  end
+
+  describe "POST create origin field upload mainframe file" do
+    context "with valid file type and valid file" do
+      it "assigns new created origin_fields" do
+        #require "pry";binding.pry;
+        #session[:user_id] = User.create! user_attributes
+        origin = FactoryGirl.create(:origin)
+
+        file_test = File.new(Rails.root + 'spec/fixtures/upload_mainframe.txt')
+        file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_mainframe.txt"), content_type: "text/plain")
+
+        expect {
+          post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "mainframe" }, valid_session
+        }.to change(OriginField, :count).by(40)
+
+        #expect(response).to redirect_to(origin_field)
+      end
+    end
+
+    context "with invalid file type and valid file" do
+      it "not created any origin_fields" do
+        origin = FactoryGirl.create(:origin)
+
+        file_test = File.new(Rails.root + 'spec/fixtures/upload_mainframe.txt')
+        file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_mainframe.txt"), content_type: "text/plain")
+
+        expect {
+          post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "invalid" }, valid_session
+        }.to change(OriginField, :count).by(0)
+
+      end
+    end
+  end
+end
 
 end

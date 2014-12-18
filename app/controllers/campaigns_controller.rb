@@ -28,15 +28,12 @@ class CampaignsController < ApplicationController
   # POST /campaigns.json
   def create
     @campaign = Campaign.new(campaign_params)
-    @campaign.variables.delete_all
 
-    params[:campaign][:variable_list].each do |var|
-      @campaign.variables << Variable.find(var.first)
-    end
+    @campaign.set_variables(params[:campaign][:variable_list])
 
     respond_to do |format|
       if @campaign.save
-        format.html { redirect_to @campaign, notice: "#{Campaign.model_name.human.capitalize} criada com sucesso" }
+        format.html { redirect_to root_path({ status: 'campaign', notice: "#{Campaign.model_name.human.capitalize} criada com sucesso" }) }
         format.json { render :show, status: :created, location: @campaign }
       else
         format.html { render :new }
@@ -56,7 +53,7 @@ class CampaignsController < ApplicationController
 
     respond_to do |format|
       if @campaign.update(campaign_params)
-        format.html { redirect_to @campaign, notice: "#{Campaign.model_name.human.capitalize} atualizada com sucesso" }
+        format.html { redirect_to root_path({ status: 'campaign', notice: "#{Campaign.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @campaign }
       else
         format.html { render :edit }

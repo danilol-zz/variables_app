@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141215135549) do
+ActiveRecord::Schema.define(version: 20141217163706) do
 
   create_table "campaigns", force: true do |t|
     t.string   "ident"
@@ -80,30 +80,35 @@ ActiveRecord::Schema.define(version: 20141215135549) do
 
   add_index "origin_fields", ["origin_id"], name: "index_origin_fields_on_origin_id"
 
+  create_table "origin_fields_variables", force: true do |t|
+    t.integer "variable_id"
+    t.integer "origin_field_id"
+  end
+
   create_table "origins", force: true do |t|
-    t.string   "file_name",                   limit: 50,  null: false
-    t.string   "file_description",            limit: 200, null: false
-    t.integer  "created_in_sprint",                       null: false
-    t.integer  "updated_in_sprint",                       null: false
-    t.string   "abbreviation",                limit: 3,   null: false
-    t.string   "base_type",                               null: false
+    t.string   "file_name",                   limit: 50
+    t.string   "file_description",            limit: 200
+    t.integer  "created_in_sprint"
+    t.integer  "updated_in_sprint"
+    t.string   "abbreviation",                limit: 3
+    t.string   "base_type"
     t.string   "book_mainframe",              limit: 10
-    t.string   "periodicity",                             null: false
+    t.string   "periodicity"
     t.string   "periodicity_details",         limit: 50
-    t.string   "data_retention_type",                     null: false
-    t.string   "extractor_file_type",                     null: false
+    t.string   "data_retention_type"
+    t.string   "extractor_file_type"
     t.text     "room_1_notes",                limit: 500
-    t.string   "mnemonic",                    limit: 4,   null: false
-    t.integer  "cd5_portal_origin_code",                  null: false
+    t.string   "mnemonic",                    limit: 4
+    t.integer  "cd5_portal_origin_code"
     t.string   "cd5_portal_origin_name"
-    t.integer  "cd5_portal_destination_code",             null: false
+    t.integer  "cd5_portal_destination_code"
     t.string   "cd5_portal_destination_name"
     t.string   "hive_table_name"
-    t.string   "mainframe_storage_type",                  null: false
+    t.string   "mainframe_storage_type"
     t.text     "room_2_notes",                limit: 500
     t.string   "dmt_advice",                  limit: 200
-    t.string   "dmt_classification",                      null: false
-    t.string   "status",                                  null: false
+    t.string   "dmt_classification"
+    t.string   "status",                                  default: "sala1"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -125,6 +130,11 @@ ActiveRecord::Schema.define(version: 20141215135549) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "processids_variables", force: true do |t|
+    t.integer "processid_id"
+    t.integer "variable_id"
   end
 
   create_table "tables", force: true do |t|
@@ -155,6 +165,11 @@ ActiveRecord::Schema.define(version: 20141215135549) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "tables_variables", force: true do |t|
+    t.integer "table_id"
+    t.integer "variable_id"
   end
 
   create_table "users", force: true do |t|

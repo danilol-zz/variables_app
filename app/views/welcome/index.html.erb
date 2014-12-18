@@ -1,4 +1,3 @@
-  
 <section class="main">
   <div class="row clearfix">
     <div class="col2" role="complementary">
@@ -19,11 +18,17 @@
               <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>   
-          <% if @current_user.profile == User::ROOM2 %>         
+          <div class="row clearfix">
+            <%= link_to "#{Variable.model_name.human.capitalize}", new_variable_path, :class => "btn btn-secundario left txt-no-transform" %>
+          </div>
+          <% if @current_user.profile == User::ROOM2 %>
             <div class="row clearfix">
               <%= link_to "#{Processid.model_name.human.capitalize}", new_processid_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>
+          <div class="row clearfix">
+            <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
+          </div>
         </div>
       </div>
     </div> <!-- div class=col2 -->
@@ -35,34 +40,34 @@
 
           <fieldset>
             <legend></legend>
-              <div id="status" class="row clearfix line-bottom">
-                <%= form_tag( index_path ) do  %>
+            <div id="status" class="row clearfix line-bottom">
+              <%= form_tag( index_path ) do  %>
+                <p class="left">
+                  <input type="radio" value="origin" <%='checked' if @filter == 'origin' %> id="status01" name="status", onclick="this.form.submit();" />
+                  <label for="status01"><%= this_model_name( Origin ) %></label>
+                </p>
+                <% if @current_user.profile == User::ROOM1 %>
                   <p class="left">
-                    <input type="radio" value="origin" <%='checked' if @filter == 'origin' %> id="status01" name="status", onclick="this.form.submit();" />
-                    <label for="status01"><%= this_model_name( Origin ) %></label>
+                    <input type="radio" value="campaign" <%='checked' if @filter == 'campaign' %> id="status02" name="status", onclick="this.form.submit();" />
+                    <label for="status02"><%= this_model_name( Campaign ) %></label>
                   </p>
-                  <% if @current_user.profile == User::ROOM1 %>
-                    <p class="left">
-                      <input type="radio" value="campaign" <%='checked' if @filter == 'campaign' %> id="status02" name="status", onclick="this.form.submit();" />
-                      <label for="status02"><%= this_model_name( Campaign ) %></label>
-                    </p>
-                  <% end %>
+                <% end %>
+                <p class="left">
+                  <input type="radio" value="variable" <%='checked' if @filter == 'variable' %> id="status03" name="status", onclick="this.form.submit();" />
+                  <label for="status03"><%= this_model_name( Variable ) %></label>
+                </p>
+                <% if @current_user.profile == User::ROOM2 %>
                   <p class="left">
-                    <input type="radio" value="variable" <%='checked' if @filter == 'variable' %> id="status03" name="status", onclick="this.form.submit();" />
-                    <label for="status03"><%= this_model_name( Variable ) %></label>
+                    <input type="radio" value="processid" <%='checked' if @filter == 'processid' %> id="status05" name="status", onclick="this.form.submit();" />
+                    <label for="status05"><%= this_model_name( Processid ) %></label>
                   </p>
-                  <% if @current_user.profile == User::ROOM2 %>
-                    <p class="left">
-                      <input type="radio" value="table" <%='checked' if @filter == 'table' %> id="status04" name="status", onclick="this.form.submit();" />
-                      <label for="status04"><%= this_model_name( Table ) %></label>
-                    </p>
-                    <p class="left">
-                      <input type="radio" value="processid" <%='checked' if @filter == 'processid' %> id="status05" name="status", onclick="this.form.submit();" />
-                      <label for="status05"><%= this_model_name( Processid ) %></label>
-                    </p>
-                  <% end %>
-                <% end %>  
-              </div> <!-- row clearfix -->
+                <% end %>
+                <p class="left">
+                  <input type="radio" value="table" <%='checked' if @filter == 'table' %> id="status04" name="status", onclick="this.form.submit();" />
+                  <label for="status04"><%= this_model_name( Table ) %></label>
+                </p>
+              <% end %>
+            </div> <!-- row clearfix -->
           </fieldset>
 
           <section>
@@ -77,25 +82,23 @@
               <tbody>
                 <% if @entity_status.empty? %>
                   <tr><td></td><td></td><td></td></tr>
-                <% else %> 
+                <% else %>
                   <% 0.upto(@max_size - 1) do |t| %>
                     <tr>
                       <% 3.times do |e| %>
                         <td>
-                          <%= link_to "#{@entity_status[e][t].code} #{@entity_status[e][t].status_screen_name}",   
-                           "#{@filter}s/#{@entity_status[e][t].id}/edit" unless @entity_status[e][t].nil? %>       
+                          <%= link_to "#{@entity_status[e][t].code} #{@entity_status[e][t].status_screen_name}",
+                            "#{@filter}s/#{@entity_status[e][t].id}/edit" unless @entity_status[e][t].nil? %>
                         </td>
                       <% end %>
-                    </tr>  
+                    </tr>
                   <% end %>
                 <% end %>
               </tbody>
             </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
           </section> <!-- grid section -->
-
         </section> <!-- formulario -->
       </div> <!-- modulo -->
     </div> <!-- col -->
-
   </div> <!-- row clearfix -->
 </section> <!-- main -->

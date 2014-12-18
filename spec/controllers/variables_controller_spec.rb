@@ -103,7 +103,7 @@ RSpec.describe VariablesController, :type => :controller do
       it "redirects to the created variable" do
         session[:user_id] = User.create! user_attributes
         post :create, {:variable => valid_attributes}, valid_session
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(root_path({status: 'variable', notice: 'Variavel criada com sucesso'}))
       end
     end
 
@@ -166,7 +166,7 @@ RSpec.describe VariablesController, :type => :controller do
         variable = Variable.create! valid_attributes
         session[:user_id] = User.create! user_attributes
         put :update, {:id => variable.to_param, :variable => valid_attributes}, valid_session
-        expect(response).to redirect_to(variable)
+        expect(response).to redirect_to(root_path({status: 'variable', notice: 'Variavel atualizada com sucesso'}))
       end
     end
 

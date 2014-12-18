@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   post "/create_or_update_origin_field" => "origins#create_or_update_origin_field"
   get "/get_origin_field_to_update"     => "origins#get_origin_field_to_update"
   delete "/destroy_origin_field"        => "origins#destroy_origin_field"
+  
+  post "/create_origin_field_upload" => "origins#create_origin_field_upload"
 
   get "user/index"
   get "/login"             => "users#login"

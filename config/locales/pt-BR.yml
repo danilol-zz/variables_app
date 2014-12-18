@@ -125,6 +125,9 @@ pt:
         mirror_data_stage_routine_name: Nome rotina data stage espelho
         final_data_stage_routine_name: Nome rotina data stage difinitivo
         room_2_notes: Observação sala 2
+        type: Tipo
+        key: Chave
+        key_fields_hive_script: Campos chave script Hive
       user:
         email: E-mail
         name: Nome
@@ -218,6 +221,7 @@ pt:
               too_long: Campo Observação - sala 2 deve ter no máximo 500 caracteres!
             dmt_advice:
               blank: Campo Parecer DMT não pode ser vazio!
+              too_long: Campo Mnemônico deve ter no máximo 200 caracteres!
             dmt_classification:
               blank: Campo Classificação DMT não pode ser vazio!
             status:

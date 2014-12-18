@@ -15,11 +15,13 @@ class ProcessidsController < ApplicationController
 
   # GET /processids/new
   def new
+    @variables = Variable.order(:name)
     @processid = Processid.new
   end
 
   # GET /processids/1/edit
   def edit
+    @variables = Variable.order(:name)
   end
 
   # POST /processids
@@ -27,9 +29,11 @@ class ProcessidsController < ApplicationController
   def create
     @processid = Processid.new(processid_params)
 
+    #@processid.set_variables(params[:processid][:variable_list])
+
     respond_to do |format|
       if @processid.save
-        format.html { redirect_to @processid, notice: "#{Processid.model_name.human.capitalize} criado com sucesso" }
+        format.html { redirect_to root_path({ status: 'processid', notice: "#{Processid.model_name.human.capitalize} criado com sucesso" }) }
         format.json { render :show, status: :created, location: @processid }
       else
         format.html { render :new }
@@ -43,7 +47,7 @@ class ProcessidsController < ApplicationController
   def update
     respond_to do |format|
       if @processid.update(processid_params)
-        format.html { redirect_to @processid, notice: "#{Processid.model_name.human.capitalize} atualizado com sucesso" }
+        format.html { redirect_to root_path({ status: 'processid', notice: "#{Processid.model_name.human.capitalize} atualizado com sucesso" }) }
         format.json { render :show, status: :ok, location: @processid }
       else
         format.html { render :edit }

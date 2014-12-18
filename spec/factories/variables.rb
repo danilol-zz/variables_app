@@ -22,5 +22,7 @@ FactoryGirl.define do
     variable_type "MyString"
     owner "MyString"
     status "sala1"
+    tables []
+    origin_fields []
   end
 end

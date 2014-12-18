@@ -24,4 +24,3 @@ FactoryGirl.define do
     origin_id 1
   end
 end
-

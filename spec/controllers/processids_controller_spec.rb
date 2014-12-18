@@ -15,7 +15,8 @@ RSpec.describe ProcessidsController, :type => :controller do
       :acceptance_percent => 'teste',
       :keep_previous_work => 'teste',
       :counting_rule => 'teste',
-      :notes => 'teste'
+      :notes => 'teste',
+      :variable_list => {"1" => "checked", "2" => "checked" }
     }
   }
 
@@ -74,6 +75,11 @@ RSpec.describe ProcessidsController, :type => :controller do
 
   describe "POST create" do
     describe "with valid params" do
+      before do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+      end
+
       it "creates a new Processid" do
         expect {
           session[:user_id] = User.create! user_attributes
@@ -91,7 +97,7 @@ RSpec.describe ProcessidsController, :type => :controller do
       it "redirects to the created processid" do
         session[:user_id] = User.create! user_attributes
         post :create, {:processid => valid_attributes}, valid_session
-        expect(response).to redirect_to(Processid.last)
+        expect(response).to redirect_to(root_path({status: 'processid', notice: 'Processo criado com sucesso'}))
       end
     end
 
@@ -138,10 +144,12 @@ RSpec.describe ProcessidsController, :type => :controller do
       end
 
       it "redirects to the processid" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
         session[:user_id] = User.create! user_attributes
         processid = Processid.create! valid_attributes
         put :update, {:id => processid.to_param, :processid => valid_attributes}, valid_session
-        expect(response).to redirect_to(processid)
+        expect(response).to redirect_to(root_path({status: 'processid', notice: 'Processo atualizado com sucesso'}))
       end
     end
 
