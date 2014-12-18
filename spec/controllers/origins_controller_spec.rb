@@ -9,19 +9,9 @@ RSpec.describe OriginsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Origin. As you add validations to Origin, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { FactoryGirl.attributes_for(:origin) }
-  let(:user_attributes)  { FactoryGirl.attributes_for(:user) }
-  let(:valid_session)    { {} }
-
-  describe "GET index" do
-    it "assigns all origins as @origins" do
-      origin = Origin.create(valid_attributes)
-
-      get :index, {}, valid_session
-
-      expect(assigns(:origins)).to eq([origin])
-    end
-  end
+  let(:valid_attributes)                { FactoryGirl.attributes_for(:origin) }
+  let(:user_attributes)                 { FactoryGirl.attributes_for(:user) }
+  let(:valid_session)                   { {} }
 
   describe "GET show" do
     it "assigns the requested origin as @origin" do
@@ -61,6 +51,7 @@ RSpec.describe OriginsController, type: :controller do
 
       expect(assigns(:origin)).to be_a(Origin)
       expect(assigns(:origin)).to be_persisted
+      expect(assigns(:origin).status).to eq 'sala1'
     end
 
     it "redirects to the created origin" do
@@ -71,32 +62,30 @@ RSpec.describe OriginsController, type: :controller do
   end
 
   describe "PUT update" do
+    let(:origin) { Origin.create(valid_attributes) }
     let(:new_attributes) { FactoryGirl.attributes_for(:origin, file_name: 'teste2') }
 
     it "updates the requested origin" do
-      origin = Origin.create(valid_attributes)
-
       put :update, { id: origin.to_param, origin: new_attributes }, valid_session
-
       origin.reload
-
       expect(origin.file_name).to eq 'teste2'
     end
 
     it "assigns the requested origin as @origin" do
-      origin = Origin.create(valid_attributes)
-
       put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
-
       expect(assigns(:origin)).to eq(origin)
+      expect(assigns(:origin).status).to eq 'sala1'
+    end
+
+    it "assigns the requested origin as @origin and changes status" do
+      put :update, { id: origin.to_param, origin: valid_attributes, finish: "sala2" }, valid_session
+      expect(assigns(:origin)).to eq(origin)
+      expect(assigns(:origin).status).to eq 'sala2'
     end
 
     it "redirects to the origin" do
-      origin = Origin.create(valid_attributes)
-
       put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
-
-      expect(response).to redirect_to(origin)
+      expect(response).to redirect_to(root_path)
     end
   end
 
@@ -126,7 +115,9 @@ RSpec.describe OriginsController, type: :controller do
     describe "with valid params" do
       it "creates or updates an OriginField" do
         expect {
-          post :create_or_update_origin_field, {:origin_field => valid_origin_field_attributes}, valid_session
+          post :create_or_update_origin_field, 
+            {:origin_field => valid_origin_field_attributes.merge(:origin_id => @origin.id) }, 
+            valid_session
         }.to change(OriginField, :count).by(1)
       end
 
@@ -143,20 +134,10 @@ RSpec.describe OriginsController, type: :controller do
         expect(response).to redirect_to(@origin)
       end
     end
-
-    #describe "with invalid params" do
-    #  it "assigns a newly created but unsaved origin_field as @origin_field" do
-    #    post :create, {:origin_field => invalid_attributes}, valid_session
-    #    expect(assigns(:origin_field)).to be_a_new(OriginField)
-    #  end
-
-    #  it "re-renders the 'new' template" do
-    #    post :create, {:origin_field => invalid_attributes}, valid_session
-    #    expect(response).to render_template("new")
-    #  end
-    #end
   end
 
+  let(:valid_origin_field_attributes)   { FactoryGirl.attributes_for(:origin_field) }
+  
   describe "GET origin field" do
     let(:valid_origin_field_attributes) {
       valid_origin_field_attributes = {
@@ -182,10 +163,12 @@ RSpec.describe OriginsController, type: :controller do
         :cd5_frmt_origin_desc_datyp => 'teste',
         :default_value_datyp => 'teste',
         :origin_id => 1,
+        :current_user_id => 1,
         :created_at => 'teste',
         :updated_at => 'teste'}
     }
 
+  describe "GET origin field" do
     before do
       @origin = Origin.create! valid_attributes
       @origin_field = OriginField.create! valid_origin_field_attributes
@@ -193,7 +176,20 @@ RSpec.describe OriginsController, type: :controller do
 
     it "to update" do
       get :get_origin_field_to_update, {:format => @origin_field.id}, valid_session
+
       expect(response).to render_template("show")
+    end
+  end
+
+  describe "DELETE origin field" do
+    before do
+      @origin = Origin.create! valid_attributes
+      @origin_field = OriginField.create! valid_origin_field_attributes
+    end
+    it "to destroy" do
+      expect{
+        delete :destroy_origin_field, {:format => @origin_field.id}, valid_session
+        }.to change(OriginField, :count).by(-1)
     end
   end
 
@@ -253,8 +249,6 @@ RSpec.describe OriginsController, type: :controller do
 
     context "with invalid file type and valid file" do
       it "not created any origin_fields" do
-        #require "pry";binding.pry;
-        #session[:user_id] = User.create! user_attributes
         origin = FactoryGirl.create(:origin)
 
         file_test = File.new(Rails.root + 'spec/fixtures/upload_mainframe.txt')
@@ -264,8 +258,9 @@ RSpec.describe OriginsController, type: :controller do
           post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "invalid" }, valid_session
         }.to change(OriginField, :count).by(0)
 
-        #expect(response).to redirect_to(origin_field)
       end
     end
   end
+end
+
 end

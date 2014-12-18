@@ -39,6 +39,38 @@ describe User do
     end
   end
 
+  context "#room1?" do
+    context "valid room1?" do
+      it "should check the status" do
+        user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA1])
+        expect(user.room1?).to be_truthy
+      end
+    end
+
+    context "invalid room1?" do
+      it "should check the status" do
+        user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA2])
+        expect(user.room1?).to be_falsy
+      end
+    end
+  end
+
+  context "#room2?" do
+    context "valid room2?" do
+      it "should check the status" do
+        user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA2])
+        expect(user.room2?).to be_truthy
+      end
+    end
+
+    context "invalid room2?" do
+      it "should check the status" do
+        user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA1])
+        expect(user.room2?).to be_falsy
+      end
+    end
+  end
+
   describe ".authenticate" do
     let(:attrs) {
       {
@@ -62,6 +94,73 @@ describe User do
     context "when user and password is invalid" do
       subject { User.authenticate('zekitow@gmail.com.br','xxxxx') }
       it { should be_nil }
+    end
+  end
+
+  context ".can_save?" do
+    context "room 1 is creating an origin" do
+      before do
+        @user = FactoryGirl.create(:user, profile: 'sala1' )
+        @origin = FactoryGirl.build(:origin)
+      end
+
+      it "grants access to users" do
+        expect(@user.can_access?(@origin)).to be_truthy
+      end
+    end
+
+    context "room 1 is editing the origin" do
+      before do
+        @user = FactoryGirl.create(:user, profile: 'sala1' )
+        @origin = FactoryGirl.create(:origin)
+      end
+
+      it "grants access to users" do
+        expect(@user.can_access?(@origin)).to be_truthy
+      end
+    end
+
+    context "room 1 is editing room2 origin" do
+      before do
+        @user = FactoryGirl.create(:user, profile: 'sala1' )
+        @origin = FactoryGirl.create(:origin, status: 'sala2')
+      end
+
+      it "grants access to users" do
+        expect(@user.can_access?(@origin)).to be_falsy
+      end
+    end
+
+    context "room 2 is editing room2 origin" do
+      before do
+        @user = FactoryGirl.create(:user, profile: 'sala2' )
+        @origin = FactoryGirl.create(:origin, status: 'sala2')
+      end
+
+      it "grants access to users" do
+        expect(@user.can_access?(@origin)).to be_truthy
+      end
+    end
+
+    context "room 2 is editing finished origin" do
+      before do
+        @user = FactoryGirl.create(:user, profile: 'sala2' )
+        @origin = FactoryGirl.create(:origin, status: 'producao')
+      end
+
+      it "grants access to users" do
+        expect(@user.can_access?(@origin)).to be_falsy
+      end
+    end
+    context "room 1 is editing finished origin" do
+      before do
+        @user = FactoryGirl.create(:user, profile: 'sala1' )
+        @origin = FactoryGirl.create(:origin, status: 'producao')
+      end
+
+      it "grants access to users" do
+        expect(@user.can_access?(@origin)).to be_truthy
+      end
     end
   end
 end

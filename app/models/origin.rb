@@ -22,8 +22,7 @@ class Origin < ActiveRecord::Base
   validates :room_1_notes,                length: { maximum: 500 }, if: :current_user_is_room1?
   validates :dmt_advice,                  length: { maximum: 200 }, if: :current_user_is_room1?
   validates :dmt_classification,          presence: true, if: :current_user_is_room1?
-  validates :status,                      presence: true, if: :current_user_is_room1?
-
+  validates :status,                      presence: true
 
   # room2 validations
   validates :mnemonic,                    uniqueness: true, presence: true, length: { maximum: 4 }, if: :current_user_is_room2?

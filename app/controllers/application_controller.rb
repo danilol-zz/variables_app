@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :ensure_authentication
 
   #def ensure_authentication
-  #  if not session[:user_id] 
+  #  if not session[:user_id]
   #    redirect_to login_path, :notice => "Faça o login para entrar no sistema, por favor."
   #  else
   #    @current_user = current_user

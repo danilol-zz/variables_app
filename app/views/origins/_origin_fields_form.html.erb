@@ -19,11 +19,11 @@
       <div class="row clearfix">
         <div class="left t7">
           <%= f.label :field_name %>
-          <%= f.text_field :field_name %>      
+          <%= f.text_field :field_name, disabled: !@current_user.room1? %>
         </div>
         <div class="left t10">
           <%= f.label :origin_pic %>
-          <%= f.text_field :origin_pic %>
+          <%= f.text_field :origin_pic, disabled: !@current_user.room1? %>
         </div>
         <div class="left t8">
           <%= f.label :data_type %>
@@ -63,11 +63,48 @@
       </div>
 
       <div class="row clearfix">   
-        <div class="left t1">
+        <div class="left t6">
           <%= f.label :room_1_notes %>
           <%= f.text_area :room_1_notes, rows: 5  %>
         </div>   
-        <% if @current_user.profile == User::ROOM2 %>
+        <div class="left t6">
+          <%= f.label :domain %>
+          <%= f.text_area :domain, rows: 5  %>
+        </div> 
+        <div class="left t6">
+          <%= f.label :dmt_notes %>          
+          <%= f.text_area :dmt_notes, rows: 5 %>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :fmbase_format_datyp %>
+          <%= f.text_field :fmbase_format_datyp, :size=>"5", :disabled => true  %>
+        </div>
+        <div class="left t6">
+          <%= f.label :generic_datyp %>
+          <%= f.text_field :generic_datyp, :size=>"5", :disabled => true  %>
+        </div>   
+        <div class="left t6">
+          <%= f.label :cd5_origin_frmt_datyp %>
+          <%= f.text_field :cd5_origin_frmt_datyp, :size=>"5", :disabled => true  %>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :cd5_frmt_origin_desc_datyp %>
+          <%= f.text_field :cd5_frmt_origin_desc_datyp, :size=>"5", :disabled => true  %>
+        </div>   
+        <div class="left t6">
+          <%= f.label :default_value_datyp %>
+          <%= f.text_field :default_value_datyp, :size=>"5", :disabled => true  %>
+        </div>  
+      </div>
+
+      <% if @current_user.profile == User::ROOM2 %>
+        <div class="row clearfix">
           <div class="left t10">
             <%= f.label :cd5_variable_number %>
             <%= f.text_field :cd5_variable_number, :size=>"5"  %>
@@ -76,47 +113,12 @@
             <%= f.label :cd5_output_order %>
             <%= f.text_field :cd5_output_order, :size=>"5"  %>
           </div> 
-          <div class="left t1">
+          <div class="left t4">
             <%= f.label :room_2_notes %>
             <%= f.text_area :room_2_notes, rows: 5  %>
           </div> 
-        <% end %>
-
-        <div class="left t10">
-          <%= f.label :domain %>
-          <%= f.text_field :domain, :size=>"5"  %>
-        </div> 
-        <div class="left t10">
-          <%= f.label :dmt_notes %>          
-          <%= f.text_field :dmt_notes, :size=>"5"  %>
         </div>
-      </div>
-
-      <div class="row clearfix">
-        <div class="left t6">
-          <%= f.label :fmbase_format_datyp %>
-          <%= f.text_field :fmbase_format_datyp, :size=>"5"  %>
-        </div>
-        <div class="left t6">
-          <%= f.label :generic_datyp %>
-          <%= f.text_field :generic_datyp, :size=>"5"  %>
-        </div>   
-        <div class="left t6">
-          <%= f.label :cd5_origin_frmt_datyp %>
-          <%= f.text_field :cd5_origin_frmt_datyp, :size=>"5"  %>
-        </div>
-      </div>
-
-      <div class="row clearfix">
-        <div class="left t6">
-          <%= f.label :cd5_frmt_origin_desc_datyp %>
-          <%= f.text_field :cd5_frmt_origin_desc_datyp, :size=>"5"  %>
-        </div>   
-        <div class="left t6">
-          <%= f.label :default_value_datyp %>
-          <%= f.text_field :default_value_datyp, :size=>"5"  %>
-        </div>  
-      </div>
+      <% end %>      
                 
     </fieldset>
 

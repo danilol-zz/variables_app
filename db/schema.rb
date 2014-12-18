@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20141217163706) do
     t.string   "cd5_format_desc"
     t.string   "default_value"
     t.text     "room_2_notes"
-    t.string   "domain"
+    t.text     "domain"
     t.text     "dmt_notes"
     t.integer  "origin_id"
     t.datetime "created_at"

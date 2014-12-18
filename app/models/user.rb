@@ -32,6 +32,20 @@ class User < ActiveRecord::Base
     self.role == 'admin'
   end
 
+  def room1?
+    self.profile == Constants::STATUS[:SALA1]
+  end
+
+  def room2?
+    self.profile == Constants::STATUS[:SALA2]
+  end
+
+  def can_access?(obj)
+    return true if self.room1? && (obj.new_record? || obj.status == Constants::STATUS[:SALA1])
+    return true if self.room1? && obj.status == Constants::STATUS[:EFETIVO]
+    return true if self.room2? && obj.status == Constants::STATUS[:SALA2]
+  end
+
   private
 
   def generate_digest_token

@@ -1,4 +1,6 @@
 class Variable < ActiveRecord::Base
+  include UserSession
+
   has_and_belongs_to_many :campaigns
   has_and_belongs_to_many :tables
   has_and_belongs_to_many :processids

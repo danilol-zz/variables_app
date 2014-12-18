@@ -1,25 +1,30 @@
 class OriginField < ActiveRecord::Base
+  include UserSession
+
   belongs_to :origin
 
-  def self.text_parser(origin_type, text_value, origin_id)
-      
+
+  validates :file_name, presence: true, if: :current_user_is_room1?
+
+  def self.text_parser(origin_type, text_value, origin_id, current_user_id)
+
       return_value=nil
-        
+
       # remove quebra de linha windows
       text_value = text_value.gsub(/\n/, '').gsub(/\r/, '')
 
       #arquivo ou tabela mainframe / hadoop / outro
       case origin_type
         when "mainframe"
-          return_value=text_parser_mainframe(text_value, origin_id) 
+          return_value=text_parser_mainframe(text_value, origin_id, current_user_id)
         when "hadoop" , "outro"
-          return_value=text_parser_generico(text_value, origin_id) 
+          return_value=text_parser_generico(text_value, origin_id, current_user_id) 
       end
 
       return_value
   end
 
-  def self.text_parser_mainframe(text_value, origin_id) 
+  def self.text_parser_mainframe(text_value, origin_id, current_user_id) 
      captura = /(.{0,5})(.{0,40})(.{0,10})(.{0,8})(.{0,6})(.{0,6})(.{0,6})/.match(text_value)
      
      field_name = ""
@@ -99,6 +104,7 @@ class OriginField < ActiveRecord::Base
          origin_field.position = position
          origin_field.origin_id = origin_id
          origin_field.width = width
+         origin_field.current_user_id = current_user_id
     
          origin_field.save
     
@@ -109,7 +115,7 @@ class OriginField < ActiveRecord::Base
         value_return
   end
 
-    def self.text_parser_generico(text_value, origin_id)
+    def self.text_parser_generico(text_value, origin_id, current_user_id)
     
     return_value=nil
     
@@ -124,6 +130,8 @@ class OriginField < ActiveRecord::Base
             origin_field.position = 0
             origin_field.width = 0
             origin_field.origin_id = origin_id
+            origin_field.current_user_id = current_user_id
+
             origin_field.save
 
             return_value = origin_field

@@ -102,7 +102,8 @@ CSV.read("db/fixtures/campo de origem.csv", { headers: true, :col_sep => ";"}).e
     cd5_origin_frmt_datyp: "a verificar",
     cd5_frmt_origin_desc_datyp: "a verificar",
     default_value_datyp: "a verificar",
-    origin: Origin.all.shuffle.first
+    origin: Origin.all.shuffle.first,
+    current_user_id: User.first.id
   )
 end
 

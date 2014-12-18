@@ -5,7 +5,6 @@ describe Origin do
 
   before do
     user = FactoryGirl.create(:user, profile: profile)
-
     subject.current_user_id = user.id
   end
 
@@ -60,7 +59,6 @@ describe Origin do
         it { expect(subject).to_not validate_presence_of(:extractor_file_type) }
         it { expect(subject).to_not ensure_length_of(:room_1_notes).is_at_most(500) }
         it { expect(subject).to_not ensure_length_of(:dmt_advice).is_at_most(200) }
-        it { expect(subject).to_not validate_presence_of(:status) }
 
         it { expect(subject).to validate_presence_of(:mnemonic) }
         it { expect(subject).to ensure_length_of(:mnemonic).is_at_most(4) }
@@ -68,6 +66,7 @@ describe Origin do
         it { expect(subject).to validate_presence_of(:cd5_portal_destination_code) }
         it { expect(subject).to validate_presence_of(:mainframe_storage_type) }
         it { expect(subject).to ensure_length_of(:room_2_notes).is_at_most(500) }
+        it { expect(subject).to validate_presence_of(:status) }
       end
     end
   end
