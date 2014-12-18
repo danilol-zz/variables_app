@@ -4,6 +4,8 @@ class CreateOriginFields < ActiveRecord::Migration
       t.string  :field_name
       t.string  :origin_pic
       t.string  :data_type
+      t.string  :fmbase_format_type
+      t.string  :generic_data_type
       t.integer :decimal
       t.string  :mask
       t.integer :position

@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 20141217163706) do
     t.string   "field_name"
     t.string   "origin_pic"
     t.string   "data_type"
+    t.string   "fmbase_format_type"
+    t.string   "generic_data_type"
     t.integer  "decimal"
     t.string   "mask"
     t.integer  "position"
