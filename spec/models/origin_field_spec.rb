@@ -135,6 +135,209 @@ describe OriginField do
 
   describe "before_save calculate fields" do
 
+    context "define cd5_variable_name concatenate cd5_variable_number and field_name" do
+      let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, field_name: "TXT_VALUE") }
+
+      it "when cd5_variable_number and field_name is fill out" do
+        expect(o.cd5_variable_name).to eq "555TXT_VALUE"
+      end
+    end
+
+    context "define cd5_format according the data_type" do
+      let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
+      it "when cd5_variable_number is fill and data_type equal Alfanumérico" do
+        expect(o.cd5_format).to eq "1"
+      end
+
+      let(:o1) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico") }
+      it "when cd5_variable_number is fill and data_type equal Numérico" do
+        expect(o1.cd5_format).to eq "2"
+      end
+
+      let(:o2) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado") }
+      it "when cd5_variable_number is fill and data_type equal Compactado" do
+        expect(o2.cd5_format).to eq "4"
+      end
+
+      let(:o3) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Data") }
+      it "when cd5_variable_number is fill and data_type equal Data" do
+        expect(o3.cd5_format).to eq "3"
+      end
+
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Numérico com vírgula" do
+        expect(o4.cd5_format).to eq "2"
+      end
+
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Compactado com vírgula" do
+        expect(o6.cd5_format).to eq "4"
+      end
+
+      let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
+      it "when cd5_variable_number is fill and data_type equal Binário Mainframe" do
+        expect(o7.cd5_format).to eq "6"
+      end
+
+      let(:o8) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      it "when cd5_variable_number is fill and data_type equal ----" do
+        expect(o8.cd5_format).to eq nil
+      end
+    end
+
+    context "define cd5_format_desc according the data_type" do
+      let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
+      it "when cd5_variable_number is fill and data_type equal Alfanumérico" do
+        expect(o.cd5_format_desc).to eq "character"
+      end
+
+      let(:o1) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico") }
+      it "when cd5_variable_number is fill and data_type equal Numérico" do
+        expect(o1.cd5_format_desc).to eq "numeric"
+      end
+
+      let(:o2) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado") }
+      it "when cd5_variable_number is fill and data_type equal Compactado" do
+        expect(o2.cd5_format_desc).to eq "numeric"
+      end
+
+      let(:o3) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Data") }
+      it "when cd5_variable_number is fill and data_type equal Data" do
+        expect(o3.cd5_format_desc).to eq "data"
+      end
+
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Numérico com vírgula" do
+        expect(o4.cd5_format_desc).to eq "numeric"
+      end
+
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Compactado com vírgula" do
+        expect(o6.cd5_format_desc).to eq "numeric"
+      end
+
+      let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
+      it "when cd5_variable_number is fill and data_type equal Binário Mainframe" do
+        expect(o7.cd5_format_desc).to eq "numeric"
+      end
+
+      let(:o8) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      it "when cd5_variable_number is fill and data_type equal ----" do
+        expect(o8.cd5_format_desc).to eq nil
+      end
+    end
+
+    context "define default_value according the data_type" do
+      let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
+      it "when cd5_variable_number is fill and data_type equal Alfanumérico" do
+        expect(o.default_value).to eq "_"
+      end
+
+      let(:o1) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico") }
+      it "when cd5_variable_number is fill and data_type equal Numérico" do
+        expect(o1.default_value).to eq 0
+      end
+
+      let(:o2) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado") }
+      it "when cd5_variable_number is fill and data_type equal Compactado" do
+        expect(o3.default_value).to eq 0
+      end
+
+      let(:o3) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Data") }
+      it "when cd5_variable_number is fill and data_type equal Data" do
+        expect(o3.default_value).to eq 0
+      end
+
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      it "when cd5_variable_number is fill and data_type equal ----" do
+        expect(o4.default_value).to eq nil
+      end
+    end
+
+    context "define cd5_origin_format_desc according the data_type" do
+      let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
+      it "when cd5_variable_number is fill and data_type equal Alfanumérico" do
+        expect(o.cd5_origin_format_desc).to eq "character"
+      end
+
+      let(:o1) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico") }
+      it "when cd5_variable_number is fill and data_type equal Numérico" do
+        expect(o1.cd5_origin_format_desc).to eq "numeric"
+      end
+
+      let(:o2) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado") }
+      it "when cd5_variable_number is fill and data_type equal Compactado" do
+        expect(o2.cd5_origin_format_desc).to eq "numeric"
+      end
+
+      let(:o3) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Data") }
+      it "when cd5_variable_number is fill and data_type equal Data" do
+        expect(o3.cd5_origin_format_desc).to eq "data"
+      end
+
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Numérico com vírgula" do
+        expect(o4.cd5_origin_format_desc).to eq "numeric"
+      end
+
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Compactado com vírgula" do
+        expect(o6.cd5_origin_format_desc).to eq "numeric"
+      end
+
+      let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
+      it "when cd5_variable_number is fill and data_type equal Binário Mainframe" do
+        expect(o7.cd5_origin_format_desc).to eq "numeric"
+      end
+
+      let(:o8) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      it "when cd5_variable_number is fill and data_type equal ----" do
+        expect(o8.cd5_origin_format_desc).to eq nil
+      end
+    end
+
+    context "define cd5_origin_format according the data_type" do
+      let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
+      it "when cd5_variable_number is fill and data_type equal Alfanumérico" do
+        expect(o.cd5_origin_format).to eq "1"
+      end
+
+      let(:o1) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico") }
+      it "when cd5_variable_number is fill and data_type equal Numérico" do
+        expect(o1.cd5_origin_format).to eq "2"
+      end
+
+      let(:o2) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado") }
+      it "when cd5_variable_number is fill and data_type equal Compactado" do
+        expect(o2.cd5_origin_format).to eq "4"
+      end
+
+      let(:o3) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Data") }
+      it "when cd5_variable_number is fill and data_type equal Data" do
+        expect(o3.cd5_origin_format).to eq "3"
+      end
+
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Numérico com vírgula" do
+        expect(o4.cd5_origin_format).to eq "2"
+      end
+
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Compactado com vírgula" do
+        expect(o6.cd5_origin_format).to eq "4"
+      end
+
+      let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
+      it "when cd5_variable_number is fill and data_type equal Binário Mainframe" do
+        expect(o7.cd5_origin_format).to eq "6"
+      end
+
+      let(:o8) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      it "when cd5_variable_number is fill and data_type equal ----" do
+        expect(o8.cd5_origin_format).to eq nil
+      end
+    end
+
     context "define generic_datyp according the data_type" do
       let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
       it "equal Alfanumérico" do
@@ -169,6 +372,11 @@ describe OriginField do
       let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
       it "equal Binário Mainframe" do
         expect(o6.generic_datyp).to eq "numero"
+      end
+
+      let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "---") }
+      it "equal Binário Mainframe" do
+        expect(o7.generic_datyp).to eq nil
       end
     end
 
@@ -207,6 +415,11 @@ describe OriginField do
       let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
       it "equal Binário Mainframe" do
         expect(o6.fmbase_format_datyp).to eq "BI"
+      end
+
+      let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "-----") }
+      it "equal Binário Mainframe" do
+        expect(o7.fmbase_format_datyp).to eq nil
       end
     end
   end

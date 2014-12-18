@@ -2,6 +2,12 @@ class OriginField < ActiveRecord::Base
   include UserSession
   before_save :calculate_field_fmbase_format_datyp
   before_save :calculate_field_generic_datyp
+  before_save :calculate_field_cd5_variable_name
+  before_save :calculate_field_cd5_origin_format
+  before_save :calculate_field_cd5_origin_format_desc
+  before_save :calculate_field_default_value
+  before_save :calculate_field_cd5_format_desc
+  before_save :calculate_field_cd5_format
   belongs_to :origin
 
 
@@ -141,6 +147,101 @@ class OriginField < ActiveRecord::Base
     return_value
   end
 
+  def calculate_field_cd5_format
+    if self.cd5_variable_number?
+      case self.data_type
+        when "Alfanumérico"
+          self.cd5_format = "1"
+        when "Numérico"
+          self.cd5_format = "2"
+        when "Compactado"
+          self.cd5_format = "4"
+        when "Numérico com vírgula"
+          self.cd5_format = "2"
+        when "Compactado com vírgula"
+          self.cd5_format = "4"
+        when "Binário Mainframe"
+          self.cd5_format = "6"
+        when "Data"
+          self.cd5_format = "3"
+        else
+          self.cd5_format = nil
+        end
+    end
+  end
+
+  def calculate_field_cd5_format_desc
+    if self.cd5_variable_number?
+      case self.data_type
+        when "Alfanumérico"
+          self.cd5_format_desc = "character"
+        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"
+          self.cd5_format_desc = "numeric"
+        when "Data"
+          self.cd5_format_desc = "data"
+        else
+          self.cd5_format_desc = nil
+        end
+    end
+  end
+
+  def calculate_field_default_value
+    if self.cd5_variable_number?
+      case self.data_type
+        when "Alfanumérico"
+          self.default_value = "_"
+        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe", "Data"
+          self.default_value = 0
+        else
+          self.default_value = nil
+        end
+    end
+  end
+
+  def calculate_field_cd5_origin_format_desc
+    if self.cd5_variable_number?
+      case self.data_type
+        when "Alfanumérico"
+          self.cd5_origin_format_desc = "character"
+        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"
+          self.cd5_origin_format_desc = "numeric"
+        when "Data"
+          self.cd5_origin_format_desc = "data"
+        else
+          self.cd5_origin_format_desc = nil
+        end
+    end
+  end
+
+  def calculate_field_cd5_origin_format
+    if self.cd5_variable_number?
+      case self.data_type
+        when "Alfanumérico"
+          self.cd5_origin_format = "1"
+        when "Numérico"
+          self.cd5_origin_format = "2"
+        when "Compactado"
+          self.cd5_origin_format = "4"
+        when "Numérico com vírgula"
+          self.cd5_origin_format = "2"
+        when "Compactado com vírgula"
+          self.cd5_origin_format = "4"
+        when "Binário Mainframe"
+          self.cd5_origin_format = "6"
+        when "Data"
+          self.cd5_origin_format = "3"
+        else
+          self.cd5_origin_format = nil
+        end
+    end
+  end
+
+  def calculate_field_cd5_variable_name
+    if self.cd5_variable_number?
+      self.cd5_variable_name = "#{cd5_variable_number}#{field_name}"
+    end
+  end
+
   def calculate_field_generic_datyp
     case self.data_type
       when "Alfanumérico"
@@ -149,6 +250,8 @@ class OriginField < ActiveRecord::Base
         self.generic_datyp = "numero"
       when "Data"
         self.generic_datyp = "data"
+      else
+        self.generic_datyp = nil
       end
   end
 
@@ -162,6 +265,8 @@ class OriginField < ActiveRecord::Base
         self.fmbase_format_datyp = "PD"
       when "Binário Mainframe"
         self.fmbase_format_datyp = "BI"
+      else
+        self.fmbase_format_datyp = nil
     end
   end
 
