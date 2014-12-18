@@ -163,6 +163,7 @@ RSpec.describe OriginsController, type: :controller do
         :cd5_frmt_origin_desc_datyp => 'teste',
         :default_value_datyp => 'teste',
         :origin_id => 1,
+        :current_user_id => 1,
         :created_at => 'teste',
         :updated_at => 'teste'}
     }
@@ -175,6 +176,7 @@ RSpec.describe OriginsController, type: :controller do
 
     it "to update" do
       get :get_origin_field_to_update, {:format => @origin_field.id}, valid_session
+
       expect(response).to render_template("show")
     end
   end

@@ -38,7 +38,7 @@ class OriginsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @origin.errors, status: :unprocessable_entity }
       end
-    end   
+    end
     set_desabled_fields
   end
 
@@ -76,7 +76,7 @@ class OriginsController < ApplicationController
           redirect_to @origin, notice: "#{OriginField.model_name.human.capitalize} excluido com sucesso"
         else
           render :new
-        end   
+        end
       end
     end
   end
@@ -106,10 +106,10 @@ class OriginsController < ApplicationController
         # ignora o header e linhas vazias para oa arquivos do hadoop
         array_linha = linha.split(",")
         if @file_type == "hadoop" && array_linha.size > 1 && conta_linha > 0
-          resultado = OriginField.text_parser(@file_type, linha, @origin.id)
+          resultado = OriginField.text_parser(@file_type, linha, @origin.id, current_user.id)
           conta_valido += 1
         elsif (!linha.downcase.include? "end of data") && @file_type == "mainframe"
-          resultado = OriginField.text_parser(@file_type, linha, @origin.id)
+          resultado = OriginField.text_parser(@file_type, linha, @origin.id, current_user.id)
           if resultado
             conta_valido += 1
           end
@@ -131,14 +131,14 @@ class OriginsController < ApplicationController
   def set_desabled_fields
     if @current_user.profile == User::ROOM1
       @disabled_for_room1 = "false"
-    else 
+    else
       @disabled_for_room1 = "true"
-    end 
+    end
     if @current_user.profile == User::ROOM2
       @disabled_for_room2 = "false"
-    else 
+    else
       @disabled_for_room2 = "true"
-    end        
+    end
   end
 
   def set_origin
@@ -179,7 +179,7 @@ class OriginsController < ApplicationController
 
   def origin_field_params
     params.require(:origin_field).permit(
-      :field_name,      
+      :field_name,
       :origin_pic,
       :data_type,
       :decimal,
@@ -201,7 +201,6 @@ class OriginsController < ApplicationController
       :cd5_frmt_origin_desc_datyp,
       :default_value_datyp,
       :origin_id
-    )
+    ).merge(current_user_id: current_user.id)
   end
-
 end

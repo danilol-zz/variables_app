@@ -6,31 +6,6 @@ describe Variable do
   before { @user = FactoryGirl.create(:user) }
 
   describe "attributes validations" do
-    it { should respond_to :name }
-    it { should respond_to :sas_variable_def }
-    it { should respond_to :sas_variable_domain }
-    it { should respond_to :created_in_sprint }
-    it { should respond_to :updated_in_sprint }
-    it { should respond_to :sas_data_model_status }
-    it { should respond_to :drs_bi_diagram_name }
-    it { should respond_to :drs_variable_status }
-    it { should respond_to :room_1_notes }
-    it { should respond_to :width }
-    it { should respond_to :decimal }
-    it { should respond_to :default_value }
-    it { should respond_to :room_2_notes }
-    it { should respond_to :model_field_name }
-    it { should respond_to :data_type }
-    it { should respond_to :sas_variable_rule_def }
-    it { should respond_to :sas_update_periodicity }
-    it { should respond_to :domain_type }
-    it { should respond_to :key }
-    it { should respond_to :variable_type }
-    it { should respond_to :owner }
-    it { should respond_to :status }
-    it { should respond_to :created_at }
-    it { should respond_to :updated_at }
-
     context "statuses" do
       before do
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
@@ -114,16 +89,14 @@ describe Variable do
 
   context ".set_origin_fields" do
     context "on create" do
-      before do
-        @variable = FactoryGirl.build(:variable)
-      end
+      subject { FactoryGirl.create(:variable) }
 
-      subject(:saved_variable) { @variable.save }
 
       context "with no origin_field selected" do
         it "not saves origin_field" do
-          @variable.set_origin_fields(nil)
-          expect{saved_variable}.to_not change{@variable.origin_fields.count}
+          subject.set_origin_fields(nil)
+
+          expect(subject.origin_fields.size).to eq 0
         end
       end
 
@@ -131,17 +104,19 @@ describe Variable do
         before do
           @variable = FactoryGirl.build(:variable)
           origin = FactoryGirl.create(:origin)
-          o1 = FactoryGirl.create(:origin_field, id: 1, field_name: "o1", origin: origin)
-          o2 = FactoryGirl.create(:origin_field, id: 5, field_name: "o2", origin: origin)
-          o3 = FactoryGirl.create(:origin_field, id: 9, field_name: "o3", origin: origin)
+
+          FactoryGirl.create(:origin_field, id: 1, field_name: "o1", origin: origin)
+          FactoryGirl.create(:origin_field, id: 5, field_name: "o2", origin: origin)
+          FactoryGirl.create(:origin_field, id: 9, field_name: "o3", origin: origin)
         end
 
         context "with one origin_field selected" do
           let(:variable_params) { {"5"=>"checked" } }
 
           it "saves origin_fields" do
-            @variable.set_origin_fields(variable_params)
-            expect{subject}.to change{@variable.origin_fields.count}.by(1)
+            subject.set_origin_fields(variable_params)
+
+            expect(subject.origin_fields.size).to eq 1
           end
         end
 
@@ -149,8 +124,9 @@ describe Variable do
           let(:variable_params) { {"1"=>"checked", "5" => "checked", "9" => "checked"} }
 
           it "saves origin_fields" do
-            @variable.set_origin_fields(variable_params)
-            expect{subject}.to change{@variable.origin_fields.count}.by(3)
+            subject.set_origin_fields(variable_params)
+
+            expect(subject.origin_fields.size).to eq 3
           end
         end
       end

@@ -22,5 +22,6 @@ FactoryGirl.define do
     cd5_frmt_origin_desc_datyp "MyString"
     default_value_datyp "MyString"
     origin_id 1
+    current_user_id 1
   end
 end
