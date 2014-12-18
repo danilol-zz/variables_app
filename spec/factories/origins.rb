@@ -38,5 +38,6 @@ FactoryGirl.define do
     status "sala1"
     current_user_id 1
   end
+
 end
 
