@@ -15,12 +15,20 @@
       <tbody>
         <% @users.each do |user| %>
           <tr>
-            <td><%= link_to user.name, edit_user_path(user.id) %></td>
+            <td>
+            <% if @current_user.admin? %>
+              <%= link_to user.name, edit_user_path(user.id) %>
+            <% else %>
+              <%= user.name %>
+            <% end %>
+            </td>
             <td><%= user.email %></td>
             <td><%= user.profile %></td>
             <td><%= user.role %></td>
-            <td><%= link_to t("reset_password"), controller: "users", action: "remember_password_index", id: user.id %>
-            <td><%= link_to t('destroy'), user, method: :delete, data: { confirm: t('are_you_sure') } %></td>
+            <% if @current_user.admin? %>
+              <td><%= link_to t("reset_password"), controller: "users", action: "remember_password_index", id: user.id %>
+              <td><%= link_to t('destroy'), user, method: :delete, data: { confirm: t('are_you_sure') } %></td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

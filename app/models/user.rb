@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
     self.role == 'admin'
   end
 
+  def room1?
+    self.profile == Constants::STATUS[:SALA1]
+  end
+
   private
 
   def generate_digest_token

@@ -1,79 +1,98 @@
-<%= form_for(@origin) do |f| %>
-  <% if @origin.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@origin.errors.count, "error") %> proibiram essa origem de ser salva:</h2>
-      <ul>
-        <% @origin.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+<a name="forms-construido" class="link-ancora"></a>
+<section>
+  <h3 class="line-bottom">Cadastro de <span class="destaque"><%= Origin.model_name.human.capitalize %></span></h3>
+
+  <%= form_for(@origin) do |f| %>
+    <% if @origin.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@origin.errors.count, "error") %> proibiram essa origem de ser salva:</h2>
+        <ul>
+          <% @origin.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <fieldset>
+      <legend></legend>
+      <div class="row clearfix">
+        <div class="left t4">
+          <%= f.label :file_name%>
+          <%= f.text_field :file_name %> 
+
+        </div>
+        <div class="left t3">
+          <%= f.label :file_description %>
+          <%= f.text_area :file_description, rows: 3 %>        
+        </div>
+      </div>
+      <div class="row clearfix">      
+        <div class="left t8">
+          <%= f.label :created_in_sprint %>
+          <%= f.text_field :created_in_sprint %>
+        </div>  
+        <div class="left t8">
+          <%= f.label :updated_in_sprint %>
+          <%= f.text_field :updated_in_sprint %>
+        </div>      
+        <div class="left t9">
+          <%= f.label :abbreviation %>
+          <%= f.text_field :abbreviation %> 
+        </div>  
+        <div class="left t8">
+          <%= f.label :base_type %>
+          <%= f.select(:base_type,  ["Arquivo Mainframe", "Tabela Mainframe", "Base Hadoop", "Outro"], {:include_blank => 'Selecione'}) %>
+        </div>
+        <div class="left t10">
+          <%= f.label :book_mainframe %>
+          <%= f.text_field :book_mainframe %>
+        </div>           
+      </div>
+
+      <div class="row clearfix">                   
+        <div class="left t8">
+          <%= f.label :periodicity %>
+          <%= f.select(:periodicity,  ["Diária", "Semanal", "Quinzenal", "Mensal", "Anual", "Exporádica", "Outro"], {:include_blank => 'Selecione'}) %>
+        </div>        
+        <div class="left t8">
+          <%= f.label :periodicity_details %>
+          <%= f.text_field :periodicity_details %>        
+        </div>
+        <div class="left t4">
+          <%= f.label :data_retention_type %>
+          <%= f.select(:data_retention_type,  ["Movimento do dia", "Apenas registros alterados", "Histórica", "Acumulado de um período"], {:include_blank => 'Selecione'}) %>        
+        </div>  
+      </div>
+                
+      <div class="row clearfix">  
+        <div class="left t4">
+          <%= f.label :extractor_file_type %>
+          <%= f.select(:extractor_file_type,  ["Novo", "Alterado"], {:include_blank => 'Selecione'}) %>  
+        </div>            
+        <div class="left t3">
+          <%= f.label :room_1_notes %>
+          <%= f.text_area :room_1_notes, rows: 5 %>
+        </div>              
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t10">
+          <%= f.label :status %>
+          <%= f.select(:status,  Constants::STATUS, {:include_blank => 'Selecione'}) %>
+        </div>                             
+      </div>
+
+    </fieldset>
+
+    <section>      
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <%= f.submit %>
+        </div>
+      </div>
+    </section>    
+
   <% end %>
-  <div class="left">
-    <div class="field t4">
-      <%= f.label :file_name %><br>
-      <%= f.text_field :file_name %>
-    </div>
-    <div class="field t3">
-      <%= f.label :file_description %><br>
-      <%= f.text_area :file_description, rows: 3 %>
-    </div>
-    <div class="row clearfix">
-      <div class="left t10">
-        <%= f.label :created_in_sprint %>
-        <%= f.text_field :created_in_sprint %>
-      </div>
-      <div class="left t10">
-        <%= f.label :updated_in_sprint %><br>
-        <%= f.text_field :updated_in_sprint %>
-      </div>
-    </div>
-    <div class="field t12">
-      <%= f.label :abbreviation %><br>
-      <%= f.text_field :abbreviation %>
-    </div>
-    <div class="field">
-      <%= f.label :base_type %><br>
-      <%= f.select(:base_type,  ["Arquivo Mainframe", "Tabela Mainframe", "Base Hadoop", "Outro"], {:include_blank => 'Selecione'}) %>
-    </div>
 
-    <div class="field t10">
-      <%= f.label :book_mainframe %>
-      <%= f.text_field :book_mainframe %>
-    </div>
-    <div class="row clearfix">
-      <div class="left t8">
-        <%= f.label :periodicity %><br>
-        <%= f.select(:periodicity,  ["Diária", "Semanal", "Quinzenal", "Mensal", "Anual", "Exporádica", "Outro"], {:include_blank => 'Selecione'}) %>
-      </div>
-      <div class="left t4">
-        <%= f.label :periodicity_details %>
-        <%= f.text_field :periodicity_details %>
-      </div>
-    </div>
-
-    <div class="row clearfix">
-      <div class="left t8">
-        <%= f.label :data_retention_type %><br>
-        <%= f.select(:data_retention_type,  ["Movimento do dia", "Apenas registros alterados", "Histórica", "Acumulado de um período"], {:include_blank => 'Selecione'}) %>
-      </div>
-      <div class="t2">
-        <%= f.label :extractor_file_type %><br>
-        <%= f.select(:extractor_file_type,  ["Novo", "Alterado"], {:include_blank => 'Selecione'}) %>
-      </div>
-    </div>
-    <div class="field">
-      <%= f.label :status %><br>
-      <%= f.select(:status,  Constants::STATUS, {:include_blank => 'Selecione'}) %>
-    </div>
-    <div class="field t1">
-      <%= f.label :room_1_notes %><br>
-      <%= f.text_area :room_1_notes, rows: 5 %>
-    </div>
-    <div class="actions">
-      <%= f.submit %>
-      <%= link_to t('back'), origins_path %>
-    </div>
-    <br><br>
-  </div>
-<% end %>
+</section>

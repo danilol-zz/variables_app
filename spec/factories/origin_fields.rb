@@ -1,31 +1,27 @@
 FactoryGirl.define do
   factory :origin_field do
-    field_name  "MyString"
-    origin_pic  "MyString"
+    field_name "MyString"
+    origin_pic "MyString"
     data_type "MyString"
-    fmbase_format_type  "MyString"
-    generic_data_type  "MyString"
-    decimal  ""
-    mask  "MyString"
-    position  ""
-    width  ""
-    is_key  "MyString"
-    will_use  "MyString"
-    has_signal  "MyString"
-    room_1_notes  "MyString"
-    cd5_variable_number  ""
-    cd5_output_order  ""
-    cd5_variable_name  "MyString"
-    cd5_origin_format  "MyString"
-    cd5_origin_format_desc  "MyString"
-    cd5_format  "MyString"
-    cd5_format_desc  "MyString"
-    default_value  "MyString"
-    room_2_notes  "MyString"
-    origin nil
+    decimal 1
+    mask "MyString"
+    position 2
+    width 3
+    is_key "MyString"
+    will_use "MyString"
+    has_signal "MyString"
+    room_1_notes "MyString"
+    cd5_variable_number 4
+    cd5_output_order 5
+    room_2_notes "MyString"
     domain "MyString"
-    dmt_notes  "MyString"
-    origin_id "MyString"
+    dmt_notes "MyString"
+    fmbase_format_datyp "MyString"
+    generic_datyp "MyString"
+    cd5_origin_frmt_datyp "MyString"
+    cd5_frmt_origin_desc_datyp "MyString"
+    default_value_datyp "MyString"
+    origin_id 1
   end
 end
 

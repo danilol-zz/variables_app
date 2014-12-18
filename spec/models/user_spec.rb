@@ -37,6 +37,27 @@ describe User do
     context 'role' do
       it { should respond_to :role }
     end
+
+    context "valid room1?" do
+      before do
+        @user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA1])
+      end
+
+      it "should check the room" do
+        expect(@user.room1?).to eq true
+      end
+    end
+
+    context "invalid room1?" do
+      before do
+        @user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA2])
+      end
+
+      it "should check the room" do
+        expect(@user.room1?).to eq false
+      end
+    end    
+
   end
 
   describe ".authenticate" do

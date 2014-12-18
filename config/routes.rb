@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   post "index" => "welcome#index"
 
   post "/create_or_update_origin_field" => "origins#create_or_update_origin_field"
-
-  get "/get_origin_field_to_update" => "origins#get_origin_field_to_update"
+  get "/get_origin_field_to_update"     => "origins#get_origin_field_to_update"
+  delete "/destroy_origin_field"        => "origins#destroy_origin_field"
 
   get "user/index"
   get "/login"             => "users#login"

@@ -8,6 +8,6 @@ module ApplicationHelper
 	  content_tag( :td ) do
 	    link_to( "#{entity.code} #{entity.status_screen_name}", entity )
 	  end
-    end
+  end
 
 end
