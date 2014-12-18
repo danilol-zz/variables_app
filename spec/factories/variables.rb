@@ -24,5 +24,6 @@ FactoryGirl.define do
     status "sala1"
     tables []
     origin_fields []
+    current_user_id 1
   end
 end

@@ -55,7 +55,7 @@ class OriginFieldsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def origin_field_params
       params.require(:origin_field).
-        permit(      
+        permit(
           :field_name,
           :origin_pic,
           :data_type,
@@ -77,6 +77,6 @@ class OriginFieldsController < ApplicationController
           :cd5_origin_frmt_datyp,
           :cd5_frmt_origin_desc_datyp,
           :default_value_datyp,
-          :origin_id)
+          :origin_id).merge(current_user_id: current_user.id)
     end
 end
