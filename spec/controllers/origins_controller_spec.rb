@@ -13,16 +13,6 @@ RSpec.describe OriginsController, type: :controller do
   let(:user_attributes)                 { FactoryGirl.attributes_for(:user) }
   let(:valid_session)                   { {} }
 
-  describe "GET index" do
-    it "assigns all origins as @origins" do
-      origin = Origin.create(valid_attributes)
-
-      get :index, {}, valid_session
-
-      expect(assigns(:origins)).to eq([origin])
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested origin as @origin" do
       origin = Origin.create(valid_attributes)
@@ -61,6 +51,7 @@ RSpec.describe OriginsController, type: :controller do
 
       expect(assigns(:origin)).to be_a(Origin)
       expect(assigns(:origin)).to be_persisted
+      expect(assigns(:origin).status).to eq 'sala1'
     end
 
     it "redirects to the created origin" do
@@ -71,32 +62,30 @@ RSpec.describe OriginsController, type: :controller do
   end
 
   describe "PUT update" do
+    let(:origin) { Origin.create(valid_attributes) }
     let(:new_attributes) { FactoryGirl.attributes_for(:origin, file_name: 'teste2') }
 
     it "updates the requested origin" do
-      origin = Origin.create(valid_attributes)
-
       put :update, { id: origin.to_param, origin: new_attributes }, valid_session
-
       origin.reload
-
       expect(origin.file_name).to eq 'teste2'
     end
 
     it "assigns the requested origin as @origin" do
-      origin = Origin.create(valid_attributes)
-
       put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
-
       expect(assigns(:origin)).to eq(origin)
+      expect(assigns(:origin).status).to eq 'sala1'
+    end
+
+    it "assigns the requested origin as @origin and changes status" do
+      put :update, { id: origin.to_param, origin: valid_attributes, finish: "sala2" }, valid_session
+      expect(assigns(:origin)).to eq(origin)
+      expect(assigns(:origin).status).to eq 'sala2'
     end
 
     it "redirects to the origin" do
-      origin = Origin.create(valid_attributes)
-
       put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
-
-      expect(response).to redirect_to(origin)
+      expect(response).to redirect_to(root_path)
     end
   end
 

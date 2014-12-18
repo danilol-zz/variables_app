@@ -72,7 +72,7 @@ pt:
         dmt_advice: Parecer DMT
         dmt_classification: Classificação DMT
       origin_field:
-        field_name: Nome do campo        
+        field_name: Nome do campo
         origin_pic: Pic Origem
         data_type: Tipo de dado
         fmbase_format_type: Tipo formato fmbase
@@ -244,4 +244,6 @@ pt:
   new_user: Novo usuário?
   forgot_password: Esqueceu a senha?
   reset_password: Redefinir senha
+  sala1: Sala 1
+  sala2: Sala 2
 

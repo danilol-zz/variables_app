@@ -2,10 +2,6 @@ class OriginsController < ApplicationController
   before_action :set_origin, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_authentication
 
-  def index
-    @origins = Origin.all
-  end
-
   def show
     @origin_field = OriginField.new
   end
@@ -18,7 +14,7 @@ class OriginsController < ApplicationController
   end
 
   def create
-    @origin = Origin.new(origin_params)
+    @origin = Origin.new(origin_params.merge(status: Constants::STATUS[:SALA1]))
 
     respond_to do |format|
       if @origin.save
@@ -32,15 +28,17 @@ class OriginsController < ApplicationController
   end
 
   def update
+    status = params[:finish] ? { status: params[:finish] } : {}
+
     respond_to do |format|
-      if @origin.update(origin_params)
-        format.html { redirect_to @origin, notice: "#{Origin.model_name.human.capitalize} atualizado com sucesso" }
+      if @origin.update(origin_params.merge(status))
+        format.html { redirect_to root_path, notice: "#{Origin.model_name.human.capitalize} atualizado com sucesso" }
         format.json { render :show, status: :ok, location: @origin }
       else
         format.html { render :edit }
         format.json { render json: @origin.errors, status: :unprocessable_entity }
       end
-    end   
+    end
     set_desabled_fields
   end
 
@@ -78,7 +76,7 @@ class OriginsController < ApplicationController
           redirect_to @origin, notice: "#{OriginField.model_name.human.capitalize} excluido com sucesso"
         else
           render :new
-        end   
+        end
       end
     end
   end
@@ -101,12 +99,12 @@ class OriginsController < ApplicationController
 
     resultado = false
 
-    # abre o arquivo temporario 
+    # abre o arquivo temporario
     File.open(@data_file.tempfile) do |txt|
       txt.each_line() do |linha|
 
         # ignora o header e linhas vazias para oa arquivos do hadoop
-        array_linha = linha.split(",")        
+        array_linha = linha.split(",")
         if @file_type == "hadoop" && array_linha.size > 1 && conta_linha > 0
           resultado = OriginField.text_parser(@file_type, linha, @origin.id, current_user.id)
           conta_valido += 1
@@ -127,20 +125,20 @@ class OriginsController < ApplicationController
       redirect_to @origin, notice: "Nenhum #{OriginField.model_name.human.capitalize} foi criado!"
     end
   end
-  
+
   private
 
   def set_desabled_fields
     if @current_user.profile == User::ROOM1
       @disabled_for_room1 = "false"
-    else 
+    else
       @disabled_for_room1 = "true"
-    end 
+    end
     if @current_user.profile == User::ROOM2
       @disabled_for_room2 = "false"
-    else 
+    else
       @disabled_for_room2 = "true"
-    end        
+    end
   end
 
   def set_origin

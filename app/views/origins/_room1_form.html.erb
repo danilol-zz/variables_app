@@ -19,27 +19,27 @@
       <div class="row clearfix">
         <div class="left t4">
           <%= f.label :file_name%>
-          <%= f.text_field :file_name %> 
+          <%= f.text_field :file_name %>
 
         </div>
         <div class="left t3">
           <%= f.label :file_description %>
-          <%= f.text_area :file_description, rows: 3 %>        
+          <%= f.text_area :file_description, rows: 3 %>
         </div>
       </div>
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t8">
           <%= f.label :created_in_sprint %>
           <%= f.text_field :created_in_sprint %>
-        </div>  
+        </div>
         <div class="left t8">
           <%= f.label :updated_in_sprint %>
           <%= f.text_field :updated_in_sprint %>
-        </div>      
+        </div>
         <div class="left t9">
           <%= f.label :abbreviation %>
-          <%= f.text_field :abbreviation %> 
-        </div>  
+          <%= f.text_field :abbreviation %>
+        </div>
         <div class="left t8">
           <%= f.label :base_type %>
           <%= f.select(:base_type,  ["Arquivo Mainframe", "Tabela Mainframe", "Base Hadoop", "Outro"], {:include_blank => 'Selecione'}) %>
@@ -47,52 +47,54 @@
         <div class="left t10">
           <%= f.label :book_mainframe %>
           <%= f.text_field :book_mainframe %>
-        </div>           
-      </div>
-
-      <div class="row clearfix">                   
-        <div class="left t8">
-          <%= f.label :periodicity %>
-          <%= f.select(:periodicity,  ["Diária", "Semanal", "Quinzenal", "Mensal", "Anual", "Exporádica", "Outro"], {:include_blank => 'Selecione'}) %>
-        </div>        
-        <div class="left t8">
-          <%= f.label :periodicity_details %>
-          <%= f.text_field :periodicity_details %>        
         </div>
-        <div class="left t4">
-          <%= f.label :data_retention_type %>
-          <%= f.select(:data_retention_type,  ["Movimento do dia", "Apenas registros alterados", "Histórica", "Acumulado de um período"], {:include_blank => 'Selecione'}) %>        
-        </div>  
-      </div>
-                
-      <div class="row clearfix">  
-        <div class="left t4">
-          <%= f.label :extractor_file_type %>
-          <%= f.select(:extractor_file_type,  ["Novo", "Alterado"], {:include_blank => 'Selecione'}) %>  
-        </div>            
-        <div class="left t3">
-          <%= f.label :room_1_notes %>
-          <%= f.text_area :room_1_notes, rows: 5 %>
-        </div>              
       </div>
 
       <div class="row clearfix">
-        <div class="left t10">
-          <%= f.label :status %>
-          <%= f.select(:status,  Constants::STATUS, {:include_blank => 'Selecione'}) %>
-        </div>                             
-      </div>
-
-    </fieldset>
-
-    <section>      
-      <div class="botoes clearfix">
-        <div class="row clearfix">
-          <%= f.submit %>
+        <div class="left t8">
+          <%= f.label :periodicity %>
+          <%= f.select(:periodicity,  ["Diária", "Semanal", "Quinzenal", "Mensal", "Anual", "Exporádica", "Outro"], {:include_blank => 'Selecione'}) %>
+        </div>
+        <div class="left t8">
+          <%= f.label :periodicity_details %>
+          <%= f.text_field :periodicity_details %>
+        </div>
+        <div class="left t4">
+          <%= f.label :data_retention_type %>
+          <%= f.select(:data_retention_type,  ["Movimento do dia", "Apenas registros alterados", "Histórica", "Acumulado de um período"], {:include_blank => 'Selecione'}) %>
         </div>
       </div>
-    </section>    
 
+      <div class="row clearfix">
+        <div class="left t4">
+          <%= f.label :extractor_file_type %>
+          <%= f.select(:extractor_file_type,  ["Novo", "Alterado"], {:include_blank => 'Selecione'}) %>
+        </div>
+        <div class="left t3">
+          <%= f.label :room_1_notes %>
+          <%= f.text_area :room_1_notes, rows: 5 %>
+        </div>
+      </div>
+    </fieldset>
+
+    <section>
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <% if @current_user.can_access?(@origin) %>
+            <% if @origin.new_record? %>
+              <%= f.submit "Salvar" %>
+            <% else %>
+              <% if @origin.status != Constants::STATUS[:EFETIVO] %>
+                <%= f.submit "Salvar" %>
+                <%= f.button "Reabrir", name: 'reopen', value: "sala1" %>
+              <% else %>
+                <%= f.button "Finalizar", name: 'finish', value: "sala2" %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= link_to t('back'), root_path %>
+        </div>
+      </div>
+    </section>
   <% end %>
-
 </section>
