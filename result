@@ -1,0 +1,29 @@
+
+[1mFrom:[0m /home/sergio/rails/variables_app/app/models/concerns/export_script.rb @ line 205 ExportScript.get_Table_by_sprint:
+
+    [1;34m191[0m: [32mdef[0m [1;36mself[0m.[1;34mget_Table_by_sprint[0m(sprint)
+    [1;34m192[0m: 	return_value = [31m[1;31m'[0m[31m[1;31m'[0m[31m[0m
+    [1;34m193[0m: 
+    [1;34m194[0m: 	[1;34m#concect = Table.connection[0m
+    [1;34m195[0m: 	[1;34m#p concect.class[0m
+    [1;34m196[0m: 	[1;34m#p concect[0m
+    [1;34m197[0m: 	[1;34m#p Table.connected?[0m
+    [1;34m198[0m: 	[1;34m#result = Table.select { |m| m.updated_in_sprint == sprint }[0m
+    [1;34m199[0m: 	result = [1;34;4mTable[0m.where([35mupdated_in_sprint[0m: sprint)
+    [1;34m200[0m: 	
+    [1;34m201[0m: 	p sprint
+    [1;34m202[0m: 	p result.class
+    [1;34m203[0m: 	p result.size
+    [1;34m204[0m: 
+ => [1;34m205[0m: 	require [31m[1;31m'[0m[31mpry[1;31m'[0m[31m[0m ; binding.pry;
+    [1;34m206[0m: 
+    [1;34m207[0m: 	[32mif[0m result.size == [1;34m0[0m
+    [1;34m208[0m: 		return_value = [1;36mnil[0m
+    [1;34m209[0m: 	[32melse[0m
+    [1;34m210[0m: 		return_value = result
+    [1;34m211[0m: 	[32mend[0m
+    [1;34m212[0m: 	
+    [1;34m213[0m: 	return_value
+    [1;34m214[0m: 	[1;34m#nil[0m
+    [1;34m215[0m: [32mend[0m
+

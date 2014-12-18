@@ -18,8 +18,16 @@ class OriginField < ActiveRecord::Base
   		return_value
   end
   def self.text_parser_mainframe(text_value) 
-     captura = /(.{0,5})(.{0,41})(.{0,10})(.{0,8})(.{0,6})(.{0,6})(.{0,6})/.match(text_value)
+     captura = /(.{0,5})(.{0,40})(.{0,10})(.{0,8})(.{0,6})(.{0,6})(.{0,6})/.match(text_value)
      
+     p "======"
+
+     p captura
+     p "----"
+     p /^[0-9]+\ ([A-Za-z0-9]+)$/.match(captura[2].strip)
+     p "---"
+
+
      field_name = ""
      origin_pic = ""
      fmbase_value = ""
@@ -30,17 +38,26 @@ class OriginField < ActiveRecord::Base
      ind_comma=""
      data_type=""
   
-     
+     p '---'
+     p captura[2]
+     p captura[2].strip
+     p /^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip)
+     #p /^[0-9]+\ ([A-Za-z0-9]+)$/.match(captura[2].strip)[1]
 
      	unless ( captura[7].empty? ) || 
-     	       (/^[0-9]+\ ([A-Za-z0-9]+)$/.match(captura[2].strip).nil? )  
+     	       (/^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip).nil? )  
      		
-     		field_name = /^[0-9]+\ ([A-Za-z0-9]+)$/.match(captura[2].strip)[1]
+     		field_name = /^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip)[1]
          	origin_pic = captura[3].strip
          	fmbase_value = captura[4].strip
          	position = captura[5].strip
          	width = captura[7].strip
-
+          
+          if origin_pic.empty?
+            origin_pic = "X(" + width + ")"
+          end
+         	p /^AN|ZD|BI|PD$/.match(fmbase_value)
+         	p "--"
          	unless /[V]/.match(origin_pic).nil?
     			ind_comma = true
 		 	else
@@ -77,11 +94,17 @@ class OriginField < ActiveRecord::Base
               (/^[X]+$/.match(origin_pic).nil?) && 
               (/^X\([0-9]+\)$/.match(origin_pic).nil?) && 
               (/^S{0,1}[9]+$/.match(origin_pic).nil?) && 
+              (/^S{0,1}[9]\([0-9]+\)$/.match(origin_pic).nil?) && 
               (/^S{0,1}[9]+V[9]+$/.match(origin_pic).nil?) && 
-              (/^S{0,1}[9]+V\([0-9]+\)$/.match(origin_pic).nil?)  
+              (/^S{0,1}[9]+V[9]\([0-9]+\)$/.match(origin_pic).nil?)  &&
+              (/^S{0,1}[9]\([0-9]+\)V[9]+$/.match(origin_pic).nil?) && 
+              (/^S{0,1}[9]\([0-9]+\)V[9]\([0-9]+\)$/.match(origin_pic).nil?)  
            )  ||
            (/^[0-9]+$/.match(position).nil?) || 
            (/^[0-9]+$/.match(width).nil?) 
+
+         p "--------"
+         p "vou montar!!"
 
          origin_field = OriginField.new
          origin_field.field_name = field_name

@@ -128,15 +128,19 @@ describe OriginField do
 
     it "should save the object succesfully mainframe" do
       org_type="arquivo mainframe"
-      str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
+      #str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
+      #str = " 40   3 FLAGNOFE                              9(01)     ZD     84     84      1"
+      #str = " 13   3 CONTA                                           AN     23     29      7"
+      #str = " 39   3 PERCINF                               S999V9(4) PD     80     83      4"
+       str = "  6   3 DTREFR REDEFINES DTREF                9(08)     ZD     33     40      8"
       origin_field = OriginField.text_parser(org_type,str)
       expect(origin_field).to be_kind_of(OriginField)
 
-      expect(origin_field.field_name).to eq "TIPO"
-      expect(origin_field.origin_pic).to eq "X(30)"
-      expect(origin_field.data_type).to eq "alfanumerico"
-      expect(origin_field.position).to eq 1
-      expect(origin_field.width).to eq 30 
+      expect(origin_field.field_name).to eq "DTREFR"
+      expect(origin_field.origin_pic).to eq "9(08)"
+      expect(origin_field.data_type).to eq "numerico"
+      expect(origin_field.position).to eq 33
+      expect(origin_field.width).to eq 8
     end
 
   end
