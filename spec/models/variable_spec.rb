@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe Variable do
+  let(:current_user_id) { @user.id }
+
+  before { @user = FactoryGirl.create(:user) }
 
   describe "attributes validations" do
     it { should respond_to :name }
@@ -51,7 +54,7 @@ describe Variable do
 
   context "origin_fields_x_variables" do
     before do
-      origin = FactoryGirl.create(:origin)
+      origin = FactoryGirl.create(:origin, current_user_id: current_user_id)
       o1 = FactoryGirl.create(:origin_field, field_name: "o1", origin: origin)
       o2 = FactoryGirl.create(:origin_field, field_name: "o2", origin: origin)
       o3 = FactoryGirl.create(:origin_field, field_name: "o3", origin: origin)
@@ -155,7 +158,7 @@ describe Variable do
 
     context "on update" do
       before do
-        origin = FactoryGirl.create(:origin)
+        origin = FactoryGirl.create(:origin, )
         o1 = FactoryGirl.create(:origin_field, id:  1, field_name: "o1", origin: origin)
         o2 = FactoryGirl.create(:origin_field, id:  5, field_name: "o2", origin: origin)
         o3 = FactoryGirl.create(:origin_field, id:  9, field_name: "o3", origin: origin)

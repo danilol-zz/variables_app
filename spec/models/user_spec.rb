@@ -6,7 +6,7 @@ describe User do
     context 'name' do
       it { should respond_to :name }
       it { should validate_presence_of(:name) }
-      it { should validate_uniqueness_of(:name) }      
+      it { should validate_uniqueness_of(:name) }
     end
 
     context 'profile' do

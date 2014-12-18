@@ -67,7 +67,8 @@ CSV.read("db/fixtures/origem.csv", { headers: true, :col_sep => ","}).each_with_
     dmt_classification: "pending",
     mainframe_storage_type: campo["tipo de armazenamento mainframe"],
     room_2_notes: campo["observação - sala 2"],
-    status: Constants::STATUS[:SALA1]
+    status: Constants::STATUS[:SALA1],
+    current_user_id: User.first.id
     )
 end
 

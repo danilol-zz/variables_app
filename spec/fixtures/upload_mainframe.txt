@@ -1,0 +1,42 @@
+  2  2 HEADER                                           AN      1     86     86
+  3   3 TIPO                                  X(30)     AN      1     30     30
+  4   3 CANAL                                 X(02)     AN     31     32      2
+  5   3 DTREF                                 X(08)     AN     33     40      8
+  6   3 DTREFR REDEFINES DTREF                9(08)     ZD     33     40      8
+  7   3 FILLER                                X(46)     AN     41     86     46
+  8  2 DETALHE REDEFINES HEADER                         AN      1     86     86
+  9   3 BANCO                                 X(03)     AN      1      3      3
+ 10   3 PES                                   X(01)     AN      4      4      1
+ 11   3 CPFCGCCA                              X(14)     AN      5     18     14
+ 12   3 AGENCIA                               X(04)     AN     19     22      4
+ 13   3 CONTA                                           AN     23     29      7
+ 14    4 CTA2                                 X(02)     AN     23     24      2
+ 15    4 CTA5                                 X(05)     AN     25     29      5
+ 16   3 DAC                                   X(01)     AN     30     30      1
+ 17   3 PORTADOR                              X(06)     AN     31     36      6
+ 18   3 PWARNING                                        AN     37     42      6
+ 19    4 CDGPOPRD                             X(03)     AN     37     39      3
+ 20    4 CDPRDSUB                             X(03)     AN     40     42      3
+ 21   3 TPPCTR                                X(02)     AN     43     44      2
+ 22   3 FAMILIA                               X(03)     AN     45     47      3
+ 23   3 CDMDCLI                               X(03)     AN     48     50      3
+ 24   3 CODTIPCM                              X(01)     AN     51     51      1
+ 25   3 CODCAH                                S9(06)    PD     52     55      4
+ 26   3 VLORDEM                               S9(03)    PD     56     57      2
+ 27   3 INDCLINV                              X(01)     AN     58     58      1
+ 28   3 TIPOWARN                              X(01)     AN     59     59      1
+ 29   3 TPCICLO                               X(01)     AN     60     60      1
+ 30   3 OFERTACL                              9(02)     ZD     61     62      2
+ 31   3 OFERTADD                              9(01)     ZD     63     63      1
+ 32   3 CDLAPRES                              X(02)     AN     64     65      2
+ 33   3 SEGMENTO                              X(01)     AN     66     66      1
+ 34   3 CDGRUPO                               X(02)     AN     67     68      2
+ 35   3 TPEMPRES                              X(03)     AN     69     71      3
+ 36   3 AGRPROD                               X(03)     AN     72     74      3
+ 37   3 POTENCIAL                             X(01)     AN     75     75      1
+ 38   3 VLPONDER                              S9(05)V99 PD     76     79      4
+ 39   3 PERCINF                               S999V9(4) PD     80     83      4
+ 40   3 FLAGNOFE                              9(01)     ZD     84     84      1
+ 41   3 FILLER                                X(02)     AN     85     86      2
+    ****  End of data  ****                                                    
+

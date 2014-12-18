@@ -227,4 +227,75 @@ RSpec.describe OriginsController, type: :controller do
     end
   end
 
+  describe "POST create origin field upload hadoop file" do
+    context "with valid file type and valid file" do
+      it "assigns new created origin_fields" do
+        #require "pry";binding.pry;
+       # session[:user_id] = User.create! user_attributes
+        origin = FactoryGirl.create(:origin)
+
+        file_test = File.new(Rails.root + 'spec/fixtures/upload_hadoop.txt')
+        file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_hadoop.txt"), content_type: "text/plain")
+
+        expect {
+          post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "hadoop" }, valid_session
+        }.to change(OriginField, :count).by(8)
+
+        #expect(response).to redirect_to(origin_field)
+      end
+    end
+
+    context "with invalid file type and valid file" do
+      it "not created any origin_fields" do
+        #require "pry";binding.pry;
+        #session[:user_id] = User.create! user_attributes
+        origin = FactoryGirl.create(:origin)
+
+        file_test = File.new(Rails.root + 'spec/fixtures/upload_hadoop.txt')
+        file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_hadoop.txt"), content_type: "text/plain")
+
+        expect {
+          post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  }, file_type: "invalid" }, valid_session
+        }.to change(OriginField, :count).by(0)
+
+        #expect(response).to redirect_to(origin_field)
+      end
+    end
+  end
+
+  describe "POST create origin field upload mainframe file" do
+    context "with valid file type and valid file" do
+      it "assigns new created origin_fields" do
+        #require "pry";binding.pry;
+        #session[:user_id] = User.create! user_attributes
+        origin = FactoryGirl.create(:origin)
+
+        file_test = File.new(Rails.root + 'spec/fixtures/upload_mainframe.txt')
+        file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_mainframe.txt"), content_type: "text/plain")
+
+        expect {
+          post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "mainframe" }, valid_session
+        }.to change(OriginField, :count).by(40)
+
+        #expect(response).to redirect_to(origin_field)
+      end
+    end
+
+    context "with invalid file type and valid file" do
+      it "not created any origin_fields" do
+        #require "pry";binding.pry;
+        #session[:user_id] = User.create! user_attributes
+        origin = FactoryGirl.create(:origin)
+
+        file_test = File.new(Rails.root + 'spec/fixtures/upload_mainframe.txt')
+        file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_mainframe.txt"), content_type: "text/plain")
+
+        expect {
+          post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "invalid" }, valid_session
+        }.to change(OriginField, :count).by(0)
+
+        #expect(response).to redirect_to(origin_field)
+      end
+    end
+  end
 end
