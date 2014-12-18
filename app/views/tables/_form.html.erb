@@ -70,7 +70,7 @@
       </div>
       <div class="left t11">
         <%= f.label :mnemonic %><br>
-        <%= f.text_field :mnemonic %>
+        <%= f.text_field :mnemonic, maxlength: 5 %>
       </div>
       <div class="left t11">
         <%= f.label :routine_number %><br>
@@ -88,29 +88,29 @@
     <div class="row clearfix">
       <div class="left t10">
         <%= f.label :hive_table %><br>
-        <%= f.text_field :hive_table %>
+        <%= f.text_field :hive_table, readonly: true %>
       </div>
       <div class="left t10">
         <%= f.label :big_data_routine_name %><br>
-        <%= f.text_field :big_data_routine_name %>
+        <%= f.text_field :big_data_routine_name, readonly: true %>
       </div>
       <div class="left t10">
         <%= f.label :output_routine_name %><br>
-        <%= f.text_field :output_routine_name %>
+        <%= f.text_field :output_routine_name, readonly: true %>
       </div>
       <div class="left t10">
         <%= f.label :ziptrans_routine_name %><br>
-        <%= f.text_field :ziptrans_routine_name %>
+        <%= f.text_field :ziptrans_routine_name, readonly: true %>
       </div>
     </div>
     <div class="row clearfix">
       <div class="left t10">
         <%= f.label :mirror_data_stage_routine_name %><br>
-        <%= f.text_field :mirror_data_stage_routine_name %>
+        <%= f.text_field :mirror_data_stage_routine_name, readonly: true %>
       </div>
       <div class="left t10">
         <%= f.label :final_data_stage_routine_name %><br>
-        <%= f.text_field :final_data_stage_routine_name %>
+        <%= f.text_field :final_data_stage_routine_name, readonly: true %>
       </div>
       <div class="left">
         <%= f.label :key_fields_hive_script %><br>
