@@ -14,10 +14,17 @@ class Variable < ActiveRecord::Base
     "VA#{self.id.to_s.rjust(3,'0')}"
   end
 
-  def set_origin_fields(fields_list = nil)
+  def set_origin_fields(fields_list = nil, current_user_id=nil)
+
     if fields_list
       self.origin_fields = []
-      fields_list.each { |f| self.origin_fields << OriginField.find(f.first) }
+
+      fields_list.each do |f|
+        origin_field = OriginField.find(f.first)
+        origin_field.current_user_id = current_user_id
+
+        self.origin_fields << origin_field
+      end
     else
       self.origin_fields = []
     end

@@ -29,7 +29,7 @@ class VariablesController < ApplicationController
   def create
     @variable = Variable.new(variable_params)
 
-    @variable.set_origin_fields(params[:variable][:origin_fields_list])
+    @variable.set_origin_fields(params[:variable][:origin_fields_list], current_user.id)
 
     respond_to do |format|
       if @variable.save
@@ -76,6 +76,6 @@ class VariablesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def variable_params
-      params.require(:variable).permit(:name, :sas_variable_def, :sas_variable_domain, :created_in_sprint, :updated_in_sprint, :sas_data_model_status, :drs_bi_diagram_name, :drs_variable_status, :room_1_notes, :physical_model_name_field, :width_variable, :decimal_variable, :default_value, :room_2_notes)
+      params.require(:variable).permit(:name, :sas_variable_def, :sas_variable_domain, :created_in_sprint, :updated_in_sprint, :sas_data_model_status, :drs_bi_diagram_name, :drs_variable_status, :room_1_notes, :physical_model_name_field, :width_variable, :decimal_variable, :default_value, :room_2_notes).merge(current_user_id: current_user.id)
     end
 end
