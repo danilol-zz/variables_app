@@ -156,7 +156,7 @@ RSpec.describe CampaignsController, :type => :controller do
         session[:user_id] = User.create! user_attributes
         put :update, { id: campaign.to_param, campaign: valid_attributes, update_status: "sala2" }, valid_session
         expect(assigns(:campaign)).to eq(campaign)
-        #expect(assigns(:campaign).status).to eq 'sala2'
+        expect(assigns(:campaign).status).to eq 'sala2'
       end
 
       it "redirects to the campaign" do

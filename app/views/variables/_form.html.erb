@@ -110,9 +110,28 @@
     <%= f.label :room_2_notes %><br>
     <%= f.text_area :room_2_notes, rows: 5 %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <section>
+    <div class="botoes clearfix">
+      <div class="row clearfix">
+        <% if @variable.new_record? %>
+          <%= f.submit "Salvar" %>
+        <% else %>
+          <% if @variable.status == Constants::STATUS[:SALA1] %>
+            <%= f.submit "Salvar" %>
+            <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:SALA2] %>
+          <% end %>
+          <% if @current_user.room1? && @variable.status == Constants::STATUS[:EFETIVO] %>
+            <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
+          <% end %>
+          <% if @current_user.room2? && @variable.status == Constants::STATUS[:SALA2] %>
+            <%= f.submit "Salvar" %>
+            <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:EFETIVO] %>
+          <% end %>
+        <% end %>
+        <%= link_to t('back'), root_path({ status: "variable" } ) %>
+      </div>
+    </div>
+  </section>
   <div class="row clearfix">
     <div class="left t1">
       <%= render 'origin_fields_form' %>

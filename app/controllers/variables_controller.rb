@@ -16,7 +16,7 @@ class VariablesController < ApplicationController
   # POST /variables
   # POST /variables.json
   def create
-    @variable = Variable.new(variable_params)
+    @variable = Variable.new(variable_params.merge(status: Constants::STATUS[:SALA1]))
 
     @variable.set_origin_fields(params[:variable][:origin_fields_list], current_user.id)
 
@@ -39,7 +39,7 @@ class VariablesController < ApplicationController
     @variable.set_origin_fields(params[:variable][:origin_fields_list])
 
     respond_to do |format|
-      if @variable.update(variable_params)
+      if @variable.update(variable_params.merge(status))
         format.html { redirect_to root_path({ status: "variable", notice: "#{Variable.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @variable }
       else

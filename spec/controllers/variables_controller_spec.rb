@@ -81,6 +81,7 @@ RSpec.describe VariablesController, :type => :controller do
         post :create, {:variable => valid_attributes}, valid_session
         expect(assigns(:variable)).to be_a(Variable)
         expect(assigns(:variable)).to be_persisted
+        expect(assigns(:variable).status).to eq 'sala1'
       end
 
       it "redirects to the created variable" do
@@ -143,6 +144,14 @@ RSpec.describe VariablesController, :type => :controller do
         variable = Variable.create! valid_attributes
         put :update, {:id => variable.to_param, :variable => valid_attributes}, valid_session
         expect(assigns(:variable)).to eq(variable)
+      end
+
+      it "assigns the requested variable as @variable and changes status" do
+        session[:user_id] = User.create! user_attributes
+        variable = Variable.create! valid_attributes
+        put :update, { id: variable.to_param, variable: valid_attributes, update_status: "sala2" }, valid_session
+        expect(assigns(:variable)).to eq(variable)
+        expect(assigns(:variable).status).to eq 'sala2'
       end
 
       it "redirects to the variable" do
