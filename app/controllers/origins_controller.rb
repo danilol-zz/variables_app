@@ -28,7 +28,7 @@ class OriginsController < ApplicationController
   end
 
   def update
-    status = params[:finish] ? { status: params[:finish] } : {}
+    status = params[:update_status] ? { status: params[:update_status] } : {}
 
     respond_to do |format|
       if @origin.update(origin_params.merge(status))

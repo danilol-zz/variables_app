@@ -124,7 +124,7 @@
         <div class="row clearfix">
           <% if @current_user.room2? && @origin.status == Constants::STATUS[:SALA2] %>
             <%= f.submit "Salvar" %>
-            <%= f.button "Finalizar", name: 'finish', value: "producao" %>
+            <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:EFETIVO] %>
           <% end %>
           <%= link_to t('back'), root_path %>
         </div>

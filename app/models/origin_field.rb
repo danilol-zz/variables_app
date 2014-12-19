@@ -1,7 +1,7 @@
 class OriginField < ActiveRecord::Base
   include UserSession
-  before_save :calculate_field_fmbase_format_datyp
-  before_save :calculate_field_generic_datyp
+  before_save :calculate_field_fmbase_format_type
+  before_save :calculate_field_generic_data_type
   before_save :calculate_field_cd5_variable_name
   before_save :calculate_field_cd5_origin_format
   before_save :calculate_field_cd5_origin_format_desc
@@ -11,7 +11,9 @@ class OriginField < ActiveRecord::Base
 
   belongs_to :origin
 
-  
+  validates :field_name, presence: true, if: :current_user_is_room1?
+
+
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
 
       return_value=nil
@@ -241,31 +243,31 @@ class OriginField < ActiveRecord::Base
     end
   end
 
-  def calculate_field_generic_datyp
+  def calculate_field_generic_data_type
     case self.data_type
       when "Alfanumérico"
-        self.generic_datyp = "texto"
+        self.generic_data_type = "texto"
       when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"
-        self.generic_datyp = "numero"
+        self.generic_data_type = "numero"
       when "Data"
-        self.generic_datyp = "data"
+        self.generic_data_type = "data"
       else
-        self.generic_datyp = nil
+        self.generic_data_type = nil
       end
   end
 
-  def calculate_field_fmbase_format_datyp
+  def calculate_field_fmbase_format_type
     case self.data_type
       when "Alfanumérico"
-        self.fmbase_format_datyp = "AN"
+        self.fmbase_format_type = "AN"
       when "Numérico", "Data", "Numérico com vírgula"
-        self.fmbase_format_datyp = "ZD"
+        self.fmbase_format_type = "ZD"
       when "Compactado", "Compactado com vírgula"
-        self.fmbase_format_datyp = "PD"
+        self.fmbase_format_type = "PD"
       when "Binário Mainframe"
-        self.fmbase_format_datyp = "BI"
+        self.fmbase_format_type = "BI"
       else
-        self.fmbase_format_datyp = nil
+        self.fmbase_format_type = nil
     end
   end
 
