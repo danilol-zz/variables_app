@@ -1,5 +1,5 @@
 class VariablesController < ApplicationController
-  before_action :set_variable, only: [:show, :edit, :update, :destroy]
+  before_action :set_variable, only: [:edit, :update, :destroy]
   before_filter :ensure_authentication
 
   # GET /variables/new
@@ -58,13 +58,28 @@ class VariablesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_variable
-      @variable = Variable.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_variable
+    @variable = Variable.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def variable_params
-      params.require(:variable).permit(:name, :sas_variable_def, :sas_variable_domain, :created_in_sprint, :updated_in_sprint, :sas_data_model_status, :drs_bi_diagram_name, :drs_variable_status, :room_1_notes, :physical_model_name_field, :width_variable, :decimal_variable, :default_value, :room_2_notes)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def variable_params
+    params.require(:variable).permit(
+      :name,
+      :sas_variable_def,
+      :sas_variable_domain,
+      :created_in_sprint,
+      :updated_in_sprint,
+      :sas_data_model_status,
+      :drs_bi_diagram_name,
+      :drs_variable_status,
+      :room_1_notes,
+      :physical_model_name_field,
+      :width_variable,
+      :decimal_variable,
+      :default_value,
+      :room_2_notes
+    ).merge(current_user_id: current_user.id)
+  end
 end

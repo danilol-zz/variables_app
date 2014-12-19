@@ -1,13 +1,30 @@
 require 'rails_helper'
 
 describe OriginField do
-  let(:profile) { 'room1' }
-
   before do
     user = FactoryGirl.create(:user, profile: profile)
 
     subject.current_user_id = user.id
   end
+
+  context "origin_fields_x_variables" do
+
+    before do
+      origin = FactoryGirl.create(:origin, current_user_id: subject.current_user.id)
+      v1 = FactoryGirl.create(:variable, name: "v1")
+      v2 = FactoryGirl.create(:variable, name: "v2")
+      v3 = FactoryGirl.create(:variable, name: "v3")
+      @origin_field = FactoryGirl.create(:origin_field, variables: [v1, v2, v3])
+    end
+
+    it "has relationship" do
+      expect(@origin_field.variables.count).to eq 3
+      expect(@origin_field.variables.map(&:name)).to include "v1", "v2", "v3"
+    end
+  end
+
+  let(:profile) { 'room1' }
+
 
   context '.text_parser' do
     it "should return error when string is empty" do
@@ -129,7 +146,7 @@ describe OriginField do
       expect(origin_field.origin_pic).to eq "X(30)"
       expect(origin_field.data_type).to eq "alfanumerico"
       expect(origin_field.position).to eq 1
-      expect(origin_field.width).to eq 30 
+      expect(origin_field.width).to eq 30
     end
   end
 
@@ -423,6 +440,4 @@ describe OriginField do
       end
     end
   end
-
 end
-
