@@ -1,10 +1,17 @@
-<fieldset>
-  <legend>Variáveis</legend>
-  <h1>Variáveis</h1>
-  <p>
-    <% @variables.each do |var| %>
-      <%= check_box_tag( "campaign[variable_list][#{var.id}]", "checked", @campaign.variables.detect{|v| v == var}) %>
-      <%= "#{var.name}"%><br />
-    <% end %>
-  </p>
-</fieldset>
+<section class="formulario">
+  <h3 class="line-bottom">>>> Selecione abaixo as 
+    <span class="destaque"><%= Variable.model_name.human.capitalize.pluralize %></span> 
+    para a <%= Campaign.model_name.human.capitalize %></h3>
+  <fieldset>
+    <legend></legend>
+    <div class="row clearfix">
+      <% @variables.each do |var| %>
+        <p>
+          <%= check_box_tag( "campaign[variable_list][#{var.id}]", "checked", @campaign.variables.detect{|v| v == var}) %>
+          <%= "#{var.name}"%>
+        </p>
+      <% end %>
+    </div>
+  </fieldset>
+</section>
+

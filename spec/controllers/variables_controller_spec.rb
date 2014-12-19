@@ -18,7 +18,6 @@ RSpec.describe VariablesController, :type => :controller do
       :sas_update_periodicity => 'teste',
       :domain_type => 'teste',
       :sas_variable_domain => 'teste',
-      :key => 'teste',
       :variable_type => 'teste',
       :created_in_sprint => 'teste',
       :updated_in_sprint => 'teste',
@@ -51,23 +50,6 @@ RSpec.describe VariablesController, :type => :controller do
   # VariablesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all variables as @variables" do
-      variable = Variable.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:variables)).to eq([variable])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested variable as @variable" do
-      variable = Variable.create! valid_attributes
-      get :show, {:id => variable.to_param}, valid_session
-      expect(assigns(:variable)).to eq(variable)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new variable as @variable" do
       session[:user_id] = User.create! user_attributes
@@ -98,6 +80,7 @@ RSpec.describe VariablesController, :type => :controller do
         post :create, {:variable => valid_attributes}, valid_session
         expect(assigns(:variable)).to be_a(Variable)
         expect(assigns(:variable)).to be_persisted
+        expect(assigns(:variable).status).to eq 'sala1'
       end
 
       it "redirects to the created variable" do
@@ -134,7 +117,6 @@ RSpec.describe VariablesController, :type => :controller do
           :sas_update_periodicity => 'teste',
           :domain_type => 'teste',
           :sas_variable_domain => 'teste',
-          :key => 'teste',
           :variable_type => 'teste',
           :created_in_sprint => 'teste',
           :updated_in_sprint => 'teste',
@@ -162,6 +144,14 @@ RSpec.describe VariablesController, :type => :controller do
         expect(assigns(:variable)).to eq(variable)
       end
 
+      it "assigns the requested variable as @variable and changes status" do
+        session[:user_id] = User.create! user_attributes
+        variable = Variable.create! valid_attributes
+        put :update, { id: variable.to_param, variable: valid_attributes, update_status: "sala2" }, valid_session
+        expect(assigns(:variable)).to eq(variable)
+        expect(assigns(:variable).status).to eq 'sala2'
+      end
+
       it "redirects to the variable" do
         variable = Variable.create! valid_attributes
         session[:user_id] = User.create! user_attributes
@@ -184,22 +174,4 @@ RSpec.describe VariablesController, :type => :controller do
     #  end
     #end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested variable" do
-      variable = Variable.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      expect {
-        delete :destroy, {:id => variable.to_param}, valid_session
-      }.to change(Variable, :count).by(-1)
-    end
-
-    it "redirects to the variables list" do
-      variable = Variable.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      delete :destroy, {:id => variable.to_param}, valid_session
-      expect(response).to redirect_to(variables_url)
-    end
-  end
-
 end

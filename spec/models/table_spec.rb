@@ -5,8 +5,8 @@ describe Table do
     before do
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:table, status: Constants::STATUS[:EFETIVO])
-      FactoryGirl.create(:table, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO])
+      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO])
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
@@ -160,25 +160,6 @@ describe Table do
         expect(@a.hive_table) == nil
       end
     end
-
   end
 
 end
-
-=begin
-  :calculate_field_hive_table 
-  :calculate_field_big_data_routine_name
-  :calculate_field_output_routine_name
-  :calculate_field_ziptrans_routine_name
-  :calculate_field_mirror_data_stage_routine_name
-  :calculate_field_final_data_stage_routine_name
-
-tabela hive calculado   concatenar: "TAB_" ; mnmonico
-nome rotina big data  calculado   concatenar: "CD5PT" ; numero rotina
-nome rotina saida calculado   concatenar: "CD5PS" ; numero rotina
-nome rotina ziptrans  calculado   concatenar: "CD5T5" ; mnmonico
-nome rotina data stage espelho  calculado   concatenar: "CD5PD" ; numero rotina
-nome rotina data stage definitivo calculado   concatenar: "CD5PE" ; numero rotina
-
-
-=end

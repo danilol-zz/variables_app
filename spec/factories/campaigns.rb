@@ -9,13 +9,10 @@ FactoryGirl.define do
     channel "MyString"
     communication_channel "MyString"
     product "MyString"
-    description "MyString"
     criterion "MyString"
     exists_in_legacy "MyString"
     automatic_routine "MyString"
     factory_criterion_status "MyString"
-    prioritized_variables_qty 1
-    complied_variables_qty 1
     process_type "MyString"
     crm_room_suggestion "MyString"
     it_status "MyString"

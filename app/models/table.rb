@@ -1,5 +1,5 @@
 class Table < ActiveRecord::Base
-  before_save :calculate_field_hive_table 
+  before_save :calculate_field_hive_table
   before_save :calculate_field_big_data_routine_name
   before_save :calculate_field_output_routine_name
   before_save :calculate_field_ziptrans_routine_name
@@ -11,7 +11,7 @@ class Table < ActiveRecord::Base
 
   scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
-  scope :done,        -> { where(status: Constants::STATUS[:EFETIVO]) }
+  scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
   def code
     "TA#{self.id.to_s.rjust(3,'0')}"
@@ -58,7 +58,7 @@ class Table < ActiveRecord::Base
 
   def calculate_field_ziptrans_routine_name
     if self.mnemonic?
-      self.ziptrans_routine_name = "CD5T5#{self.mnemonic}"
+      self.ziptrans_routine_name = "CD5T5#{self.mnemonic}".upcase
     else
       self.ziptrans_routine_name = nil
     end

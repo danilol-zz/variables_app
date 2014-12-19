@@ -17,13 +17,10 @@ RSpec.describe CampaignsController, :type => :controller do
       :channel => 'teste',
       :communication_channel => 'teste',
       :product => 'teste',
-      :description => 'teste',
       :criterion => 'teste',
       :exists_in_legacy => 'teste',
       :automatic_routine => 'teste',
       :factory_criterion_status => 'teste',
-      :prioritized_variables_qty => 'teste',
-      :complied_variables_qty => 'teste',
       :process_type => 'teste',
       :crm_room_suggestion => 'teste',
       :it_status => 'teste',
@@ -52,24 +49,6 @@ RSpec.describe CampaignsController, :type => :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # CampaignsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
-
-  describe "GET index" do
-    it "assigns all campaigns as @campaigns" do
-      campaign = Campaign.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:campaigns)).to eq([campaign])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested campaign as @campaign" do
-      campaign = Campaign.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :show, {:id => campaign.to_param}, valid_session
-      expect(assigns(:campaign)).to eq(campaign)
-    end
-  end
 
   describe "GET new" do
     it "assigns a new campaign as @campaign" do
@@ -107,6 +86,7 @@ RSpec.describe CampaignsController, :type => :controller do
         post :create, {:campaign => valid_attributes}, valid_session
         expect(assigns(:campaign)).to be_a(Campaign)
         expect(assigns(:campaign)).to be_persisted
+        expect(assigns(:campaign).status).to eq 'sala1'
       end
 
       it "redirects to the created campaign" do
@@ -143,13 +123,10 @@ RSpec.describe CampaignsController, :type => :controller do
           :channel => 'teste',
           :communication_channel => 'teste',
           :product => 'teste',
-          :description => 'teste',
           :criterion => 'teste',
           :exists_in_legacy => 'teste',
           :automatic_routine => 'teste',
           :factory_criterion_status => 'teste',
-          :prioritized_campaigns_qty => 'teste',
-          :complied_campaigns_qty => 'teste',
           :process_type => 'teste',
           :crm_room_suggestion => 'teste',
           :it_status => 'teste',
@@ -169,6 +146,17 @@ RSpec.describe CampaignsController, :type => :controller do
         campaign = Campaign.create! valid_attributes
         put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session
         expect(assigns(:campaign)).to eq(campaign)
+        expect(assigns(:campaign).status).to eq 'sala1'
+      end
+
+      it "assigns the requested campaign as @campaign and changes status" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+        campaign = Campaign.create valid_attributes
+        session[:user_id] = User.create! user_attributes
+        put :update, { id: campaign.to_param, campaign: valid_attributes, update_status: "sala2" }, valid_session
+        expect(assigns(:campaign)).to eq(campaign)
+        expect(assigns(:campaign).status).to eq 'sala2'
       end
 
       it "redirects to the campaign" do
@@ -195,22 +183,4 @@ RSpec.describe CampaignsController, :type => :controller do
     #  end
     #end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested campaign" do
-      campaign = Campaign.create! valid_attributes
-      expect {
-        session[:user_id] = User.create! user_attributes
-        delete :destroy, {:id => campaign.to_param}, valid_session
-      }.to change(Campaign, :count).by(-1)
-    end
-
-    it "redirects to the campaigns list" do
-      campaign = Campaign.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      delete :destroy, {:id => campaign.to_param}, valid_session
-      expect(response).to redirect_to(campaigns_url)
-    end
-  end
-
 end

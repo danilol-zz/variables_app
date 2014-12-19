@@ -241,6 +241,9 @@ script_mini = "<Processo.[Nome da rotina]>.SQL
 			expect(result.size).to eq 2
 			#p result 
 		end
+
+		
+		
 	end
 
 

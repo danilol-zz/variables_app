@@ -1,121 +1,139 @@
-<%= form_for(@variable) do |f| %>
-  <% if @variable.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@variable.errors.count, "error") %> proibiram essa variavel de ser salva:</h2>
-      <ul>
-      <% @variable.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<a name="forms-construido" class="link-ancora"></a>
+<section>
+  <h3 class="line-bottom">Cadastro de <span class="destaque"><%= Variable.model_name.human.capitalize %></span></h3>
+
+  <%= form_for @variable do |f| %>
+    <% if @variable.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@variable.errors.count, "error") %> proibiram essa variavel de ser salva:</h2>
+        <ul>
+          <% @variable.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <fieldset>
+
+      <legend></legend>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+        </div>
+        <div class="left t1">
+          <%= f.label :model_field_name %>
+          <%= f.text_field :model_field_name %>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :data_type %>
+          <%= f.select(:data_type,  [ "QTD", "Data", "Valor", "Indicador", "Nome", "Código", "Porcentagem", "Número" ], {:include_blank => 'Selecione'}) %>
+        </div>
+        <div class="left t6">
+          <%= f.label :width%>
+          <%= f.text_field :width%>
+        </div>
+        <div class="left t6">
+          <%= f.label :decimal %>
+          <%= f.text_field :decimal %>
+        </div>           
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t1">
+          <%= f.label :sas_variable_def %>
+          <%= f.text_area :sas_variable_def, rows: 5  %>
+        </div>         
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :sas_variable_rule_def %>
+          <%= f.text_area :sas_variable_rule_def, rows: 5 %>
+        </div>       
+        <div class="left t6">
+          <%= f.label :sas_update_periodicity %>
+          <%= f.select(:sas_update_periodicity,  ["diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"] , {:include_blank => 'Selecione'}) %>
+        </div>   
+        <div class="left t7">
+          <%= f.label :domain_type %>
+          <%= f.select(:domain_type,  [ "interno",  "externo", "fixo" ] , {:include_blank => 'Selecione'}) %>
+        </div>   
+      </div>
+
+      <div class="row clearfix">      
+        <div class="left t6">
+          <%= f.label :sas_variable_domain %>
+          <%= f.text_area :sas_variable_domain %>
+        </div>           
+        <div class="left t6">
+          <%= f.label :created_in_sprint %>
+          <%= f.text_field :created_in_sprint %>
+        </div>
+        <div class="left t6">
+          <%= f.label :updated_in_sprint %>
+          <%= f.text_field :updated_in_sprint %>
+        </div>       
+      </div>
+
+      <div class="row clearfix">      
+        <div class="left t6">
+          <%= f.label :sas_data_model_status %>
+          <%= f.select(:sas_data_model_status,  [ "ok",  "pendente", "" ] , {:include_blank => 'Selecione'}) %>
+        </div>   
+        <div class="left t6">
+          <%= f.label :drs_bi_diagram_name %>
+          <%= f.text_field :drs_bi_diagram_name %>        
+        </div>        
+        <div class="left t5">
+          <%= f.label :drs_variable_status %>
+          <%= f.select(:drs_variable_status,  [ "ok",  "pendente", "" ] , {:include_blank => 'Selecione'}) %>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :room_1_notes %>
+          <%= f.text_area :room_1_notes, rows: 5 %>
+        </div>
+        <div class="left t2">
+          <%= f.label :variable_type %>
+          <%= f.select(:variable_type,  [ "calculado",  "movimentação direta", "valor padrão" ] , {:include_blank => 'Selecione'}) %>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :default_value %>
+          <%= f.text_field :default_value %>
+        </div>
+        <div class="left t2">
+          <%= f.label :room_2_notes %>
+          <%= f.text_area :room_2_notes, rows: 5 %>
+        </div>
+      </div>
+
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :owner %>
+          <%= f.text_field :owner %>
+        </div>
+      </div>
+
+     <%= render 'origin_fields_form' %>
+                
+    </fieldset>
+
+    <div class="actions">
+      <%= f.submit "Salvar #{Variable.model_name.human.capitalize}" %>
     </div>
+
   <% end %>
 
-  <div class="field t4">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :model_field_name %><br>
-    <%= f.text_field :model_field_name %>
-  </div>
-
-  <div class="field t8">
-    <%= f.label :data_type %><br>
-    <%= f.select(:data_type,  [ "QTD", "Data", "Valor", "Indicador", "Nome", "Código", "Porcentagem", "Número" ], {:include_blank => 'Selecione'}) %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :sas_variable_def %><br>
-    <%= f.text_area :sas_variable_def %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :sas_variable_rule_def %><br>
-    <%= f.text_area :sas_variable_rule_def, rows: 5 %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :sas_update_periodicity %><br>
-    <%= f.select(:sas_update_periodicity,  ["diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"] , {:include_blank => 'Selecione'}) %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :domain_type %><br>
-    <%= f.select(:domain_type,  [ "interno",  "externo", "fixo" ] , {:include_blank => 'Selecione'}) %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :sas_variable_domain %><br>
-    <%= f.text_area :sas_variable_domain %>
-  </div>
-  <div class="field t4">
-    <%= f.label :key %><br>
-    <%= f.select(:key, ["conta corrente", "cliente", "cartão", "outro", "ramo", "propensão", "ccpj", "limite unico", "oferta", "cliente elegibilidade"], {:include_blank => 'Selecione'}) %>
-  </div>
-  <div class="field t4">
-    <%= f.label :variable_type %><br>
-    <%= f.select(:variable_type,  [ "calculado",  "movimentação direta", "valor padrão" ] , {:include_blank => 'Selecione'}) %>
-
-  </div>
-  <div class="row clearfix">
-    <div class="left t10">
-      <%= f.label :created_in_sprint %>
-      <%= f.text_field :created_in_sprint %>
-    </div>
-    <div class="left t10">
-      <%= f.label :updated_in_sprint %><br>
-      <%= f.text_field :updated_in_sprint %>
-    </div>
-  </div>
-  <div class="field t9">
-    <%= f.label :sas_data_model_status %><br>
-    <%= f.select(:sas_data_model_status,  [ "ok",  "pendente", "branco" ] , {:include_blank => 'Selecione'}) %>
-  </div>
-  <div class="field t4">
-    <%= f.label :drs_bi_diagram_name %><br>
-    <%= f.text_field :drs_bi_diagram_name %>
-  </div>
-  <div class="field t9">
-    <%= f.label :drs_variable_status %><br>
-    <%= f.select(:drs_variable_status,  [ "ok",  "pendente", "branco" ] , {:include_blank => 'Selecione'}) %>
-  </div>
-  <div class="field t4">
-    <%= f.label :room_1_notes %><br>
-    <%= f.text_area :room_1_notes, rows: 5 %>
-  </div>
-  <div class="row clearfix">
-    <div class="left t10">
-      <%= f.label :width%>
-      <%= f.text_field :width%>
-    </div>
-    <div class="left t10">
-      <%= f.label :decimal %>
-      <%= f.text_field :decimal %>
-    </div>
-  </div>
-  <div class="field t10">
-    <%= f.label :default_value %><br>
-    <%= f.text_field :default_value %>
-  </div>
-  <div class="field t10">
-    <%= f.label :owner %><br>
-    <%= f.text_field :owner %>
-  </div>
-  <div class="field t10">
-    <%= f.label :status %><br>
-    <%= f.text_field :status %>
-  </div>
-  <div class="field t4">
-    <%= f.label :room_2_notes %><br>
-    <%= f.text_area :room_2_notes, rows: 5 %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-  <div class="row clearfix">
-    <div class="left t1">
-      <%= render 'origin_fields_form' %>
-    </div>
-  </div>
-<% end %>
+</section>

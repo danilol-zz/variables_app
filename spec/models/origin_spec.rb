@@ -28,8 +28,8 @@ describe Origin do
         it { expect(subject).to validate_presence_of(:data_retention_type) }
         it { expect(subject).to validate_presence_of(:extractor_file_type) }
         it { expect(subject).to ensure_length_of(:room_1_notes).is_at_most(500) }
-        it { expect(subject).to ensure_length_of(:dmt_advice).is_at_most(200) }
-        it { expect(subject).to validate_presence_of(:dmt_classification) }
+        #it { expect(subject).to ensure_length_of(:dmt_advice).is_at_most(200) }
+        #it { expect(subject).to validate_presence_of(:dmt_classification) }
         it { expect(subject).to validate_presence_of(:status) }
 
         it { expect(subject).to_not validate_presence_of(:mnemonic) }
@@ -93,8 +93,8 @@ describe Origin do
     before do
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:EFETIVO])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
@@ -108,4 +108,47 @@ describe Origin do
       expect(Origin.done.count).to        eq 2
     end
   end
+
+  describe "before_save calculate fields" do
+    context "when the mnemonic is fill out" do
+      let(:o) { FactoryGirl.create(:origin, mnemonic: "ABC") }
+
+      it "the hive_table_name start with 'ORG_' append with the mnemonic" do
+        expect(o.hive_table_name).to eq "ORG_ABC"
+      end
+
+      it "the hive_table_name not equal nil" do
+        expect(o.hive_table_name).not_to eq nil
+      end
+
+      it "the cd5_portal_destination_name start with 'CD5.RETR.B' append with the mnemonic" do
+        expect(o.cd5_portal_destination_name).to eq "CD5.RETR.BABC"
+      end
+
+      it "the cd5_portal_origin_name start with 'CD5.BASE.O' apend with the mnemonic" do
+        expect(o.cd5_portal_origin_name).to eq "CD5.BASE.OABC"
+      end
+    end
+
+    context "when the mnemonic is not fill out" do
+      let(:o) { FactoryGirl.create(:origin, mnemonic: nil) }
+
+      it "the hive_table_name start with 'ORG_' append with the mnemonic" do
+        expect(o.hive_table_name).not_to eq "ORG_ABC"
+      end
+
+      it "the hive_table_name equal nil" do
+        expect(o.hive_table_name).to eq nil
+      end
+
+      it "the cd5_portal_destination_name equal nil" do
+        expect(o.cd5_portal_destination_name).to eq nil
+      end
+
+      it "the cd5_portal_origin_name equal nil" do
+        expect(o.cd5_portal_origin_name).to eq nil
+      end
+    end
+  end
+
 end

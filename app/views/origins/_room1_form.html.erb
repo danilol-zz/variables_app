@@ -75,6 +75,19 @@
           <%= f.text_area :room_1_notes, rows: 5 %>
         </div>
       </div>
+
+
+      <div class="row clearfix">
+        <div class="left t4">
+          <%= f.label :dmt_advice %>
+          <%= f.text_field :dmt_advice %>
+        </div>
+        <div class="left t4">
+          <%= f.label :dmt_classification %>
+          <%= f.select(:dmt_classification,  ["Novo", "Pendente Revisão","Não atendido"], {:include_blank => 'Selecione'}) %>
+        </div>
+      </div>
+
     </fieldset>
 
     <section>
@@ -84,11 +97,11 @@
             <% if @origin.new_record? %>
               <%= f.submit "Salvar" %>
             <% else %>
-              <% if @origin.status != Constants::STATUS[:EFETIVO] %>
+              <% if @origin.status == Constants::STATUS[:PRODUCAO] %>
+                <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
+              <% elsif @origin.status == Constants::STATUS[:SALA1] %>
                 <%= f.submit "Salvar" %>
-                <%= f.button "Reabrir", name: 'reopen', value: "sala1" %>
-              <% else %>
-                <%= f.button "Finalizar", name: 'finish', value: "sala2" %>
+                <%= f.button "Finalizar", name: 'update_status', value: "sala2" %>
               <% end %>
             <% end %>
           <% end %>

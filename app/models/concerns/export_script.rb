@@ -141,6 +141,7 @@ module ExportScript
 		
 		lista = script.scan(reg)
 		lista_ent = Hash.new
+
 		
 		lista.each do |item| 
 		    unless lista_ent.has_key?(item[0]) 
@@ -165,8 +166,12 @@ module ExportScript
 
 
 
+
+
 	def self.translate_list(list, hash_transl)
 		
+
+
 		return_value=''
 		test_hash_pass='S'
 		test_entity='S'
@@ -179,7 +184,6 @@ module ExportScript
 
 		#p "montagem do dicionario"
 		#dicionario
-		
 
 		#p "dicionario: "
 
@@ -187,9 +191,9 @@ module ExportScript
 
 		#p "--------------------------------------"
 		#p "inicio da busca"
-		unless list != nil &&  (list.instance_of? Hash) && list.size > 0 
+		unless list != nil &&  (list.instance_of? Hash) && list.size > 0
 			test_hash_pass='N'
-		else	
+		else
 			list.each_key do |ent_Br|
 	   			#p "/-- Entidade portugues = #{ent_Br}"
 	   			unless list[ent_Br] != nil && (list[ent_Br].instance_of? Array) &&
@@ -211,11 +215,11 @@ module ExportScript
 	   						lista_ent[ent_Eng] << attr_Eng
 	   					end
 	   				end
-	   				
+
 	   			end
 	   		end
-		end			
-		
+		end
+
 		#p "fim da busca"
 
 
@@ -233,7 +237,7 @@ module ExportScript
 
 
 	def self.get_entits_by_sprint(sprint, entity)
-		
+
 		return_value=''
 
 		#ind_valid_parms='S'
@@ -261,8 +265,8 @@ module ExportScript
 
 
 		unless ( ! (sprint.nil?) ) && ( ! (entity.nil?) ) &&
-			       (sprint.instance_of?(Fixnum)) && (entity.instance_of?(String)) && 
-			     ! (entity.empty?) && (sprint > 0 ) 
+			       (sprint.instance_of?(Fixnum)) && (entity.instance_of?(String)) &&
+			     ! (entity.empty?) && (sprint > 0 )
 			#ind_valid_parms='N'
 			return_value=nil
 		else
@@ -274,9 +278,9 @@ module ExportScript
 				return_value = get_Table_by_sprint(sprint)
 			when "Origin"
 				return_value = get_Origin_by_sprint(sprint)
-			when "OriginField" 
+			when "OriginField"
 				return_value = get_OriginField_by_sprint(sprint)
-			when "Processid" 
+			when "Processid"
 				return_value = get_Processid_by_sprint(sprint)
 			when "Variable"
 				return_value = get_Variable_by_sprint(sprint)
@@ -424,17 +428,19 @@ end
 
 	def self.get_Table_by_sprint(sprint)
 		return_value = ''
-		
+
 		#concect = Table.connection
 		#p concect.class
 		#p concect
 		#p Table.connected?
 		#result = Table.select { |m| m.updated_in_sprint == sprint }
+
 		result = Table.where(updated_in_sprint: sprint).to_a
 		
 		#p sprint
 		#p result.class
 		#p result.size
+
 
 		#require 'pry' ; binding.pry;
 
@@ -443,7 +449,7 @@ end
 		else
 			return_value = result
 		end
-		
+
 		return_value
 		#nil
 	end
@@ -613,6 +619,7 @@ end
 	end
 end
 		
+
 
 
 

@@ -38,24 +38,6 @@ RSpec.describe ProcessidsController, :type => :controller do
   # ProcessidsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all processids as @processids" do
-      processid = Processid.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:processids)).to eq([processid])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested processid as @processid" do
-      processid = Processid.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :show, {:id => processid.to_param}, valid_session
-      expect(assigns(:processid)).to eq(processid)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new processid as @processid" do
       session[:user_id] = User.create! user_attributes
@@ -166,22 +148,5 @@ RSpec.describe ProcessidsController, :type => :controller do
     #    expect(response).to render_template("edit")
     #  end
     #end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested processid" do
-      processid = Processid.create! valid_attributes
-      expect {
-        session[:user_id] = User.create! user_attributes
-        delete :destroy, {:id => processid.to_param}, valid_session
-      }.to change(Processid, :count).by(-1)
-    end
-
-    it "redirects to the processids list" do
-      processid = Processid.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      delete :destroy, {:id => processid.to_param}, valid_session
-      expect(response).to redirect_to(processids_url)
-    end
   end
 end

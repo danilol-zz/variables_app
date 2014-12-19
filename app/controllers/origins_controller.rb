@@ -1,5 +1,5 @@
 class OriginsController < ApplicationController
-  before_action :set_origin, only: [:show, :edit, :update, :destroy]
+  before_action :set_origin, only: [:show, :edit, :update]
   before_filter :ensure_authentication
 
   def show
@@ -28,7 +28,7 @@ class OriginsController < ApplicationController
   end
 
   def update
-    status = params[:finish] ? { status: params[:finish] } : {}
+    status = params[:update_status] ? { status: params[:update_status] } : {}
 
     respond_to do |format|
       if @origin.update(origin_params.merge(status))
@@ -40,14 +40,6 @@ class OriginsController < ApplicationController
       end
     end
     set_desabled_fields
-  end
-
-  def destroy
-    @origin.destroy
-    respond_to do |format|
-      format.html { redirect_to origins_url, notice: "#{Origin.model_name.human.capitalize} excluido com sucesso"  }
-      format.json { head :no_content }
-    end
   end
 
   def create_or_update_origin_field
@@ -182,6 +174,8 @@ class OriginsController < ApplicationController
       :field_name,
       :origin_pic,
       :data_type,
+      :fmbase_format_type,
+      :generic_data_type,
       :decimal,
       :mask,
       :position,
@@ -192,6 +186,12 @@ class OriginsController < ApplicationController
       :room_1_notes,
       :cd5_variable_number,
       :cd5_output_order,
+      :cd5_variable_name,
+      :cd5_origin_format,
+      :cd5_origin_format_desc,
+      :cd5_format,
+      :cd5_format_desc,
+      :default_value,
       :room_2_notes,
       :domain,
       :dmt_notes,

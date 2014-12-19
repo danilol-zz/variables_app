@@ -15,7 +15,9 @@
     <% end %>
 
     <fieldset>
+
       <legend></legend>
+
       <div class="row clearfix">
         <div class="left t7">
           <%= f.label :field_name %>
@@ -27,55 +29,115 @@
         </div>
         <div class="left t8">
           <%= f.label :data_type %>
-          <%= f.select(:data_type,  ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:data_type,  ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"], {:include_blank => 'Selecione'}, disabled: !@current_user.room1?) %>
         </div>  
+        <div class="left t9">
+          <%= f.label :fmbase_format_type %>
+          <%= f.text_field :fmbase_format_type, :disabled => true %>
+        </div>
+        <div class="left t9">
+          <%= f.label :generic_data_type %>
+          <%= f.text_field :generic_data_type, :disabled => true %>
+        </div>
+      </div>
+
+      <div class="row clearfix">
         <div class="left t10">
           <%= f.label :decimal %>
-          <%= f.text_field :decimal %>
+          <%= f.text_field :decimal, disabled: !@current_user.room1?  %>
         </div>      
         <div class="left t10">
           <%= f.label :mask %>
-          <%= f.text_field :mask %>    
+          <%= f.text_field :mask, disabled: !@current_user.room1?  %>    
         </div>         
       </div>
 
       <div class="row clearfix">      
         <div class="left t10">
           <%= f.label :position %>
-          <%= f.text_field :position %>   
+          <%= f.text_field :position, disabled: !@current_user.room1?  %>   
         </div>    
         <div class="left t10">
           <%= f.label :width %>
-          <%= f.text_field :width %>    
+          <%= f.text_field :width, disabled: !@current_user.room1?  %>    
         </div>               
         <div class="left t10">
           <%= f.label :is_key %>
-          <%= f.select(:is_key,  ["Sim", "Não"], {:include_blank => 'Selecione'}) %>    
+          <%= f.select(:is_key,  ["Sim", "Não"], {:include_blank => 'Selecione'}, disabled: !@current_user.room1? ) %>    
         </div>        
         <div class="left t8">
           <%= f.label :will_use %>
-          <%= f.select(:will_use,  ["Sim", "Não"], {:include_blank => 'Selecione'}) %>    
+          <%= f.select(:will_use,  ["Sim", "Não"], {:include_blank => 'Selecione'}, disabled: !@current_user.room1? ) %>    
         </div>
         <div class="left t10">
           <%= f.label :has_signal %>
-          <%= f.select(:has_signal,  ["Sim", "Não"], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:has_signal,  ["Sim", "Não"], {:include_blank => 'Selecione'}, disabled: !@current_user.room1? ) %>
         </div>       
       </div>
 
       <div class="row clearfix">   
         <div class="left t6">
           <%= f.label :room_1_notes %>
-          <%= f.text_area :room_1_notes, rows: 5  %>
+          <%= f.text_area :room_1_notes, rows: 5, disabled: !@current_user.room1?   %>
         </div>   
         <div class="left t6">
           <%= f.label :domain %>
-          <%= f.text_area :domain, rows: 5  %>
+          <%= f.text_area :domain, rows: 5, disabled: !@current_user.room1?   %>
         </div> 
         <div class="left t6">
           <%= f.label :dmt_notes %>          
-          <%= f.text_area :dmt_notes, rows: 5 %>
+          <%= f.text_area :dmt_notes, rows: 5, disabled: !@current_user.room1?  %>
+        </div>
+     </div>      
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :cd5_variable_number %>
+          <%= f.text_field :cd5_variable_number, :size=>"5", disabled: @current_user.room1?   %>
+        </div> 
+        <div class="left t6">
+          <%= f.label :cd5_output_order %>
+          <%= f.text_field :cd5_output_order, :size=>"5", disabled: @current_user.room1?   %>
+        </div> 
+      </div>      
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :cd5_variable_name %>
+          <%= f.text_field :cd5_variable_name, disabled: @current_user.room1?  %>
+        </div>
+        <div class="left t6">
+          <%= f.label :cd5_origin_format %>
+          <%= f.text_field :cd5_origin_format, disabled: @current_user.room1?  %>
+        </div>
+        <div class="left t6">
+          <%= f.label :cd5_origin_format_desc %>
+          <%= f.text_field :cd5_origin_format_desc, disabled: @current_user.room1?  %>
         </div>
       </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :cd5_format %>
+          <%= f.text_field :cd5_format, disabled: @current_user.room1?  %>
+        </div>
+        <div class="left t6">
+          <%= f.label :cd5_format_desc %>
+          <%= f.text_field :cd5_format_desc, disabled: @current_user.room1?  %>
+        </div>
+        <div class="left t6">
+          <%= f.label :default_value %>
+          <%= f.text_field :default_value, disabled: @current_user.room1?  %>
+        </div>
+      </div>
+
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :room_2_notes %>
+          <%= f.text_area :room_2_notes, rows: 5, disabled: @current_user.room1?   %>
+        </div> 
+      </div>  
 
       <div class="row clearfix">
         <div class="left t6">
@@ -101,24 +163,7 @@
           <%= f.label :default_value_datyp %>
           <%= f.text_field :default_value_datyp, :size=>"5", :disabled => true  %>
         </div>  
-      </div>
-
-      <% if @current_user.profile == User::ROOM2 %>
-        <div class="row clearfix">
-          <div class="left t10">
-            <%= f.label :cd5_variable_number %>
-            <%= f.text_field :cd5_variable_number, :size=>"5"  %>
-          </div> 
-          <div class="left t10">
-            <%= f.label :cd5_output_order %>
-            <%= f.text_field :cd5_output_order, :size=>"5"  %>
-          </div> 
-          <div class="left t4">
-            <%= f.label :room_2_notes %>
-            <%= f.text_area :room_2_notes, rows: 5  %>
-          </div> 
-        </div>
-      <% end %>      
+      </div>     
                 
     </fieldset>
 

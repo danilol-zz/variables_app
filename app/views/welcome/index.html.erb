@@ -17,7 +17,7 @@
             <div class="row clearfix">
               <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
-          <% end %>   
+          <% end %>
           <% if @current_user.profile == User::ROOM2 %>
             <div class="row clearfix">
               <%= link_to "#{Processid.model_name.human.capitalize}", new_processid_path, :class => "btn btn-secundario left txt-no-transform" %>
@@ -25,6 +25,16 @@
           <% end %>
         </div>
       </div>
+      <% if @current_user.profile == User::ROOM2 %>
+        <div class="modulo modulo-sidebar" id="guide-move">
+          <h4>Utilitários</h4>
+          <div class="botoes clearfix">
+            <div class="row clearfix">
+              <%= link_to "Exportar", export_script_path, :class => "btn btn-secundario left txt-no-transform" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div> <!-- div class=col2 -->
 
     <div class="col10" role="main">
@@ -70,7 +80,7 @@
                 <tr class="txt-no-transform">
                   <th><%= Constants::STATUS[:SALA1].upcase %></th>
                   <th><%= Constants::STATUS[:SALA2].upcase %></th>
-                  <th><%= Constants::STATUS[:EFETIVO].upcase %></th>
+                  <th><%= Constants::STATUS[:PRODUCAO].upcase %></th>
                 </tr>
               </thead>
               <tbody>

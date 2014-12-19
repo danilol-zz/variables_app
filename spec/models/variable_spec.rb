@@ -10,8 +10,8 @@ describe Variable do
       before do
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:EFETIVO])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:EFETIVO])
+        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
+        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
@@ -74,16 +74,16 @@ describe Variable do
 
   context "processids_x_variables" do
     before do
-      p1 = FactoryGirl.create(:processid, routine_name: "p1")
-      p2 = FactoryGirl.create(:processid, routine_name: "p2")
-      p3 = FactoryGirl.create(:processid, routine_name: "p3")
+      p1 = FactoryGirl.create(:processid, mnemonic: "p1")
+      p2 = FactoryGirl.create(:processid, mnemonic: "p2")
+      p3 = FactoryGirl.create(:processid, mnemonic: "p3")
       @variable = FactoryGirl.create(:variable)
       @variable.processids << [p1, p2, p3]
     end
 
     it "should have relationship" do
       expect(@variable.processids.count).to eq 3
-      expect(@variable.processids.map(&:routine_name)).to include "p1", "p2", "p3"
+      expect(@variable.processids.map(&:mnemonic)).to include "p1", "p2", "p3"
     end
   end
 
@@ -114,7 +114,7 @@ describe Variable do
           let(:variable_params) { {"5"=>"checked" } }
 
           it "saves origin_fields" do
-            subject.set_origin_fields(variable_params)
+            subject.set_origin_fields(variable_params, @user.id)
 
             expect(subject.origin_fields.size).to eq 1
           end
@@ -124,7 +124,7 @@ describe Variable do
           let(:variable_params) { {"1"=>"checked", "5" => "checked", "9" => "checked"} }
 
           it "saves origin_fields" do
-            subject.set_origin_fields(variable_params)
+            subject.set_origin_fields(variable_params, @user.id)
 
             expect(subject.origin_fields.size).to eq 3
           end
@@ -156,7 +156,7 @@ describe Variable do
           let(:variable_params) { {"5"=>"checked" } }
 
           it "saves only last selected origin_fields" do
-            @variable.set_origin_fields(variable_params)
+            @variable.set_origin_fields(variable_params, @user.id)
             @variable.save
             expect(@variable.origin_fields.count).to eq 1
           end
@@ -166,7 +166,7 @@ describe Variable do
           let(:variable_params) { {"15"=>"checked", "19" => "checked", "9" => "checked"} }
 
           it "saves origin_fields" do
-            @variable.set_origin_fields(variable_params)
+            @variable.set_origin_fields(variable_params, @user.id)
             @variable.save
             expect(@variable.origin_fields.count).to eq 3
           end

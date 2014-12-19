@@ -18,7 +18,6 @@ FactoryGirl.define do
     sas_variable_rule_def "MyString"
     sas_update_periodicity "MyString"
     domain_type "MyString"
-    key "MyString"
     variable_type "MyString"
     owner "MyString"
     status "sala1"

@@ -23,5 +23,6 @@ FactoryGirl.define do
     default_value_datyp "MyString"
     origin_id 1
     current_user_id 1
+    variables []
   end
 end
