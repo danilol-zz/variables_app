@@ -121,12 +121,12 @@
               <%= f.submit "Salvar" %>
               <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:SALA2] %>
             <% end %>
-            <% if @current_user.room1? && @variable.status == Constants::STATUS[:EFETIVO] %>
+            <% if @current_user.room1? && @variable.status == Constants::STATUS[:PRODUCAO] %>
               <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
             <% end %>
             <% if @current_user.room2? && @variable.status == Constants::STATUS[:SALA2] %>
               <%= f.submit "Salvar" %>
-              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:EFETIVO] %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
             <% end %>
           <% end %>
           <%= link_to t('back'), root_path({ status: "variable" } ) %>

@@ -8,7 +8,7 @@ class Variable < ActiveRecord::Base
 
   scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
-  scope :done,        -> { where(status: Constants::STATUS[:EFETIVO]) }
+  scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
   def code
     "VA#{self.id.to_s.rjust(3,'0')}"

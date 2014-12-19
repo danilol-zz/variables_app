@@ -141,7 +141,7 @@
               <%= f.submit "Salvar" %>
               <%= f.button "Finalizar", name: 'update_status', value: "producao" %>
             <% end %>
-            <% if @campaign.status == Constants::STATUS[:EFETIVO] %>
+            <% if @campaign.status == Constants::STATUS[:PRODUCAO] %>
               <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
             <% end %>
           <% end %>

@@ -7,7 +7,7 @@ class Processid < ActiveRecord::Base
 
   scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
-  scope :done,        -> { where(status: Constants::STATUS[:EFETIVO]) }
+  scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
   def code
     "PR#{self.id.to_s.rjust(3,'0')}"
@@ -29,7 +29,7 @@ class Processid < ActiveRecord::Base
   end
 
   def calculate_field_var_table_name
-    if self.mnemonic? 
+    if self.mnemonic?
       self.var_table_name = "VAR_#{mnemonic}".upcase
     else
       self.var_table_name = nil
@@ -37,7 +37,7 @@ class Processid < ActiveRecord::Base
   end
 
   def calculate_field_routine_name
-    if self.process_number? 
+    if self.process_number?
       self.routine_name = "CD5PV#{process_number}"
     else
       self.routine_name = nil

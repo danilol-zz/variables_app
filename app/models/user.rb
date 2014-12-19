@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
   def can_access?(obj)
     return true if self.room1? && (obj.new_record? || obj.status == Constants::STATUS[:SALA1])
-    return true if self.room1? && obj.status == Constants::STATUS[:EFETIVO]
+    return true if self.room1? && obj.status == Constants::STATUS[:PRODUCAO]
     return true if self.room2? && obj.status == Constants::STATUS[:SALA2]
   end
 

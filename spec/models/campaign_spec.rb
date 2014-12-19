@@ -28,8 +28,8 @@ describe Campaign do
       before do
         FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1])
         FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:EFETIVO])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:EFETIVO])
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO])
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO])
         FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
         FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
         FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])

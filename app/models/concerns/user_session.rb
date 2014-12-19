@@ -8,10 +8,10 @@ module UserSession
   end
 
   def current_user_is_room1?
-    current_user.profile == 'sala1'
+    current_user.profile == Constants::STATUS[:SALA1]
   end
 
   def current_user_is_room2?
-    current_user.profile == 'sala2'
+    current_user.profile == Constants::STATUS[:SALA2]
   end
 end

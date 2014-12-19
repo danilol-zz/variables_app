@@ -93,8 +93,8 @@ describe Origin do
     before do
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:EFETIVO])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])

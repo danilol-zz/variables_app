@@ -10,8 +10,8 @@ describe Variable do
       before do
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:EFETIVO])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:EFETIVO])
+        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
+        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])

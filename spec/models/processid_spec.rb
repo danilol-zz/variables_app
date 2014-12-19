@@ -19,8 +19,8 @@ describe Processid do
     before do
       FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:EFETIVO])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO])
+      FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO])
       FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
