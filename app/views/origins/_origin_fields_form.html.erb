@@ -33,11 +33,11 @@
         </div>  
         <div class="left t9">
           <%= f.label :fmbase_format_type %>
-          <%= f.text_field :fmbase_format_type, disabled: !@current_user.room1? %>
+          <%= f.text_field :fmbase_format_type, :disabled => true %>
         </div>
         <div class="left t9">
           <%= f.label :generic_data_type %>
-          <%= f.text_field :generic_data_type, disabled: !@current_user.room1? %>
+          <%= f.text_field :generic_data_type, :disabled => true %>
         </div>
       </div>
 

@@ -28,8 +28,8 @@ describe Origin do
         it { expect(subject).to validate_presence_of(:data_retention_type) }
         it { expect(subject).to validate_presence_of(:extractor_file_type) }
         it { expect(subject).to ensure_length_of(:room_1_notes).is_at_most(500) }
-        it { expect(subject).to ensure_length_of(:dmt_advice).is_at_most(200) }
-        it { expect(subject).to validate_presence_of(:dmt_classification) }
+        #it { expect(subject).to ensure_length_of(:dmt_advice).is_at_most(200) }
+        #it { expect(subject).to validate_presence_of(:dmt_classification) }
         it { expect(subject).to validate_presence_of(:status) }
 
         it { expect(subject).to_not validate_presence_of(:mnemonic) }

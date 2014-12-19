@@ -338,88 +338,88 @@ describe OriginField do
       end
     end
 
-    context "define generic_datyp according the data_type" do
+    context "define generic_data_type according the data_type" do
       let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
       it "equal Alfanumérico" do
-        expect(o.generic_datyp).to eq "texto"
+        expect(o.generic_data_type).to eq "texto"
       end
 
       let(:o1) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico") }
       it "equal Numérico" do
-        expect(o1.generic_datyp).to eq "numero"
+        expect(o1.generic_data_type).to eq "numero"
       end
 
       let(:o2) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado") }
       it "equal Compactado" do
-        expect(o2.generic_datyp).to eq "numero"
+        expect(o2.generic_data_type).to eq "numero"
       end
 
       let(:o3) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Data") }
       it "equal Data" do
-        expect(o3.generic_datyp).to eq "data"
+        expect(o3.generic_data_type).to eq "data"
       end
 
       let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
       it "equal Numérico com vírgula" do
-        expect(o4.generic_datyp).to eq "numero"
+        expect(o4.generic_data_type).to eq "numero"
       end
 
       let(:o5) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
       it "equal Compactado com vírgula" do
-        expect(o5.generic_datyp).to eq "numero"
+        expect(o5.generic_data_type).to eq "numero"
       end
 
       let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
       it "equal Binário Mainframe" do
-        expect(o6.generic_datyp).to eq "numero"
+        expect(o6.generic_data_type).to eq "numero"
       end
 
       let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "---") }
       it "equal Binário Mainframe" do
-        expect(o7.generic_datyp).to eq nil
+        expect(o7.generic_data_type).to eq nil
       end
     end
 
-    context "define field_fmbase_format_datyp according the data_type" do
+    context "define fmbase_format_type according the data_type" do
 
       let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
       it "equal Alfanumérico" do
-        expect(o.fmbase_format_datyp).to eq "AN"
+        expect(o.fmbase_format_type).to eq "AN"
       end
 
       let(:o1) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico") }
       it "equal Numérico" do
-        expect(o1.fmbase_format_datyp).to eq "ZD"
+        expect(o1.fmbase_format_type).to eq "ZD"
       end
 
       let(:o2) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado") }
       it "equal Compactado" do
-        expect(o2.fmbase_format_datyp).to eq "PD"
+        expect(o2.fmbase_format_type).to eq "PD"
       end
 
       let(:o3) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Data") }
       it "equal Data" do
-        expect(o3.fmbase_format_datyp).to eq "ZD"
+        expect(o3.fmbase_format_type).to eq "ZD"
       end
 
       let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
       it "equal Numérico com vírgula" do
-        expect(o4.fmbase_format_datyp).to eq "ZD"
+        expect(o4.fmbase_format_type).to eq "ZD"
       end
 
       let(:o5) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
       it "equal Compactado com vírgula" do
-        expect(o5.fmbase_format_datyp).to eq "PD"
+        expect(o5.fmbase_format_type).to eq "PD"
       end
 
       let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
       it "equal Binário Mainframe" do
-        expect(o6.fmbase_format_datyp).to eq "BI"
+        expect(o6.fmbase_format_type).to eq "BI"
       end
 
       let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "-----") }
       it "equal Binário Mainframe" do
-        expect(o7.fmbase_format_datyp).to eq nil
+        expect(o7.fmbase_format_type).to eq nil
       end
     end
   end
