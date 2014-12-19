@@ -4,7 +4,7 @@
   <p>
     <% @origin_fields.each do |field| %>
       <%= check_box_tag( "variable[origin_fields_list][#{field.id}]", "checked", @variable.origin_fields.detect{|o| o == field}) %>
-      <%= "#{field.field_name}"%><br />
+        <%= "#{field.origin.file_name} : #{field.field_name}"%><br />
     <% end %>
   </p>
 </fieldset>

@@ -2,5 +2,4 @@
 
 <%= render 'form' %>
 
-<%= link_to t('show'), @variable %> |
-<%= link_to t('back'), variables_path %>
+<%= link_to t('back'), root_path({ status: "variable" } ) %>

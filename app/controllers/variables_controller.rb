@@ -2,17 +2,6 @@ class VariablesController < ApplicationController
   before_action :set_variable, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_authentication
 
-  # GET /variables
-  # GET /variables.json
-  def index
-    @variables = Variable.all
-  end
-
-  # GET /variables/1
-  # GET /variables/1.json
-  def show
-  end
-
   # GET /variables/new
   def new
     @origin_fields = OriginField.order(:field_name)

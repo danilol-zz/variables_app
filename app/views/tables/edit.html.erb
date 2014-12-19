@@ -2,5 +2,4 @@
 
 <%= render 'form' %>
 
-<%= link_to t('show'), @table %> |
-<%= link_to t('back'), tables_path %>
+<%= link_to t('back'), root_path({ status: "table" } ) %>

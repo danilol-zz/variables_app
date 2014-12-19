@@ -38,24 +38,6 @@ RSpec.describe ProcessidsController, :type => :controller do
   # ProcessidsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all processids as @processids" do
-      processid = Processid.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:processids)).to eq([processid])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested processid as @processid" do
-      processid = Processid.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :show, {:id => processid.to_param}, valid_session
-      expect(assigns(:processid)).to eq(processid)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new processid as @processid" do
       session[:user_id] = User.create! user_attributes

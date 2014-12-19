@@ -2,16 +2,6 @@ class TablesController < ApplicationController
   before_action :set_table, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_authentication
 
-  # GET /tables
-  # GET /tables.json
-  def index
-    @tables = Table.all
-  end
-
-  # GET /tables/1
-  # GET /tables/1.json
-  def show
-  end
 
   # GET /tables/new
   def new

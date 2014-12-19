@@ -53,24 +53,6 @@ RSpec.describe CampaignsController, :type => :controller do
   # CampaignsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all campaigns as @campaigns" do
-      campaign = Campaign.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:campaigns)).to eq([campaign])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested campaign as @campaign" do
-      campaign = Campaign.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :show, {:id => campaign.to_param}, valid_session
-      expect(assigns(:campaign)).to eq(campaign)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new campaign as @campaign" do
       session[:user_id] = User.create! user_attributes

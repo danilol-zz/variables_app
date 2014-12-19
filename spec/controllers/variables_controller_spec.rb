@@ -51,23 +51,6 @@ RSpec.describe VariablesController, :type => :controller do
   # VariablesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all variables as @variables" do
-      variable = Variable.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:variables)).to eq([variable])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested variable as @variable" do
-      variable = Variable.create! valid_attributes
-      get :show, {:id => variable.to_param}, valid_session
-      expect(assigns(:variable)).to eq(variable)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new variable as @variable" do
       session[:user_id] = User.create! user_attributes

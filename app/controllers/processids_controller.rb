@@ -2,17 +2,6 @@ class ProcessidsController < ApplicationController
   before_action :set_processid, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_authentication
 
-  # GET /processids
-  # GET /processids.json
-  def index
-    @processids = Processid.all
-  end
-
-  # GET /processids/1
-  # GET /processids/1.json
-  def show
-  end
-
   # GET /processids/new
   def new
     @variables = Variable.order(:name)

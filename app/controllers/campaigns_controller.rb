@@ -2,17 +2,6 @@ class CampaignsController < ApplicationController
   before_action :set_campaign, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_authentication
 
-  # GET /campaigns
-  # GET /campaigns.json
-  def index
-    @campaigns = Campaign.all
-  end
-
-  # GET /campaigns/1
-  # GET /campaigns/1.json
-  def show
-  end
-
   # GET /campaigns/new
   def new
     @variables = Variable.order(:name)

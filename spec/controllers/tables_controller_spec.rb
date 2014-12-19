@@ -49,24 +49,6 @@ RSpec.describe TablesController, :type => :controller do
   # TablesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all tables as @tables" do
-      table = Table.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:tables)).to eq([table])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested table as @table" do
-      table = Table.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :show, {:id => table.to_param}, valid_session
-      expect(assigns(:table)).to eq(table)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new table as @table" do
       session[:user_id] = User.create! user_attributes
