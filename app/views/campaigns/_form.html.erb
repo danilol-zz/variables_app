@@ -1,138 +1,142 @@
-<%= form_for(@campaign) do |f| %>
-  <% if @campaign.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@campaign.errors.count, "error") %> proibiram essa campanha de ser salva:</h2>
+<a name="forms-construido" class="link-ancora"></a>
+<section>
+  <h3 class="line-bottom">Cadastro de <span class="destaque"><%= Campaign.model_name.human.capitalize %></span></h3>
 
-      <ul>
-        <% @campaign.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <div class="left">
-    <div class="field t11">
-      <%= f.label :ident %><br>
-      <%= f.text_field :ident %>
-    </div>
+  <%= form_for @campaign do |f| %>
+    <% if @campaign.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@campaign.errors.count, "error") %> proibiram essa campanha de ser salva:</h2>
+        <ul>
+          <% @campaign.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-    <div class="field t3">
-      <%= f.label :name %><br>
-      <%= f.text_field :name %>
-    </div>
+    <fieldset>
 
-    <div class="row clearfix">
-      <div class="left t11">
-        <%= f.label :priority %>
-        <%= f.text_field :priority %>
-      </div>
-      <div class="left t4">
-        <%= f.label :campaign_origin %><br>
-        <%= f.text_field :campaign_origin %>
-      </div>
-    </div>
+      <legend></legend>
 
-    <div class="row clearfix">
-      <div class="left t11">
-        <%= f.label :created_in_sprint %>
-        <%= f.text_field :created_in_sprint %>
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :ident %>
+          <%= f.text_field :ident %>
+        </div>
+        <div class="left t1">
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+        </div>
       </div>
-      <div class="left t11">
-        <%= f.label :updated_in_sprint %><br>
-        <%= f.text_field :updated_in_sprint %>
-      </div>
-    </div>
-    <div class="row clearfix">
-      <div class="left t9">
-        <%= f.label :channel %><br>
-        <%= f.text_field :channel %>
-      </div>
-      <div class="left t9">
-        <%= f.label :communication_channel %><br>
-        <%= f.text_field :communication_channel %>
-      </div>
-    </div>
-    <div class="row clearfix">
-      <div class="left t8">
-        <%= f.label :product %><br>
-        <%= f.text_field :product %>
-      </div>
-      <div class="left t4">
-        <%= f.label :description %><br>
-        <%= f.text_field :description %>
-      </div>
-    </div>
 
-    <div class="row clearfix">
-      <div class="left t4">
-        <%= f.label :criterion %><br>
-        <%= f.text_field :criterion %>
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :created_in_sprint %>
+          <%= f.text_field :created_in_sprint %>
+        </div>
+        <div class="left t8">
+          <%= f.label :updated_in_sprint %>
+          <%= f.text_field :updated_in_sprint %>
+        </div>
       </div>
-      <div class="left t10">
-        <%= f.label :exists_in_legacy %><br>
-        <%= f.text_field :exists_in_legacy %>
-      </div>
-    </div>
 
-    <div class="row clearfix">
-      <div class="left t8">
-        <%= f.label :automatic_routine %><br>
-        <%= f.text_field :automatic_routine %>
+      <div class="row clearfix">
+        <div class="left t1">
+          <%= f.label :campaign_origin %>
+          <%= f.text_field :campaign_origin %>
+        </div>
       </div>
-      <div class="left t8">
-        <%= f.label :factory_criterion_status %><br>
-        <%= f.text_field :factory_criterion_status %>
+
+      <div class="row clearfix">
+        <div class="left t1">
+          <%= f.label :channel %>
+          <%= f.text_field :channel %>
+        </div>
       </div>
-      <div class="left t12">
-        <%= f.label :prioritized_variables_qty %><br>
-        <%= f.text_field :prioritized_variables_qty %>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :priority %>
+          <%= f.text_field :priority %>
+        </div>
       </div>
-      <div class="left t12">
-        <%= f.label :complied_variables_qty %><br>
-        <%= f.text_field :complied_variables_qty %>
+
+      <div class="row clearfix">
+        <div class="left t1">
+          <%= f.label :communication_channel %>
+          <%= f.text_field :communication_channel %>
+        </div>
       </div>
-    </div>
-    <div class="row clearfix">
-      <div class="left t8">
-        <%= f.label :process_type %><br>
-        <%= f.text_field :process_type %>
+
+      <div class="row clearfix">
+        <div class="left t1">
+          <%= f.label :product %>
+          <%= f.text_field :product %>
+        </div>
       </div>
-      <div class="left t6">
-        <%= f.label :crm_room_suggestion %><br>
-        <%= f.text_field :crm_room_suggestion %>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :criterion %>
+          <%= f.text_area :criterion, rows: 5 %>
+        </div>
       </div>
-      <div class="left t6">
-        <%= f.label :it_status %><br>
-        <%= f.text_field :it_status %>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :exists_in_legacy %>
+          <%= f.select(:exists_in_legacy,  ["Sim", "Não"], {:include_blank => 'Selecione'} ) %>
+        </div>
+        <div class="left t4">
+          <%= f.label :automatic_routine %>
+          <%= f.text_field :automatic_routine %>
+        </div>
       </div>
-    </div>
-    <div class="row clearfix">
-      <div class="left t1">
-        <%= f.label :notes %><br>
-        <%= f.text_area :notes, rows: 5 %>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :factory_criterion_status %>
+          <%= f.select(:factory_criterion_status,  ["Ok", "Pendente",""], {:include_blank => 'Selecione'}) %>
+        </div>
+        <div class="left t7">
+          <%= f.label :process_type %>
+          <%= f.select(:process_type,  ["Automático", "DBM", "Gestor", "Manual", ""], {:include_blank => 'Selecione'}) %>
+        </div>
       </div>
-    </div>
-    <div class="row clearfix">
-      <div class="left t6">
-        <%= f.label :owner %><br>
-        <%= f.text_field :owner %>
+
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :crm_room_suggestion %>
+          <%= f.text_area :crm_room_suggestion, rows: 5  %>
+        </div>
+        <div class="left t1">
+          <%= f.label :it_status %>
+          <%= f.text_field :it_status %>
+        </div>
       </div>
-      <div class="left t8">
-        <%= f.label :status %><br>
-        <%= f.text_field :status %>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :notes %>
+          <%= f.text_area :notes, rows: 5 %>
+        </div>
+        <div class="left t2">
+          <%= f.label :owner %>
+          <%= f.text_field :owner %>
+        </div>
       </div>
-    </div>
-    <br>
+
+      <%= render 'variables_form' %>
+
+    </fieldset>
+
     <div class="actions">
-      <%= f.submit %>
+      <%= f.submit "Salvar #{Campaign.model_name.human.capitalize}" %>
       <%= link_to t('back'), root_path({ status: "campaign" } ) %>
     </div>
-    <br>
-    <br>
-  </div>
-  <div class="row clearfix">
-    <div class="left t1">
-      <%= render 'variables_form' %>
-    </div>
-  </div>
-<% end %>
+
+
+  <% end %>
+
+</section>

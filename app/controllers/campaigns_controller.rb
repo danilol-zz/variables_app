@@ -67,6 +67,26 @@ class CampaignsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def campaign_params
-    params.require(:campaign).permit(:ident, :name, :priority, :created_in_sprint, :updated_in_sprint, :campaign_origin, :channel, :communication_channel, :product, :description, :criterion, :exists_in_legacy, :automatic_routine, :factory_criterion_status, :prioritized_variables_qty, :complied_variables_qty, :process_type, :crm_room_suggestion, :it_status, :notes, :variable_list)
+    params.require(:campaign).permit(
+      :ident, 
+      :name, 
+      :priority, 
+      :created_in_sprint, 
+      :updated_in_sprint,       
+      :campaign_origin, 
+      :channel, 
+      :communication_channel, 
+      :product,  
+      :criterion, 
+      :exists_in_legacy, 
+      :automatic_routine, 
+      :factory_criterion_status, 
+      :process_type, 
+      :crm_room_suggestion, 
+      :it_status, 
+      :notes, 
+      :owner,
+      :status)
   end
 end
+

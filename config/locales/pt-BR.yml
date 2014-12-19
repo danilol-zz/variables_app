@@ -47,6 +47,7 @@ pt:
         process_type: Tipo de processo
         crm_room_suggestion: Sugestao da sala de CRM
         it_status: Status de TI
+        owner: Responsável
         notes: Observações
       origin:
         file_name: Nome da base/arquivo
