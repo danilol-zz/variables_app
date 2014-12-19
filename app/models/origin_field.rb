@@ -1,5 +1,6 @@
 class OriginField < ActiveRecord::Base
   include UserSession
+
   before_save :calculate_field_fmbase_format_type
   before_save :calculate_field_generic_data_type
   before_save :calculate_field_cd5_variable_name
@@ -12,7 +13,10 @@ class OriginField < ActiveRecord::Base
   belongs_to :origin
 
   validates :field_name, presence: true, if: :current_user_is_room1?
-
+  validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
+  #validates :decimal, presence: true, if: :data_type_is_numeric?
+  validates :mask, length: { maximum: 30 }, if: :current_user_is_room1?
+  validates :position, presence: true, if: :current_user_is_room1?
 
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
 
@@ -271,4 +275,9 @@ class OriginField < ActiveRecord::Base
     end
   end
 
+  private
+
+  def data_type_is_numeric?
+    self.data_type == 'numerico'
+  end
 end
