@@ -183,7 +183,6 @@ CSV.read("db/fixtures/variavel.csv", { headers: true, :col_sep => ","}).each_wit
     sas_variable_def: campo["Definição da variavel SAS"],
     sas_variable_domain: campo["Domínio da variavel SAS"],
     sas_update_periodicity: campo["Periodicidade da atualização SAS"],
-    key: campo["chave da variavel"],
     data_type: campo["tipo de dado"],
     variable_type: campo["tipo de variavel"],
     created_in_sprint: campo["sprint em que foi criado"],

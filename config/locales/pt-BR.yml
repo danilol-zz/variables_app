@@ -152,7 +152,6 @@ pt:
         sas_variable_def: Definição da variavel SAS
         sas_update_periodicity: Periodicidade da atualização SAS
         domain_type: Tipo de domínio
-        key: Chave da variável
         variable_type: Tipo da variável
         sas_variable_domain: Domínio da variavel SAS
         created_in_sprint: Sprint em que foi criado
