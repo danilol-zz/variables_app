@@ -25,6 +25,16 @@
           <% end %>
         </div>
       </div>
+      <% if @current_user.profile == User::ROOM2 %>
+        <div class="modulo modulo-sidebar" id="guide-move">
+          <h4>Utilitários</h4>
+          <div class="botoes clearfix">
+            <div class="row clearfix">
+              <%= link_to "Exportar", export_script_path, :class => "btn btn-secundario left txt-no-transform" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div> <!-- div class=col2 -->
 
     <div class="col10" role="main">
