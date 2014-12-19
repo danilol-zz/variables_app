@@ -4,7 +4,7 @@ class OriginField < ActiveRecord::Base
   belongs_to :origin
 
 
-  validates :file_name, presence: true, if: :current_user_is_room1?
+  #validates :file_name, presence: true, if: :current_user_is_room1?
 
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
 

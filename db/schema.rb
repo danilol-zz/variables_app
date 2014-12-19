@@ -70,6 +70,11 @@ ActiveRecord::Schema.define(version: 20141217163706) do
     t.text     "room_2_notes"
     t.text     "domain"
     t.text     "dmt_notes"
+    t.string   "fmbase_format_datyp"
+    t.string   "generic_datyp"
+    t.string   "cd5_origin_frmt_datyp"
+    t.string   "cd5_frmt_origin_desc_datyp"
+    t.string   "default_value_datyp"
     t.integer  "origin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -83,32 +88,36 @@ ActiveRecord::Schema.define(version: 20141217163706) do
   end
 
   create_table "origins", force: true do |t|
-    t.string   "file_name"
-    t.string   "file_description"
+    t.string   "file_name",                   limit: 50
+    t.string   "file_description",            limit: 200
     t.integer  "created_in_sprint"
     t.integer  "updated_in_sprint"
-    t.string   "abbreviation"
+    t.string   "abbreviation",                limit: 3
     t.string   "base_type"
-    t.string   "book_mainframe"
+    t.string   "book_mainframe",              limit: 10
     t.string   "periodicity"
-    t.string   "periodicity_details"
+    t.string   "periodicity_details",         limit: 50
     t.string   "data_retention_type"
     t.string   "extractor_file_type"
-    t.text     "room_1_notes"
-    t.string   "mnemonic"
+    t.text     "room_1_notes",                limit: 500
+    t.string   "mnemonic",                    limit: 4
     t.integer  "cd5_portal_origin_code"
     t.string   "cd5_portal_origin_name"
     t.integer  "cd5_portal_destination_code"
     t.string   "cd5_portal_destination_name"
     t.string   "hive_table_name"
     t.string   "mainframe_storage_type"
-    t.text     "room_2_notes"
-    t.string   "dmt_advice"
+    t.text     "room_2_notes",                limit: 500
+    t.string   "dmt_advice",                  limit: 200
     t.string   "dmt_classification"
-    t.string   "status"
+    t.string   "status",                                  default: "sala1"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "origins", ["created_in_sprint"], name: "index_origins_on_created_in_sprint"
+  add_index "origins", ["status"], name: "index_origins_on_status"
+  add_index "origins", ["updated_in_sprint"], name: "index_origins_on_updated_in_sprint"
 
   create_table "processids", force: true do |t|
     t.integer  "process_number"
