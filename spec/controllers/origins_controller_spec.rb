@@ -78,7 +78,7 @@ RSpec.describe OriginsController, type: :controller do
     end
 
     it "assigns the requested origin as @origin and changes status" do
-      put :update, { id: origin.to_param, origin: valid_attributes, finish: "sala2" }, valid_session
+      put :update, { id: origin.to_param, origin: valid_attributes, update_status: "sala2" }, valid_session
       expect(assigns(:origin)).to eq(origin)
       expect(assigns(:origin).status).to eq 'sala2'
     end
@@ -115,8 +115,8 @@ RSpec.describe OriginsController, type: :controller do
     describe "with valid params" do
       it "creates or updates an OriginField" do
         expect {
-          post :create_or_update_origin_field, 
-            {:origin_field => valid_origin_field_attributes.merge(:origin_id => @origin.id) }, 
+          post :create_or_update_origin_field,
+            {:origin_field => valid_origin_field_attributes.merge(:origin_id => @origin.id) },
             valid_session
         }.to change(OriginField, :count).by(1)
       end
@@ -137,7 +137,7 @@ RSpec.describe OriginsController, type: :controller do
   end
 
   let(:valid_origin_field_attributes)   { FactoryGirl.attributes_for(:origin_field) }
-  
+
   describe "GET origin field" do
     let(:valid_origin_field_attributes) {
       valid_origin_field_attributes = {
