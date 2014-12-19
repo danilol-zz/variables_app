@@ -10,125 +10,127 @@
     </div>
   <% end %>
 
-  <div class="field t4">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :model_field_name %><br>
-    <%= f.text_field :model_field_name %>
-  </div>
-
-  <div class="field t8">
-    <%= f.label :data_type %><br>
-    <%= f.select(:data_type,  [ "QTD", "Data", "Valor", "Indicador", "Nome", "Código", "Porcentagem", "Número" ], {:include_blank => 'Selecione'}) %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :sas_variable_def %><br>
-    <%= f.text_area :sas_variable_def %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :sas_variable_rule_def %><br>
-    <%= f.text_area :sas_variable_rule_def, rows: 5 %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :sas_update_periodicity %><br>
-    <%= f.select(:sas_update_periodicity,  ["diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"] , {:include_blank => 'Selecione'}) %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :domain_type %><br>
-    <%= f.select(:domain_type,  [ "interno",  "externo", "fixo" ] , {:include_blank => 'Selecione'}) %>
-  </div>
-
-  <div class="field t4">
-    <%= f.label :sas_variable_domain %><br>
-    <%= f.text_area :sas_variable_domain %>
-  </div>
-  <div class="field t4">
-    <%= f.label :key %><br>
-    <%= f.select(:key, ["conta corrente", "cliente", "cartão", "outro", "ramo", "propensão", "ccpj", "limite unico", "oferta", "cliente elegibilidade"], {:include_blank => 'Selecione'}) %>
-  </div>
-  <div class="field t4">
-    <%= f.label :variable_type %><br>
-    <%= f.select(:variable_type,  [ "calculado",  "movimentação direta", "valor padrão" ] , {:include_blank => 'Selecione'}) %>
-
-  </div>
-  <div class="row clearfix">
-    <div class="left t10">
-      <%= f.label :created_in_sprint %>
-      <%= f.text_field :created_in_sprint %>
+  <div class="left">
+    <div class="field t4">
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
     </div>
-    <div class="left t10">
-      <%= f.label :updated_in_sprint %><br>
-      <%= f.text_field :updated_in_sprint %>
+
+    <div class="field t4">
+      <%= f.label :model_field_name %><br>
+      <%= f.text_field :model_field_name %>
     </div>
-  </div>
-  <div class="field t9">
-    <%= f.label :sas_data_model_status %><br>
-    <%= f.select(:sas_data_model_status,  [ "ok",  "pendente", "branco" ] , {:include_blank => 'Selecione'}) %>
-  </div>
-  <div class="field t4">
-    <%= f.label :drs_bi_diagram_name %><br>
-    <%= f.text_field :drs_bi_diagram_name %>
-  </div>
-  <div class="field t9">
-    <%= f.label :drs_variable_status %><br>
-    <%= f.select(:drs_variable_status,  [ "ok",  "pendente", "branco" ] , {:include_blank => 'Selecione'}) %>
-  </div>
-  <div class="field t4">
-    <%= f.label :room_1_notes %><br>
-    <%= f.text_area :room_1_notes, rows: 5 %>
-  </div>
-  <div class="row clearfix">
-    <div class="left t10">
-      <%= f.label :width%>
-      <%= f.text_field :width%>
+
+    <div class="field t8">
+      <%= f.label :data_type %><br>
+      <%= f.select(:data_type,  [ "QTD", "Data", "Valor", "Indicador", "Nome", "Código", "Porcentagem", "Número" ], {:include_blank => 'Selecione'}) %>
     </div>
-    <div class="left t10">
-      <%= f.label :decimal %>
-      <%= f.text_field :decimal %>
+
+    <div class="field t4">
+      <%= f.label :sas_variable_def %><br>
+      <%= f.text_area :sas_variable_def %>
     </div>
-  </div>
-  <div class="field t10">
-    <%= f.label :default_value %><br>
-    <%= f.text_field :default_value %>
-  </div>
-  <div class="field t10">
-    <%= f.label :owner %><br>
-    <%= f.text_field :owner %>
-  </div>
-  <div class="field t10">
-    <%= f.label :status %><br>
-    <%= f.text_field :status %>
-  </div>
-  <div class="field t4">
-    <%= f.label :room_2_notes %><br>
-    <%= f.text_area :room_2_notes, rows: 5 %>
-  </div>
-  <section>
-    <div class="botoes clearfix">
-      <div class="row clearfix">
-        <% if @variable.new_record? %>
-          <%= f.submit "Salvar" %>
-        <% else %>
-          <% if @variable.status == Constants::STATUS[:SALA1] %>
+
+    <div class="field t4">
+      <%= f.label :sas_variable_rule_def %><br>
+      <%= f.text_area :sas_variable_rule_def, rows: 5 %>
+    </div>
+
+    <div class="field t4">
+      <%= f.label :sas_update_periodicity %><br>
+      <%= f.select(:sas_update_periodicity,  ["diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"] , {:include_blank => 'Selecione'}) %>
+    </div>
+
+    <div class="field t4">
+      <%= f.label :domain_type %><br>
+      <%= f.select(:domain_type,  [ "interno",  "externo", "fixo" ] , {:include_blank => 'Selecione'}) %>
+    </div>
+
+    <div class="field t4">
+      <%= f.label :sas_variable_domain %><br>
+      <%= f.text_area :sas_variable_domain %>
+    </div>
+    <div class="field t4">
+      <%= f.label :key %><br>
+      <%= f.select(:key, ["conta corrente", "cliente", "cartão", "outro", "ramo", "propensão", "ccpj", "limite unico", "oferta", "cliente elegibilidade"], {:include_blank => 'Selecione'}) %>
+    </div>
+    <div class="field t4">
+      <%= f.label :variable_type %><br>
+      <%= f.select(:variable_type,  [ "calculado",  "movimentação direta", "valor padrão" ] , {:include_blank => 'Selecione'}) %>
+
+    </div>
+    <div class="row clearfix">
+      <div class="left t10">
+        <%= f.label :created_in_sprint %>
+        <%= f.text_field :created_in_sprint %>
+      </div>
+      <div class="left t10">
+        <%= f.label :updated_in_sprint %><br>
+        <%= f.text_field :updated_in_sprint %>
+      </div>
+    </div>
+    <div class="field t9">
+      <%= f.label :sas_data_model_status %><br>
+      <%= f.select(:sas_data_model_status,  [ "ok",  "pendente", "branco" ] , {:include_blank => 'Selecione'}) %>
+    </div>
+    <div class="field t4">
+      <%= f.label :drs_bi_diagram_name %><br>
+      <%= f.text_field :drs_bi_diagram_name %>
+    </div>
+    <div class="field t9">
+      <%= f.label :drs_variable_status %><br>
+      <%= f.select(:drs_variable_status,  [ "ok",  "pendente", "branco" ] , {:include_blank => 'Selecione'}) %>
+    </div>
+    <div class="field t4">
+      <%= f.label :room_1_notes %><br>
+      <%= f.text_area :room_1_notes, rows: 5 %>
+    </div>
+    <div class="row clearfix">
+      <div class="left t10">
+        <%= f.label :width%>
+        <%= f.text_field :width%>
+      </div>
+      <div class="left t10">
+        <%= f.label :decimal %>
+        <%= f.text_field :decimal %>
+      </div>
+    </div>
+    <div class="field t10">
+      <%= f.label :default_value %><br>
+      <%= f.text_field :default_value %>
+    </div>
+    <div class="field t10">
+      <%= f.label :owner %><br>
+      <%= f.text_field :owner %>
+    </div>
+    <div class="field t10">
+      <%= f.label :status %><br>
+      <%= f.text_field :status %>
+    </div>
+    <div class="field t4">
+      <%= f.label :room_2_notes %><br>
+      <%= f.text_area :room_2_notes, rows: 5 %>
+    </div>
+    <section>
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <% if @variable.new_record? %>
             <%= f.submit "Salvar" %>
-            <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:SALA2] %>
+          <% else %>
+            <% if @variable.status == Constants::STATUS[:SALA1] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:SALA2] %>
+            <% end %>
+            <% if @current_user.room1? && @variable.status == Constants::STATUS[:EFETIVO] %>
+              <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
+            <% end %>
+            <% if @current_user.room2? && @variable.status == Constants::STATUS[:SALA2] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:EFETIVO] %>
+            <% end %>
           <% end %>
-          <% if @current_user.room1? && @variable.status == Constants::STATUS[:EFETIVO] %>
-            <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
-          <% end %>
-          <% if @current_user.room2? && @variable.status == Constants::STATUS[:SALA2] %>
-            <%= f.submit "Salvar" %>
-            <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:EFETIVO] %>
-          <% end %>
-        <% end %>
-        <%= link_to t('back'), root_path({ status: "variable" } ) %>
+          <%= link_to t('back'), root_path({ status: "variable" } ) %>
+        </div>
       </div>
     </div>
   </section>

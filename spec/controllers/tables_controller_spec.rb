@@ -85,6 +85,7 @@ RSpec.describe TablesController, :type => :controller do
         post :create, {:table => valid_attributes}, valid_session
         expect(assigns(:table)).to be_a(Table)
         expect(assigns(:table)).to be_persisted
+        expect(assigns(:table).status).to eq 'sala1'
       end
 
       it "redirects to the created table" do
@@ -146,6 +147,16 @@ RSpec.describe TablesController, :type => :controller do
         table = Table.create! valid_attributes
         put :update, {:id => table.to_param, :table => valid_attributes}, valid_session
         expect(assigns(:table)).to eq(table)
+      end
+
+      it "assigns the requested table as @table and changes status" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+        session[:user_id] = User.create! user_attributes
+        table = Table.create! valid_attributes
+        put :update, { id: table.to_param, table: valid_attributes, update_status: "sala2" }, valid_session
+        expect(assigns(:table)).to eq(table)
+        expect(assigns(:table).status).to eq 'sala2'
       end
 
       it "redirects to the table" do

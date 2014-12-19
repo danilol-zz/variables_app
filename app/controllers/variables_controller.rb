@@ -34,6 +34,8 @@ class VariablesController < ApplicationController
   # PATCH/PUT /variables/1
   # PATCH/PUT /variables/1.json
   def update
+    @variable.origin_fields.delete_all
+
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
     @variable.set_origin_fields(params[:variable][:origin_fields_list])
