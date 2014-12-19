@@ -176,22 +176,4 @@ RSpec.describe VariablesController, :type => :controller do
     #  end
     #end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested variable" do
-      variable = Variable.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      expect {
-        delete :destroy, {:id => variable.to_param}, valid_session
-      }.to change(Variable, :count).by(-1)
-    end
-
-    it "redirects to the variables list" do
-      variable = Variable.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      delete :destroy, {:id => variable.to_param}, valid_session
-      expect(response).to redirect_to(variables_url)
-    end
-  end
-
 end

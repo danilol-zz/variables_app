@@ -183,21 +183,4 @@ RSpec.describe TablesController, :type => :controller do
     #  end
     #end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested table" do
-      table = Table.create! valid_attributes
-      expect {
-        session[:user_id] = User.create! user_attributes
-        delete :destroy, {:id => table.to_param}, valid_session
-      }.to change(Table, :count).by(-1)
-    end
-
-    it "redirects to the tables list" do
-      table = Table.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      delete :destroy, {:id => table.to_param}, valid_session
-      expect(response).to redirect_to(tables_url)
-    end
-  end
 end

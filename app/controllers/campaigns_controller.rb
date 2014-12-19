@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  before_action :set_campaign, only: [:show, :edit, :update, :destroy]
+  before_action :set_campaign, only: [:edit, :update]
   before_filter :ensure_authentication
 
   # GET /campaigns/new
@@ -50,23 +50,12 @@ class CampaignsController < ApplicationController
     end
   end
 
-  # DELETE /campaigns/1
-  # DELETE /campaigns/1.json
-  def destroy
-    @campaign.destroy
-    respond_to do |format|
-      format.html { redirect_to campaigns_url, notice: "#{Campaign.model_name.human.capitalize} excluida com sucesso" }
-      format.json { head :no_content }
-    end
-  end
-
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_campaign
     @campaign = Campaign.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def campaign_params
     params.require(:campaign).permit(
       :ident,
@@ -90,4 +79,3 @@ class CampaignsController < ApplicationController
       :status)
   end
 end
-

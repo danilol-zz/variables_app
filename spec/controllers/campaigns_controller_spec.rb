@@ -183,22 +183,4 @@ RSpec.describe CampaignsController, :type => :controller do
     #  end
     #end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested campaign" do
-      campaign = Campaign.create! valid_attributes
-      expect {
-        session[:user_id] = User.create! user_attributes
-        delete :destroy, {:id => campaign.to_param}, valid_session
-      }.to change(Campaign, :count).by(-1)
-    end
-
-    it "redirects to the campaigns list" do
-      campaign = Campaign.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      delete :destroy, {:id => campaign.to_param}, valid_session
-      expect(response).to redirect_to(campaigns_url)
-    end
-  end
-
 end

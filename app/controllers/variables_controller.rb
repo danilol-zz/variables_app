@@ -1,20 +1,16 @@
 class VariablesController < ApplicationController
-  before_action :set_variable, only: [:edit, :update, :destroy]
+  before_action :set_variable, only: [:edit, :update]
   before_filter :ensure_authentication
 
-  # GET /variables/new
   def new
     @origin_fields = OriginField.joins(:origin).order('origins.file_name, field_name')
     @variable = Variable.new
   end
 
-  # GET /variables/1/edit
   def edit
     @origin_fields = OriginField.joins(:origin).order('origins.file_name, field_name')
   end
 
-  # POST /variables
-  # POST /variables.json
   def create
     @variable = Variable.new(variable_params.merge(status: Constants::STATUS[:SALA1]))
 
@@ -31,8 +27,6 @@ class VariablesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /variables/1
-  # PATCH/PUT /variables/1.json
   def update
     @variable.origin_fields.delete_all
 
@@ -51,23 +45,12 @@ class VariablesController < ApplicationController
     end
   end
 
-  # DELETE /variables/1
-  # DELETE /variables/1.json
-  def destroy
-    @variable.destroy
-    respond_to do |format|
-      format.html { redirect_to variables_url, notice: "#{Variable.model_name.human.capitalize} excluida com sucesso" }
-      format.json { head :no_content }
-    end
-  end
-
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_variable
     @variable = Variable.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def variable_params
     params.require(:variable).permit(
       :name,

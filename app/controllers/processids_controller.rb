@@ -1,24 +1,20 @@
 class ProcessidsController < ApplicationController
-  before_action :set_processid, only: [:show, :edit, :update, :destroy]
+  before_action :set_processid, only: [:edit, :update]
   before_filter :ensure_authentication
 
-  # GET /processids/new
   def new
     @variables = Variable.order(:name)
     @processid = Processid.new
   end
 
-  # GET /processids/1/edit
   def edit
     @variables = Variable.order(:name)
   end
 
-  # POST /processids
-  # POST /processids.json
   def create
     @processid = Processid.new(processid_params)
 
-    #@processid.set_variables(params[:processid][:variable_list])
+    @processid.set_variables(params[:processid][:variable_list])
 
     respond_to do |format|
       if @processid.save
@@ -31,8 +27,6 @@ class ProcessidsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /processids/1
-  # PATCH/PUT /processids/1.json
   def update
     respond_to do |format|
       if @processid.update(processid_params)
@@ -45,24 +39,13 @@ class ProcessidsController < ApplicationController
     end
   end
 
-  # DELETE /processids/1
-  # DELETE /processids/1.json
-  def destroy
-    @processid.destroy
-    respond_to do |format|
-      format.html { redirect_to processids_url, notice: "#{Processid.model_name.human.capitalize} excluido com sucesso" }
-      format.json { head :no_content }
-    end
+  private
+
+  def set_processid
+    @processid = Processid.find(params[:id])
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_processid
-      @processid = Processid.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def processid_params
-      params.require(:processid).permit(:process_number, :mnemonic, :routine_name, :var_table_name, :conference_rule, :acceptance_percent, :keep_previous_work, :counting_rule, :notes)
-    end
+  def processid_params
+    params.require(:processid).permit(:process_number, :mnemonic, :routine_name, :var_table_name, :conference_rule, :acceptance_percent, :keep_previous_work, :counting_rule, :notes)
+  end
 end

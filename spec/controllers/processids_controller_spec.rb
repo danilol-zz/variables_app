@@ -149,21 +149,4 @@ RSpec.describe ProcessidsController, :type => :controller do
     #  end
     #end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested processid" do
-      processid = Processid.create! valid_attributes
-      expect {
-        session[:user_id] = User.create! user_attributes
-        delete :destroy, {:id => processid.to_param}, valid_session
-      }.to change(Processid, :count).by(-1)
-    end
-
-    it "redirects to the processids list" do
-      processid = Processid.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      delete :destroy, {:id => processid.to_param}, valid_session
-      expect(response).to redirect_to(processids_url)
-    end
-  end
 end
