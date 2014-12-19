@@ -131,11 +131,23 @@
 
     </fieldset>
 
-    <div class="actions">
-      <%= f.submit "Salvar #{Campaign.model_name.human.capitalize}" %>
-      <%= link_to t('back'), root_path({ status: "campaign" } ) %>
-    </div>
-
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <% if @campaign.new_record? %>
+            <%= f.submit "Salvar" %>
+          <% else %>
+            <% if @campaign.status == Constants::STATUS[:SALA1] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: "producao" %>
+            <% end %>
+            <% if @campaign.status == Constants::STATUS[:EFETIVO] %>
+              <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
+            <% end %>
+          <% end %>
+          <%= link_to t('back'), root_path({ status: "campaign" } ) %>
+        </div>
+      </div>
+    </section>
 
   <% end %>
 

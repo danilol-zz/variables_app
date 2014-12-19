@@ -86,6 +86,7 @@ RSpec.describe CampaignsController, :type => :controller do
         post :create, {:campaign => valid_attributes}, valid_session
         expect(assigns(:campaign)).to be_a(Campaign)
         expect(assigns(:campaign)).to be_persisted
+        expect(assigns(:campaign).status).to eq 'sala1'
       end
 
       it "redirects to the created campaign" do
@@ -145,6 +146,17 @@ RSpec.describe CampaignsController, :type => :controller do
         campaign = Campaign.create! valid_attributes
         put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session
         expect(assigns(:campaign)).to eq(campaign)
+        expect(assigns(:campaign).status).to eq 'sala1'
+      end
+
+      it "assigns the requested campaign as @campaign and changes status" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+        campaign = Campaign.create valid_attributes
+        session[:user_id] = User.create! user_attributes
+        put :update, { id: campaign.to_param, campaign: valid_attributes, update_status: "sala2" }, valid_session
+        expect(assigns(:campaign)).to eq(campaign)
+        #expect(assigns(:campaign).status).to eq 'sala2'
       end
 
       it "redirects to the campaign" do

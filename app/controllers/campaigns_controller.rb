@@ -16,7 +16,7 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   # POST /campaigns.json
   def create
-    @campaign = Campaign.new(campaign_params)
+    @campaign = Campaign.new(campaign_params.merge(status: Constants::STATUS[:SALA1]))
 
     @campaign.set_variables(params[:campaign][:variable_list])
 
@@ -37,9 +37,10 @@ class CampaignsController < ApplicationController
     @campaign.variables.delete_all
 
     @campaign.set_variables( params[:campaign][:variable_list])
+    status = params[:update_status] ? { status: params[:update_status] } : {}
 
     respond_to do |format|
-      if @campaign.update(campaign_params)
+      if @campaign.update(campaign_params.merge(status))
         format.html { redirect_to root_path({ status: 'campaign', notice: "#{Campaign.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @campaign }
       else
@@ -68,23 +69,23 @@ class CampaignsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def campaign_params
     params.require(:campaign).permit(
-      :ident, 
-      :name, 
-      :priority, 
-      :created_in_sprint, 
-      :updated_in_sprint,       
-      :campaign_origin, 
-      :channel, 
-      :communication_channel, 
-      :product,  
-      :criterion, 
-      :exists_in_legacy, 
-      :automatic_routine, 
-      :factory_criterion_status, 
-      :process_type, 
-      :crm_room_suggestion, 
-      :it_status, 
-      :notes, 
+      :ident,
+      :name,
+      :priority,
+      :created_in_sprint,
+      :updated_in_sprint,
+      :campaign_origin,
+      :channel,
+      :communication_channel,
+      :product,
+      :criterion,
+      :exists_in_legacy,
+      :automatic_routine,
+      :factory_criterion_status,
+      :process_type,
+      :crm_room_suggestion,
+      :it_status,
+      :notes,
       :owner,
       :status)
   end
