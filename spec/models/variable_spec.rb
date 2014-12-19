@@ -74,16 +74,16 @@ describe Variable do
 
   context "processids_x_variables" do
     before do
-      p1 = FactoryGirl.create(:processid, routine_name: "p1")
-      p2 = FactoryGirl.create(:processid, routine_name: "p2")
-      p3 = FactoryGirl.create(:processid, routine_name: "p3")
+      p1 = FactoryGirl.create(:processid, mnemonic: "p1")
+      p2 = FactoryGirl.create(:processid, mnemonic: "p2")
+      p3 = FactoryGirl.create(:processid, mnemonic: "p3")
       @variable = FactoryGirl.create(:variable)
       @variable.processids << [p1, p2, p3]
     end
 
     it "should have relationship" do
       expect(@variable.processids.count).to eq 3
-      expect(@variable.processids.map(&:routine_name)).to include "p1", "p2", "p3"
+      expect(@variable.processids.map(&:mnemonic)).to include "p1", "p2", "p3"
     end
   end
 
