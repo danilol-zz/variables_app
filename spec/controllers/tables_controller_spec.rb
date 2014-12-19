@@ -49,24 +49,6 @@ RSpec.describe TablesController, :type => :controller do
   # TablesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all tables as @tables" do
-      table = Table.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :index, {}, valid_session
-      expect(assigns(:tables)).to eq([table])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested table as @table" do
-      table = Table.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      get :show, {:id => table.to_param}, valid_session
-      expect(assigns(:table)).to eq(table)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new table as @table" do
       session[:user_id] = User.create! user_attributes
@@ -103,6 +85,7 @@ RSpec.describe TablesController, :type => :controller do
         post :create, {:table => valid_attributes}, valid_session
         expect(assigns(:table)).to be_a(Table)
         expect(assigns(:table)).to be_persisted
+        expect(assigns(:table).status).to eq 'sala1'
       end
 
       it "redirects to the created table" do
@@ -166,6 +149,16 @@ RSpec.describe TablesController, :type => :controller do
         expect(assigns(:table)).to eq(table)
       end
 
+      it "assigns the requested table as @table and changes status" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+        session[:user_id] = User.create! user_attributes
+        table = Table.create! valid_attributes
+        put :update, { id: table.to_param, table: valid_attributes, update_status: "sala2" }, valid_session
+        expect(assigns(:table)).to eq(table)
+        expect(assigns(:table).status).to eq 'sala2'
+      end
+
       it "redirects to the table" do
         FactoryGirl.create(:variable, id: 1)
         FactoryGirl.create(:variable, id: 2)
@@ -189,22 +182,5 @@ RSpec.describe TablesController, :type => :controller do
     #    expect(response).to render_template("edit")
     #  end
     #end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested table" do
-      table = Table.create! valid_attributes
-      expect {
-        session[:user_id] = User.create! user_attributes
-        delete :destroy, {:id => table.to_param}, valid_session
-      }.to change(Table, :count).by(-1)
-    end
-
-    it "redirects to the tables list" do
-      table = Table.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
-      delete :destroy, {:id => table.to_param}, valid_session
-      expect(response).to redirect_to(tables_url)
-    end
   end
 end

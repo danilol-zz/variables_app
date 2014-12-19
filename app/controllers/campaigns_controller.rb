@@ -1,17 +1,6 @@
 class CampaignsController < ApplicationController
-  before_action :set_campaign, only: [:show, :edit, :update, :destroy]
+  before_action :set_campaign, only: [:edit, :update]
   before_filter :ensure_authentication
-
-  # GET /campaigns
-  # GET /campaigns.json
-  def index
-    @campaigns = Campaign.all
-  end
-
-  # GET /campaigns/1
-  # GET /campaigns/1.json
-  def show
-  end
 
   # GET /campaigns/new
   def new
@@ -27,7 +16,7 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   # POST /campaigns.json
   def create
-    @campaign = Campaign.new(campaign_params)
+    @campaign = Campaign.new(campaign_params.merge(status: Constants::STATUS[:SALA1]))
 
     @campaign.set_variables(params[:campaign][:variable_list])
 
@@ -47,12 +36,11 @@ class CampaignsController < ApplicationController
   def update
     @campaign.variables.delete_all
 
-    params[:campaign][:variable_list].each do |var|
-      @campaign.variables << Variable.find(var.first)
-    end
+    @campaign.set_variables( params[:campaign][:variable_list])
+    status = params[:update_status] ? { status: params[:update_status] } : {}
 
     respond_to do |format|
-      if @campaign.update(campaign_params)
+      if @campaign.update(campaign_params.merge(status))
         format.html { redirect_to root_path({ status: 'campaign', notice: "#{Campaign.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @campaign }
       else
@@ -62,44 +50,32 @@ class CampaignsController < ApplicationController
     end
   end
 
-  # DELETE /campaigns/1
-  # DELETE /campaigns/1.json
-  def destroy
-    @campaign.destroy
-    respond_to do |format|
-      format.html { redirect_to campaigns_url, notice: "#{Campaign.model_name.human.capitalize} excluida com sucesso" }
-      format.json { head :no_content }
-    end
-  end
-
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_campaign
     @campaign = Campaign.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def campaign_params
     params.require(:campaign).permit(
-      :ident, 
-      :name, 
-      :priority, 
-      :created_in_sprint, 
-      :updated_in_sprint,       
-      :campaign_origin, 
-      :channel, 
-      :communication_channel, 
-      :product,  
-      :criterion, 
-      :exists_in_legacy, 
-      :automatic_routine, 
-      :factory_criterion_status, 
-      :process_type, 
-      :crm_room_suggestion, 
-      :it_status, 
-      :notes, 
+      :ident,
+      :name,
+      :priority,
+      :created_in_sprint,
+      :updated_in_sprint,
+      :campaign_origin,
+      :channel,
+      :communication_channel,
+      :product,
+      :criterion,
+      :exists_in_legacy,
+      :automatic_routine,
+      :factory_criterion_status,
+      :process_type,
+      :crm_room_suggestion,
+      :it_status,
+      :notes,
       :owner,
       :status)
   end
 end
-

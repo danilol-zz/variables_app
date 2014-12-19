@@ -2,5 +2,4 @@
 
 <%= render 'form' %>
 
-<%= link_to t('show'), @processid %> |
-<%= link_to t('back'), processids_path %>
+<%= link_to t('back'), root_path({ status: "processid" } ) %>

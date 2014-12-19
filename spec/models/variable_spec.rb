@@ -10,8 +10,8 @@ describe Variable do
       before do
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:EFETIVO])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:EFETIVO])
+        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
+        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
         FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
@@ -114,7 +114,7 @@ describe Variable do
           let(:variable_params) { {"5"=>"checked" } }
 
           it "saves origin_fields" do
-            subject.set_origin_fields(variable_params)
+            subject.set_origin_fields(variable_params, @user.id)
 
             expect(subject.origin_fields.size).to eq 1
           end
@@ -124,7 +124,7 @@ describe Variable do
           let(:variable_params) { {"1"=>"checked", "5" => "checked", "9" => "checked"} }
 
           it "saves origin_fields" do
-            subject.set_origin_fields(variable_params)
+            subject.set_origin_fields(variable_params, @user.id)
 
             expect(subject.origin_fields.size).to eq 3
           end
@@ -156,7 +156,7 @@ describe Variable do
           let(:variable_params) { {"5"=>"checked" } }
 
           it "saves only last selected origin_fields" do
-            @variable.set_origin_fields(variable_params)
+            @variable.set_origin_fields(variable_params, @user.id)
             @variable.save
             expect(@variable.origin_fields.count).to eq 1
           end
@@ -166,7 +166,7 @@ describe Variable do
           let(:variable_params) { {"15"=>"checked", "19" => "checked", "9" => "checked"} }
 
           it "saves origin_fields" do
-            @variable.set_origin_fields(variable_params)
+            @variable.set_origin_fields(variable_params, @user.id)
             @variable.save
             expect(@variable.origin_fields.count).to eq 3
           end

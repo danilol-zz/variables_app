@@ -1,5 +1,5 @@
 class OriginsController < ApplicationController
-  before_action :set_origin, only: [:show, :edit, :update, :destroy]
+  before_action :set_origin, only: [:show, :edit, :update]
   before_filter :ensure_authentication
 
   def show
@@ -40,14 +40,6 @@ class OriginsController < ApplicationController
       end
     end
     set_desabled_fields
-  end
-
-  def destroy
-    @origin.destroy
-    respond_to do |format|
-      format.html { redirect_to origins_url, notice: "#{Origin.model_name.human.capitalize} excluido com sucesso"  }
-      format.json { head :no_content }
-    end
   end
 
   def create_or_update_origin_field

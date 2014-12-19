@@ -97,7 +97,7 @@
             <% if @origin.new_record? %>
               <%= f.submit "Salvar" %>
             <% else %>
-              <% if @origin.status == Constants::STATUS[:EFETIVO] %>
+              <% if @origin.status == Constants::STATUS[:PRODUCAO] %>
                 <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
               <% elsif @origin.status == Constants::STATUS[:SALA1] %>
                 <%= f.submit "Salvar" %>

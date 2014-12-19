@@ -1,5 +1,6 @@
 class OriginField < ActiveRecord::Base
   include UserSession
+
   before_save :calculate_field_fmbase_format_type
   before_save :calculate_field_generic_data_type
   before_save :calculate_field_cd5_variable_name
@@ -10,9 +11,13 @@ class OriginField < ActiveRecord::Base
   before_save :calculate_field_cd5_format
 
   belongs_to :origin
+  has_and_belongs_to_many :variables
 
   validates :field_name, presence: true, if: :current_user_is_room1?
-
+  validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
+  #validates :decimal, presence: true, if: :data_type_is_numeric?
+  validates :mask, length: { maximum: 30 }, if: :current_user_is_room1?
+  validates :position, presence: true, if: :current_user_is_room1?
 
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
 
@@ -26,15 +31,15 @@ class OriginField < ActiveRecord::Base
         when "mainframe"
           return_value=text_parser_mainframe(text_value, origin_id, current_user_id)
         when "hadoop" , "outro"
-          return_value=text_parser_generico(text_value, origin_id, current_user_id) 
+          return_value=text_parser_generico(text_value, origin_id, current_user_id)
       end
 
       return_value
   end
 
-  def self.text_parser_mainframe(text_value, origin_id, current_user_id) 
+  def self.text_parser_mainframe(text_value, origin_id, current_user_id)
      captura = /(.{0,5})(.{0,40})(.{0,10})(.{0,8})(.{0,6})(.{0,6})(.{0,6})/.match(text_value)
-     
+
      field_name = ""
      origin_pic = ""
      fmbase_value = ""
@@ -44,12 +49,12 @@ class OriginField < ActiveRecord::Base
 
      ind_comma=""
      data_type=""
-  
-     
 
-      unless ( captura[7].empty? ) || 
-             (/^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip).nil? )  
-        
+
+
+      unless ( captura[7].empty? ) ||
+             (/^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip).nil? )
+
         field_name = /^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip)[1]
           origin_pic = captura[3].strip
           fmbase_value = captura[4].strip
@@ -57,7 +62,7 @@ class OriginField < ActiveRecord::Base
           width = captura[7].strip
 
           if origin_pic.empty?
-            origin_pic = "X(#{width})" 
+            origin_pic = "X(#{width})"
           end
 
           unless /[V]/.match(origin_pic).nil?
@@ -66,14 +71,14 @@ class OriginField < ActiveRecord::Base
           ind_comma = false
       end
 
-        if ind_comma 
+        if ind_comma
           if fmbase_value ==  "ZD"
               data_type="numerico com virgula"
           elsif fmbase_value == "PD"
               data_type="compactado com virgula"
           else
               data_type=""
-          end 
+          end
       else
           if fmbase_value ==  "ZD"
               data_type="numerico"
@@ -87,23 +92,23 @@ class OriginField < ActiveRecord::Base
               data_type=""
           end
         end
-        end    
-        
+        end
+
         unless
            (/^[0-9A-Za-z\ \_\-]+$/.match(field_name).nil?) ||
            (/^AN|ZD|BI|PD$/.match(fmbase_value).nil?) ||
-           ( 
-              (/^[X]+$/.match(origin_pic).nil?) && 
-              (/^X\([0-9]+\)$/.match(origin_pic).nil?) && 
-              (/^S{0,1}[9]+$/.match(origin_pic).nil?) && 
-              (/^S{0,1}[9]\([0-9]+\)$/.match(origin_pic).nil?) && 
-              (/^S{0,1}[9]+V[9]+$/.match(origin_pic).nil?) && 
+           (
+              (/^[X]+$/.match(origin_pic).nil?) &&
+              (/^X\([0-9]+\)$/.match(origin_pic).nil?) &&
+              (/^S{0,1}[9]+$/.match(origin_pic).nil?) &&
+              (/^S{0,1}[9]\([0-9]+\)$/.match(origin_pic).nil?) &&
+              (/^S{0,1}[9]+V[9]+$/.match(origin_pic).nil?) &&
               (/^S{0,1}[9]+V[9]\([0-9]+\)$/.match(origin_pic).nil?)  &&
-              (/^S{0,1}[9]\([0-9]+\)V[9]+$/.match(origin_pic).nil?) && 
-              (/^S{0,1}[9]\([0-9]+\)V[9]\([0-9]+\)$/.match(origin_pic).nil?)  
+              (/^S{0,1}[9]\([0-9]+\)V[9]+$/.match(origin_pic).nil?) &&
+              (/^S{0,1}[9]\([0-9]+\)V[9]\([0-9]+\)$/.match(origin_pic).nil?)
            )  ||
-           (/^[0-9]+$/.match(position).nil?) || 
-           (/^[0-9]+$/.match(width).nil?) 
+           (/^[0-9]+$/.match(position).nil?) ||
+           (/^[0-9]+$/.match(width).nil?)
 
          origin_field = OriginField.new
          origin_field.field_name = field_name
@@ -113,24 +118,24 @@ class OriginField < ActiveRecord::Base
          origin_field.origin_id = origin_id
          origin_field.width = width
          origin_field.current_user_id = current_user_id
-    
+
          origin_field.save
-    
+
          value_return = origin_field
-        
+
         end
-  
+
         value_return
   end
 
     def self.text_parser_generico(text_value, origin_id, current_user_id)
-    
+
     return_value=nil
-    
+
     unless (/^(\"[a-zA-Z0-9\_\-\<\>]*\"\,){3}(\"[a-zA-Z0-9\_\-\<\>]*\")$/.match(text_value).nil?)
-      
+
       field_name=text_value.gsub('"', '').split(',').first
-      
+
       origin_field = OriginField.new
             origin_field.field_name = field_name
             origin_field.origin_pic = "X(255)"
@@ -271,4 +276,9 @@ class OriginField < ActiveRecord::Base
     end
   end
 
+  private
+
+  def data_type_is_numeric?
+    self.data_type == 'numerico'
+  end
 end

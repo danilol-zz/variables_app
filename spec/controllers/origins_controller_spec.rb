@@ -89,22 +89,6 @@ RSpec.describe OriginsController, type: :controller do
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested origin" do
-      origin = Origin.create(valid_attributes)
-
-      expect { delete :destroy, { id: origin.to_param }, valid_session }.to change(Origin, :count).by(-1)
-    end
-
-    it "redirects to the origins list" do
-      origin = Origin.create! valid_attributes
-
-      delete :destroy, { id: origin.to_param }, valid_session
-
-      expect(response).to redirect_to(origins_url)
-    end
-  end
-
   let(:valid_origin_field_attributes) { FactoryGirl.attributes_for(:origin, origin_id: @origin.id) }
 
   describe "POST create origin field" do

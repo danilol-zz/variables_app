@@ -5,8 +5,8 @@ describe Table do
     before do
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:table, status: Constants::STATUS[:EFETIVO])
-      FactoryGirl.create(:table, status: Constants::STATUS[:EFETIVO])
+      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO])
+      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO])
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])

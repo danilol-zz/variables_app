@@ -8,7 +8,7 @@ class Origin < ActiveRecord::Base
 
   scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
-  scope :done,        -> { where(status: Constants::STATUS[:EFETIVO]) }
+  scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
   # room1 validations
   validates :file_name,                   presence: true, length: { maximum: 50 }, if: :current_user_is_room1?
@@ -23,8 +23,8 @@ class Origin < ActiveRecord::Base
   validates :data_retention_type,         presence: true, if: :current_user_is_room1?
   validates :extractor_file_type,         presence: true, if: :current_user_is_room1?
   validates :room_1_notes,                length: { maximum: 500 }, if: :current_user_is_room1?
-  #validates :dmt_advice,                  length: { maximum: 200 }, if: :current_user_is_room1?
-  #validates :dmt_classification,          presence: true, if: :current_user_is_room1?
+  validates :dmt_advice,                  length: { maximum: 200 }, if: :current_user_is_room1?
+  validates :dmt_classification,          presence: true, if: :current_user_is_room1?
   validates :status,                      presence: true
 
   # room2 validations

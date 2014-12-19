@@ -44,72 +44,72 @@
         <div class="left t1">
           <%= f.label :campaign_origin %>
           <%= f.text_field :campaign_origin %>
-        </div>      
+        </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t1">
           <%= f.label :channel %>
           <%= f.text_field :channel %>
-        </div>         
+        </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :priority %>
           <%= f.text_field :priority %>
-        </div>  
+        </div>
       </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t1">
           <%= f.label :communication_channel %>
           <%= f.text_field :communication_channel %>
-        </div>   
+        </div>
       </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t1">
           <%= f.label :product %>
           <%= f.text_field :product %>
-        </div>   
+        </div>
       </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :criterion %>
           <%= f.text_area :criterion, rows: 5 %>
-        </div>  
-      </div>      
+        </div>
+      </div>
 
-      <div class="row clearfix">           
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :exists_in_legacy %>
-          <%= f.select(:exists_in_legacy,  ["Sim", "Não"], {:include_blank => 'Selecione'} ) %> 
+          <%= f.select(:exists_in_legacy,  ["Sim", "Não"], {:include_blank => 'Selecione'} ) %>
         </div>
         <div class="left t4">
           <%= f.label :automatic_routine %>
           <%= f.text_field :automatic_routine %>
-        </div>       
+        </div>
       </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :factory_criterion_status %>
           <%= f.select(:factory_criterion_status,  ["Ok", "Pendente",""], {:include_blank => 'Selecione'}) %>
-        </div>   
+        </div>
         <div class="left t7">
           <%= f.label :process_type %>
           <%= f.select(:process_type,  ["Automático", "DBM", "Gestor", "Manual", ""], {:include_blank => 'Selecione'}) %>
-        </div>               
+        </div>
       </div>
 
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :crm_room_suggestion %>
-          <%= f.text_area :crm_room_suggestion, rows: 5  %>          
-        </div>        
+          <%= f.text_area :crm_room_suggestion, rows: 5  %>
+        </div>
         <div class="left t1">
           <%= f.label :it_status %>
           <%= f.text_field :it_status %>
@@ -128,14 +128,26 @@
       </div>
 
       <%= render 'variables_form' %>
-                
+
     </fieldset>
 
-    <div class="actions">
-      <%= f.submit "Salvar #{Campaign.model_name.human.capitalize}" %>
-    </div>
-
-
+    <section>
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <% if @campaign.new_record? %>
+            <%= f.submit "Salvar" %>
+          <% else %>
+            <% if @campaign.status == Constants::STATUS[:SALA1] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: "producao" %>
+            <% end %>
+            <% if @campaign.status == Constants::STATUS[:PRODUCAO] %>
+              <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
+            <% end %>
+          <% end %>
+          <%= link_to t('back'), root_path({ status: "campaign" } ) %>
+        </div>
+      </div>
+    </section>
   <% end %>
-
 </section>
