@@ -6,6 +6,8 @@ describe OriginField do
     subject.current_user_id = user.id
   end
 
+  let(:profile) { 'room1' }
+
   context "origin_fields_x_variables" do
     before do
       FactoryGirl.create(:origin, current_user_id: subject.current_user.id)
@@ -21,53 +23,53 @@ describe OriginField do
     end
   end
 
-  let(:profile) { 'room1' }
 
   context '.text_parser' do
     let(:origin_id) { 1 }
+    let(:text_parser) { OriginField.text_parser(org_type, @str, origin_id, subject.current_user_id) }
 
     context 'with invalid content' do
       context 'when org_type is mainfame' do
         let(:org_type) { "mainframe" }
 
         it "should return error when string is empty" do
-          str = ""
-          expect(OriginField.text_parser(org_type, str, origin_id, subject.current_user_id)).to eq nil
+          @str = ""
+          expect(text_parser).to eq nil
         end
 
         it "should return error when string is to small" do
-          str = "123"
-          expect(OriginField.text_parser(org_type, str, origin_id, subject.current_user_id)).to eq nil
+          @str = "123"
+          expect(text_parser).to eq nil
         end
 
         it "should return error when string is name invalid" do
-          str = "  3   3 TIP!                                  X(30)     AN      1     30     30"
-          expect(OriginField.text_parser(org_type, str, origin_id, subject.current_user_id)).to eq nil
+          @str = "  3   3 TIP!                                  X(30)     AN      1     30     30"
+          expect(text_parser).to eq nil
         end
 
         it "should return error when string is origin_pic invalid" do
-          str = "  3   3 TIPO                                  X 30)     AN      1     30     30"
-          expect(OriginField.text_parser(org_type,str, origin_id, subject.current_user_id)).to eq nil
+          @str = "  3   3 TIPO                                  X 30)     AN      1     30     30"
+          expect(text_parser).to eq nil
         end
 
         it "should return error when string is fmbase_format_type invalid" do
-          str = "  3   3 TIPO                                  X(30)     AP      1     30     30"
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = "  3   3 TIPO                                  X(30)     AP      1     30     30"
+          expect(text_parser).to eq nil
         end
 
         it "should return error when string is start invalid" do
-          str = "  3   3 TIPO                                  X(30)     AN      1A    30     30"
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = "  3   3 TIPO                                  X(30)     AN      1A    30     30"
+          expect(text_parser).to eq nil
         end
 
         it "should return error when string is width invalid" do
-          str = "  3   3 TIPO                                  X(30)     AN      1     30     3A"
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = "  3   3 TIPO                                  X(30)     AN      1     30     3A"
+          expect(text_parser).to eq nil
         end
 
         it "should return error inverted type arquivo mainframe -> base hadoop" do
-          str = '"dat_ref","dat_ref","","<Undefined>"'
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = '"dat_ref","dat_ref","","<Undefined>"'
+          expect(text_parser).to eq nil
         end
       end
 
