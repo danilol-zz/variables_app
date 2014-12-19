@@ -18,7 +18,7 @@ class VariablesController < ApplicationController
   def create
     @variable = Variable.new(variable_params)
 
-    @variable.set_origin_fields(params[:variable][:origin_fields_list])
+    @variable.set_origin_fields(params[:variable][:origin_fields_list], current_user.id)
 
     respond_to do |format|
       if @variable.save
