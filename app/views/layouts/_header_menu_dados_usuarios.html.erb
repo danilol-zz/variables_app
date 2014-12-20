@@ -1,9 +1,5 @@
-<div class="dados-usuario left data-placement=left">
+<div class="dados-usuario data-placement=right right">
   <p class="nome">
-    Olá <%= link_to @current_user.name, edit_user_path(@current_user) %> - <%= @current_user.profile %>
-</p>
-<p class="ultimo-acesso">
-  <!-- Último acesso às 99:99 99/99/9999 -->
-</p>
+  Olá <%= link_to @current_user.name, edit_user_path(@current_user) %> - <%= @current_user.profile %>
+  </p>
 </div>
-
