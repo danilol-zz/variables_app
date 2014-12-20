@@ -13,7 +13,6 @@ class OriginField < ActiveRecord::Base
   belongs_to :origin
   has_and_belongs_to_many :variables
 
-
   #validates :file_name, presence: true, if: :current_user_is_room1?
 
   validates :field_name, presence: true, if: :current_user_is_room1?
@@ -24,112 +23,86 @@ class OriginField < ActiveRecord::Base
 
 
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
+    # remove quebra de linha windows
 
-      return_value=nil
+    text_value = text_value.to_s.gsub(/\n/, '').gsub(/\r/, '')
 
-      # remove quebra de linha windows
-      text_value = text_value.gsub(/\n/, '').gsub(/\r/, '')
-
-      #arquivo ou tabela mainframe / hadoop / outro
-      case origin_type
-        when "mainframe"
-          return_value=text_parser_mainframe(text_value, origin_id, current_user_id)
-        when "hadoop" , "outro"
-          return_value=text_parser_generico(text_value, origin_id, current_user_id)
-      end
-
-      return_value
+    return text_parser_mainframe(text_value, origin_id, current_user_id) if "mainframe" == origin_type
+    return text_parser_generico(text_value, origin_id, current_user_id)  if ["hadoop", "outro"].include? origin_type
   end
 
   def self.text_parser_mainframe(text_value, origin_id, current_user_id)
-     captura = /(.{0,5})(.{0,40})(.{0,10})(.{0,8})(.{0,6})(.{0,6})(.{0,6})/.match(text_value)
+    captura = /(.{0,5})(.{0,40})(.{0,10})(.{0,8})(.{0,6})(.{0,6})(.{0,6})/.match(text_value)
 
-     field_name = ""
-     origin_pic = ""
-     fmbase_value = ""
-     position = ""
-     width = ""
-     value_return = nil
+    unless ( captura[7].empty? ) || (/^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip).nil? )
 
-     ind_comma=""
-     data_type=""
+      field_name = /^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip)[1]
+      origin_pic = captura[3].strip
+      fmbase_value = captura[4].strip
+      position = captura[5].strip
+      width = captura[7].strip
 
+      origin_pic = "X(#{width})" if origin_pic.empty?
 
+      ind_comma = false
 
-      unless ( captura[7].empty? ) ||
-             (/^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip).nil? )
+      ind_comma = true unless /[V]/.match(origin_pic).nil?
 
-        field_name = /^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip)[1]
-          origin_pic = captura[3].strip
-          fmbase_value = captura[4].strip
-          position = captura[5].strip
-          width = captura[7].strip
-
-          if origin_pic.empty?
-            origin_pic = "X(#{width})"
-          end
-
-          unless /[V]/.match(origin_pic).nil?
-          ind_comma = true
+      if ind_comma
+        if fmbase_value == "ZD"
+          data_type = "numerico com virgula"
+        elsif fmbase_value == "PD"
+          data_type = "compactado com virgula"
+        else
+          data_type = ""
+        end
       else
-          ind_comma = false
+        if fmbase_value ==  "ZD"
+          data_type = "numerico"
+        elsif fmbase_value == "PD"
+          data_type = "compactado"
+        elsif fmbase_value == "BI"
+          data_type = "binario mainframe"
+        elsif fmbase_value == "AN"
+          data_type = "alfanumerico"
+        else
+          data_type = ""
+        end
       end
+    end
 
-        if ind_comma
-          if fmbase_value ==  "ZD"
-              data_type="numerico com virgula"
-          elsif fmbase_value == "PD"
-              data_type="compactado com virgula"
-          else
-              data_type=""
-          end
-      else
-          if fmbase_value ==  "ZD"
-              data_type="numerico"
-          elsif fmbase_value == "PD"
-              data_type="compactado"
-          elsif fmbase_value == "BI"
-              data_type="binario mainframe"
-          elsif fmbase_value == "AN"
-              data_type="alfanumerico"
-          else
-              data_type=""
-          end
-        end
-        end
+    unless
+      (/^[0-9A-Za-z\ \_\-]+$/.match(field_name).nil?) ||
+        (/^AN|ZD|BI|PD$/.match(fmbase_value).nil?) ||
+        (
+          (/^[X]+$/.match(origin_pic).nil?) &&
+          (/^X\([0-9]+\)$/.match(origin_pic).nil?) &&
+          (/^S{0,1}[9]+$/.match(origin_pic).nil?) &&
+          (/^S{0,1}[9]\([0-9]+\)$/.match(origin_pic).nil?) &&
+          (/^S{0,1}[9]+V[9]+$/.match(origin_pic).nil?) &&
+          (/^S{0,1}[9]+V[9]\([0-9]+\)$/.match(origin_pic).nil?)  &&
+          (/^S{0,1}[9]\([0-9]+\)V[9]+$/.match(origin_pic).nil?) &&
+          (/^S{0,1}[9]\([0-9]+\)V[9]\([0-9]+\)$/.match(origin_pic).nil?)
+        )  ||
+        (/^[0-9]+$/.match(position).nil?) ||
+        (/^[0-9]+$/.match(width).nil?)
 
-        unless
-           (/^[0-9A-Za-z\ \_\-]+$/.match(field_name).nil?) ||
-           (/^AN|ZD|BI|PD$/.match(fmbase_value).nil?) ||
-           (
-              (/^[X]+$/.match(origin_pic).nil?) &&
-              (/^X\([0-9]+\)$/.match(origin_pic).nil?) &&
-              (/^S{0,1}[9]+$/.match(origin_pic).nil?) &&
-              (/^S{0,1}[9]\([0-9]+\)$/.match(origin_pic).nil?) &&
-              (/^S{0,1}[9]+V[9]+$/.match(origin_pic).nil?) &&
-              (/^S{0,1}[9]+V[9]\([0-9]+\)$/.match(origin_pic).nil?)  &&
-              (/^S{0,1}[9]\([0-9]+\)V[9]+$/.match(origin_pic).nil?) &&
-              (/^S{0,1}[9]\([0-9]+\)V[9]\([0-9]+\)$/.match(origin_pic).nil?)
-           )  ||
-           (/^[0-9]+$/.match(position).nil?) ||
-           (/^[0-9]+$/.match(width).nil?)
+        origin_field = OriginField.new
+        origin_field.field_name = field_name
+        origin_field.origin_pic = origin_pic
+        origin_field.data_type = data_type
+        origin_field.position = position
+        origin_field.origin_id = origin_id
+        origin_field.width = width
+        origin_field.current_user_id = current_user_id
 
-         origin_field = OriginField.new
-         origin_field.field_name = field_name
-         origin_field.origin_pic = origin_pic
-         origin_field.data_type = data_type
-         origin_field.position = position
-         origin_field.origin_id = origin_id
-         origin_field.width = width
-         origin_field.current_user_id = current_user_id
+        origin_field.save
 
-         origin_field.save
+        value_return = origin_field
 
-         value_return = origin_field
+    end
 
-        end
-
-        value_return
+    value_return
   end
 
     def self.text_parser_generico(text_value, origin_id, current_user_id)

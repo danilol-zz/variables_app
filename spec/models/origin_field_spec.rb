@@ -139,7 +139,6 @@ describe OriginField do
   end
 
   describe "before_save calculate fields" do
-
     context "define cd5_variable_name concatenate cd5_variable_number and field_name" do
       let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, field_name: "TXT_VALUE") }
 
