@@ -74,6 +74,7 @@ RSpec.describe ProcessidsController, :type => :controller do
         post :create, {:processid => valid_attributes}, valid_session
         expect(assigns(:processid)).to be_a(Processid)
         expect(assigns(:processid)).to be_persisted
+        expect(assigns(:processid).status).to eq 'sala2'
       end
 
       it "redirects to the created processid" do
@@ -120,9 +121,21 @@ RSpec.describe ProcessidsController, :type => :controller do
       end
 
       it "assigns the requested processid as @processid" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
         processid = Processid.create! valid_attributes
         put :update, {:id => processid.to_param, :processid => valid_attributes}, valid_session
         expect(assigns(:processid)).to eq(processid)
+      end
+
+      it "assigns the requested processid as @processid and changes status" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+        session[:user_id] = User.create! user_attributes
+        processid = Processid.create! valid_attributes
+        put :update, { id: processid.to_param, processid: valid_attributes, update_status: "producao" }, valid_session
+        expect(assigns(:processid)).to eq(processid)
+        expect(assigns(:processid).status).to eq 'producao'
       end
 
       it "redirects to the processid" do

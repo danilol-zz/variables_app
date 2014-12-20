@@ -139,10 +139,10 @@
           <% else %>
             <% if @campaign.status == Constants::STATUS[:SALA1] %>
               <%= f.submit "Salvar" %>
-              <%= f.button "Finalizar", name: 'update_status', value: "producao" %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
             <% end %>
             <% if @campaign.status == Constants::STATUS[:PRODUCAO] %>
-              <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
+              <%= f.button "Reabrir", name: 'update_status', value: Constants::STATUS[:SALA1] %>
             <% end %>
           <% end %>
           <%= link_to t('back'), root_path({ status: "campaign" } ) %>

@@ -12,7 +12,7 @@ class ProcessidsController < ApplicationController
   end
 
   def create
-    @processid = Processid.new(processid_params)
+    @processid = Processid.new(processid_params.merge(status: Constants::STATUS[:SALA2]))
 
     @processid.set_variables(params[:processid][:variable_list])
 
@@ -28,8 +28,14 @@ class ProcessidsController < ApplicationController
   end
 
   def update
+    @processid.variables.delete_all
+
+    status = params[:update_status] ? { status: params[:update_status] } : {}
+
+    @processid.set_variables(params[:processid][:variable_list])
+
     respond_to do |format|
-      if @processid.update(processid_params)
+      if @processid.update(processid_params.merge(status))
         format.html { redirect_to root_path({ status: 'processid', notice: "#{Processid.model_name.human.capitalize} atualizado com sucesso" }) }
         format.json { render :show, status: :ok, location: @processid }
       else
