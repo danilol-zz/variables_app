@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'Usuário atualizado com sucesso.' }
+        format.html { redirect_to root_path({ status: "variable", notice: "#{User.model_name.human.capitalize} criado com sucesso" } ) }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }

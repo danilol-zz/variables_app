@@ -1,43 +1,64 @@
-<div class="row-fluid">
-  <div class="span6">
-    <h3><%= @user.name %></h3>
-    <legend></legend>
-    <%= form_for(@user, html: {class: "nav-form"}) do |f| %>
-      <% if @user.errors.any? %>
-        <div class="alert alert-error">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <h4>Atenção!</h4>
-          Os seguintes erros foram encontrados:
-          <ul>
-          <% @user.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
+<a name="forms-construido" class="link-ancora"></a>
+<section>
+  <h3 class="line-bottom">
+    Cadastro de <%= User.model_name.human.capitalize %>:
+    <span class="destaque">
+      <%= @user.name %>
+    </span>
+  </h3>
+
+  <%= form_for @user do |f| %>
+    <% if @user.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> proibiram esse usuario de ser salvo:</h2>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
           <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <div>
-        <div>
-          <label>Nome </label>
-          <%= f.text_field :name, placeholder:"Nome", class: "span8" %>
-        </div>
-        <div>
-          <label>Email </label>
-          <%= f.text_field :email, placeholder:"Email", class: "span8" %>
-        </div>
-        <div>
-          <label>Perfil </label>
-          <%= f.select(:profile,  User::PROFILES, {:include_blank => 'Selecione'}) %>
-        </div>
-        <% if @current_user.admin? %>
-          <div>
-            <label>Papel </label>
-            <%= select_tag("user[role]", options_for_select([ ['Selecione um nível', ''], ['Administrador', 'admin'], ['Usuário', 'user']], @user.role))%>
-          </div>
-        <% end %>
-        <div>
-          <%= f.submit "Salvar", class: "btn btn-primary btn-inverse" %>
-        </div>
+        </ul>
       </div>
     <% end %>
-  </div>
-</div>
+
+    <fieldset>
+
+      <legend></legend>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t5">
+          <%= f.label :email %>
+          <%= f.text_field :email %>
+        </div>
+      </div>     
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :profile %>
+          <%= f.select(:profile,  User::PROFILES, {:include_blank => 'Selecione'}, disabled: !@current_user.admin?) %>
+        </div>    
+      </div>       
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label "Papel" %>
+          <%= select_tag("user[role]", 
+            options_for_select([ ['Selecione um nível', ''], ['Administrador', 'admin'], ['Usuário', 'user']], 
+            @user.role), disabled: !@current_user.admin? ) %>
+        </div>      
+      </div>
+                
+    </fieldset>
+
+    <div class="actions">
+      <%= f.submit "Salvar #{User.model_name.human.capitalize}" %>
+    </div>
+
+  <% end %>
+
+</section>
