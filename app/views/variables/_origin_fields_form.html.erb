@@ -8,7 +8,7 @@
       <% @origin_fields.each do |field| %>
         <p class="left" style="font-family: courier new,monospace;">
           <%= check_box_tag( "variable[origin_fields_list][#{field.id}]", "checked", @variable.origin_fields.detect{|o| o == field}) %>
-          <%= truncate("#{field.field_name.ljust(30,'.').gsub(' ','.')}", length: 30) %>
+          <%= truncate("(#{field.origin.file_name}:#{field.field_name}).ljust(30,'.').gsub(' ','.')", length: 30) %>
         </p>
       <% end %>
     </div>
