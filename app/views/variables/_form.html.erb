@@ -21,104 +21,113 @@
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :name %>
-          <%= f.text_field :name %>
+          <%= f.text_field :name, disabled: @current_user.room2? %>
         </div>
         <div class="left t1">
           <%= f.label :model_field_name %>
-          <%= f.text_field :model_field_name %>
+          <%= f.text_field :model_field_name, disabled: @current_user.room2? %>
         </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :data_type %>
-          <%= f.select(:data_type,  [ "QTD", "Data", "Valor", "Indicador", "Nome", "Código", "Porcentagem", "Número" ], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:data_type,  [ "QTD", "Data", "Valor", "Indicador", "Nome", "Código", "Porcentagem", "Número" ], {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
         <div class="left t6">
           <%= f.label :width%>
-          <%= f.text_field :width%>
+          <%= f.text_field :width, disabled: @current_user.room2? %>
         </div>
         <div class="left t6">
           <%= f.label :decimal %>
-          <%= f.text_field :decimal %>
+          <%= f.text_field :decimal, disabled: @current_user.room2? %>
         </div>           
       </div>
 
       <div class="row clearfix">
         <div class="left t1">
           <%= f.label :sas_variable_def %>
-          <%= f.text_area :sas_variable_def, rows: 5  %>
+          <%= f.text_area :sas_variable_def, rows: 5, disabled: @current_user.room2?  %>
         </div>         
       </div>
 
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :sas_variable_rule_def %>
-          <%= f.text_area :sas_variable_rule_def, rows: 5 %>
+          <%= f.text_area :sas_variable_rule_def, rows: 5, disabled: @current_user.room2? %>
         </div>       
         <div class="left t6">
           <%= f.label :sas_update_periodicity %>
-          <%= f.select(:sas_update_periodicity,  ["diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"] , {:include_blank => 'Selecione'}) %>
+          <%= f.select(:sas_update_periodicity,  ["diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"] , {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>   
         <div class="left t7">
           <%= f.label :domain_type %>
-          <%= f.select(:domain_type,  [ "interno",  "externo", "fixo" ] , {:include_blank => 'Selecione'}) %>
+          <%= f.select(:domain_type,  
+            [ "interno",  "externo", "fixo" ] , 
+            {:include_blank => 'Selecione'}, disabled: @current_user.room2?) %>
         </div>   
       </div>
 
       <div class="row clearfix">      
         <div class="left t6">
           <%= f.label :sas_variable_domain %>
-          <%= f.text_area :sas_variable_domain %>
+          <%= f.text_area :sas_variable_domain, disabled: @current_user.room2? %>
         </div>           
         <div class="left t6">
           <%= f.label :created_in_sprint %>
-          <%= f.text_field :created_in_sprint %>
+          <%= f.text_field :created_in_sprint, disabled: @current_user.room2? %>
         </div>
         <div class="left t6">
           <%= f.label :updated_in_sprint %>
-          <%= f.text_field :updated_in_sprint %>
+          <%= f.text_field :updated_in_sprint, disabled: @current_user.room2? %>
         </div>       
       </div>
 
       <div class="row clearfix">      
         <div class="left t6">
           <%= f.label :sas_data_model_status %>
-          <%= f.select(:sas_data_model_status,  [ "ok",  "pendente", "" ] , {:include_blank => 'Selecione'}) %>
+          <%= f.select(:sas_data_model_status,  
+            [ "ok",  "pendente", "" ] , 
+            {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>   
         <div class="left t6">
           <%= f.label :drs_bi_diagram_name %>
-          <%= f.text_field :drs_bi_diagram_name %>        
+          <%= f.text_field :drs_bi_diagram_name, disabled: @current_user.room2? %>        
         </div>        
         <div class="left t5">
           <%= f.label :drs_variable_status %>
-          <%= f.select(:drs_variable_status,  [ "ok",  "pendente", "" ] , {:include_blank => 'Selecione'}) %>
+          <%= f.select(:drs_variable_status,  
+            [ "ok",  "pendente", "" ] , 
+            {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :room_1_notes %>
-          <%= f.text_area :room_1_notes, rows: 5 %>
+          <%= f.text_area :room_1_notes, rows: 5, disabled: @current_user.room2? %>
         </div>
         <div class="left t6">
           <%= f.label :variable_type %>
-          <%= f.select(:variable_type,  [ "calculado",  "movimentação direta", "valor padrão" ] , {:include_blank => 'Selecione'}) %>
+          <%= f.select(:variable_type,  
+            [ "calculado",  "movimentação direta", "valor padrão" ] , 
+            {:include_blank => 'Selecione'}, 
+             disabled: @current_user.room1? ) %>
         </div>
         <div class="left t6">
           <%= f.label :default_value %>
-          <%= f.text_field :default_value %>
+          <%= f.text_field :default_value, disabled: @current_user.room1? %>
         </div>        
       </div>
 
       <div class="row clearfix">
         <div class="left t2">
           <%= f.label :room_2_notes %>
-          <%= f.text_area :room_2_notes, rows: 5 %>
+          <%= f.text_area :room_2_notes, rows: 5, disabled: @current_user.room1? %>
         </div>
         <div class="left t6">
           <%= f.label :owner %>
-          <%= f.text_field :owner %>
+          <%= f.text_field :owner, disabled: @current_user.room2? %>
         </div>        
       </div>
 
