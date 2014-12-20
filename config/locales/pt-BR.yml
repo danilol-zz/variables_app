@@ -21,11 +21,11 @@ pt:
         one: Tabela
         other: Tabelas
       user:
-        one: Usuario
+        one: Usuário
         other: Usuarios
       variable:
-        one: Variavel
-        other: Variaveis
+        one: Variável
+        other: Variáveis
     attributes:
       campaign:
         ident: ID
@@ -91,7 +91,7 @@ pt:
         cd5_variable_name: Nome variavel cd5
         cd5_origin_format: Formato origem CD5
         cd5_origin_format_desc: Descrição formato origem CD5
-        cd5_format: Formato CD5 
+        cd5_format: Formato CD5
         cd5_format_desc: Descrição formato CD5
         default_value: Valor padrão
         room_2_notes: Observação sala 2
@@ -107,7 +107,7 @@ pt:
         mnemonic: Mnemônico
         routine_name: Nome da rotina
         var_table_name: Nome tabela var
-        conference_rule: Regra de conferencia
+        conference_rule: Regra de conferência
         acceptance_percent: Percentual de aceite
         keep_previous_work: Manter movimento anterior?
         counting_rule: Regra de contagem

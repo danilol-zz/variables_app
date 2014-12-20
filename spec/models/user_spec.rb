@@ -145,7 +145,7 @@ describe User do
     context "room 2 is editing finished origin" do
       before do
         @user = FactoryGirl.create(:user, profile: 'sala2' )
-        @origin = FactoryGirl.create(:origin, status: 'producao')
+        @origin = FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
       end
 
       it "grants access to users" do
@@ -155,7 +155,7 @@ describe User do
     context "room 1 is editing finished origin" do
       before do
         @user = FactoryGirl.create(:user, profile: 'sala1' )
-        @origin = FactoryGirl.create(:origin, status: 'producao')
+        @origin = FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
       end
 
       it "grants access to users" do

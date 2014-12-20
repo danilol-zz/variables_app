@@ -52,7 +52,23 @@
       <%= render 'variables_form' %>
     </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
+  <section>
+    <div class="botoes clearfix">
+      <div class="row clearfix">
+        <% if @processid.new_record? %>
+          <%= f.submit "Salvar" %>
+        <% else %>
+          <% if @processid.status == Constants::STATUS[:SALA2] %>
+            <%= f.submit "Salvar" %>
+            <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
+          <% end %>
+          <% if @current_user.room2? && @processid.status == Constants::STATUS[:PRODUCAO] %>
+            <%= f.button "Reabrir", name: 'update_status', value: Constants::STATUS[:SALA2] %>
+          <% end %>
+        <% end %>
+        <%= link_to t('back'), root_path({ status: "processid" } ) %>
+      </div>
+    </div>
+  </section>
 <% end %>

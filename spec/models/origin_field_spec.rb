@@ -3,14 +3,14 @@ require 'rails_helper'
 describe OriginField do
   before do
     user = FactoryGirl.create(:user, profile: profile)
-
     subject.current_user_id = user.id
   end
 
-  context "origin_fields_x_variables" do
+  let(:profile) { 'room1' }
 
+  context "origin_fields_x_variables" do
     before do
-      origin = FactoryGirl.create(:origin, current_user_id: subject.current_user.id)
+      FactoryGirl.create(:origin, current_user_id: subject.current_user.id)
       v1 = FactoryGirl.create(:variable, name: "v1")
       v2 = FactoryGirl.create(:variable, name: "v2")
       v3 = FactoryGirl.create(:variable, name: "v3")
@@ -23,135 +23,122 @@ describe OriginField do
     end
   end
 
-  let(:profile) { 'room1' }
-
-
   context '.text_parser' do
-    it "should return error when string is empty" do
-      org_type="mainframe"
-      origin_id=1
-      str = ""
-      expect(OriginField.text_parser(org_type,str, origin_id, subject.current_user_id)).to eq nil
+    let(:origin_id) { 1 }
+    let(:text_parser) { OriginField.text_parser(org_type, @str, origin_id, subject.current_user_id) }
+
+    context 'with invalid content' do
+      context 'when org_type is mainfame' do
+        let(:org_type) { "mainframe" }
+
+        it "should return error when string is empty" do
+          @str = ""
+          expect(text_parser).to eq nil
+        end
+
+        it "should return error when string is to small" do
+          @str = "123"
+          expect(text_parser).to eq nil
+        end
+
+        it "should return error when string is name invalid" do
+          @str = "  3   3 TIP!                                  X(30)     AN      1     30     30"
+          expect(text_parser).to eq nil
+        end
+
+        it "should return error when string is origin_pic invalid" do
+          @str = "  3   3 TIPO                                  X 30)     AN      1     30     30"
+          expect(text_parser).to eq nil
+        end
+
+        it "should return error when string is fmbase_format_type invalid" do
+          @str = "  3   3 TIPO                                  X(30)     AP      1     30     30"
+          expect(text_parser).to eq nil
+        end
+
+        it "should return error when string is start invalid" do
+          @str = "  3   3 TIPO                                  X(30)     AN      1A    30     30"
+          expect(text_parser).to eq nil
+        end
+
+        it "should return error when string is width invalid" do
+          @str = "  3   3 TIPO                                  X(30)     AN      1     30     3A"
+          expect(text_parser).to eq nil
+        end
+
+        it "should return error inverted type arquivo mainframe -> base hadoop" do
+          @str = '"dat_ref","dat_ref","","<Undefined>"'
+          expect(text_parser).to eq nil
+        end
+      end
+
+      context 'when org_type is arquivo' do
+        let(:org_type) { "arquivo" }
+
+        it "should return erro when org_type is invalid" do
+          @str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
+          expect(text_parser).to eq nil
+        end
+      end
+
+      context 'when org_type is hadoop' do
+        let(:org_type) { "hadoop" }
+
+        it "should return erro when more fields then expect" do
+          @str = '"dat_ref","dat_ref","","<Undefined>","<Undefined>"'
+          expect(text_parser).to eq nil
+        end
+
+        it "should return erro when less fields then expect" do
+          @str = '"dat_ref","dat_ref",""'
+          expect(text_parser).to eq nil
+        end
+
+        it "should return erro when invalid first field" do
+          @str = '"dat@ref","dat_ref","","<Undefined>"'
+          expect(text_parser).to eq nil
+        end
+
+        it "should return error inverted type base hadoop -> arquivo mainframe" do
+          @str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
+          expect(text_parser).to eq nil
+        end
+      end
     end
 
-    it "should return error when string is to small" do
-      org_type="mainframe"
-      origin_id=1
-      str = "123"
-      expect(OriginField.text_parser(org_type,str, origin_id, subject.current_user_id)).to eq nil
-    end
+    context 'with valid content' do
+      context 'when org_type is hadoop' do
+        let(:org_type) { "hadoop" }
 
-    it "should return error when string is name invalid" do
-      org_type="mainframe"
-      origin_id=1
-      str = "  3   3 TIP!                                  X(30)     AN      1     30     30"
-      expect(OriginField.text_parser(org_type,str, origin_id, subject.current_user_id)).to eq nil
-    end
+        it "should save the object succesfully generic" do
+          @str = '"dat_ref","dat_ref","","<Undefined>"'
+          expect(text_parser).to be_kind_of(OriginField)
+          expect(text_parser.field_name).to eq "dat_ref"
+          expect(text_parser.origin_pic).to eq "X(255)"
+          expect(text_parser.data_type).to  eq "alfanumerico"
+          expect(text_parser.position).to   eq 0
+          expect(text_parser.width).to      eq 0
+        end
+      end
 
-    it "should return error when string is origin_pic invalid" do
-      org_type="mainframe"
-      origin_id=1
-      str = "  3   3 TIPO                                  X 30)     AN      1     30     30"
-      expect(OriginField.text_parser(org_type,str, origin_id, subject.current_user_id)).to eq nil
-    end
+      context 'when org_type is mainframe' do
+        let(:org_type) { "mainframe" }
 
-    it "should return error when string is fmbase_format_type invalid" do
-      org_type="mainframe"
-      origin_id=1
-      str = "  3   3 TIPO                                  X(30)     AP      1     30     30"
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
+        it "should save the object succesfully mainframe" do
+          @str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
 
-    it "should return error when string is start invalid" do
-      org_type="mainframe"
-      origin_id=1
-      str = "  3   3 TIPO                                  X(30)     AN      1A    30     30"
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
-
-
-    it "should return error when string is width invalid" do
-      org_type="mainframe"
-      origin_id=1
-      str = "  3   3 TIPO                                  X(30)     AN      1     30     3A"
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
-
-    it "should return erro when org_type is invalid" do
-      org_type="arquivo"
-      origin_id=1
-      str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
-
-    it "should return erro when more fields then expect" do
-      org_type="hadoop"
-      origin_id=1
-      str = '"dat_ref","dat_ref","","<Undefined>","<Undefined>"'
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
-
-    it "should return erro when less fields then expect" do
-      org_type="hadoop"
-      origin_id=1
-      str = '"dat_ref","dat_ref",""'
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
-
-    it "should return erro when invalid first field" do
-      org_type="hadoop"
-      origin_id=1
-      str = '"dat@ref","dat_ref","","<Undefined>"'
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
-
-
-
-    it "should return error inverted type arquivo mainframe -> base hadoop" do
-      org_type="mainframe"
-      origin_id=1
-      str = '"dat_ref","dat_ref","","<Undefined>"'
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
-
-    it "should return error inverted type base hadoop -> arquivo mainframe" do
-      org_type="hadoop"
-      origin_id=1
-      str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
-      expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
-    end
-
-   it "should save the object succesfully generic" do
-      org_type="hadoop"
-      origin_id=1
-      str = '"dat_ref","dat_ref","","<Undefined>"'
-      origin_field = OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)
-      expect(origin_field).to be_kind_of(OriginField)
-
-      expect(origin_field.field_name).to eq "dat_ref"
-      expect(origin_field.origin_pic).to eq "X(255)"
-      expect(origin_field.data_type).to eq "alfanumerico"
-      expect(origin_field.position).to eq 0
-      expect(origin_field.width).to eq 0
-    end
-
-    it "should save the object succesfully mainframe" do
-      org_type="mainframe"
-      origin_id=1
-      str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
-      origin_field = OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)
-      expect(origin_field).to be_kind_of(OriginField)
-
-      expect(origin_field.field_name).to eq "TIPO"
-      expect(origin_field.origin_pic).to eq "X(30)"
-      expect(origin_field.data_type).to eq "alfanumerico"
-      expect(origin_field.position).to eq 1
-      expect(origin_field.width).to eq 30
+          expect(text_parser).to be_kind_of(OriginField)
+          expect(text_parser.field_name).to eq "TIPO"
+          expect(text_parser.origin_pic).to eq "X(30)"
+          expect(text_parser.data_type).to eq "alfanumerico"
+          expect(text_parser.position).to eq 1
+          expect(text_parser.width).to eq 30
+        end
+      end
     end
   end
 
   describe "before_save calculate fields" do
-
     context "define cd5_variable_name concatenate cd5_variable_number and field_name" do
       let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, field_name: "TXT_VALUE") }
 
