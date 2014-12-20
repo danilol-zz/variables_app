@@ -101,30 +101,27 @@
           <%= f.label :room_1_notes %>
           <%= f.text_area :room_1_notes, rows: 5 %>
         </div>
-        <div class="left t2">
+        <div class="left t6">
           <%= f.label :variable_type %>
           <%= f.select(:variable_type,  [ "calculado",  "movimentação direta", "valor padrão" ] , {:include_blank => 'Selecione'}) %>
         </div>
-      </div>
-
-      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :default_value %>
           <%= f.text_field :default_value %>
-        </div>
+        </div>        
+      </div>
+
+      <div class="row clearfix">
         <div class="left t2">
           <%= f.label :room_2_notes %>
           <%= f.text_area :room_2_notes, rows: 5 %>
         </div>
-      </div>
-
-
-      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :owner %>
           <%= f.text_field :owner %>
-        </div>
+        </div>        
       </div>
+
 
      <%= render 'origin_fields_form' %>
                 

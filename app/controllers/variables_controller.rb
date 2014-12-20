@@ -54,7 +54,14 @@ class VariablesController < ApplicationController
   def variable_params
     params.require(:variable).permit(
       :name,
+      :model_field_name,
+      :data_type,
+      :width,
+      :decimal,
       :sas_variable_def,
+      :sas_variable_rule_def,
+      :sas_update_periodicity,
+      :domain_type,
       :sas_variable_domain,
       :created_in_sprint,
       :updated_in_sprint,
@@ -62,11 +69,11 @@ class VariablesController < ApplicationController
       :drs_bi_diagram_name,
       :drs_variable_status,
       :room_1_notes,
-      :physical_model_name_field,
-      :width_variable,
-      :decimal_variable,
+      :variable_type,
       :default_value,
-      :room_2_notes
+      :room_2_notes,
+      :owner,
+      :status
     ).merge(current_user_id: current_user.id)
   end
 end
