@@ -9,7 +9,7 @@ class CreateProcessids < ActiveRecord::Migration
       t.string  :acceptance_percent
       t.string  :keep_previous_work
       t.string  :counting_rule
-      t.string  :notes
+      t.text    :notes
       t.string  :status      
 
       t.timestamps

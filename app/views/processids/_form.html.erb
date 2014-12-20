@@ -1,74 +1,105 @@
-<%= form_for(@processid) do |f| %>
-  <% if @processid.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@processid.errors.count, "error") %> proibiram esse processo ser salvo:</h2>
+<a name="forms-construido" class="link-ancora"></a>
+<section>
+  <h3 class="line-bottom">Cadastro de <span class="destaque"><%= Processid.model_name.human.capitalize %></span></h3>
 
-      <ul>
-      <% @processid.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <%= form_for @processid do |f| %>
+    <% if @processid.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@processid.errors.count, "error") %> proibiram esse processo ser salvo:</h2>
+        <ul>
+          <% @processid.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <fieldset>
+
+      <legend></legend>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :process_number %>
+          <%= f.text_field :process_number %>
+        </div>
+        <div class="left t1">
+          <%= f.label :mnemonic %>
+          <%= f.text_field :mnemonic %>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :routine_name%>
+          <%= f.text_field :routine_name, disabled: true %>
+        </div>
+        <div class="left t6">
+          <%= f.label :var_table_name %>
+          <%= f.text_field :var_table_name, disabled: true %>
+        </div>           
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t1">
+          <%= f.label :conference_rule %>
+          <%= f.text_field :conference_rule  %>
+        </div>         
+      </div>
+
+      <div class="row clearfix">               
+        <div class="left t6">
+          <%= f.label :acceptance_percent %>
+          <%= f.text_field :acceptance_percent %>
+        </div>
+        <div class="left t6">
+          <%= f.label :keep_previous_work %>
+          <%= f.select(:keep_previous_work,  [ "Sim",  "Nao" ] , {:include_blank => 'Selecione'}) %>          
+        </div>       
+      </div>
+
+      <div class="row clearfix">      
+        <div class="left t1">
+          <%= f.label :counting_rule %>
+          <%= f.text_field :counting_rule %>        
+        </div>        
+
+      </div>
+
+      <div class="row clearfix">
+        <div class="left t6">
+          <%= f.label :notes %>
+          <%= f.text_area :notes, rows: 5 %>
+        </div>      
+      </div>
+
+     <%= render 'variables_form' %>
+                
+    </fieldset>
+
+    <div class="actions">
+      <%= f.submit "Salvar #{Processid.model_name.human.capitalize}" %>
     </div>
+
+    <section>
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <% if @processid.new_record? %>
+            <%= f.submit "Salvar" %>
+          <% else %>
+            <% if @processid.status == Constants::STATUS[:SALA2] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
+            <% end %>
+            <% if @current_user.room2? && @processid.status == Constants::STATUS[:PRODUCAO] %>
+              <%= f.button "Reabrir", name: 'update_status', value: Constants::STATUS[:SALA2] %>
+            <% end %>
+          <% end %>
+          <%= link_to t('back'), root_path({ status: "processid" } ) %>
+        </div>
+      </div>
+    </section>
+
   <% end %>
 
-  <div class="field">
-    <%= f.label :process_number %><br>
-    <%= f.number_field :process_number %>
-  </div>
-  <div class="field">
-    <%= f.label :mnemonic %><br>
-    <%= f.text_field :mnemonic %>
-  </div>
-  <div class="field">
-    <%= f.label :routine_name %><br>
-    <%= f.text_field :routine_name, readonly: true %>
-  </div>
-  <div class="field">
-    <%= f.label :var_table_name %><br>
-    <%= f.text_field :var_table_name, readonly: true %>
-  </div>
-  <div class="field">
-    <%= f.label :conference_rule %><br>
-    <%= f.text_field :conference_rule %>
-  </div>
-  <div class="field">
-    <%= f.label :acceptance_percent %><br>
-    <%= f.text_field :acceptance_percent %>
-  </div>
-  <div class="field">
-    <%= f.label :keep_previous_work %><br>
-    <%= f.text_field :keep_previous_work %>
-  </div>
-  <div class="field">
-    <%= f.label :counting_rule %><br>
-    <%= f.text_field :counting_rule %>
-  </div>
-  <div class="field">
-    <%= f.label :notes %><br>
-    <%= f.text_field :notes %>
-  </div>
-  <div class="row clearfix">
-    <div class="left t1">
-      <%= render 'variables_form' %>
-    </div>
-  </div>
-
-  <section>
-    <div class="botoes clearfix">
-      <div class="row clearfix">
-        <% if @processid.new_record? %>
-          <%= f.submit "Salvar" %>
-        <% else %>
-          <% if @processid.status == Constants::STATUS[:SALA2] %>
-            <%= f.submit "Salvar" %>
-            <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
-          <% end %>
-          <% if @current_user.room2? && @processid.status == Constants::STATUS[:PRODUCAO] %>
-            <%= f.button "Reabrir", name: 'update_status', value: Constants::STATUS[:SALA2] %>
-          <% end %>
-        <% end %>
-        <%= link_to t('back'), root_path({ status: "processid" } ) %>
-      </div>
-    </div>
-  </section>
-<% end %>
+</section>
