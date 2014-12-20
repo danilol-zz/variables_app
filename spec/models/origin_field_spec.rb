@@ -23,7 +23,6 @@ describe OriginField do
     end
   end
 
-
   context '.text_parser' do
     let(:origin_id) { 1 }
     let(:text_parser) { OriginField.text_parser(org_type, @str, origin_id, subject.current_user_id) }
@@ -74,12 +73,11 @@ describe OriginField do
       end
 
       context 'when org_type is arquivo' do
-
         let(:org_type) { "arquivo" }
 
         it "should return erro when org_type is invalid" do
-          str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
+          expect(text_parser).to eq nil
         end
       end
 
@@ -87,52 +85,56 @@ describe OriginField do
         let(:org_type) { "hadoop" }
 
         it "should return erro when more fields then expect" do
-          str = '"dat_ref","dat_ref","","<Undefined>","<Undefined>"'
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = '"dat_ref","dat_ref","","<Undefined>","<Undefined>"'
+          expect(text_parser).to eq nil
         end
 
         it "should return erro when less fields then expect" do
-          str = '"dat_ref","dat_ref",""'
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = '"dat_ref","dat_ref",""'
+          expect(text_parser).to eq nil
         end
 
         it "should return erro when invalid first field" do
-          str = '"dat@ref","dat_ref","","<Undefined>"'
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = '"dat@ref","dat_ref","","<Undefined>"'
+          expect(text_parser).to eq nil
         end
 
         it "should return error inverted type base hadoop -> arquivo mainframe" do
-          str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
-          expect(OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)).to eq nil
+          @str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
+          expect(text_parser).to eq nil
         end
       end
     end
 
-   it "should save the object succesfully generic" do
-      org_type="hadoop"
-      origin_id=1
-      str = '"dat_ref","dat_ref","","<Undefined>"'
-      origin_field = OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)
-      expect(origin_field).to be_kind_of(OriginField)
+    context 'with valid content' do
+      context 'when org_type is hadoop' do
+        let(:org_type) { "hadoop" }
 
-      expect(origin_field.field_name).to eq "dat_ref"
-      expect(origin_field.origin_pic).to eq "X(255)"
-      expect(origin_field.data_type).to eq "alfanumerico"
-      expect(origin_field.position).to eq 0
-      expect(origin_field.width).to eq 0
-    end
+        it "should save the object succesfully generic" do
+          @str = '"dat_ref","dat_ref","","<Undefined>"'
+          expect(text_parser).to be_kind_of(OriginField)
+          expect(text_parser.field_name).to eq "dat_ref"
+          expect(text_parser.origin_pic).to eq "X(255)"
+          expect(text_parser.data_type).to  eq "alfanumerico"
+          expect(text_parser.position).to   eq 0
+          expect(text_parser.width).to      eq 0
+        end
+      end
 
-    it "should save the object succesfully mainframe" do
-      org_type="mainframe"
-      str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
-      origin_field = OriginField.text_parser(org_type,str,origin_id, subject.current_user_id)
-      expect(origin_field).to be_kind_of(OriginField)
+      context 'when org_type is mainframe' do
+        let(:org_type) { "mainframe" }
 
-      expect(origin_field.field_name).to eq "TIPO"
-      expect(origin_field.origin_pic).to eq "X(30)"
-      expect(origin_field.data_type).to eq "alfanumerico"
-      expect(origin_field.position).to eq 1
-      expect(origin_field.width).to eq 30
+        it "should save the object succesfully mainframe" do
+          @str = "  3   3 TIPO                                  X(30)     AN      1     30     30"
+
+          expect(text_parser).to be_kind_of(OriginField)
+          expect(text_parser.field_name).to eq "TIPO"
+          expect(text_parser.origin_pic).to eq "X(30)"
+          expect(text_parser.data_type).to eq "alfanumerico"
+          expect(text_parser.position).to eq 1
+          expect(text_parser.width).to eq 30
+        end
+      end
     end
   end
 
