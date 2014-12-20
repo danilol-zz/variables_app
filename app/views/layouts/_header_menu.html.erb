@@ -4,8 +4,8 @@
   <section class="container">
     <section class="content-main header" role="banner">
       <div class="logo left"><img src=<%= asset_path("logo-itau-mini.png")%> alt="Logo Itaú" /></div>
+      <%= render 'layouts/header_menu_busca' %>
       <% if @current_user %>
-        <!-- %= render 'layouts/header_menu_busca' % -->
         <%= render 'layouts/header_sair' %>
         <%= render 'layouts/header_ico_config_left' %>
         <%= render 'layouts/header_menu_dados_usuarios' %>
