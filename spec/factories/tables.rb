@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :table do
     logic_table_name "MyString"
+    table_type "MyString"
     name "MyString"
-    type "MyString"
-    key "MyString"
+    table_key "MyString"
     initial_volume 1
     growth_estimation 1
     created_in_sprint 1
@@ -22,8 +22,9 @@ FactoryGirl.define do
     ziptrans_routine_name "MyString"
     mirror_data_stage_routine_name "MyString"
     final_data_stage_routine_name "MyString"
-    room_2_notes "MyString"
     key_fields_hive_script "MyString"
+    room_2_notes "MyString"
+    status ""
   end
 end
 

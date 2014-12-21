@@ -148,7 +148,7 @@ CSV.read("db/fixtures/tabela.csv", { headers: true, :col_sep => ","}).each_with_
   Table.create(
     logic_table_name: campo["nome tabela logica"],
     name: campo["Descrição da tabela"],
-    key: campo["chave da tabela"],
+    table_key: campo["chave da tabela"],
     initial_volume: campo["Volume Inicial"],
     growth_estimation: campo["Estimativa de Crescimento"],
     created_in_sprint: campo["sprint em que foi criada"],

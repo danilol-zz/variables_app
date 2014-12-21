@@ -2,9 +2,9 @@ class CreateTables < ActiveRecord::Migration
   def change
     create_table :tables do |t|
       t.string  :logic_table_name
-      t.string  :type
-      t.string  :name
-      t.string  :key
+      t.string  :table_type
+      t.text    :name
+      t.string  :table_key
       t.integer :initial_volume
       t.integer :growth_estimation
       t.integer :created_in_sprint
@@ -16,15 +16,15 @@ class CreateTables < ActiveRecord::Migration
       t.integer :mirror_table_number
       t.string  :mnemonic
       t.integer :routine_number
-      t.string  :master_base
+      t.text    :master_base
       t.string  :hive_table
       t.string  :big_data_routine_name
       t.string  :output_routine_name
       t.string  :ziptrans_routine_name
       t.string  :mirror_data_stage_routine_name
       t.string  :final_data_stage_routine_name
+      t.text    :key_fields_hive_script
       t.text    :room_2_notes
-      t.string  :key_fields_hive_script
       t.string  :status
       
       t.timestamps

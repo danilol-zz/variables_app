@@ -10,8 +10,7 @@
           <%= check_box_tag( 
             "variable[origin_fields_list][#{field.id}]", 
             "checked",
-            @variable.origin_fields.detect{|o| o == field},
-            disabled: @current_user.room2? ) %>
+            @variable.origin_fields.detect{|o| o == field} ) %>
           <%= truncate("#{field.origin.file_name}:#{field.field_name}".ljust(30,'.').gsub(' ','.'), length: 30) %>
         </p>
       <% end %>

@@ -114,7 +114,9 @@ pt:
         notes: Observação
       table:
         logic_table_name: Nome tabela logica
+        table_type: Tipo
         name: Descrição da tabela
+        table_key: Chave
         initial_volume: Volume inicial
         growth_estimation: Estimativa de crescimento
         created_in_sprint: Sprint em que foi criada
@@ -133,10 +135,8 @@ pt:
         ziptrans_routine_name: Nome rotina ziptrans
         mirror_data_stage_routine_name: Nome rotina data stage espelho
         final_data_stage_routine_name: Nome rotina data stage difinitivo
-        room_2_notes: Observação sala 2
-        type: Tipo
-        key: Chave
         key_fields_hive_script: Campos chave script Hive
+        room_2_notes: Observação sala 2
       user:
         email: E-mail
         name: Nome
