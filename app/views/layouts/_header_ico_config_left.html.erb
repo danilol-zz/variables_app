@@ -1,9 +1,5 @@
 <div class="ico-configuracoes right">
-  <a href="javascript:;" title="Acessar configurações"><span class="ico-config"></span></a>
-  <div class="content-config hide">
-    <span class="seta-msg"></span>
-    <ul>
-      <li><%= link_to "Configurações", users_path %></li>
-    </ul>
-  </div>
+  <%= link_to( users_path ) do  %>
+    <span class="ico-config"></span>
+  <% end %>
 </div>
