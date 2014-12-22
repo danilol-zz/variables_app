@@ -13,7 +13,7 @@ module ExportScript
 		script = hash_scripts[script_name]["script"]
 		ind_group_related = hash_scripts[script_name]["ind_group_related"]
 		condition = hash_scripts[script_name]["condition"]
-
+		#p "/////////////////////////////////////////////////////////////////////////////////////////////////"
 		#p script_name
 		#p sprint
 		#p script
@@ -23,7 +23,7 @@ module ExportScript
 
 
 		array_script = generate_script_by_sprint(sprint, script, entity_master_br, ind_group_related, condition)
-		return_value = "Resultado do Script : \n"
+		return_value = "Nome do Script: #{script_name}\nResultado do Script : \n"
 		return_value = return_value + "=========================================================================\n"
 		array_script.each do |saida_script|
 			return_value = return_value + saida_script + "\n"
@@ -1054,10 +1054,10 @@ set io.seqfile.compression.type=BLOCK;
 set mapred.output.compression.codec=org.apache.hadoop.io.compress.SnappyCodec;
 
 use crm_variaveis;
-drop table crm_variaveis.VAR_<Processo.[Nome tabela var]>;
+drop table crm_variaveis.<Processo.[Nome tabela var]>;
 
 
-create external table VAR_<Processo.[Nome tabela var]>
+create external table <Processo.[Nome tabela var]>
 (
 <Processo.[@chave_hive]>
 <Processo.[@campos_modelo]>
@@ -1102,7 +1102,7 @@ insert into controle_bigdata.tah6_pro values (“<Tabela.[Nome rotina big data]>
 		hash_scripts["Smap Rotina Mainframe Extrator"]["script"] = "
 Rotina Extratora:  CD5B<Origem.[Mnemônico]>
 Step		Campo		Valor
-CD5SRI40	SORTIN		<Origem.[nome base/arquivo]>
+CD5SRI40	SORTIN		<Origem.[Nome da base/arquivo]>
 CD5SRI40	SORTOUT		CD5.BASE.O<Origem.[Mnemônico]>(0)
 CD5BEX2A	PARM		<Origem.[Cód. origem CD5]>SB
 CD5BEX2A	SYS010		CD5.BASE.O<Origem.[Mnemônico]>(+1)
@@ -1122,7 +1122,7 @@ CD5BROTA	PARM	<Origem.[Cód. origem CD5]>
 CD5BROTA	SYS011	CD5.BASE.Q<Origem.[Mnemônico]>(0)
 ICEGENB		SYSUT1	CD5.BASE.B<Origem.[Mnemônico]>(0)
 ICEGENC		SYSUT1	CD5.BASE.B<Origem.[Mnemônico]>(0)
-ICEGEND		SYSUT1	CD5.BASE.B<Origem.[mnmonico]>(0)
+ICEGEND		SYSUT1	CD5.BASE.B<Origem.[Mnemônico]>(0)
 CD5BRO2A	PARM	<Origem.[Cód. origem CD5]>
 CD5BRO2B	PARM	<Origem.[Cód. origem CD5]>
 CD5BRO2C	PARM	<Origem.[Cód. origem CD5]>
@@ -1130,7 +1130,7 @@ CD5BRO2C	PARM	<Origem.[Cód. origem CD5]>
 
 		hash_scripts["Smap Rotina PV"]["script"] = "
 Campo				Valor
-Nome da Rotina		<Processo.[Nome rotina big data]>
+Nome da Rotina		<Processo.[Nome da rotina]>
 Periodicidade		<Processo.[@periodicidade_processo_smap]>
 Linha de negócio	crm-marketing
 Area Afetada		marketing
@@ -1140,7 +1140,7 @@ Sucessora			<Variavel.[@lista_de_rotinas_sucessoras]>
 
 		hash_scripts["Smap Rotina PT"]["script"] = "
 Campo				Valor
-Nome da Rotina		<Tabela.[Nome da rotina]>
+Nome da Rotina		<Tabela.[Nome rotina big data]>
 Periodicidade		<Tabela.[@periodicidade_tabela_smap]>
 Linha de negócio	crm-marketing
 Area Afetada		marketing
@@ -1375,7 +1375,7 @@ SPPTI Planejamento	acionar analista
 			#p "class = #{array_orign_fields.class}"
 			return_value = ''
 			array_variable.each do |variable|
-				variable.tables.where( type: "seleção" ).to_a.each do |table|
+				variable.tables.where( table_type: "seleção" ).to_a.each do |table|
 					return_value = return_value + table.big_data_routine_name + " ;"
 				end
 			end
@@ -1479,8 +1479,8 @@ SPPTI Planejamento	acionar analista
 		else
 			
 			processid.variables.to_a.each do |variable|
-				if variable.model_field_name == processid.variables.to_a.last
-					return_value + variable.model_field_name + " string \n"
+				if variable.model_field_name == processid.variables.to_a.last.model_field_name
+					return_value =  return_value + variable.model_field_name + " string \n"
 				else
 					return_value = return_value + variable.model_field_name + " string , \n"
 				end
