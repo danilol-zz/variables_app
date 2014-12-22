@@ -321,6 +321,9 @@ pt:
               blank: não pode ser vazio!
             width:
               blank: não pode ser vazio!
+            data_type:
+              inclusion: com valor inválido! 
+              blank: não pode ser vazio!
 
   are_you_sure: Você tem certeza?
   show: Visualizar
