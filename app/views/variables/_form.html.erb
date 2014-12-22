@@ -41,38 +41,36 @@
         <div class="left t6">
           <%= f.label :decimal %>
           <%= f.text_field :decimal, disabled: @current_user.room2? %>
-        </div>           
+        </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t1">
           <%= f.label :sas_variable_def %>
           <%= f.text_area :sas_variable_def, rows: 5, disabled: @current_user.room2?  %>
-        </div>         
+        </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :sas_variable_rule_def %>
           <%= f.text_area :sas_variable_rule_def, rows: 5, disabled: @current_user.room2? %>
-        </div>       
+        </div>
         <div class="left t6">
           <%= f.label :sas_update_periodicity %>
           <%= f.select(:sas_update_periodicity,  ["diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"] , {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
-        </div>   
+        </div>
         <div class="left t7">
           <%= f.label :domain_type %>
-          <%= f.select(:domain_type,  
-            [ "interno",  "externo", "fixo" ] , 
-            {:include_blank => 'Selecione'}, disabled: @current_user.room2?) %>
-        </div>   
+          <%= f.select(:domain_type, [ "interno",  "externo", "fixo" ] , {:include_blank => 'Selecione'}, disabled: @current_user.room2?) %>
+        </div>
       </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :sas_variable_domain %>
           <%= f.text_area :sas_variable_domain, disabled: @current_user.room2? %>
-        </div>           
+        </div>
         <div class="left t6">
           <%= f.label :created_in_sprint %>
           <%= f.text_field :created_in_sprint, disabled: @current_user.room2? %>
@@ -80,25 +78,21 @@
         <div class="left t6">
           <%= f.label :updated_in_sprint %>
           <%= f.text_field :updated_in_sprint, disabled: @current_user.room2? %>
-        </div>       
+        </div>
       </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :sas_data_model_status %>
-          <%= f.select(:sas_data_model_status,  
-            [ "ok",  "pendente", "" ] , 
-            {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
-        </div>   
+          <%= f.select(:sas_data_model_status, [ "ok",  "pendente", "" ] , {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
+        </div>
         <div class="left t6">
           <%= f.label :drs_bi_diagram_name %>
-          <%= f.text_field :drs_bi_diagram_name, disabled: @current_user.room2? %>        
-        </div>        
+          <%= f.text_field :drs_bi_diagram_name, disabled: @current_user.room2? %>
+        </div>
         <div class="left t5">
           <%= f.label :drs_variable_status %>
-          <%= f.select(:drs_variable_status,  
-            [ "ok",  "pendente", "" ] , 
-            {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
+          <%= f.select(:drs_variable_status, [ "ok",  "pendente", "" ] , {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
       </div>
 
@@ -109,15 +103,12 @@
         </div>
         <div class="left t6">
           <%= f.label :variable_type %>
-          <%= f.select(:variable_type,  
-            [ "calculado",  "movimentação direta", "valor padrão" ] , 
-            {:include_blank => 'Selecione'}, 
-             disabled: @current_user.room1? ) %>
+          <%= f.select(:variable_type, [ "calculado",  "movimentação direta", "valor padrão" ] , {:include_blank => 'Selecione'}, disabled: @current_user.room1? ) %>
         </div>
         <div class="left t6">
           <%= f.label :default_value %>
           <%= f.text_field :default_value, disabled: @current_user.room1? %>
-        </div>        
+        </div>
       </div>
 
       <div class="row clearfix">
@@ -128,18 +119,39 @@
         <div class="left t6">
           <%= f.label :owner %>
           <%= f.text_field :owner, disabled: @current_user.room2? %>
-        </div>        
+        </div>
       </div>
 
 
-     <%= render 'origin_fields_form' %>
-                
+      <%= render 'origin_fields_form' %>
+
     </fieldset>
 
-    <div class="actions">
-      <%= f.submit "Salvar #{Variable.model_name.human.capitalize}" %>
-    </div>
+    <section>
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <% if @variable.new_record? %>
+            <%= f.submit "Salvar" %>
+          <% else %>
+            <% if @variable.status == Constants::STATUS[:SALA1] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:SALA2] %>
+            <% end %>
+            <% if @current_user.room1? && @variable.status == Constants::STATUS[:PRODUCAO] %>
+              <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
+            <% end %>
+            <% if @current_user.room2? && @variable.status == Constants::STATUS[:SALA2] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
+            <% end %>
+          <% end %>
+          <%= link_to t('back'), root_path({ status: "variable" } ) %>
+
+        </div>
+      </div>
+    </section>
 
   <% end %>
 
 </section>
+
