@@ -58,7 +58,10 @@ module ExportScript
 		unless condition.nil?
 			list_condition =  get_list_entits(condition)
 		end
-		#p "========================="
+		#p "///////////////////////////////////////////"
+		#p "scritp"
+		#p script
+		#p "==================="
 		#p "list_entit "
 		#p list_entit
 
@@ -109,6 +112,7 @@ module ExportScript
 		#p list_entit_master
 		hash_repalce_master = {}
 		return_value = []
+		#p "list_entit_master = #{list_entit_master}"
 		list_entit_master.each do |entity_master|
 			#p "laco 1 #{entity_master}"
 			hash_repalce_master = {}
@@ -155,8 +159,10 @@ module ExportScript
 					#p "entidade relacionada atual #{entity_reference_name_eng}"
 					array_entits_related = []
 					if condition.nil?
+						#p "sem condicao"
 						array_entits_related = get_entits_related(entity_master,entity_reference_name_eng,nil)
 					else
+						#p "com condicao"
 						array_entits_related = get_entits_related(entity_master,entity_reference_name_eng,list_condition_translated[entity_reference_name_eng])
 					end
 					#p "quantidade de entidade encontradas: #{array_entits_related.size}"
@@ -502,6 +508,13 @@ def self.get_entits_related(entity_ref, name_entity_to_find,condition)
 		else
 			condition.each do |item|
 				words=item.split(/\=/)
+				if words[1]=="true"
+					words[1]= true
+				end
+				if words[1] == "false"
+					words[1] = false
+				end
+
 				cond[words[0]]=words[1]
 			end
 		end
@@ -646,20 +659,33 @@ end
 		#p concect
 		#p Table.connected?
 		#result = Table.select { |m| m.updated_in_sprint == sprint }
-		
+		#p "condition = #{condition}"
 		cond = {}
 		if condition.nil?
 			cond = false
 		else
 			condition.each do |item|
 				words=item.split(/\=/)
+				if words[1] == "true"
+					words[1] = true
+				end
+				if words[1] == "false"
+					words[1] = false
+				end
 				cond[words[0]]=words[1]
 			end
 		end		
-
+		#p "sprint = #{sprint}"
+		#p "cond"
+		#p cond
 
 		result = []
-		Origin.where(updated_in_sprint: sprint).to_a.each do |org| 
+		#p "entity in the sprint"
+		#p Origin.where(updated_in_sprint: sprint)
+		#p "size org #{Origin.where(updated_in_sprint: sprint).to_a.size}"
+		Origin.where(updated_in_sprint: sprint).to_a.each do |org|
+			#p "orign fields"
+			#p org.origin_fields
 			result = result + org.origin_fields.where(cond).to_a
 		end
 
@@ -672,6 +698,8 @@ end
 		#p result
 
 		#require 'pry' ; binding.pry;
+
+		#p "result.size = #{result.size}"
 
 		if result.size == 0
 			return_value = nil
@@ -857,7 +885,7 @@ end
 			"Scritp Hive Tabela ORG" => {
 				"entity_master_br" => "Origem" ,
 				"ind_group_related" => true ,
-				"condition" => "<Campos de Origem.[Vai usar?=SIM]>" ,
+				"condition" => "<Campos de Origem.[Vai usar?=true]>" ,
 				"script" => "<>"
 			} ,
 			"Script Hive Query PV Vazia" => {
@@ -905,13 +933,13 @@ end
 			"Integração CD5 Cadastro de Campo de Entrada" => {
 				"entity_master_br" => "Campos de Origem" ,
 				"ind_group_related" => false ,
-				"condition" => "<Campos de Origem.[Vai usar?=SIM]>" ,
+				"condition" => "<Campos de Origem.[Vai usar?=true]>" ,
 				"script" => "<>"
 			} ,
 			"Integração CD5 Cadastro de Campo de Saida" => {
 				"entity_master_br" => "Campos de Origem" ,
 				"ind_group_related" => false ,
-				"condition" => "<Campos de Origem.[Vai usar?=SIM]>" ,
+				"condition" => "<Campos de Origem.[Vai usar?=true]>" ,
 				"script" => "<>"
 			} ,
 			"Smap Rotina Mainframe Extrator" => {
@@ -1348,7 +1376,7 @@ SPPTI Planejamento	acionar analista
 
 	def self.lista_de_campos(array_orign_fields)
 		return_value = ''
-		
+		#p "array_orign_fields #{array_orign_fields}"
 		unless ( ! array_orign_fields.nil? ) && array_orign_fields.instance_of?(Array) && array_orign_fields.size > 0   && array_orign_fields[0].instance_of?(OriginField)
 			return_value = nil
 		else
@@ -1401,7 +1429,7 @@ SPPTI Planejamento	acionar analista
 				vlr_signal = 0
 				vlr_comma = 0
 				
-				if origin_field.has_signal == "SIM"
+				if origin_field.has_signal == true
 					vlr_signal = 1
 				end
 
@@ -1433,7 +1461,7 @@ SPPTI Planejamento	acionar analista
 			#p "class = #{array_orign_fields.class}"
 			return_value = ""
 			array_orign_fields.each do |origin_field|
-				if  origin_field.will_use == "SIM"
+				if  origin_field.will_use == true
 					return_value = return_value + "(.{0," + tamanho_expandido(origin_field) + "})"
 				end
 			end
@@ -1497,17 +1525,17 @@ SPPTI Planejamento	acionar analista
 		#p origin_field
 		#p origin_field.class
 		#p origin_field.instance_of?(OriginField)
-		#p origin_field.will_use == "SIM"
+		#p origin_field.will_use == true
 
 		unless ( ! origin_field.nil?) &&
 			origin_field.instance_of?(OriginField) &&
-			origin_field.will_use == "SIM"
+			origin_field.will_use == true
 			return_value = nil
 		 else
 		 	#p "valido "
 		 	return_value = 0
 		 	
-		 	origin_field.origin.origin_fields.where(will_use: "SIM").to_a.each do |org_atu|
+		 	origin_field.origin.origin_fields.where(will_use: true).to_a.each do |org_atu|
 		 		if org_atu.cd5_output_order < origin_field.cd5_output_order
 		 			return_value = return_value + tamanho_expandido(org_atu).to_i
 		 		end
