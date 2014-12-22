@@ -1,14 +1,10 @@
 require 'rails_helper'
 
 describe Origin do
-  let(:profile) { 'room2' }
-
-  before do
-    user = FactoryGirl.create(:user, profile: profile)
-    subject.current_user_id = user.id
-  end
-
   context "fields" do
+    before { FactoryGirl.create(:user, profile: profile) }
+    subject { FactoryGirl.build(:origin)  }
+
     context "validations" do
       context 'when user profile is room1' do
         let(:profile) { 'sala1' }
@@ -38,7 +34,6 @@ describe Origin do
         it { expect(subject).to_not validate_presence_of(:cd5_portal_destination_code) }
         it { expect(subject).to_not validate_presence_of(:mainframe_storage_type) }
         it { expect(subject).to_not ensure_length_of(:room_2_notes).is_at_most(500) }
-
       end
 
       context 'when user profile is room2' do
@@ -73,6 +68,7 @@ describe Origin do
 
   context ".code" do
     before do
+      FactoryGirl.create(:user, profile: 'sala1')
       @a = FactoryGirl.create(:origin)
       @b = FactoryGirl.create(:origin)
       @c = FactoryGirl.create(:origin, id: 10)
@@ -91,6 +87,7 @@ describe Origin do
 
   context "statuses" do
     before do
+      FactoryGirl.create(:user, profile: 'sala1')
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
@@ -109,46 +106,77 @@ describe Origin do
     end
   end
 
-  describe "before_save calculate fields" do
+  context "before_save calculate fields" do
+    before { FactoryGirl.create(:user, profile: 'sala1') }
+
     context "when the mnemonic is fill out" do
-      let(:o) { FactoryGirl.create(:origin, mnemonic: "ABC") }
+      let(:origin) { FactoryGirl.create(:origin, mnemonic: "ABC") }
 
       it "the hive_table_name start with 'ORG_' append with the mnemonic" do
-        expect(o.hive_table_name).to eq "ORG_ABC"
+        expect(origin.hive_table_name).to eq "ORG_ABC"
       end
 
       it "the hive_table_name not equal nil" do
-        expect(o.hive_table_name).not_to eq nil
+        expect(origin.hive_table_name).not_to eq nil
       end
 
       it "the cd5_portal_destination_name start with 'CD5.RETR.B' append with the mnemonic" do
-        expect(o.cd5_portal_destination_name).to eq "CD5.RETR.BABC"
+        expect(origin.cd5_portal_destination_name).to eq "CD5.RETR.BABC"
       end
 
       it "the cd5_portal_origin_name start with 'CD5.BASE.O' apend with the mnemonic" do
-        expect(o.cd5_portal_origin_name).to eq "CD5.BASE.OABC"
+        expect(origin.cd5_portal_origin_name).to eq "CD5.BASE.OABC"
       end
     end
 
     context "when the mnemonic is not fill out" do
-      let(:o) { FactoryGirl.create(:origin, mnemonic: nil) }
+      let(:origin) { FactoryGirl.create(:origin, mnemonic: nil) }
 
       it "the hive_table_name start with 'ORG_' append with the mnemonic" do
-        expect(o.hive_table_name).not_to eq "ORG_ABC"
+        expect(origin.hive_table_name).not_to eq "ORG_ABC"
       end
 
       it "the hive_table_name equal nil" do
-        expect(o.hive_table_name).to eq nil
+        expect(origin.hive_table_name).to eq nil
       end
 
       it "the cd5_portal_destination_name equal nil" do
-        expect(o.cd5_portal_destination_name).to eq nil
+        expect(origin.cd5_portal_destination_name).to eq nil
       end
 
       it "the cd5_portal_origin_name equal nil" do
-        expect(o.cd5_portal_origin_name).to eq nil
+        expect(origin.cd5_portal_origin_name).to eq nil
       end
     end
   end
 
+  context ".status_screen_name" do
+    subject { FactoryGirl.build(:origin, file_name: file_name).status_screen_name }
+
+    context "when file_name is nil"  do
+      let(:file_name) { nil }
+
+      it "returns an empty string" do
+        expect(subject).to be_blank
+      end
+    end
+
+    context "when file_name has value" do
+      context "when file_name has less than 20 characters" do
+        let(:file_name) { "testnamestring" }
+
+        it "returns the same string" do
+          expect(subject).to eq "testnamestring"
+        end
+      end
+
+      context "when file_name has more than 20 characters" do
+        let(:file_name) { "testnamestringbiggertha20characters" }
+
+        it "returns the same string" do
+          expect(subject).to eq "testnamestringbigger"
+        end
+      end
+    end
+  end
 end

@@ -1,8 +1,9 @@
 class Origin < ActiveRecord::Base
   include UserSession
-  before_save :calculate_fields_hive_table_name
-  before_save :calculate_fields_cd5_portal_destination_name
-  before_save :calculate_fields_cd5_portal_origin_name
+
+  before_save :calculate_hive_table_name
+  before_save :calculate_cd5_portal_destination_name
+  before_save :calculate_cd5_portal_origin_name
 
   has_many :origin_fields
 
@@ -39,32 +40,18 @@ class Origin < ActiveRecord::Base
   end
 
   def status_screen_name
-    unless file_name.nil?
-      res = file_name[0..20]
-    end
+    file_name[0..19] unless file_name.nil?
   end
 
-  def calculate_fields_hive_table_name
-    if self.mnemonic?
-      self.hive_table_name = "ORG_#{self.mnemonic}".upcase
-    else
-      self.hive_table_name = nil
-    end
+  def calculate_hive_table_name
+    self.hive_table_name = self.mnemonic? ? "ORG_#{self.mnemonic}".upcase : nil
   end
 
-  def calculate_fields_cd5_portal_destination_name
-    if self.mnemonic?
-      self.cd5_portal_destination_name = "CD5.RETR.B#{self.mnemonic}".upcase
-    else
-      self.cd5_portal_destination_name = nil
-    end
+  def calculate_cd5_portal_destination_name
+    self.cd5_portal_destination_name = self.mnemonic? ? "CD5.RETR.B#{self.mnemonic}".upcase : nil
   end
 
-  def calculate_fields_cd5_portal_origin_name
-    if self.mnemonic?
-      self.cd5_portal_origin_name = "CD5.BASE.O#{self.mnemonic}".upcase
-    else
-      self.cd5_portal_origin_name = nil
-    end
+  def calculate_cd5_portal_origin_name
+    self.cd5_portal_origin_name = self.mnemonic? ? "CD5.BASE.O#{self.mnemonic}".upcase : self.cd5_portal_origin_name = nil
   end
 end
