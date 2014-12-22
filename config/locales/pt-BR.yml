@@ -38,10 +38,10 @@ pt:
         communication_channel: Codigo de comunicação
         product: Produto
         description: Descrição da campanha
-        criterion: Criterio da campanha
+        criterion: Critério da campanha
         exists_in_legacy: Campanha existe no legado?
-        automatic_routine: Rotina automatica
-        factory_criterion_status: Status levantam.criterio de fabrica
+        automatic_routine: Rotina automática
+        factory_criterion_status: Status levantam.critério de fábrica
         prioritized_variables_qty: Qtd.variaveis priorizadas
         complied_variables_qty: Qtd.variaveis atendidas
         process_type: Tipo de processo
@@ -185,6 +185,43 @@ pt:
               taken: já cadastrado!
             profile:
               blank: não pode ser vazio!
+        campaign:
+          attributes:
+            name:
+              too_long: Campo Nome deve ter no máximo 50 caracteres!
+              blank: Campo Nome não pode ser vazio!
+            priotity:
+              blank: Campo Prioridade não pode ser vazio!
+            campaign_origin:
+              too_long: Campo Origin da campanha deve ter no máximo 50 caracteres!
+              blank: Campo Nome não pode ser vazio!
+            created_in_sprint:
+              blank: Campo Sprint em que foi criada não pode ser vazio!
+            created_in_sprint:
+              blank: Campo Sprint em que foi alterada não pode ser vazio!
+            channel:
+              too_long: Campo Canal deve ter no máximo 50 caracteres!
+              blank: Campo Canal não pode ser vazio!
+            communication_channel:
+              too_long: Campo Código de comunicação deve ter no máximo 50 caracteres!
+              blank: Campo Código de comunicação não pode ser vazio!
+            product:
+              too_long: Campo Produto deve ter no máximo 50 caracteres!
+              blank: Campo Produto não pode ser vazio!
+            criterion:
+              too_long: Campo Critério da campanha deve ter no máximo 500 caracteres!
+              blank: Campo Critério da campanha não pode ser vazio!
+            description:
+              too_long: Campo Descrição da campanha deve ter no máximo 200 caracteres!
+              blank: Campo Descrição da campanha não pode ser vazio!
+            exists_in_legacy:
+              blank: Campo Campanha existe no legado? não pode ser vazio!
+            automatic_routine:
+              blank: Campo Rotina automática não pode ser vazio!
+              too_long: Campo Rotina automática deve ter no máximo 50 caracteres!
+            factory_criterion_status: 
+              blank: Campo Status do critério de fábrica não pode ser vazio!
+              inclusion: Campo Status do critério de fábrica deve ser ok ou pendente
         origin:
           attributes:
             file_name:
@@ -236,11 +273,6 @@ pt:
               blank: Campo Classificação DMT não pode ser vazio!
             status:
               blank: Campo Status não pode ser vazio!
-        campaign:
-          attributes:
-            name:
-              too_long: Campo Nome deve ter no máximo 50 caracteres!
-              blank: Campo Nome não pode ser vazio!
         origin_field:
           attributes:
             decimal:
@@ -248,8 +280,7 @@ pt:
             field_name:
               blank: Campo Nome do campo não pode ser vazio!
             data_type:
-              inclusion:
-                Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
+              inclusion: Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
             is_key:
               blank: Campo É chave? não pode ser vazio!
             will_use:

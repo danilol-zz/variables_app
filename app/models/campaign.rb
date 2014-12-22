@@ -11,6 +11,25 @@ class Campaign < ActiveRecord::Base
 
   validates :name, presence: true, if: :current_user_is_room1?
   validates :name, length: { maximum: 50 }, if: :current_user_is_room1?
+  validates :priority, presence: true, if: :current_user_is_room1?
+  validates :campaign_origin, presence: true, if: :current_user_is_room1?
+  validates :campaign_origin, length: { maximum: 50 }, if: :current_user_is_room1?
+  validates :created_in_sprint, presence: true, if: :current_user_is_room1?
+  validates :updated_in_sprint, presence: true, if: :current_user_is_room1?
+  validates :channel, presence: true, if: :current_user_is_room1?
+  validates :channel, length: { maximum: 50 }, if: :current_user_is_room1?
+  validates :communication_channel, presence: true, if: :current_user_is_room1?
+  validates :communication_channel, length: { maximum: 50 }, if: :current_user_is_room1?
+  validates :product, presence: true, if: :current_user_is_room1?
+  validates :product, length: { maximum: 50 }, if: :current_user_is_room1?
+  validates :criterion, presence: true, if: :current_user_is_room1?
+  validates :criterion, length: { maximum: 500 }, if: :current_user_is_room1?
+  validates :description, presence: true, if: :current_user_is_room1?
+  validates :description, length: { maximum: 200 }, if: :current_user_is_room1?
+  validates :exists_in_legacy, presence: true, if: :current_user_is_room1?
+  validates :automatic_routine, presence: true, length: { maximum: 50 }, if: lambda { current_user_is_room1? && self.exists_in_legacy }
+  validates :factory_criterion_status, presence: true, inclusion: { in: Constants::FactoryCriterionStatus }
+  validates :it_status, presence: true, if: :current_user_is_room1?
 
   def code
     "CA#{self.id.to_s.rjust(3,'0')}"
