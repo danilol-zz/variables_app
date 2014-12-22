@@ -11,7 +11,6 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    require 'pry' ; binding.pry
     @campaign = Campaign.new(campaign_params.merge(status: Constants::STATUS[:SALA1]))
     @campaign.set_variables(params[:campaign][:variable_list])
 
