@@ -92,7 +92,7 @@
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :exists_in_legacy %>
-          <%= f.select(:exists_in_legacy,  ["Sim", "Não"], {:include_blank => 'Selecione'} ) %>
+          <%= f.select(:exists_in_legacy,  [["Sim", 1], ["Não", 0]], {:include_blank => 'Selecione'} ) %>
         </div>
         <div class="left t4">
           <%= f.label :automatic_routine %>
@@ -103,7 +103,7 @@
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :factory_criterion_status %>
-          <%= f.select(:factory_criterion_status,  ["Ok", "Pendente",""], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:factory_criterion_status,  [["Ok", "ok"], ["Pendente","pendente"]], {:include_blank => 'Selecione'}) %>
         </div>
         <div class="left t7">
           <%= f.label :process_type %>
