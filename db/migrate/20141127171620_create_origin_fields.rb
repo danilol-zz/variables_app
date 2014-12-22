@@ -7,14 +7,14 @@ class CreateOriginFields < ActiveRecord::Migration
       t.string  :fmbase_format_type
       t.string  :generic_data_type
       t.integer :decimal
-      t.string  :mask
+      t.string  :mask, length: 30
       t.integer :position
       t.integer :width
       t.boolean  :is_key
       t.boolean  :will_use
       t.boolean  :has_signal
       t.text    :room_1_notes
-      t.integer :cd5_variable_number
+      t.integer :cd5_variable_number, unique: true
       t.integer :cd5_output_order
       t.string  :cd5_variable_name
       t.string  :cd5_origin_format
