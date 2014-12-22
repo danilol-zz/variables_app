@@ -1,19 +1,13 @@
 require 'rails_helper'
 
 describe Processid do
+  let(:profile) { 'sala2' }
 
-  it { should respond_to :process_number }
-  it { should respond_to :mnemonic }
-  it { should respond_to :routine_name }
-  it { should respond_to :var_table_name }
-  it { should respond_to :conference_rule }
-  it { should respond_to :acceptance_percent }
-  it { should respond_to :keep_previous_work }
-  it { should respond_to :counting_rule }
-  it { should respond_to :notes }
-  it { should respond_to :created_at }
-  it { should respond_to :updated_at }
+  before do
+    user = FactoryGirl.create(:user, profile: profile)
 
+    subject.current_user_id = user.id
+  end
 
   context "statuses" do
     before do
@@ -37,19 +31,19 @@ describe Processid do
 
   context ".set_variables" do
     context "on create" do
-      subject(:saved_processid) { @processid.save }
-
       before do
-        @processid = FactoryGirl.build(:processid)
         FactoryGirl.create(:variable, id: 1, name: "v1")
         FactoryGirl.create(:variable, id: 5, name: "v2")
         FactoryGirl.create(:variable, id: 9, name: "v3")
+
+        @processid = FactoryGirl.create(:processid)
       end
 
       context "with no variables selected" do
         it "not saves variables" do
           @processid.set_variables(nil)
-          expect{saved_processid}.to_not change{@processid.variables.count}
+
+          expect(@processid.variables.count).to eq 0
         end
       end
 
@@ -59,7 +53,8 @@ describe Processid do
 
           it "saves variables" do
             @processid.set_variables(processid_params)
-            expect{subject}.to change{@processid.variables.count}.by(1)
+
+            expect(@processid.variables.count).to eq 1
           end
         end
 
@@ -68,7 +63,8 @@ describe Processid do
 
           it "saves variables" do
             @processid.set_variables(processid_params)
-            expect{subject}.to change{@processid.variables.count}.by(3)
+
+            expect(@processid.variables.count).to eq 3
           end
         end
       end
@@ -130,28 +126,16 @@ describe Processid do
         expect(resource.routine_name).not_to eq nil
       end
     end
-
-    context "when the process_number is not fill out" do
-      let(:resource) { FactoryGirl.create(:processid, process_number: nil) }
-
-      it "the 'routine_name' begin with string 'CD5PV' append with the process_number" do
-        expect(resource.routine_name).not_to eq "CD5PV#{resource.process_number}"
-      end
-
-      it "the 'routine_name' equal nil" do
-        expect(resource.routine_name).to eq nil
-      end
-    end
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:processid, mnemonic: mnemonic).status_screen_name }
+    subject { FactoryGirl.build(:processid, mnemonic: mnemonic) }
 
     context "when mnemonicn is nil"  do
       let(:mnemonic) { nil }
 
       it "returns an empty string" do
-        expect(subject).to be_blank
+        expect(subject.status_screen_name).to be_blank
       end
     end
 
@@ -160,7 +144,7 @@ describe Processid do
         let(:mnemonic) { "testnamestring" }
 
         it "returns the same string" do
-          expect(subject).to eq "testnamestring"
+          expect(subject.status_screen_name).to eq "testnamestring"
         end
       end
 
@@ -168,7 +152,7 @@ describe Processid do
         let(:mnemonic) { "testnamestringbiggertha20characters" }
 
         it "returns the same string" do
-          expect(subject).to eq "testnamestringbigger"
+          expect(subject.status_screen_name).to eq "testnamestringbigger"
         end
       end
     end

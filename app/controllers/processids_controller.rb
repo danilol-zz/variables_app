@@ -63,6 +63,6 @@ class ProcessidsController < ApplicationController
       :keep_previous_work,
       :counting_rule,
       :notes,
-      :status)
+      :status).merge(current_user_id: current_user.id)
   end
 end
