@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe ExportScript do
+	#script_ref = 
+	#script_ref = ExportScript.make_script_list["Script MySql Cadastro Qualidade de Arquivo"]["script"]
 	script_ref = '
-
+	
 	insert into controle_bigdata.tah6_regr_arqu_cerf values ( “CD5.RETR.B<Origem.[Mnemônico]>” , "<Origem.[Nome da base/arquivo]>" , "T" , “CD5.RETR.B<Origem.[Mnemônico]>” , “” , “CD5P<Origem.[Mnemônico]>" , "" , "" , "" , "N" , "N" , "N" , "NORMAL" , "NORMAL" , "NORMAL" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" );
 	'
 
@@ -26,7 +28,7 @@ exit $codret
 insert into controle_bigdata.tah6_pro values (“CD5P<Origem.[Mnemônico]>”,”<Origem.[Nome da base/arquivo]>”,”<Origem.[@periodicidade_origem_mysql]>”,”2014-12-23”);
 '
 
-	condition = "<Campos de Origem.[Vai usar?=SIM]>"
+	condition = "<Campos de Origem.[Vai usar?=true]>"
 
 
 	script_mini = "<Processo.[Nome da rotina]>.SQL 
@@ -372,11 +374,11 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 			FactoryGirl.create(:origin , id:1, updated_in_sprint:1 , periodicity: "diaria", mnemonic:"L001"  , file_name:"L0.BASE.ALP01" )
 			FactoryGirl.create(:origin , id:2, updated_in_sprint:1 , periodicity: "mensal", mnemonic:"CC01"  , file_name:"CD5.BASE.FCC0I" )
 
-			FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: "SIM", field_name: "CPF"  )
-			FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: "NÃO", field_name: "LIMIT")
+			FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: true, field_name: "CPF"  )
+			FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: false, field_name: "LIMIT")
 
-			FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: "SIM", field_name: "AGENCIA"  )
-			FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: "NÃO", field_name: "CONTA"    )
+			FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: true, field_name: "AGENCIA"  )
+			FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: false, field_name: "CONTA"    )
 
 			FactoryGirl.create(:table , id: 1 , mirror_table_number: 225 , updated_in_sprint: 1 , mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE")
 		end
@@ -470,17 +472,17 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
 			@org3 = FactoryGirl.create(:origin , id:3   )
 
-			@of1 = FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: "SIM", field_name: "CPF"  )
-			@of2 = FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: "NÃO", field_name: "LIMIT")
+			@of1 = FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: true, field_name: "CPF"  )
+			@of2 = FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: false, field_name: "LIMIT")
 
-			@of3 = FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: "SIM", field_name: "AGENCIA"  )
-			@of4 = FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: "NÃO", field_name: "CONTA"    )
+			@of3 = FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: true, field_name: "AGENCIA"  )
+			@of4 = FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: false, field_name: "CONTA"    )
 
-			@of5  = FactoryGirl.create(:origin_field, id:5, origin_id:3, width:10, field_name: "CAMPO_TEXTO"                    , fmbase_format_datyp: "AN", has_signal: "NÃO", data_type: "alfanumerico"           , will_use: "NÃO", cd5_output_order: 1)
-			@of6  = FactoryGirl.create(:origin_field, id:6, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO"                , fmbase_format_datyp: "PD", has_signal: "NÃO", data_type: "compactado"             , will_use: "SIM", cd5_output_order: 2)
-			@of7  = FactoryGirl.create(:origin_field, id:7, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO_SINAL"          , fmbase_format_datyp: "PD", has_signal: "SIM", data_type: "compactado"             , will_use: "SIM", cd5_output_order: 3)
-			@of8  = FactoryGirl.create(:origin_field, id:8, origin_id:3, width:10, field_name: "CAMPO_NUMERICO_VIRGULA"         , fmbase_format_datyp: "ZD", has_signal: "NÃO", data_type: "numerico com virgula"   , will_use: "SIM", cd5_output_order: 4)
-			@of9  = FactoryGirl.create(:origin_field, id:9, origin_id:3, width:10, field_name: "CAMPO_COMPACTADO_VIRGULA_SINAL" , fmbase_format_datyp: "PD", has_signal: "SIM", data_type: "compactado com virgula" , will_use: "SIM", cd5_output_order: 5)
+			@of5  = FactoryGirl.create(:origin_field, id:5, origin_id:3, width:10, field_name: "CAMPO_TEXTO"                    , fmbase_format_datyp: "AN", has_signal: false, data_type: "alfanumerico"           , will_use: false, cd5_output_order: 1)
+			@of6  = FactoryGirl.create(:origin_field, id:6, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO"                , fmbase_format_datyp: "PD", has_signal: false, data_type: "compactado"             , will_use: true, cd5_output_order: 2)
+			@of7  = FactoryGirl.create(:origin_field, id:7, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO_SINAL"          , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado"             , will_use: true, cd5_output_order: 3)
+			@of8  = FactoryGirl.create(:origin_field, id:8, origin_id:3, width:10, field_name: "CAMPO_NUMERICO_VIRGULA"         , fmbase_format_datyp: "ZD", has_signal: false, data_type: "numerico com virgula"   , will_use: true, cd5_output_order: 4)
+			@of9  = FactoryGirl.create(:origin_field, id:9, origin_id:3, width:10, field_name: "CAMPO_COMPACTADO_VIRGULA_SINAL" , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado com virgula" , will_use: true, cd5_output_order: 5)
 
 			@tb2 = FactoryGirl.create(:table      , id:2, key_fields_hive_script: "CPF string ," , table_type: "seleção")
 			@pro = FactoryGirl.create(:processid    , id:1, process_number: 1)
@@ -792,17 +794,17 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
 			@org3 = FactoryGirl.create(:origin , cd5_portal_origin_code: 222, id:3 , updated_in_sprint:1, periodicity: "mensal", mnemonic:"TT"  , file_name:"TT5.BASE.TESTE01"   )
 
-			@of1 = FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: "SIM", field_name: "CPF"  )
-			@of2 = FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: "NÃO", field_name: "LIMIT")
+			@of1 = FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: true, field_name: "CPF"  )
+			@of2 = FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: false, field_name: "LIMIT")
 
-			@of3 = FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: "SIM", field_name: "AGENCIA"  )
-			@of4 = FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: "NÃO", field_name: "CONTA"    )
+			@of3 = FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: true, field_name: "AGENCIA"  )
+			@of4 = FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: false, field_name: "CONTA"    )
 
-			@of5  = FactoryGirl.create(:origin_field, id:5, origin_id:3, width:10, field_name: "CAMPO_TEXTO"                    , fmbase_format_datyp: "AN", has_signal: "NÃO", data_type: "alfanumerico"           , will_use: "NÃO", cd5_output_order: 1)
-			@of6  = FactoryGirl.create(:origin_field, id:6, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO"                , fmbase_format_datyp: "PD", has_signal: "NÃO", data_type: "compactado"             , will_use: "SIM", cd5_output_order: 2)
-			@of7  = FactoryGirl.create(:origin_field, id:7, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO_SINAL"          , fmbase_format_datyp: "PD", has_signal: "SIM", data_type: "compactado"             , will_use: "SIM", cd5_output_order: 3)
-			@of8  = FactoryGirl.create(:origin_field, id:8, origin_id:3, width:10, field_name: "CAMPO_NUMERICO_VIRGULA"         , fmbase_format_datyp: "ZD", has_signal: "NÃO", data_type: "numerico com virgula"   , will_use: "SIM", cd5_output_order: 4)
-			@of9  = FactoryGirl.create(:origin_field, id:9, origin_id:3, width:10, field_name: "CAMPO_COMPACTADO_VIRGULA_SINAL" , fmbase_format_datyp: "PD", has_signal: "SIM", data_type: "compactado com virgula" , will_use: "SIM", cd5_output_order: 5)
+			@of5  = FactoryGirl.create(:origin_field, id:5, origin_id:3, width:10, field_name: "CAMPO_TEXTO"                    , fmbase_format_datyp: "AN", has_signal: false, data_type: "alfanumerico"           , will_use: false, cd5_output_order: 1)
+			@of6  = FactoryGirl.create(:origin_field, id:6, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO"                , fmbase_format_datyp: "PD", has_signal: false, data_type: "compactado"             , will_use: true, cd5_output_order: 2)
+			@of7  = FactoryGirl.create(:origin_field, id:7, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO_SINAL"          , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado"             , will_use: true, cd5_output_order: 3)
+			@of8  = FactoryGirl.create(:origin_field, id:8, origin_id:3, width:10, field_name: "CAMPO_NUMERICO_VIRGULA"         , fmbase_format_datyp: "ZD", has_signal: false, data_type: "numerico com virgula"   , will_use: true, cd5_output_order: 4)
+			@of9  = FactoryGirl.create(:origin_field, id:9, origin_id:3, width:10, field_name: "CAMPO_COMPACTADO_VIRGULA_SINAL" , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado com virgula" , will_use: true, cd5_output_order: 5)
 
 			@tb2 = FactoryGirl.create(:table      , id:2, key_fields_hive_script: "CPF string ," , table_type: "seleção")
 			@pro = FactoryGirl.create(:processid    , id:1, process_number: 1)

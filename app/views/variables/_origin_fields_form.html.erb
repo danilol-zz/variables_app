@@ -1,33 +1,32 @@
 <section class="formulario">
-<% if @current_user.room1? %>
-  <h3 class="line-bottom">>>> Selecione abaixo os
-    <span class="destaque"><%= OriginField.model_name.human.capitalize.pluralize %></span>
-    para a <%= Variable.model_name.human.capitalize %></h3>
-  <fieldset>
-    <div class="row clearfix">
-      <% @origin_fields.each do |field| %>
-        <p class="left" style="font-family: courier new,monospace;">
-          <%= check_box_tag( "variable[origin_fields_list][#{field.id}]", "checked", @variable.origin_fields.detect{|o| o == field} ) %>
-          <%= truncate("#{field.origin.file_name}:#{field.field_name}".ljust(30,'.').gsub(' ','.'), length: 30) %>
-        </p>
-      <% end %>
-    <% else %>
-      <h3 class="line-bottom"><span class="destaque"><%= OriginField.model_name.human.capitalize.pluralize %></span>
-        para a <%= Variable.model_name.human.capitalize %></h3>
-      <fieldset>
-        <div class="row clearfix">
-          <% if @variable.origin_fields.size > 0 %>
-            <ul>
-              <% @variable.origin_fields.each do |field| %>
-                <li><%= truncate("#{field.origin.file_name}:#{field.field_name}") %></li>
-              <% end %>
-            </ul>
-          <% else %>
-            <ul>
-              <li>Nenhum campo de origem encontrado!</li>
-            </ul>
-          <% end %>
-        </div>
-      </fieldset>
-    <% end %>
-  </section>
+  <% if @current_user.room1? %>
+    <h3 class="line-bottom">>>> Selecione abaixo os <span class="destaque"><%= OriginField.model_name.human.capitalize.pluralize %></span> para a <%= Variable.model_name.human.capitalize %></h3>
+    <fieldset>
+      <div class="row clearfix">
+        <% @origin_fields.each do |field| %>
+          <p class="left" style="font-family: courier new,monospace;">
+            <%= check_box_tag( "variable[origin_fields_list][#{field.id}]", "checked", @variable.origin_fields.detect{|o| o == field} ) %>
+            <%= truncate("#{field.origin.file_name}:#{field.field_name}".ljust(30,'.').gsub(' ','.'), length: 30) %>
+          </p>
+        <% end %>
+      </div>
+    </fieldset>
+  <% else %>
+    <h3 class="line-bottom"><span class="destaque"><%= OriginField.model_name.human.capitalize.pluralize %></span> para a <%= Variable.model_name.human.capitalize %></h3>
+    <fieldset>
+      <div class="row clearfix">
+        <% if @variable.origin_fields.size > 0 %>
+          <ul>
+            <% @variable.origin_fields.each do |field| %>
+              <li><%= truncate("#{field.origin.file_name}:#{field.field_name}") %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <ul>
+            <li>Nenhum campo de origem encontrado!</li>
+          </ul>
+        <% end %>
+      </div>
+    </fieldset>
+  <% end %>
+</section>

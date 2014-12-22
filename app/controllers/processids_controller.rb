@@ -1,19 +1,17 @@
 class ProcessidsController < ApplicationController
   before_action :set_processid, only: [:edit, :update]
+  before_action :load_variables
   before_filter :ensure_authentication
 
   def new
-    @variables = Variable.order(:name)
     @processid = Processid.new
   end
 
   def edit
-    @variables = Variable.order(:name)
   end
 
   def create
     @processid = Processid.new(processid_params.merge(status: Constants::STATUS[:SALA2]))
-
     @processid.set_variables(params[:processid][:variable_list])
 
     respond_to do |format|
@@ -28,11 +26,12 @@ class ProcessidsController < ApplicationController
   end
 
   def update
-    @processid.variables.delete_all
-
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
-    @processid.set_variables(params[:processid][:variable_list])
+    if params[:processid][:variable_list]
+      @processid.variables.delete_all
+      @processid.set_variables(params[:processid][:variable_list])
+    end
 
     respond_to do |format|
       if @processid.update(processid_params.merge(status))
@@ -47,21 +46,25 @@ class ProcessidsController < ApplicationController
 
   private
 
+  def load_variables
+    @variables = Variable.order(:name)
+  end
+
   def set_processid
     @processid = Processid.find(params[:id])
   end
 
   def processid_params
     params.require(:processid).permit(
-      :process_number, 
-      :mnemonic, 
-      :routine_name, 
-      :var_table_name, 
-      :conference_rule, 
-      :acceptance_percent, 
-      :keep_previous_work, 
-      :counting_rule, 
+      :process_number,
+      :mnemonic,
+      :routine_name,
+      :var_table_name,
+      :conference_rule,
+      :acceptance_percent,
+      :keep_previous_work,
+      :counting_rule,
       :notes,
-      :status)
+      :status).merge(current_user_id: current_user.id)
   end
 end

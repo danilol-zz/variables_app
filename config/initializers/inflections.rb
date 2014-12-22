@@ -17,4 +17,5 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'campo de origem', 'campos de origem'
+  inflect.irregular 'Variável', 'Variáveis'
 end

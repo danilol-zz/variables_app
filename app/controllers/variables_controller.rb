@@ -1,14 +1,13 @@
 class VariablesController < ApplicationController
   before_action :set_variable, only: [:edit, :update]
+  before_action :load_origin_fields
   before_filter :ensure_authentication
 
   def new
-    @origin_fields = OriginField.joins(:origin).order('origins.file_name, field_name')
     @variable = Variable.new
   end
 
   def edit
-    @origin_fields = OriginField.joins(:origin).order('origins.file_name, field_name')
   end
 
   def create
@@ -28,7 +27,6 @@ class VariablesController < ApplicationController
   end
 
   def update
-
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
     if params[:variable][:origin_fields_list]
@@ -48,6 +46,10 @@ class VariablesController < ApplicationController
   end
 
   private
+
+  def load_origin_fields
+    @origin_fields = OriginField.joins(:origin).order('origins.file_name, field_name')
+  end
 
   def set_variable
     @variable = Variable.find(params[:id])

@@ -5,14 +5,13 @@ class UsersController < ApplicationController
   before_filter :ensure_authentication, :only => [:edit, :update, :destroy, :index, :show]
 
   def login
-
   end
 
   def index
     @users = User.order(:profile, :name, :role)
     @new_user = User.new
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
     end
   end
 
