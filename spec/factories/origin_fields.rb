@@ -2,14 +2,14 @@ FactoryGirl.define do
   factory :origin_field do
     field_name "MyString"
     origin_pic "MyString"
-    data_type "MyString"
+    data_type "Numérico"
     decimal 1
     mask "MyString"
     position 2
     width 3
-    is_key "MyString"
-    will_use "MyString"
-    has_signal "MyString"
+    is_key true
+    will_use true
+    has_signal  true
     room_1_notes "MyString"
     cd5_variable_number 4
     cd5_output_order 5

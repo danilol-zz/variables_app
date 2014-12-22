@@ -28,6 +28,7 @@ class OriginsController < ApplicationController
   end
 
   def update
+    old_status = @origin.status
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
     respond_to do |format|
@@ -35,6 +36,7 @@ class OriginsController < ApplicationController
         format.html { redirect_to root_path, notice: "#{Origin.model_name.human.capitalize} atualizado com sucesso" }
         format.json { render :show, status: :ok, location: @origin }
       else
+        @origin.status = old_status
         format.html { render :edit }
         format.json { render json: @origin.errors, status: :unprocessable_entity }
       end

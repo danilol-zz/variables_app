@@ -23,9 +23,7 @@ class User < ActiveRecord::Base
 
   def self.authenticate(email, password)
     user = find_by_email(email)
-    if user && user.password == md5(password)
-      user
-    end
+    user if user && user.password == md5(password)
   end
 
   def admin?

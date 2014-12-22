@@ -180,8 +180,6 @@ RSpec.describe OriginsController, type: :controller do
   describe "POST create origin field upload hadoop file" do
     context "with valid file type and valid file" do
       it "assigns new created origin_fields" do
-        #require "pry";binding.pry;
-       # session[:user_id] = User.create! user_attributes
         origin = FactoryGirl.create(:origin)
 
         file_test = File.new(Rails.root + 'spec/fixtures/upload_hadoop.txt')
@@ -190,8 +188,6 @@ RSpec.describe OriginsController, type: :controller do
         expect {
           post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "hadoop" }, valid_session
         }.to change(OriginField, :count).by(8)
-
-        #expect(response).to redirect_to(origin_field)
       end
     end
 

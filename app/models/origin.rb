@@ -22,6 +22,8 @@ class Origin < ActiveRecord::Base
   validates :periodicity,                 presence: true, if: :current_user_is_room1?
   validates :periodicity_details,         length: { maximum: 50 }, if: :current_user_is_room1?
   validates :data_retention_type,         presence: true, if: :current_user_is_room1?
+  validates :dmt_advice,                  length: { maximum: 200 }, if: :current_user_is_room1?
+  validates :dmt_classification,          presence: true, if: :current_user_is_room1?
   validates :extractor_file_type,         presence: true, if: :current_user_is_room1?
   validates :room_1_notes,                length: { maximum: 500 }, if: :current_user_is_room1?
   validates :dmt_advice,                  length: { maximum: 200 }, if: :current_user_is_room1?
