@@ -6,9 +6,9 @@
     <legend></legend>
     <div class="row clearfix">
       <% @variables.each do |var| %>
-        <p>
+        <p class="left" style="font-family: courier new,monospace;">
           <%= check_box_tag( "campaign[variable_list][#{var.id}]", "checked", @campaign.variables.detect{|v| v == var}) %>
-          <%= "#{var.name}"%>
+          <%= truncate("#{var.name}".ljust(20,'.').gsub(' ','.'), length: 20) %>
         </p>
       <% end %>
     </div>
