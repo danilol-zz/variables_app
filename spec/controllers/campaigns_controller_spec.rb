@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CampaignsController, :type => :controller do
+  before do
+    session[:user_id] = User.create(user_attributes)
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Campaign. As you add validations to Campaign, be sure to
@@ -27,7 +30,8 @@ RSpec.describe CampaignsController, :type => :controller do
       :notes => 'teste',
       :owner => 'teste',
       :status => 'sala1',
-      :variable_list => {"1" => "checked", "2" => "checked" }
+      :variable_list => {"1" => "checked", "2" => "checked" },
+      :current_user_id => session[:user_id]
     }
   }
 
@@ -52,17 +56,18 @@ RSpec.describe CampaignsController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new campaign as @campaign" do
-      session[:user_id] = User.create! user_attributes
       get :new, {}, valid_session
+
       expect(assigns(:campaign)).to be_a_new(Campaign)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested campaign as @campaign" do
-      campaign = Campaign.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
+      campaign = Campaign.create!(valid_attributes)
+
       get :edit, {:id => campaign.to_param}, valid_session
+
       expect(assigns(:campaign)).to eq(campaign)
     end
   end
@@ -76,37 +81,24 @@ RSpec.describe CampaignsController, :type => :controller do
 
       it "creates a new Campaign" do
         expect {
-          session[:user_id] = User.create! user_attributes
           post :create, {:campaign => valid_attributes}, valid_session
         }.to change(Campaign, :count).by(1)
       end
 
       it "assigns a newly created campaign as @campaign" do
-        session[:user_id] = User.create! user_attributes
         post :create, {:campaign => valid_attributes}, valid_session
+
         expect(assigns(:campaign)).to be_a(Campaign)
         expect(assigns(:campaign)).to be_persisted
         expect(assigns(:campaign).status).to eq 'sala1'
       end
 
       it "redirects to the created campaign" do
-        session[:user_id] = User.create! user_attributes
         post :create, {:campaign => valid_attributes}, valid_session
+
         expect(response).to redirect_to(root_path({status: 'campaign', notice: 'Campanha criada com sucesso'}))
       end
     end
-
-    #describe "with invalid params" do
-    #  it "assigns a newly created but unsaved campaign as @campaign" do
-    #    post :create, {:campaign => invalid_attributes}, valid_session
-    #    expect(assigns(:campaign)).to be_a_new(Campaign)
-    #  end
-
-    #  it "re-renders the 'new' template" do
-    #    post :create, {:campaign => invalid_attributes}, valid_session
-    #    expect(response).to render_template("new")
-    #  end
-    #end
   end
 
   describe "PUT update" do
@@ -137,14 +129,18 @@ RSpec.describe CampaignsController, :type => :controller do
 
       it "updates the requested campaign" do
         campaign = Campaign.create! valid_attributes
+
         put :update, {:id => campaign.to_param, :campaign => new_attributes}, valid_session
-        campaign.reload
-        #skip("Add assertions for updated state")
       end
 
       it "assigns the requested campaign as @campaign" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+
         campaign = Campaign.create! valid_attributes
+
         put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session
+
         expect(assigns(:campaign)).to eq(campaign)
         expect(assigns(:campaign).status).to eq 'sala1'
       end
@@ -152,9 +148,11 @@ RSpec.describe CampaignsController, :type => :controller do
       it "assigns the requested campaign as @campaign and changes status" do
         FactoryGirl.create(:variable, id: 1)
         FactoryGirl.create(:variable, id: 2)
+
         campaign = Campaign.create valid_attributes
-        session[:user_id] = User.create! user_attributes
+
         put :update, { id: campaign.to_param, campaign: valid_attributes, update_status: "sala2" }, valid_session
+
         expect(assigns(:campaign)).to eq(campaign)
         expect(assigns(:campaign).status).to eq 'sala2'
       end
@@ -162,25 +160,13 @@ RSpec.describe CampaignsController, :type => :controller do
       it "redirects to the campaign" do
         FactoryGirl.create(:variable, id: 1)
         FactoryGirl.create(:variable, id: 2)
+
         campaign = Campaign.create! valid_attributes
-        session[:user_id] = User.create! user_attributes
+
         put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session
+
         expect(response).to redirect_to(root_path({status: 'campaign', notice: 'Campanha atualizada com sucesso'}))
       end
     end
-
-    #describe "with invalid params" do
-    #  it "assigns the campaign as @campaign" do
-    #    campaign = Campaign.create! valid_attributes
-    #    put :update, {:id => campaign.to_param, :campaign => invalid_attributes}, valid_session
-    #    expect(assigns(:campaign)).to eq(campaign)
-    #  end
-
-    #  it "re-renders the 'edit' template" do
-    #    campaign = Campaign.create! valid_attributes
-    #    put :update, {:id => campaign.to_param, :campaign => invalid_attributes}, valid_session
-    #    expect(response).to render_template("edit")
-    #  end
-    #end
   end
 end

@@ -122,7 +122,6 @@
         </div>
       </div>
 
-
       <%= render 'origin_fields_form' %>
 
     </fieldset>
@@ -133,25 +132,24 @@
           <% if @variable.new_record? %>
             <%= f.submit "Salvar" %>
           <% else %>
-            <% if @variable.status == Constants::STATUS[:SALA1] %>
+            <% if can_finish_room1?(@variable)%>
               <%= f.submit "Salvar" %>
               <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:SALA2] %>
             <% end %>
-            <% if @current_user.room1? && @variable.status == Constants::STATUS[:PRODUCAO] %>
+            <% if can_reopen?(@variable) %>
               <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
             <% end %>
-            <% if @current_user.room2? && @variable.status == Constants::STATUS[:SALA2] %>
+            <% if can_finish_room2?(@variable) %>
               <%= f.submit "Salvar" %>
               <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
             <% end %>
           <% end %>
+
           <%= link_to t('back'), root_path({ status: "variable" } ) %>
 
         </div>
       </div>
     </section>
-
   <% end %>
-
 </section>
 

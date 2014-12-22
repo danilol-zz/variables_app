@@ -82,9 +82,9 @@ pt:
         mask: Mascara
         position: Posição
         width: Tam.
-        is_key: É chave ?
-        will_use: Vai usar ?
-        has_signal: Tem sinal ?
+        is_key: É chave?
+        will_use: Vai usar?
+        has_signal: Tem sinal?
         room_1_notes: Observação sala 1
         cd5_variable_number: Núm var cd5
         cd5_output_order: Ordem saida cd5
@@ -168,13 +168,6 @@ pt:
         room_2_notes: Observação sala 2
     errors:
       models:
-        origin_field:
-          attributes:
-            field_name:
-              blank: Campo Nome do campo não pode ser vazio!
-            data_type:
-              inclusion:
-                Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
         user:
           attributes:
             password:
@@ -243,6 +236,29 @@ pt:
               blank: Campo Classificação DMT não pode ser vazio!
             status:
               blank: Campo Status não pode ser vazio!
+        campaign:
+          attributes:
+            name:
+              too_long: Campo Nome deve ter no máximo 50 caracteres!
+              blank: Campo Nome não pode ser vazio!
+        origin_field:
+          attributes:
+            decimal:
+              blank: Campo Decimal não pode ser vazio!
+            field_name:
+              blank: Campo Nome do campo não pode ser vazio!
+            data_type:
+              inclusion:
+                Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
+            is_key:
+              blank: Campo É chave? não pode ser vazio!
+            will_use:
+              blank: Campo Vai usar? não pode ser vazio!
+            has_signal:
+              blank: Campo Tem sinal? não pode ser vazio!
+            cd5_variable_number:
+              blank: Campo Núm var cd5 não pode ser vazio!
+
   are_you_sure: Você tem certeza?
   show: Visualizar
   edit: Editar

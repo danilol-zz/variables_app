@@ -26,7 +26,7 @@ exit $codret
 insert into controle_bigdata.tah6_pro values (“CD5P<Origem.[Mnemônico]>”,”<Origem.[Nome da base/arquivo]>”,”<Origem.[@periodicidade_origem_mysql]>”,”2014-12-23”);
 '
 
-	condition = "<Campos de Origem.[Vai usar ?=SIM]>"
+	condition = "<Campos de Origem.[Vai usar?=SIM]>"
 
 
 	script_mini = "<Processo.[Nome da rotina]>.SQL 

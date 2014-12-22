@@ -1,4 +1,5 @@
 class Campaign < ActiveRecord::Base
+  include UserSession
 
   has_and_belongs_to_many :variables
 
@@ -8,6 +9,8 @@ class Campaign < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2])   }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
+  validates :name, presence: true, if: :current_user_is_room1?
+  validates :name, length: { maximum: 50 }, if: :current_user_is_room1?
 
   def code
     "CA#{self.id.to_s.rjust(3,'0')}"
