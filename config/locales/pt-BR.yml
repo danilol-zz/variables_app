@@ -319,6 +319,8 @@ pt:
               blank: Campo Núm var cd5 não pode ser vazio!
             position:
               blank: não pode ser vazio!
+            width:
+              blank: não pode ser vazio!
 
   are_you_sure: Você tem certeza?
   show: Visualizar
