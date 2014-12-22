@@ -142,6 +142,7 @@
             <% if can_finish_room2?(@variable) %>
               <%= f.submit "Salvar" %>
               <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
+              <%= f.button "Devolver", name: 'update_status', value: Constants::STATUS[:SALA1] %>
             <% end %>
           <% end %>
 

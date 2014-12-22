@@ -133,7 +133,8 @@ CSV.read("db/fixtures/campanha.csv", { headers: true, :col_sep => ";"}).each_wit
     crm_room_suggestion: campo["Sugestão da Sala de CRM"],
     it_status: campo["Status TI"],
     notes: campo["Observações"],
-    status: Constants::STATUS[:SALA1]
+    status: Constants::STATUS[:SALA1],
+    current_user_id: User.first.id
   )
 end
 

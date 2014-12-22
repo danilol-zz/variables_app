@@ -34,10 +34,12 @@ class CampaignsController < ApplicationController
   # PATCH/PUT /campaigns/1
   # PATCH/PUT /campaigns/1.json
   def update
-    @campaign.variables.delete_all
-
-    @campaign.set_variables(params[:campaign][:variable_list])
     status = params[:update_status] ? { status: params[:update_status] } : {}
+
+    if params[:campaign][:variable_list]
+      @campaign.variables.delete_all
+      @campaign.set_variables(params[:campaign][:variable_list])
+    end
 
     respond_to do |format|
       if @campaign.update(campaign_params.merge(status))

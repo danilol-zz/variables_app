@@ -28,11 +28,12 @@ class VariablesController < ApplicationController
   end
 
   def update
-    @variable.origin_fields.delete_all
-
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
-    @variable.set_origin_fields(params[:variable][:origin_fields_list])
+    if params[:variable][:origin_fields_list]
+      @variable.origin_fields.delete_all
+      @variable.set_origin_fields(params[:variable][:origin_fields_list])
+    end
 
     respond_to do |format|
       if @variable.update(variable_params.merge(status))

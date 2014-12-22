@@ -23,17 +23,17 @@
           <%= f.label :logic_table_name %>
           <%= f.text_field :logic_table_name, disabled: @current_user.room2? %>
         </div>
-      </div>      
+      </div>
 
       <div class="row clearfix">
         <div class="left t9">
           <%= f.label :table_type %>
-          <%= f.select(:table_type, ["seleção", "colagem", "lookup interna", "lookup externa", "lookup blindage"], {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>       
+          <%= f.select(:table_type, ["seleção", "colagem", "lookup interna", "lookup externa", "lookup blindage"], {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
         <div class="left t3">
           <%= f.label :name %>
           <%= f.text_area :name, rows: 5, disabled: @current_user.room2? %>
-        </div>        
+        </div>
       </div>
 
       <div class="row clearfix">
@@ -44,32 +44,32 @@
         <div class="left t8">
           <%= f.label :initial_volume %>
           <%= f.text_field :initial_volume, disabled: @current_user.room2? %>
-        </div>           
+        </div>
         <div class="left t8">
           <%= f.label :growth_estimation %>
           <%= f.text_field :growth_estimation, disabled: @current_user.room2? %>
-        </div>         
+        </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t8">
           <%= f.label :created_in_sprint %>
           <%= f.text_field :created_in_sprint, disabled: @current_user.room2? %>
-        </div>       
+        </div>
         <div class="left t8">
           <%= f.label :updated_in_sprint %>
           <%= f.text_field :updated_in_sprint, disabled: @current_user.room2? %>
-        </div>             
+        </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t1">
           <%= f.label :room_1_notes %>
           <%= f.text_area :room_1_notes, rows: 5, disabled: @current_user.room2? %>
-        </div>            
-      </div>      
+        </div>
+      </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :final_physical_table_name %>
           <%= f.text_field :final_physical_table_name, disabled: @current_user.room1? %>
@@ -77,37 +77,37 @@
         <div class="left t6">
           <%= f.label :mirror_physical_table_name %>
           <%= f.text_field :mirror_physical_table_name, disabled: @current_user.room1? %>
-        </div>       
+        </div>
       </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :final_table_number %>
           <%= f.text_field :final_table_number, disabled: @current_user.room1? %>
-        </div>   
+        </div>
         <div class="left t6">
           <%= f.label :mirror_table_number %>
-          <%= f.text_field :mirror_table_number, disabled: @current_user.room1? %>    
-        </div>        
+          <%= f.text_field :mirror_table_number, disabled: @current_user.room1? %>
+        </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :mnemonic %>
           <%= f.text_field :mnemonic, maxlength: 5, disabled: @current_user.room1? %>
-        </div>      
+        </div>
         <div class="left t6">
           <%= f.label :routine_number %>
           <%= f.text_field :routine_number, disabled: @current_user.room1? %>
-        </div>   
+        </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t1">
           <%= f.label :master_base %>
           <%= f.text_area :master_base, rows: 5, disabled: @current_user.room1? %>
-        </div>     
-      </div>      
+        </div>
+      </div>
 
       <div class="row clearfix">
         <div class="left t6">
@@ -139,25 +139,25 @@
         <div class="left t6">
           <%= f.label :final_data_stage_routine_name %>
           <%= f.text_field :final_data_stage_routine_name, disabled: true %>
-        </div>            
+        </div>
       </div>
-  
+
       <div class="row clearfix">
         <div class="left t1">
           <%= f.label :key_fields_hive_script %>
           <%= f.text_area :key_fields_hive_script, rows: 5, disabled: @current_user.room1? %>
-        </div>              
+        </div>
       </div>
 
      <div class="row clearfix">
         <div class="left t1">
           <%= f.label :room_2_notes %>
           <%= f.text_area :room_2_notes, rows: 5, disabled: @current_user.room1? %>
-        </div>                
-      </div>      
+        </div>
+      </div>
 
      <%= render 'variables_form' %>
-                
+
     </fieldset>
 
     <section>
@@ -176,13 +176,14 @@
             <% if @current_user.room2? && @table.status == Constants::STATUS[:SALA2] %>
               <%= f.submit "Salvar" %>
               <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
+              <%= f.button "Devolver", name: 'update_status', value: Constants::STATUS[:SALA1] %>
             <% end %>
           <% end %>
 
           <%= link_to t('back'), root_path({ status: "table" } ) %>
 
         </div>
-      </div>          
+      </div>
     </section>
 
   <% end %>

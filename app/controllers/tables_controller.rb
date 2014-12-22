@@ -28,11 +28,12 @@ class TablesController < ApplicationController
   end
 
   def update
-    @table.variables.delete_all
-
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
-    @table.set_variables(params[:table][:variable_list])
+    if params[:table][:variable_list]
+      @table.variables.delete_all
+      @table.set_variables(params[:table][:variable_list])
+    end
 
     respond_to do |format|
       if @table.update(table_params.merge(status))
@@ -53,28 +54,28 @@ class TablesController < ApplicationController
 
   def table_params
     params.require(:table).permit(
-      :logic_table_name, 
+      :logic_table_name,
       :table_type,
-      :name, 
+      :name,
       :table_key,
-      :initial_volume, 
-      :growth_estimation, 
-      :created_in_sprint, 
-      :updated_in_sprint, 
-      :room_1_notes, 
-      :final_physical_table_name, 
-      :mirror_physical_table_name, 
-      :final_table_number, 
-      :mirror_table_number, 
-      :mnemonic, 
-      :routine_number, 
-      :master_base, 
-      :hive_table, 
-      :big_data_routine_name, 
-      :output_routine_name, 
-      :ziptrans_routine_name, 
-      :mirror_data_stage_routine_name, 
-      :final_data_stage_routine_name, 
+      :initial_volume,
+      :growth_estimation,
+      :created_in_sprint,
+      :updated_in_sprint,
+      :room_1_notes,
+      :final_physical_table_name,
+      :mirror_physical_table_name,
+      :final_table_number,
+      :mirror_table_number,
+      :mnemonic,
+      :routine_number,
+      :master_base,
+      :hive_table,
+      :big_data_routine_name,
+      :output_routine_name,
+      :ziptrans_routine_name,
+      :mirror_data_stage_routine_name,
+      :final_data_stage_routine_name,
       :key_fields_hive_script,
       :room_2_notes,
       :status

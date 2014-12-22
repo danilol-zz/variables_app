@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   post "/create_origin_field_upload" => "origins#create_origin_field_upload"
 
   get "/export_script"     => "scripts#index"
+  post "/export_script"  => "scripts#generate_script"
 
   get "user/index"
   get "/login"             => "users#login"
