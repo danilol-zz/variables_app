@@ -13,19 +13,19 @@ class OriginField < ActiveRecord::Base
   belongs_to :origin
   has_and_belongs_to_many :variables
 
-  #validates :field_name, presence: true, if: :current_user_is_room1?
-  #validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
-  #validates :decimal, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
-  #validates :mask, length: { maximum: 30 }, if: :current_user_is_room1?
-  #validates :position, presence: true, if: :current_user_is_room1?
-  #validates :width, presence: true, if: :current_user_is_room1?
-  #validates :is_key, presence: true, if: :current_user_is_room1?
-  #validates :will_use, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
-  #validates :has_signal, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
+  validates :field_name, presence: true, if: :current_user_is_room1?
+  validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
+  validates :decimal, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
+  validates :mask, length: { maximum: 30 }, if: :current_user_is_room1?
+  validates :position, presence: true, if: :current_user_is_room1?
+  validates :width, presence: true, if: :current_user_is_room1?
+  validates :is_key, presence: true, if: :current_user_is_room1?
+  validates :will_use, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
+  validates :has_signal, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
 
-  #validates :cd5_variable_number, presence: true, if: lambda { current_user_is_room2? && !self.is_key && self.will_use }
-  #validates :cd5_variable_number, uniqueness: true, if: :current_user_is_room2?
-  #validates :cd5_output_order, presence: true, if: lambda { current_user_is_room2? && self.cd5_variable_number }
+  validates :cd5_variable_number, presence: true, if: lambda { current_user_is_room2? && !self.is_key && self.will_use }
+  validates :cd5_variable_number, uniqueness: true, if: :current_user_is_room2?
+  validates :cd5_output_order, presence: true, if: lambda { current_user_is_room2? && self.cd5_variable_number }
 
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
     # remove quebra de linha windows

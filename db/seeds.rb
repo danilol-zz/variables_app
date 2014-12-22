@@ -34,7 +34,8 @@ CSV.read("db/fixtures/processo.csv", { headers: true, :col_sep => ","}).each_wit
     keep_previous_work:  campo["pode manter movimento anterior?"],
     counting_rule:  campo["regra de contagem"],
     notes:  campo["Observação"],
-    status: Constants::STATUS[:SALA2] )
+    status: Constants::STATUS[:SALA2],
+    current_user_id: User.first.id )
 end
 
 puts ""

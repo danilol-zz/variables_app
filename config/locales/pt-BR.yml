@@ -282,13 +282,15 @@ pt:
             data_type:
               inclusion: Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
             is_key:
-              blank: Campo É chave? não pode ser vazio!
+              blank: não pode ser vazio!
             will_use:
               blank: Campo Vai usar? não pode ser vazio!
             has_signal:
               blank: Campo Tem sinal? não pode ser vazio!
             cd5_variable_number:
               blank: Campo Núm var cd5 não pode ser vazio!
+            position:
+              blank: não pode ser vazio!
 
   are_you_sure: Você tem certeza?
   show: Visualizar
