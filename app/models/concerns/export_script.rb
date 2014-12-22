@@ -1,9 +1,5 @@
 module ExportScript
 
-  def self.get_list_scritps
-    make_script_list.keys
-  end
-
   def self.export_script_by_sprint(sprint, script_name)
     hash_scripts      = make_script_list
     entity_master_br  = hash_scripts[script_name]["entity_master_br"]
@@ -14,15 +10,15 @@ module ExportScript
     array_script = generate_script_by_sprint(sprint, script, entity_master_br, ind_group_related, condition)
 
     output = "Nome do Script: #{script_name}\nResultado do Script : \n"
-    output += "=========================================================================\n"
+    output << "=========================================================================\n"
 
     array_script.each do |line|
-      output += line + "\n"
-      output += "----------------------------------------------------------------------\n"
+      output << line + "\n"
+      output << "----------------------------------------------------------------------\n"
     end
 
-    output += "=========================================================================\n"
-    output += "Fim do Scritp\n"
+    output << "=========================================================================\n"
+    output << "Fim do Scritp\n"
   end
 
   #================================== metodos de processamento =========================================
@@ -1273,16 +1269,11 @@ SPPTI Planejamento	acionar analista
         if origin_field.data_type == "numerico com virgula" || origin_field.data_type == "compactado com virgula"
           vlr_comma = 1
         end
-        #p origin_field.field_name
-        #p origin_field.data_type
-        #p vlr_signal
-        #p vlr_comma
         result = origin_field.width + vlr_comma + vlr_signal
 
         return_value = result.to_s
 
       end
-
     end
 
     return_value
@@ -1291,21 +1282,18 @@ SPPTI Planejamento	acionar analista
   def self.expressao_regular(array_orign_fields)
     return_value = ''
 
-    unless ( ! array_orign_fields.nil? ) && array_orign_fields.instance_of?(Array) && array_orign_fields.size > 0   && array_orign_fields[0].instance_of?(OriginField)
+    unless array_orign_fields && array_orign_fields.instance_of?(Array) && array_orign_fields.size > 0   && array_orign_fields[0].instance_of?(OriginField)
       return_value = nil
     else
-      #p "array_orign_fields #{array_orign_fields}"
-      #p "class = #{array_orign_fields.class}"
       return_value = ""
       array_orign_fields.each do |origin_field|
-        if  origin_field.will_use == true
-          return_value = return_value + "(.{0," + tamanho_expandido(origin_field) + "})"
+        if  origin_field.will_use
+          return_value += "(.{0," + tamanho_expandido(origin_field) + "})"
         end
       end
 
-      return_value = return_value + "(.{0,1343})"
+      return_value += "(.{0,1343})"
     end
-
 
     return_value
   end
@@ -1313,81 +1301,53 @@ SPPTI Planejamento	acionar analista
   def self.chave_hive(processid)
     return_value = ''
 
-    #p "============="
-    #p processid.class
-    #p processid.variables.to_a.size
-    #p processid.variables.to_a[0].tables.where( type: "seleção").to_a
-    #p processid.variables.to_a[0].tables.where( type: "seleção").to_a.size
-
-    unless ( ! processid.nil? ) &&
-      processid.instance_of?(Processid) &&
-      processid.variables.to_a.size > 0 &&
-      processid.variables.to_a[0].tables.where( table_type: "seleção").to_a.size > 0
-      return_value = nil
-    else
+    if processid && processid.instance_of?(Processid) && processid.variables.size > 0 && processid.variables.to_a[0].tables.where( table_type: "seleção").to_a.size > 0
       return_value = processid.variables.to_a[0].tables.where( table_type: "seleção").to_a[0].key_fields_hive_script.to_s
-
+    else
+      return_value = nil
     end
 
-    #p return_value
-    #p "---------------------"
     return_value
   end
 
   def self.campos_modelo(processid)
     return_value = ''
 
-    unless ( ! processid.nil? ) &&
-      processid.instance_of?(Processid) &&
-      processid.variables.to_a.size > 0
-      return_value = nil
-    else
-
-      processid.variables.to_a.each do |variable|
-        if variable.model_field_name == processid.variables.to_a.last.model_field_name
-          return_value =  return_value + variable.model_field_name + " string \n"
+    if processid  && processid.instance_of?(Processid) && processid.variables.to_a.size > 0
+      processid.variables.each do |variable|
+        if variable.model_field_name == processid.variables.last.model_field_name
+          return_value <<  variable.model_field_name + " string \n"
         else
-          return_value = return_value + variable.model_field_name + " string , \n"
+          return_value << variable.model_field_name + " string , \n"
         end
       end
-
+    else
+      return_value = nil
     end
-    return_value
 
+    return_value
   end
 
   def self.posicao_saida(origin_field)
-    return_value = ''
+    return_value = nil
 
-    #p origin_field
-    #p origin_field.class
-    #p origin_field.instance_of?(OriginField)
-    #p origin_field.will_use == true
-
-    unless ( ! origin_field.nil?) &&
-      origin_field.instance_of?(OriginField) &&
-      origin_field.will_use == true
-      return_value = nil
-    else
-      #p "valido "
+    if ( origin_field) && origin_field.instance_of?(OriginField) && origin_field.will_use
       return_value = 0
 
       origin_field.origin.origin_fields.where(will_use: true).to_a.each do |org_atu|
         if org_atu.cd5_output_order < origin_field.cd5_output_order
-          return_value = return_value + tamanho_expandido(org_atu).to_i
+          return_value += tamanho_expandido(org_atu).to_i
         end
       end
-      return_value = return_value + 1
+
+      return_value += 1
       return_value = return_value.to_s
     end
-    #p "tamanho saida: #{return_value}"
+
     return_value
   end
 
+  def self.get_list_scritps
+    make_script_list.keys
+  end
 end
-
-
-
-
-
-
