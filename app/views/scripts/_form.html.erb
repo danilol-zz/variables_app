@@ -1,6 +1,7 @@
 <section>
   <h3 class="line-bottom">Gerar de <span class="destaque">Scripts</span></h3>
 
+  <p id="notice"><%#= notice %></p>
   <%= form_for :scripts, url: export_script_path, action: "post" do |f| %>
 
     <fieldset>
