@@ -11,6 +11,7 @@ class CampaignsController < ApplicationController
   end
 
   def create
+    require 'pry' ; binding.pry
     @campaign = Campaign.new(campaign_params.merge(status: Constants::STATUS[:SALA1]))
     @campaign.set_variables(params[:campaign][:variable_list])
 
@@ -66,6 +67,7 @@ class CampaignsController < ApplicationController
       :communication_channel,
       :product,
       :criterion,
+      :description,
       :exists_in_legacy,
       :automatic_routine,
       :factory_criterion_status,
