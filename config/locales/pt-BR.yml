@@ -322,7 +322,7 @@ pt:
             width:
               blank: não pode ser vazio!
             data_type:
-              inclusion: com valor inválido! 
+              inclusion: Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
               blank: não pode ser vazio!
 
   are_you_sure: Você tem certeza?
