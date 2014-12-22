@@ -160,9 +160,30 @@
                 
     </fieldset>
 
-    <div class="actions">
-      <%= f.submit "Salvar #{Table.model_name.human.capitalize}" %>
-    </div>
+    <section>
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <% if @table.new_record? %>
+           <%= f.submit "Salvar" %>
+          <% else %>
+            <% if @table.status == Constants::STATUS[:SALA1] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:SALA2] %>
+            <% end %>
+            <% if @current_user.room1? && @table.status == Constants::STATUS[:PRODUCAO] %>
+              <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
+            <% end %>
+            <% if @current_user.room2? && @table.status == Constants::STATUS[:SALA2] %>
+              <%= f.submit "Salvar" %>
+              <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>
+            <% end %>
+          <% end %>
+
+          <%= link_to t('back'), root_path({ status: "table" } ) %>
+
+        </div>
+      </div>          
+    </section>
 
   <% end %>
 
