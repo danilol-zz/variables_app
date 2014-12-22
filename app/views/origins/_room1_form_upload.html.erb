@@ -1,16 +1,6 @@
 <%= form_for :origin_field, url: create_origin_field_upload_path, :multipart => true do |f| %>
 <section>
   <h3 class="line-bottom">Adicionar <span class="destaque">campos de origem através de upload</span></h3>
-  <% if @origin_field.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@origin_field.errors.count, "error") %> proibiram esse campo de origem de ser salvo:</h2>
-      <ul>
-        <% @origin_field.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
 
 <fieldset>
   <%= f.hidden_field :origin_id, value: @origin.id%>

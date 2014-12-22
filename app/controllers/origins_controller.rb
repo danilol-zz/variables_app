@@ -17,7 +17,7 @@ class OriginsController < ApplicationController
     @origin = Origin.new(origin_params.merge(status: Constants::STATUS[:SALA1]))
 
     respond_to do |format|
-      if @origin.save
+      if @origin.save 
         format.html { redirect_to @origin, notice: "#{Origin.model_name.human.capitalize} criado com sucesso" }
         format.json { render :show, status: :created, location: @origin }
       else
@@ -34,8 +34,6 @@ class OriginsController < ApplicationController
     respond_to do |format|
       if @origin.update(origin_params)
         format.html { redirect_to @origin, notice: "#{Origin.model_name.human.capitalize} atualizado com sucesso" }
-        #if @origin.update(origin_params.merge(status))
-        #  format.html { redirect_to root_path, notice: "#{Origin.model_name.human.capitalize} atualizado com sucesso" }
         format.json { render :show, status: :ok, location: @origin }
       else
         @origin.status = old_status
@@ -59,7 +57,7 @@ class OriginsController < ApplicationController
     if @origin_field.save
       redirect_to @origin, notice: "#{OriginField.model_name.human.capitalize} criado com sucesso"
     else
-      render :new
+      render :show
     end
   end
 
