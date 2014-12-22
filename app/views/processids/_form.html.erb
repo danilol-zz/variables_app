@@ -32,12 +32,12 @@
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :routine_name%>
-          <%= f.text_field :routine_name, disabled: true %>
+          <%= f.text_field :routine_name %>
         </div>
         <div class="left t6">
           <%= f.label :var_table_name %>
-          <%= f.text_field :var_table_name, disabled: true %>
-        </div>           
+          <%= f.text_field :var_table_name %>
+        </div>
       </div>
 
       <div class="row clearfix">
@@ -54,7 +54,7 @@
         </div>
         <div class="left t6">
           <%= f.label :keep_previous_work %>
-          <%= f.select(:keep_previous_work,  [ "Sim",  "Nao" ] , {:include_blank => 'Selecione'}) %>          
+          <%= f.select(:keep_previous_work,  [["Sim", 1],  ["Nao",0]] , {:include_blank => 'Selecione'}) %>          
         </div>       
       </div>
 
