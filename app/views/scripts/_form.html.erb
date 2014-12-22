@@ -1,0 +1,34 @@
+<section>
+  <h3 class="line-bottom">Gerar de <span class="destaque">Scripts</span></h3>
+
+  <%= form_for :scripts, url: export_script_path, action: "post" do |f| %>
+
+    <fieldset>
+    
+      <div class="row clearfix">
+        <div class="left t2">
+          <label for="script_name">Scripts</label>
+          <%= select_tag :script_name, options_for_select(ExportScript.get_list_scritps.map), prompt: "Selecione" -%>
+        </div>
+
+        <div class="left t12">
+          <label for="sprint_number">Scripts</label>
+          <%= text_field_tag :sprint_number, nil, maxlength: 4 -%>
+        </div>
+
+        <div class="left t12">
+          <%#= tag "input", { type: "button", value: "Add Row", onclick: "addRow()" } %>
+          <%= submit_tag "Gerar"  -%>
+           <%#= ExportScript.export_script_by_sprint(1, "Script MySql Cadastro de Arquivo") -%>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <label for="campaign_name">Resultado</label>
+        <%= text_area_tag(:generated_script, @generated_script, rows: 20 )  -%>
+      </div>
+
+    </fieldset>
+  <% end %>
+
+</section>
