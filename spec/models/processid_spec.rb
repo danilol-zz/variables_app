@@ -144,5 +144,34 @@ describe Processid do
     end
   end
 
+  context ".status_screen_name" do
+    subject { FactoryGirl.build(:processid, mnemonic: mnemonic).status_screen_name }
+
+    context "when mnemonicn is nil"  do
+      let(:mnemonic) { nil }
+
+      it "returns an empty string" do
+        expect(subject).to be_blank
+      end
+    end
+
+    context "when mnemonic has value" do
+      context "when mnemonic has less than 20 characters" do
+        let(:mnemonic) { "testnamestring" }
+
+        it "returns the same string" do
+          expect(subject).to eq "testnamestring"
+        end
+      end
+
+      context "when mnemonic has more than 20 characters" do
+        let(:mnemonic) { "testnamestringbiggertha20characters" }
+
+        it "returns the same string" do
+          expect(subject).to eq "testnamestringbigger"
+        end
+      end
+    end
+  end
 end
 

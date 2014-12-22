@@ -40,8 +40,10 @@ class Origin < ActiveRecord::Base
   end
 
   def status_screen_name
-    file_name[0..19] unless file_name.nil?
+    file_name[0..19] if file_name?
   end
+
+  private
 
   def calculate_hive_table_name
     self.hive_table_name = self.mnemonic? ? "ORG_#{self.mnemonic}".upcase : nil

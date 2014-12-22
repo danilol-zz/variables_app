@@ -192,4 +192,34 @@ describe Variable do
       expect(@e.code).to eq "VA1000"
     end
   end
+
+  context ".status_screen_name" do
+    subject { FactoryGirl.build(:variable, name: name).status_screen_name }
+
+    context "when mnemonicn is nil"  do
+      let(:name) { nil }
+
+      it "returns an empty string" do
+        expect(subject).to be_blank
+      end
+    end
+
+    context "when name has value" do
+      context "when name has less than 20 characters" do
+        let(:name) { "testnamestring" }
+
+        it "returns the same string" do
+          expect(subject).to eq "testnamestring"
+        end
+      end
+
+      context "when name has more than 20 characters" do
+        let(:name) { "testnamestringbiggertha20characters" }
+
+        it "returns the same string" do
+          expect(subject).to eq "testnamestringbigger"
+        end
+      end
+    end
+  end
 end

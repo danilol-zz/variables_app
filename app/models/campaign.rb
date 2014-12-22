@@ -20,6 +20,6 @@ class Campaign < ActiveRecord::Base
   end
 
   def status_screen_name
-    name[0..19] unless name.nil?
+    name[0..19] if name?
   end
 end

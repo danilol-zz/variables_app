@@ -13,70 +13,44 @@ class Table < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
+
   def code
     "TA#{self.id.to_s.rjust(3,'0')}"
   end
 
   def set_variables(variable_list = nil)
-    if variable_list
-      self.variables = []
-      variable_list.each { |var| self.variables << Variable.find(var.first) }
-    else
-      self.variables = []
-    end
+    self.variables = []
+
+    variable_list.to_a.each { |var| self.variables << Variable.find(var.first) }
   end
 
   def status_screen_name
-    unless name.nil?
-      res = name[0..20]
-    end
+    name[0..19] if name?
   end
 
+  private
+
   def calculate_field_hive_table
-    if self.mnemonic?
-      self.hive_table = "TAB_#{self.mnemonic}".upcase
-    else
-      self.hive_table = nil
-    end
+    self.hive_table = self.mnemonic? ? "TAB_#{self.mnemonic}".upcase : nil
   end
 
   def calculate_field_output_routine_name
-    if self.routine_number?
-      self.output_routine_name = "CD5PS#{self.routine_number}"
-    else
-      self.output_routine_name = nil
-    end
+    self.output_routine_name = self.routine_number? ? "CD5PS#{self.routine_number}" : nil
   end
 
   def calculate_field_big_data_routine_name
-    if self.routine_number?
-      self.big_data_routine_name = "CD5PT#{self.routine_number}"
-    else
-      self.big_data_routine_name = nil
-    end
+    self.big_data_routine_name = self.routine_number? ? "CD5PT#{self.routine_number}" : nil
   end
 
   def calculate_field_ziptrans_routine_name
-    if self.mnemonic?
-      self.ziptrans_routine_name = "CD5T5#{self.mnemonic}".upcase
-    else
-      self.ziptrans_routine_name = nil
-    end
+    self.ziptrans_routine_name = self.mnemonic? ? "CD5T5#{self.mnemonic}".upcase : nil
   end
 
   def calculate_field_mirror_data_stage_routine_name
-    if self.routine_number?
-      self.mirror_data_stage_routine_name = "CD5PD#{self.routine_number}"
-    else
-      self.mirror_data_stage_routine_name = nil
-    end
+    self.mirror_data_stage_routine_name = self.routine_number? ? "CD5PD#{self.routine_number}" : nil
   end
 
   def calculate_field_final_data_stage_routine_name
-    if self.routine_number?
-      self.final_data_stage_routine_name = "CD5PE#{self.routine_number}"
-    else
-      self.final_data_stage_routine_name = nil
-    end
+    self.final_data_stage_routine_name = self.routine_number? ? "CD5PE#{self.routine_number}" : nil
   end
 end
