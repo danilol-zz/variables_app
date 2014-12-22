@@ -63,7 +63,7 @@
         </div>               
         <div class="left t10">
           <%= f.label :is_key %>
-          <%= f.select(:is_key,  ["Sim", "Não"], {:include_blank => 'Selecione'}, disabled: !@current_user.room1? ) %>    
+          <%= f.select(:is_key,  {"Sim" => true, "Não" => false}, {:include_blank => 'Selecione'}, disabled: !@current_user.room1? ) %>    
         </div>        
         <div class="left t8">
           <%= f.label :will_use %>

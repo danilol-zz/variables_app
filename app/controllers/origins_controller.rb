@@ -16,6 +16,7 @@ class OriginsController < ApplicationController
   def create
     @origin = Origin.new(origin_params.merge(status: Constants::STATUS[:SALA1]))
 
+     
     respond_to do |format|
       if @origin.save
         format.html { redirect_to @origin, notice: "#{Origin.model_name.human.capitalize} criado com sucesso" }

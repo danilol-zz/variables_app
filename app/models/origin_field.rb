@@ -14,7 +14,7 @@ class OriginField < ActiveRecord::Base
   has_and_belongs_to_many :variables
 
   validates :field_name, presence: true, if: :current_user_is_room1?
-  validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
+  #validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
   validates :decimal, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
   validates :mask, length: { maximum: 30 }, if: :current_user_is_room1?
   validates :position, presence: true, if: :current_user_is_room1?
@@ -100,6 +100,11 @@ class OriginField < ActiveRecord::Base
         origin_field.origin_id = origin_id
         origin_field.width = width
         origin_field.current_user_id = current_user_id
+        origin_field.decimal = 0
+        origin_field.will_use = true
+        origin_field.is_key = true
+        origin_field.has_signal = true
+
 
         origin_field.save
 
