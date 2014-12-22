@@ -80,7 +80,7 @@
                 <tr class="txt-no-transform">
                   <th><%= Constants::STATUS[:SALA1].upcase %></th>
                   <th><%= Constants::STATUS[:SALA2].upcase %></th>
-                  <th><%= Constants::STATUS[:PRODUCAO].upcase %></th>
+                  <th><%= Constants::STATUS[:PRODUCAO].mb_chars.upcase %></th>
                 </tr>
               </thead>
               <tbody>
