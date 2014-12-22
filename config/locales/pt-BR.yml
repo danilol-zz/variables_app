@@ -225,6 +225,7 @@ pt:
               blank: Campo Mnemônico não pode ser vazio!
               too_long: Campo Mnemônico deve ter no máximo 4 caracteres!
               uniqueness: Campo Mnemônico deve ser único!
+              taken: já cadastrado!
             cd5_portal_origin_code:
               blank: Campo Cód. origem CD5 não pode ser vazio!
               uniqueness: Campo Cód. origem CD5 deve ser único!
