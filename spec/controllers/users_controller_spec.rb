@@ -118,8 +118,7 @@ describe UsersController do
         user = User.create! valid_attributes
         session[:user_id] = user.id
         put :update, {:id => user.to_param, :user => valid_attributes}, valid_session
-        #expect(response).to redirect_to(root_path)
-        skip("Add assertions for redirects to the user")
+        expect(response).to redirect_to(users_url({status: 'user', notice: 'Usuário atualizado com sucesso'}))
       end
     end
 
