@@ -1,19 +1,17 @@
 class ProcessidsController < ApplicationController
   before_action :set_processid, only: [:edit, :update]
+  before_action :load_variables
   before_filter :ensure_authentication
 
   def new
-    @variables = Variable.order(:name)
     @processid = Processid.new
   end
 
   def edit
-    @variables = Variable.order(:name)
   end
 
   def create
     @processid = Processid.new(processid_params.merge(status: Constants::STATUS[:SALA2]))
-
     @processid.set_variables(params[:processid][:variable_list])
 
     respond_to do |format|
@@ -47,6 +45,10 @@ class ProcessidsController < ApplicationController
   end
 
   private
+
+  def load_variables
+    @variables = Variable.order(:name)
+  end
 
   def set_processid
     @processid = Processid.find(params[:id])

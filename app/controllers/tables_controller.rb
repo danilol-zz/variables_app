@@ -1,14 +1,13 @@
 class TablesController < ApplicationController
   before_action :set_table, only: [:edit, :update]
+  before_action :load_variables
   before_filter :ensure_authentication
 
   def new
-    @variables = Variable.order(:name)
     @table = Table.new
   end
 
   def edit
-    @variables = Variable.order(:name)
   end
 
   def create
@@ -47,6 +46,10 @@ class TablesController < ApplicationController
   end
 
   private
+
+  def load_variables
+    @variables = Variable.order(:name)
+  end
 
   def set_table
     @table = Table.find(params[:id])

@@ -1,23 +1,17 @@
 class CampaignsController < ApplicationController
   before_action :set_campaign, only: [:edit, :update]
+  before_action :load_variables
   before_filter :ensure_authentication
 
-  # GET /campaigns/new
   def new
-    @variables = Variable.order(:name)
     @campaign = Campaign.new
   end
 
-  # GET /campaigns/1/edit
   def edit
-    @variables = Variable.order(:name)
   end
 
-  # POST /campaigns
-  # POST /campaigns.json
   def create
     @campaign = Campaign.new(campaign_params.merge(status: Constants::STATUS[:SALA1]))
-
     @campaign.set_variables(params[:campaign][:variable_list])
 
     respond_to do |format|
@@ -31,8 +25,6 @@ class CampaignsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /campaigns/1
-  # PATCH/PUT /campaigns/1.json
   def update
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
@@ -53,6 +45,10 @@ class CampaignsController < ApplicationController
   end
 
   private
+
+  def load_variables
+    @variables = Variable.order(:name)
+  end
 
   def set_campaign
     @campaign = Campaign.find(params[:id])
