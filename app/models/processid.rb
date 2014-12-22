@@ -12,6 +12,14 @@ class Processid < ActiveRecord::Base
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
   validates :process_number, uniqueness: true, presence: true, allow_blank: true, if: :current_user_is_room2?
+  validates :mnemonic, uniqueness: true, presence: true, allow_blank: true, if: :current_user_is_room2?
+  validates :routine_name, presence: true, if: :current_user_is_room2?
+  validates :var_table_name, presence: true, if: :current_user_is_room2?
+  validates :conference_rule, presence: true, length: { maximum: 100 }, if: :current_user_is_room2?
+  validates :acceptance_percent, presence: true, if: :current_user_is_room2?
+  validates :keep_previous_work, presence: true, if: :current_user_is_room2?
+  validates :counting_rule, presence: true, length: { maximum: 100 }, if: :current_user_is_room2?
+  validates :notes, presence: true, length: { maximum: 500 }, if: :current_user_is_room2?
 
   def code
     "PR#{self.id.to_s.rjust(3,'0')}"

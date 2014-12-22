@@ -103,7 +103,7 @@ pt:
         cd5_frmt_origin_desc_datyp: Desc. form. origem cd5 (Tipo Dado)
         default_value_datyp: Valor Padrao (Tipo Dado)
       processid:
-        process_number: Numero processo
+        process_number: Número processo
         mnemonic: Mnemônico
         routine_name: Nome da rotina
         var_table_name: Nome tabela var
@@ -273,6 +273,34 @@ pt:
               blank: Campo Classificação DMT não pode ser vazio!
             status:
               blank: Campo Status não pode ser vazio!
+        process_id:
+          attributes:
+            process_number:
+              blank: Campo Número do processo não pode ser vazio!
+              uniqueness: Campo Número do processo deve ser único!
+            mnemonic:
+              blank: Campo Número do processo não pode ser vazio!
+              blank: Campo Mnemônico não pode ser vazio!
+              too_long: Campo Mnemônico deve ter no máximo 100 caracteres!
+              uniqueness: Campo Mnemônico deve ser único!
+            routine_name:
+              blank: Campo Nome da rotina não pode ser vazio!
+            var_table_name:
+              blank: Campo Nome tabela var não pode ser vazio!
+            conference_rule:
+              blank: Campo Regra de conferência não pode ser vazio!
+              too_long: Campo Regra de conferência deve ter no máximo 100 caracteres!
+            acceptance_percent:
+              blank: Campo Percentual de aceite não pode ser vazio!
+            keep_previous_work:
+              blank: Campo Manter movimento anterior? de aceite não pode ser vazio!
+            counting_rule:
+              blank: Campo Regra de contagem não pode ser vazio!
+              too_long: Campo Regra de contagem deve ter no máximo 100 caracteres!
+            notes:
+              blank: Campo Observações não pode ser vazio!
+              too_long: Campo Observações deve ter no máximo 100 caracteres!
+
         origin_field:
           attributes:
             decimal:

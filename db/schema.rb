@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20141217163706) do
     t.string   "var_table_name"
     t.string   "conference_rule"
     t.string   "acceptance_percent"
-    t.string   "keep_previous_work"
+    t.boolean  "keep_previous_work"
     t.string   "counting_rule"
     t.text     "notes"
     t.string   "status"
