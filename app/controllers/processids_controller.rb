@@ -28,11 +28,12 @@ class ProcessidsController < ApplicationController
   end
 
   def update
-    @processid.variables.delete_all
-
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
-    @processid.set_variables(params[:processid][:variable_list])
+    if params[:processid][:variable_list]
+      @processid.variables.delete_all
+      @processid.set_variables(params[:processid][:variable_list])
+    end
 
     respond_to do |format|
       if @processid.update(processid_params.merge(status))
@@ -53,14 +54,14 @@ class ProcessidsController < ApplicationController
 
   def processid_params
     params.require(:processid).permit(
-      :process_number, 
-      :mnemonic, 
-      :routine_name, 
-      :var_table_name, 
-      :conference_rule, 
-      :acceptance_percent, 
-      :keep_previous_work, 
-      :counting_rule, 
+      :process_number,
+      :mnemonic,
+      :routine_name,
+      :var_table_name,
+      :conference_rule,
+      :acceptance_percent,
+      :keep_previous_work,
+      :counting_rule,
       :notes,
       :status)
   end
