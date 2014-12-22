@@ -28,7 +28,6 @@ class VariablesController < ApplicationController
   end
 
   def update
-
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
     if params[:variable][:origin_fields_list]
