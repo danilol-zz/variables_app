@@ -85,7 +85,7 @@ RSpec.describe OriginsController, type: :controller do
 
     it "redirects to the origin" do
       put :update, { id: origin.to_param, origin: valid_attributes }, valid_session
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(origin_path(origin))
     end
   end
 

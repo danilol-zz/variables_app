@@ -1274,7 +1274,6 @@ SPPTI Planejamento	acionar analista
         return_value = result.to_s
 
       end
-
     end
 
     return_value
