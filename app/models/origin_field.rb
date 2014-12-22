@@ -15,9 +15,16 @@ class OriginField < ActiveRecord::Base
 
   validates :field_name, presence: true, if: :current_user_is_room1?
   validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
+  validates :decimal, presence: true, if: :current_user_is_room1? && :data_type_is_numeric?
   validates :mask, length: { maximum: 30 }, if: :current_user_is_room1?
   validates :position, presence: true, if: :current_user_is_room1?
-
+  validates :width, presence: true, if: :current_user_is_room1?
+  validates :is_key, presence: true, if: :current_user_is_room1?
+  validates :will_use, presence: true, if: :current_user_is_room1? && :data_type_is_numeric?
+  validates :has_signal, presence: true, if: :current_user_is_room1? && :data_type_is_numeric?
+  validates :cd5_variable_number, presence: true, if: :current_user_is_room2? && lambda { !self.is_key && self.will_use }
+  validates :cd5_variable_number, uniqueness: true, if: :current_user_is_room2?
+  validates :cd5_output_order, presence: true, if: lambda { self.cd5_variable_number }
 
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
     # remove quebra de linha windows
@@ -136,9 +143,9 @@ class OriginField < ActiveRecord::Base
           self.cd5_format = "2"
         when "Compactado"
           self.cd5_format = "4"
-        when "Numérico com vírgula"
+        when "Numérico com Vírgula"
           self.cd5_format = "2"
-        when "Compactado com vírgula"
+        when "Compactado com Vírgula"
           self.cd5_format = "4"
         when "Binário Mainframe"
           self.cd5_format = "6"
@@ -155,7 +162,7 @@ class OriginField < ActiveRecord::Base
       case self.data_type
         when "Alfanumérico"
           self.cd5_format_desc = "character"
-        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"
+        when "Numérico", "Compactado", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe"
           self.cd5_format_desc = "numeric"
         when "Data"
           self.cd5_format_desc = "data"
@@ -170,7 +177,7 @@ class OriginField < ActiveRecord::Base
       case self.data_type
         when "Alfanumérico"
           self.default_value = "_"
-        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe", "Data"
+        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com Vírgula", "Binário Mainframe", "Data"
           self.default_value = 0
         else
           self.default_value = nil
@@ -183,7 +190,7 @@ class OriginField < ActiveRecord::Base
       case self.data_type
         when "Alfanumérico"
           self.cd5_origin_format_desc = "character"
-        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"
+        when "Numérico", "Compactado", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe"
           self.cd5_origin_format_desc = "numeric"
         when "Data"
           self.cd5_origin_format_desc = "data"
@@ -202,9 +209,9 @@ class OriginField < ActiveRecord::Base
           self.cd5_origin_format = "2"
         when "Compactado"
           self.cd5_origin_format = "4"
-        when "Numérico com vírgula"
+        when "Numérico com Vírgula"
           self.cd5_origin_format = "2"
-        when "Compactado com vírgula"
+        when "Compactado com Vírgula"
           self.cd5_origin_format = "4"
         when "Binário Mainframe"
           self.cd5_origin_format = "6"
@@ -226,7 +233,7 @@ class OriginField < ActiveRecord::Base
     case self.data_type
       when "Alfanumérico"
         self.generic_data_type = "texto"
-      when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com vírgula", "Binário Mainframe"
+      when "Numérico", "Compactado", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe"
         self.generic_data_type = "numero"
       when "Data"
         self.generic_data_type = "data"
@@ -239,9 +246,9 @@ class OriginField < ActiveRecord::Base
     case self.data_type
       when "Alfanumérico"
         self.fmbase_format_type = "AN"
-      when "Numérico", "Data", "Numérico com vírgula"
+      when "Numérico", "Data", "Numérico com Vírgula"
         self.fmbase_format_type = "ZD"
-      when "Compactado", "Compactado com vírgula"
+      when "Compactado", "Compactado com Vírgula"
         self.fmbase_format_type = "PD"
       when "Binário Mainframe"
         self.fmbase_format_type = "BI"
@@ -253,6 +260,6 @@ class OriginField < ActiveRecord::Base
   private
 
   def data_type_is_numeric?
-    self.data_type == 'numerico'
+    ['Data', 'Alfanumérico'].include?(self.data_type)
   end
 end

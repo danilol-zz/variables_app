@@ -1,12 +1,21 @@
 require 'rails_helper'
 
 describe OriginField do
+  let(:profile) { 'sala1' }
+
   before do
     user = FactoryGirl.create(:user, profile: profile)
+
     subject.current_user_id = user.id
   end
 
-  let(:profile) { 'room1' }
+  describe 'validations' do
+    describe 'when user profile is room1' do
+      it { expect(subject).to validate_presence_of(:field_name) }
+    end
+
+    describe 'when user profile is room2'
+  end
 
   context "origin_fields_x_variables" do
     before do
@@ -14,6 +23,7 @@ describe OriginField do
       v1 = FactoryGirl.create(:variable, name: "v1")
       v2 = FactoryGirl.create(:variable, name: "v2")
       v3 = FactoryGirl.create(:variable, name: "v3")
+
       @origin_field = FactoryGirl.create(:origin_field, variables: [v1, v2, v3])
     end
 
@@ -168,12 +178,12 @@ describe OriginField do
         expect(o3.cd5_format).to eq "3"
       end
 
-      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com Vírgula") }
       it "when cd5_variable_number is fill and data_type equal Numérico com vírgula" do
         expect(o4.cd5_format).to eq "2"
       end
 
-      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com Vírgula") }
       it "when cd5_variable_number is fill and data_type equal Compactado com vírgula" do
         expect(o6.cd5_format).to eq "4"
       end
@@ -183,9 +193,11 @@ describe OriginField do
         expect(o7.cd5_format).to eq "6"
       end
 
-      let(:o8) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      let(:o8) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
       it "when cd5_variable_number is fill and data_type equal ----" do
-        expect(o8.cd5_format).to eq nil
+        o8.valid?
+
+        expect(o8.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
       end
     end
 
@@ -210,12 +222,12 @@ describe OriginField do
         expect(o3.cd5_format_desc).to eq "data"
       end
 
-      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com Vírgula") }
       it "when cd5_variable_number is fill and data_type equal Numérico com vírgula" do
         expect(o4.cd5_format_desc).to eq "numeric"
       end
 
-      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com Vírgula") }
       it "when cd5_variable_number is fill and data_type equal Compactado com vírgula" do
         expect(o6.cd5_format_desc).to eq "numeric"
       end
@@ -225,9 +237,11 @@ describe OriginField do
         expect(o7.cd5_format_desc).to eq "numeric"
       end
 
-      let(:o8) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      let(:o8) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
       it "when cd5_variable_number is fill and data_type equal ----" do
-        expect(o8.cd5_format_desc).to eq nil
+        o8.valid?
+
+        expect(o8.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
       end
     end
 
@@ -252,9 +266,12 @@ describe OriginField do
         expect(o3.default_value).to eq 0
       end
 
-      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      let(:o4) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
       it "when cd5_variable_number is fill and data_type equal ----" do
-        expect(o4.default_value).to eq nil
+        o4.valid?
+
+        expect(o4.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
+
       end
     end
 
@@ -279,12 +296,12 @@ describe OriginField do
         expect(o3.cd5_origin_format_desc).to eq "data"
       end
 
-      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com Vírgula") }
       it "when cd5_variable_number is fill and data_type equal Numérico com vírgula" do
         expect(o4.cd5_origin_format_desc).to eq "numeric"
       end
 
-      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com Vírgula") }
       it "when cd5_variable_number is fill and data_type equal Compactado com vírgula" do
         expect(o6.cd5_origin_format_desc).to eq "numeric"
       end
@@ -294,9 +311,11 @@ describe OriginField do
         expect(o7.cd5_origin_format_desc).to eq "numeric"
       end
 
-      let(:o8) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      let(:o8) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
       it "when cd5_variable_number is fill and data_type equal ----" do
-        expect(o8.cd5_origin_format_desc).to eq nil
+        o8.valid?
+
+        expect(o8.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
       end
     end
 
@@ -321,12 +340,12 @@ describe OriginField do
         expect(o3.cd5_origin_format).to eq "3"
       end
 
-      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com Vírgula") }
       it "when cd5_variable_number is fill and data_type equal Numérico com vírgula" do
         expect(o4.cd5_origin_format).to eq "2"
       end
 
-      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com Vírgula") }
       it "when cd5_variable_number is fill and data_type equal Compactado com vírgula" do
         expect(o6.cd5_origin_format).to eq "4"
       end
@@ -336,9 +355,11 @@ describe OriginField do
         expect(o7.cd5_origin_format).to eq "6"
       end
 
-      let(:o8) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "----") }
+      let(:o8) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
       it "when cd5_variable_number is fill and data_type equal ----" do
-        expect(o8.cd5_origin_format).to eq nil
+        o8.valid?
+
+        expect(o8.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
       end
     end
 
@@ -363,12 +384,12 @@ describe OriginField do
         expect(o3.generic_data_type).to eq "data"
       end
 
-      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com Vírgula") }
       it "equal Numérico com vírgula" do
         expect(o4.generic_data_type).to eq "numero"
       end
 
-      let(:o5) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      let(:o5) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com Vírgula") }
       it "equal Compactado com vírgula" do
         expect(o5.generic_data_type).to eq "numero"
       end
@@ -378,9 +399,11 @@ describe OriginField do
         expect(o6.generic_data_type).to eq "numero"
       end
 
-      let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "---") }
+      let(:o7) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "---") }
       it "equal Binário Mainframe" do
-        expect(o7.generic_data_type).to eq nil
+        o7.valid?
+
+        expect(o7.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
       end
     end
 
@@ -406,12 +429,12 @@ describe OriginField do
         expect(o3.fmbase_format_type).to eq "ZD"
       end
 
-      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com vírgula") }
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com Vírgula") }
       it "equal Numérico com vírgula" do
         expect(o4.fmbase_format_type).to eq "ZD"
       end
 
-      let(:o5) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com vírgula") }
+      let(:o5) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com Vírgula") }
       it "equal Compactado com vírgula" do
         expect(o5.fmbase_format_type).to eq "PD"
       end
@@ -421,9 +444,11 @@ describe OriginField do
         expect(o6.fmbase_format_type).to eq "BI"
       end
 
-      let(:o7) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "-----") }
+      let(:o7) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "-----") }
       it "equal Binário Mainframe" do
-        expect(o7.fmbase_format_type).to eq nil
+        o7.valid?
+
+        expect(o7.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
       end
     end
   end

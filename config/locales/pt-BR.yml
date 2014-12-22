@@ -168,6 +168,13 @@ pt:
         room_2_notes: Observação sala 2
     errors:
       models:
+        origin_field:
+          attributes:
+            field_name:
+              blank: Campo Nome do campo não pode ser vazio!
+            data_type:
+              inclusion:
+                Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
         user:
           attributes:
             password:
@@ -230,12 +237,11 @@ pt:
               too_long: Campo Observação - sala 2 deve ter no máximo 500 caracteres!
             dmt_advice:
               blank: Campo Parecer DMT não pode ser vazio!
-              too_long: Campo Mnemônico deve ter no máximo 200 caracteres!
+              too_long: Campo Parecer DMT deve ter no máximo 200 caracteres!
             dmt_classification:
               blank: Campo Classificação DMT não pode ser vazio!
             status:
               blank: Campo Status não pode ser vazio!
-
   are_you_sure: Você tem certeza?
   show: Visualizar
   edit: Editar

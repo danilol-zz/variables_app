@@ -1,14 +1,19 @@
 require 'rails_helper'
 
 describe Origin do
+  let(:profile) { 'sala1' }
+
+  before do
+    user = FactoryGirl.create(:user, profile: profile)
+
+    subject.current_user_id = user.id
+  end
+
   context "fields" do
-    before { FactoryGirl.create(:user, profile: profile) }
     subject { FactoryGirl.build(:origin)  }
 
     context "validations" do
       context 'when user profile is room1' do
-        let(:profile) { 'sala1' }
-
         it { expect(subject).to validate_presence_of(:file_name) }
         it { expect(subject).to ensure_length_of(:file_name).is_at_most(50) }
         it { expect(subject).to validate_presence_of(:file_description) }
@@ -24,8 +29,8 @@ describe Origin do
         it { expect(subject).to validate_presence_of(:data_retention_type) }
         it { expect(subject).to validate_presence_of(:extractor_file_type) }
         it { expect(subject).to ensure_length_of(:room_1_notes).is_at_most(500) }
-        #it { expect(subject).to ensure_length_of(:dmt_advice).is_at_most(200) }
-        #it { expect(subject).to validate_presence_of(:dmt_classification) }
+        it { expect(subject).to ensure_length_of(:dmt_advice).is_at_most(200) }
+        it { expect(subject).to validate_presence_of(:dmt_classification) }
         it { expect(subject).to validate_presence_of(:status) }
 
         it { expect(subject).to_not validate_presence_of(:mnemonic) }
@@ -38,6 +43,7 @@ describe Origin do
 
       context 'when user profile is room2' do
         let(:profile) { 'sala2' }
+
         it { expect(subject).to_not validate_presence_of(:file_name) }
         it { expect(subject).to_not ensure_length_of(:file_name).is_at_most(50) }
         it { expect(subject).to_not validate_presence_of(:file_description) }
@@ -54,6 +60,7 @@ describe Origin do
         it { expect(subject).to_not validate_presence_of(:extractor_file_type) }
         it { expect(subject).to_not ensure_length_of(:room_1_notes).is_at_most(500) }
         it { expect(subject).to_not ensure_length_of(:dmt_advice).is_at_most(200) }
+        it { expect(subject).to_not validate_presence_of(:dmt_classification) }
 
         it { expect(subject).to validate_presence_of(:mnemonic) }
         it { expect(subject).to ensure_length_of(:mnemonic).is_at_most(4) }
@@ -68,7 +75,6 @@ describe Origin do
 
   context ".code" do
     before do
-      FactoryGirl.create(:user, profile: 'sala1')
       @a = FactoryGirl.create(:origin)
       @b = FactoryGirl.create(:origin)
       @c = FactoryGirl.create(:origin, id: 10)
@@ -87,7 +93,6 @@ describe Origin do
 
   context "statuses" do
     before do
-      FactoryGirl.create(:user, profile: 'sala1')
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
       FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
@@ -107,8 +112,6 @@ describe Origin do
   end
 
   context "before_save calculate fields" do
-    before { FactoryGirl.create(:user, profile: 'sala1') }
-
     context "when the mnemonic is fill out" do
       let(:origin) { FactoryGirl.create(:origin, mnemonic: "ABC") }
 
@@ -151,13 +154,13 @@ describe Origin do
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:origin, file_name: file_name).status_screen_name }
+    subject { FactoryGirl.build(:origin, file_name: file_name) }
 
     context "when file_name is nil"  do
       let(:file_name) { nil }
 
       it "returns an empty string" do
-        expect(subject).to be_blank
+        expect(subject.status_screen_name).to be_blank
       end
     end
 
@@ -166,7 +169,7 @@ describe Origin do
         let(:file_name) { "testnamestring" }
 
         it "returns the same string" do
-          expect(subject).to eq "testnamestring"
+          expect(subject.status_screen_name).to eq "testnamestring"
         end
       end
 
@@ -174,7 +177,7 @@ describe Origin do
         let(:file_name) { "testnamestringbiggertha20characters" }
 
         it "returns the same string" do
-          expect(subject).to eq "testnamestringbigger"
+          expect(subject.status_screen_name).to eq "testnamestringbigger"
         end
       end
     end
