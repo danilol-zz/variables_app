@@ -66,6 +66,7 @@ class CampaignsController < ApplicationController
       :communication_channel,
       :product,
       :criterion,
+      :description,
       :exists_in_legacy,
       :automatic_routine,
       :factory_criterion_status,
