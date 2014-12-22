@@ -1,4 +1,6 @@
 class Processid < ActiveRecord::Base
+  include UserSession
+
   before_save :calculate_field_var_table_name
   before_save :calculate_field_routine_name
   has_and_belongs_to_many :variables
@@ -8,6 +10,8 @@ class Processid < ActiveRecord::Base
   scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
+
+  validates :process_number, uniqueness: true, presence: true, allow_blank: true, if: :current_user_is_room2?
 
   def code
     "PR#{self.id.to_s.rjust(3,'0')}"
