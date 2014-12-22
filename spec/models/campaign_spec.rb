@@ -1,28 +1,18 @@
 require 'rails_helper'
 
 describe Campaign do
+  let(:profile) { 'sala1' }
+
+  before do
+    user = FactoryGirl.create(:user, profile: profile)
+
+    subject.current_user_id = user.id
+  end
+
   context "attributes validations" do
-    it { should respond_to :ident }
-    it { should respond_to :name }
-    it { should respond_to :priority }
-    it { should respond_to :created_in_sprint }
-    it { should respond_to :updated_in_sprint }
-    it { should respond_to :campaign_origin }
-    it { should respond_to :channel }
-    it { should respond_to :communication_channel }
-    it { should respond_to :product }
-    it { should respond_to :criterion }
-    it { should respond_to :exists_in_legacy }
-    it { should respond_to :automatic_routine }
-    it { should respond_to :factory_criterion_status }
-    it { should respond_to :process_type }
-    it { should respond_to :crm_room_suggestion }
-    it { should respond_to :it_status }
-    it { should respond_to :notes }
-    it { should respond_to :owner }
-    it { should respond_to :status }
-    it { should respond_to :created_at }
-    it { should respond_to :updated_at }
+
+   it { expect(subject).to validate_presence_of(:name) }
+   it { expect(subject).to ensure_length_of(:name).is_at_most(50) }
 
     context "statuses" do
       before do
@@ -165,13 +155,13 @@ describe Campaign do
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:campaign, name: name).status_screen_name }
+    subject { FactoryGirl.build(:campaign, name: name) }
 
     context "when name is nil"  do
       let(:name) { nil }
 
       it "returns an empty string" do
-        expect(subject).to be_blank
+        expect(subject.status_screen_name).to be_blank
       end
     end
 
@@ -180,7 +170,7 @@ describe Campaign do
         let(:name) { "testnamestring" }
 
         it "returns the same string" do
-          expect(subject).to eq "testnamestring"
+          expect(subject.status_screen_name).to eq "testnamestring"
         end
       end
 
@@ -188,7 +178,7 @@ describe Campaign do
         let(:name) { "testnamestringbiggertha20characters" }
 
         it "returns the same string" do
-          expect(subject).to eq "testnamestringbigger"
+          expect(subject.status_screen_name).to eq "testnamestringbigger"
         end
       end
     end

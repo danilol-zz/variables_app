@@ -36,7 +36,7 @@ class CampaignsController < ApplicationController
   def update
     @campaign.variables.delete_all
 
-    @campaign.set_variables( params[:campaign][:variable_list])
+    @campaign.set_variables(params[:campaign][:variable_list])
     status = params[:update_status] ? { status: params[:update_status] } : {}
 
     respond_to do |format|
@@ -76,6 +76,6 @@ class CampaignsController < ApplicationController
       :it_status,
       :notes,
       :owner,
-      :status)
+      :status).merge(current_user_id: current_user.id)
   end
 end

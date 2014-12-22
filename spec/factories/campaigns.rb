@@ -19,5 +19,6 @@ FactoryGirl.define do
     notes "MyString"
     owner "MyString"
     status "sala1"
+    current_user_id 1
   end
 end

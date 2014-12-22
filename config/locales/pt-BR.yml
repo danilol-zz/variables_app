@@ -235,6 +235,11 @@ pt:
               blank: Campo Classificação DMT não pode ser vazio!
             status:
               blank: Campo Status não pode ser vazio!
+        campaign:
+          attributes:
+            name:
+              too_long: Campo Nome deve ter no máximo 50 caracteres!
+              blank: Campo Nome não pode ser vazio!
         origin_field:
           attributes:
             decimal:
