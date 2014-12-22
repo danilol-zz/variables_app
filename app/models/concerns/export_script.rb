@@ -857,7 +857,7 @@ end
 			"Scritp Hive Tabela ORG" => {
 				"entity_master_br" => "Origem" ,
 				"ind_group_related" => true ,
-				"condition" => "<Campos de Origem.[Vai usar ?=SIM]>" ,
+				"condition" => "<Campos de Origem.[Vai usar?=SIM]>" ,
 				"script" => "<>"
 			} ,
 			"Script Hive Query PV Vazia" => {
@@ -905,13 +905,13 @@ end
 			"Integração CD5 Cadastro de Campo de Entrada" => {
 				"entity_master_br" => "Campos de Origem" ,
 				"ind_group_related" => false ,
-				"condition" => "<Campos de Origem.[Vai usar ?=SIM]>" ,
+				"condition" => "<Campos de Origem.[Vai usar?=SIM]>" ,
 				"script" => "<>"
 			} ,
 			"Integração CD5 Cadastro de Campo de Saida" => {
 				"entity_master_br" => "Campos de Origem" ,
 				"ind_group_related" => false ,
-				"condition" => "<Campos de Origem.[Vai usar ?=SIM]>" ,
+				"condition" => "<Campos de Origem.[Vai usar?=SIM]>" ,
 				"script" => "<>"
 			} ,
 			"Smap Rotina Mainframe Extrator" => {
