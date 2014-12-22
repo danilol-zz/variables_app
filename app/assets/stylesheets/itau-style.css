@@ -79,7 +79,7 @@ blockquote:last-child,
 
 html, body { height: 100%; }
 body { color: #464646; font-family: Arial, sans-serif; font-size: 12px;
-	background: url("bg-itau.gif") #fbfbfb 50% 93px no-repeat;
+	background: url("bg-itau.gif") #fbfbfb 50% 93px repeat;
 }
 
 a { color: #464646; text-decoration: underline;
