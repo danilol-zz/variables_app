@@ -273,7 +273,7 @@ pt:
               blank: Campo Classificação DMT não pode ser vazio!
             status:
               blank: Campo Status não pode ser vazio!
-        process_id:
+        processid:
           attributes:
             process_number:
               blank: Campo Número do processo não pode ser vazio!
