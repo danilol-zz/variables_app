@@ -12,9 +12,48 @@ describe OriginField do
   describe 'validations' do
     describe 'when user profile is room1' do
       it { expect(subject).to validate_presence_of(:field_name) }
+      it { expect(subject).to validate_presence_of(:data_type) }
+      it { expect(subject).to validate_inclusion_of(:data_type).in_array(Constants::DATA_TYPES) }
+      it { expect(subject).to ensure_length_of(:mask).is_at_most(30) }
+      it { expect(subject).to validate_presence_of(:position) }
+      it { expect(subject).to validate_presence_of(:width) }
+      it { expect(subject).to validate_presence_of(:is_key) }
+
+      context 'when profile user is room1 and data type is numeric' do
+        let(:origin_field) { FactoryGirl.build(:origin_field, data_type: 'Numérico') }
+
+        it { expect(origin_field).to validate_presence_of(:decimal) }
+        it { expect(origin_field).to validate_presence_of(:will_use) }
+        it { expect(origin_field).to validate_presence_of(:has_signal) }
+      end
     end
 
-    describe 'when user profile is room2'
+    describe 'when user profile is room2' do
+      let(:profile) { 'sala2' }
+
+       context 'when profile user is room2 and will use and and is key are false' do
+        let(:origin_field) { FactoryGirl.build(:origin_field, will_use: true, is_key: false) }
+
+        it { expect(origin_field).to validate_presence_of(:cd5_variable_number) }
+      end
+
+      it { expect(subject).to_not validate_presence_of(:field_name) }
+      it { expect(subject).to_not validate_presence_of(:data_type) }
+      it { expect(subject).to_not validate_inclusion_of(:data_type).in_array(Constants::DATA_TYPES) }
+      it { expect(subject).to_not ensure_length_of(:mask).is_at_most(30) }
+      it { expect(subject).to_not validate_presence_of(:position) }
+      it { expect(subject).to_not validate_presence_of(:width) }
+      it { expect(subject).to_not validate_presence_of(:is_key) }
+
+      context 'when profile user is not room1 and data type is not numeric' do
+        let(:origin_field) { FactoryGirl.build(:origin_field, data_type: 'Numérico') }
+
+        it { expect(origin_field).to_not validate_presence_of(:decimal) }
+        it { expect(origin_field).to_not validate_presence_of(:will_use) }
+        it { expect(origin_field).to_not validate_presence_of(:has_signal) }
+      end
+
+    end
   end
 
   context "origin_fields_x_variables" do
