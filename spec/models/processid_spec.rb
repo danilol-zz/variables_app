@@ -9,6 +9,21 @@ describe Processid do
     subject.current_user_id = user.id
   end
 
+  context 'validations' do
+    it { expect(subject).to validate_presence_of(:process_number) }
+    it { expect(subject).to validate_presence_of(:mnemonic) }
+    it { expect(subject).to validate_presence_of(:routine_name) }
+    it { expect(subject).to validate_presence_of(:var_table_name) }
+    it { expect(subject).to validate_presence_of(:conference_rule) }
+    it { expect(subject).to ensure_length_of(:conference_rule).is_at_most(100) }
+    it { expect(subject).to validate_presence_of(:acceptance_percent) }
+    it { expect(subject).to validate_presence_of(:keep_previous_work) }
+    it { expect(subject).to validate_presence_of(:counting_rule) }
+    it { expect(subject).to ensure_length_of(:counting_rule).is_at_most(100) }
+    it { expect(subject).to validate_presence_of(:notes) }
+    it { expect(subject).to ensure_length_of(:notes).is_at_most(500) }
+  end
+
   context "statuses" do
     before do
       FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
@@ -89,7 +104,6 @@ describe Processid do
     end
   end
 
-
   describe "before_save calculate fields" do
     context "when the mnemonic is fill out" do
       let(:resource) { FactoryGirl.create(:processid, mnemonic: "XPTO") }
@@ -100,30 +114,6 @@ describe Processid do
 
       it "the 'var_table_name' NOT equal nil" do
         expect(resource.var_table_name).not_to eq nil
-      end
-    end
-
-    context "when the mnemonic is not fill out" do
-      let(:resource) { FactoryGirl.create(:processid, mnemonic: nil) }
-
-      it "the 'var_table_name' NOT begin with string 'VAR_' append with the mnemonic value" do
-        expect(resource.var_table_name).not_to eq "VAR_XPTO"
-      end
-
-      it "the 'var_table_name' equal nil" do
-        expect(resource.var_table_name).to eq nil
-      end
-    end
-
-    context "when the process_number is fill out" do
-      let(:resource) { FactoryGirl.create(:processid, process_number: 100) }
-
-      it "the 'routine_name' begin with string 'CD5PV' append with the process_number" do
-        expect(resource.routine_name).to eq "CD5PV#{resource.process_number}"
-      end
-
-      it "the 'routine_name' NOT equal nil" do
-        expect(resource.routine_name).not_to eq nil
       end
     end
   end

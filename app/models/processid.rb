@@ -11,8 +11,10 @@ class Processid < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
-  validates :process_number, uniqueness: true, presence: true, allow_blank: true, if: :current_user_is_room2?
-  validates :mnemonic, uniqueness: true, presence: true, allow_blank: true, if: :current_user_is_room2?
+  validates :process_number, uniqueness: true, allow_blank: true, if: :current_user_is_room2?
+  validates :process_number, presence: true, if: :current_user_is_room2?
+  validates :mnemonic, presence: true, if: :current_user_is_room2?
+  validates :mnemonic, uniqueness: true, allow_blank: true, if: :current_user_is_room2?
   validates :routine_name, presence: true, if: :current_user_is_room2?
   validates :var_table_name, presence: true, if: :current_user_is_room2?
   validates :conference_rule, presence: true, length: { maximum: 100 }, if: :current_user_is_room2?
