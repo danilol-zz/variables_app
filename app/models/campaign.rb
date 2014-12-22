@@ -14,17 +14,12 @@ class Campaign < ActiveRecord::Base
   end
 
   def set_variables(variable_list = nil)
-    if variable_list
-      self.variables = []
-      variable_list.each { |var| self.variables << Variable.find(var.first) }
-    else
-      self.variables = []
-    end
+    self.variables = []
+
+    variable_list.each { |var| self.variables << Variable.find(var.first) } if variable_list
   end
 
   def status_screen_name
-    unless name.nil?
-      res = name[0..20]
-    end
+    name[0..19] if name?
   end
 end

@@ -181,9 +181,10 @@ pt:
               invalid: valor inválido!
               taken: já cadastrado!
             name:
-              blank: Campo nome não pode ser vazio!
+              blank: não pode ser vazio!
+              taken: já cadastrado!
             profile:
-              blank: Campo perfil não pode ser vazio!
+              blank: não pode ser vazio!
         origin:
           attributes:
             file_name:

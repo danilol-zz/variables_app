@@ -14,34 +14,22 @@ class Processid < ActiveRecord::Base
   end
 
   def set_variables(variable_list = nil)
-    if variable_list
-      self.variables = []
-      variable_list.each { |var| self.variables << Variable.find(var.first) }
-    else
-      self.variables = []
-    end
+    self.variables = []
+
+    variable_list.to_a.each { |var| self.variables << Variable.find(var.first) }
   end
 
   def status_screen_name
-    unless mnemonic.nil?
-      res = mnemonic[0..20]
-    end
+    mnemonic[0..19] if mnemonic?
   end
 
+  private
+
   def calculate_field_var_table_name
-    if self.mnemonic?
-      self.var_table_name = "VAR_#{mnemonic}".upcase
-    else
-      self.var_table_name = nil
-    end
+    self.var_table_name = self.mnemonic? ? "VAR_#{mnemonic}".upcase : nil
   end
 
   def calculate_field_routine_name
-    if self.process_number?
-      self.routine_name = "CD5PV#{process_number}"
-    else
-      self.routine_name = nil
-    end
+    self.routine_name = self.process_number? ? "CD5PV#{process_number}" : nil
   end
-
 end
