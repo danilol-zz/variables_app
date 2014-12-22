@@ -11,8 +11,40 @@ describe Campaign do
 
   context "attributes validations" do
 
-   it { expect(subject).to validate_presence_of(:name) }
-   it { expect(subject).to ensure_length_of(:name).is_at_most(50) }
+    it { expect(subject).to validate_presence_of(:name) }
+    it { expect(subject).to ensure_length_of(:name).is_at_most(50) }
+    it { expect(subject).to validate_presence_of(:priority) }
+    it { expect(subject).to validate_presence_of(:campaign_origin) }
+    it { expect(subject).to ensure_length_of(:campaign_origin).is_at_most(50) }
+    it { expect(subject).to validate_presence_of(:created_in_sprint) }
+    it { expect(subject).to validate_presence_of(:updated_in_sprint) }
+    it { expect(subject).to validate_presence_of(:channel) }
+    it { expect(subject).to ensure_length_of(:channel).is_at_most(50) }
+    it { expect(subject).to validate_presence_of(:communication_channel) }
+    it { expect(subject).to ensure_length_of(:communication_channel).is_at_most(50) }
+    it { expect(subject).to validate_presence_of(:product) }
+    it { expect(subject).to ensure_length_of(:product).is_at_most(50) }
+    it { expect(subject).to validate_presence_of(:description) }
+    it { expect(subject).to ensure_length_of(:description).is_at_most(200) }
+    it { expect(subject).to validate_presence_of(:criterion) }
+    it { expect(subject).to ensure_length_of(:criterion).is_at_most(500) }
+    it { expect(subject).to validate_presence_of(:exists_in_legacy) }
+    it { expect(subject).to validate_inclusion_of(:factory_criterion_status).in_array(Constants::FactoryCriterionStatus) }
+    it { expect(subject).to validate_presence_of(:it_status) }
+
+    context 'when exists in legacy is true' do
+      subject(:campaign) { FactoryGirl.build(:campaign, exists_in_legacy: true) }
+
+      it { expect(campaign).to validate_presence_of(:automatic_routine) }
+      it { expect(campaign).to ensure_length_of(:automatic_routine).is_at_most(50) }
+    end
+
+    context 'when exists in legacy is false' do
+      subject(:campaign) { FactoryGirl.build(:campaign, exists_in_legacy: false) }
+
+      it { expect(campaign).to_not validate_presence_of(:automatic_routine) }
+      it { expect(campaign).to_not ensure_length_of(:automatic_routine).is_at_most(50) }
+    end
 
     context "statuses" do
       before do

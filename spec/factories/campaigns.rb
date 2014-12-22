@@ -10,15 +10,16 @@ FactoryGirl.define do
     communication_channel "MyString"
     product "MyString"
     criterion "MyString"
-    exists_in_legacy "MyString"
+    exists_in_legacy true
     automatic_routine "MyString"
-    factory_criterion_status "MyString"
+    factory_criterion_status "ok"
     process_type "MyString"
     crm_room_suggestion "MyString"
     it_status "MyString"
     notes "MyString"
     owner "MyString"
     status "sala1"
+    description 'Description'
     current_user_id 1
   end
 end
