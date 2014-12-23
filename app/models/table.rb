@@ -25,7 +25,7 @@ class Table < ActiveRecord::Base
   end
 
   def status_screen_name
-    name[0..19] if name?
+    logic_table_name[0..19] if logic_table_name?
   end
 
   private

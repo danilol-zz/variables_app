@@ -163,27 +163,27 @@ describe Table do
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:table, name: name).status_screen_name }
+    subject { FactoryGirl.build(:table, logic_table_name: logic_table_name).status_screen_name }
 
-    context "when mnemonicn is nil"  do
-      let(:name) { nil }
+    context "when logic_table_name is nil"  do
+      let(:logic_table_name) { nil }
 
       it "returns an empty string" do
         expect(subject).to be_blank
       end
     end
 
-    context "when name has value" do
+    context "when logic_table_name has value" do
       context "when name has less than 20 characters" do
-        let(:name) { "testnamestring" }
+        let(:logic_table_name) { "testnamestring" }
 
         it "returns the same string" do
           expect(subject).to eq "testnamestring"
         end
       end
 
-      context "when name has more than 20 characters" do
-        let(:name) { "testnamestringbiggertha20characters" }
+      context "when logic_table_name has more than 20 characters" do
+        let(:logic_table_name) { "testnamestringbiggertha20characters" }
 
         it "returns the same string" do
           expect(subject).to eq "testnamestringbigger"

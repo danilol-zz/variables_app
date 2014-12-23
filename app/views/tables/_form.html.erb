@@ -28,7 +28,7 @@
       <div class="row clearfix">
         <div class="left t9">
           <%= f.label :table_type %>
-          <%= f.select(:table_type, ["seleção", "colagem", "lookup interna", "lookup externa", "lookup blindage"], {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
+          <%= f.select(:table_type, ["seleção", "colagem", "lookup interna", "lookup externa", "lookup blindagem"], {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
         <div class="left t3">
           <%= f.label :name %>

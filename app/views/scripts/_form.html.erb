@@ -9,11 +9,11 @@
       <div class="row clearfix">
         <div class="left t2">
           <label for="script_name">Scripts</label>
-          <%= select_tag :script_name, options_for_select(ExportScript.get_list_scritps.map), prompt: "Selecione" -%>
+          <%= select_tag :script_name, options_for_select(ExportScript.get_list_scripts.map), prompt: "Selecione" -%>
         </div>
 
         <div class="left t12">
-          <label for="sprint_number">Scripts</label>
+          <label for="sprint_number">Sprint</label>
           <%= text_field_tag :sprint_number, nil, maxlength: 4 -%>
         </div>
 

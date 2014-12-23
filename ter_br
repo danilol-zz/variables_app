@@ -1,0 +1,143 @@
+=> {[31m[1;31m"[0m[31mscript Unix Rotina PV[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mProcesso[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31m#!/usr/bin/ksh[1;35m\n[0m[31mset -x -a[1;35m\n[0m[31m. /PROD/INCLUDE/include.prod[1;35m\n[0m[31mecho [1;35m\"[0m[31m[1;35m\\[0m[31mn`date +%d/%m/%y_%H:%M:%S`[1;35m\\[0m[31mn [1;35m\"[0m[31m[1;35m\n[0m[31m$DIREXE/cd5_executa_valida_variaveis.sh <Processo.[Nome da rotina]>.SQL <Processo.[Nome tabela var]> <Processo.[Regra de conferência]> <Processo.[Percentual de aceite]> <Processo.[Manter movimento anterior?]> <Processo.[Regra de contagem]>[1;35m\n[0m[31mcodret=$?[1;35m\n[0m[31mexit $codret[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mscript Unix Rotina PT[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Tabela.[Tipo=seleção]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31m#!/usr/bin/ksh[1;35m\n[0m[31mset -x -a[1;35m\n[0m[31m. /PROD/INCLUDE/include.prod[1;35m\n[0m[31mecho [1;35m\"[0m[31m[1;35m\\[0m[31mn`date +%d/%m/%y_%H:%M:%S`[1;35m\\[0m[31mn [1;35m\"[0m[31m[1;35m\n[0m[31m$DIREXE/bigdata_exec_proc.sh <Tabela.[Nome rotina big data]> <Tabela.[Nome rotina big data]>.SQL[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mScript Unix Rotina PS[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Tabela.[Tipo=seleção]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m[1;35m\n[0m[31mhive -S -f /PROD/ODBS/<Tabela.[Nome rotina saida]>.SQL > /PROD/FILE/<Tabela.[Nome tabela fisica espelho]>.txt[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mScript Unix Ziptrans[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Tabela.[Tipo=seleção]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31m#!/usr/bin/ksh[1;35m\n[0m[31mset -x -a[1;35m\n[0m[31m. /PROD/INCLUDE/include.prod[1;35m\n[0m[31mecho [1;35m\"[0m[31m[1;35m\\[0m[31mn`date +%d/%m/%y_%H:%M:%S`[1;35m\\[0m[31mn [1;35m\"[0m[31m[1;35m\n[0m[31m$DIREXE/ZYPTRAN03 VCIXP0055CTO /PROD/FILE/<Tabela.[Nome tabela fisica espelho]>.txt SCXX141CTO /PROD/FILE/<Tabela.[Nome tabela fisica espelho]>.txt[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mscript Unix Data Stage Espelho Rotina PE[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Tabela.[Tipo=seleção]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31m#!/usr/bin/ksh[1;35m\n[0m[31mset -x -a[1;35m\n[0m[31m. /PROD/INCLUDE/include.prod[1;35m\n[0m[31mecho [1;35m\"[0m[31m[1;35m\\[0m[31mn`date +%d/%m/%y_%H:%M:%S`[1;35m\n[0m[31m[1;35m\"[0m[31m[1;35m\n[0m[31mDATE=`date +%d%m%y_%H%M%S`[1;35m\n[0m[31m/PROD/PGMS/DSTAGE_CORP.SH <Tabela.[@nome_data_stage_espelho]> > ${DIRLOG}/<Tabela.[@nome_data_stage_espelho]>.${DATE} 2>&1[1;35m\n[0m[31mcodret=$?[1;35m\n[0m[31mcat $DIRLOG/<Tabela.[@nome_data_stage_espelho]>.${DATE}[1;35m\n[0m[31mexit $codret[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mscript Unix Data Stage Espelho Rotina PD[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Tabela.[Tipo=seleção]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31m#!/usr/bin/ksh[1;35m\n[0m[31mset -x -a[1;35m\n[0m[31m. /PROD/INCLUDE/include.prod[1;35m\n[0m[31mecho [1;35m\"[0m[31m[1;35m\\[0m[31mn`date +%d/%m/%y_%H:%M:%S`[1;35m\\[0m[31mn[1;35m\"[0m[31m[1;35m\n[0m[31mDATE=`date +%d%m%y_%H%M%S`[1;35m\n[0m[31m/PROD/PGMS/DSTAGE_CORP.SH <Tabela.[@nome_data_stage_definitivo]> > ${DIRLOG}/<Tabela.[@nome_data_stage_definitivo]>.${DATE} 2>&1[1;35m\n[0m[31mcodret=$?[1;35m\n[0m[31mcat $DIRLOG/<Tabela.[@nome_data_stage_definitivo]>.${DATE}[1;35m\n[0m[31mexit $codret[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mscript Hive Tabela ORG[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mOrigem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Campos de Origem.[Vai usar?=true]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31muse crm_origens;[1;35m\n[0m[31mdrop TABLE <Origem.[Nome tabela hive]>[1;35m\n[0m[31m[1;35m\n[0m[31mCREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>[1;35m\n[0m[31m([1;35m\n[0m[31m  <Campos de Origem.[@lista_de_campos]>[1;35m\n[0m[31m   FILLER   STRING[1;35m\n[0m[31m)[1;35m\n[0m[31mPARTITIONED BY ([1;35m\n[0m[31m<Origem.[@periodicidade_origem_particao]> INT)[1;35m\n[0m[31mROW FORMAT SERDE 'org.apache.hadoop.hive.contrib.serde2.RegexSerDe'[1;35m\n[0m[31mWITH SERDEPROPERTIES ([1;35m\"[0m[31minput.regex[1;35m\"[0m[31m =[1;35m\n[0m[31m[1;35m\"[0m[31m<Campos de Origem.[@expressao_regular]>[1;35m\"[0m[31m )[1;35m\n[0m[31mSTORED AS INPUTFORMAT [1;35m\"[0m[31mcom.hadoop.mapred.DeprecatedLzoTextInputFormat[1;35m\"[0m[31m[1;35m\n[0m[31mOUTPUTFORMAT [1;35m\"[0m[31morg.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat[1;35m\"[0m[31m;[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mScript Hive Query PV Vazia[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mProcesso[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mset hive.exec.compress.output=true;[1;35m\n[0m[31mset mapred.output.compression.type=BLOCK;[1;35m\n[0m[31mset io.seqfile.compression.type=BLOCK;[1;35m\n[0m[31mset mapred.output.compression.codec=org.apache.hadoop.io.compress.SnappyCodec;[1;35m\n[0m[31m[1;35m\n[0m[31muse crm_variaveis;[1;35m\n[0m[31mdrop table crm_variaveis.<Processo.[Nome tabela var]>;[1;35m\n[0m[31m[1;35m\n[0m[31m[1;35m\n[0m[31mcreate external table <Processo.[Nome tabela var]>[1;35m\n[0m[31m([1;35m\n[0m[31m<Processo.[@chave_hive]>[1;35m\n[0m[31m<Processo.[@campos_modelo]>[1;35m\n[0m[31m)[1;35m\n[0m[31mSTORED AS SEQUENCEFILE[1;35m\n[0m[31mLOCATION '/dados/crm/variaveis/<Processo.[Nome tabela var]>';[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mscript MySql Cadastro de Processo de Arquivo[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mOrigem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31minsert into controle_bigdata.tah6_pro values (“CD5P<Origem.[Mnemônico]>”,”<Origem.[Nome da base/arquivo]>”,”<Origem.[@periodicidade_origem_mysql]>”,”2014-12-23”);[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mScript MySql Cadastro de Arquivo[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mOrigem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31minsert into controle_bigdata.tah6_arq values (“CD5.RETR.B<Origem.[Mnemônico]>”, “CD5.RETR.CTRB<Origem.[Mnemônico]>”,[1;35m\"[0m[31mcrm_origem[1;35m\"[0m[31m,[1;35m\"[0m[31m<Origem.[Nome tabela hive]>[1;35m\"[0m[31m, [1;35m\"[0m[31m/dados/crm/origem/<Origem.[Nome tabela hive]>[1;35m\"[0m[31m , ”<Origem.[@periodicidade_origem_mysql]>” , ”<Origem.[@periodicidade_origem_mysql]>” , ”1-5-7” , null ,[1;35m\"[0m[31mD[1;35m\"[0m[31m,[1;35m\"[0m[31mD[1;35m\"[0m[31m,[1;35m\"[0m[31mS[1;35m\"[0m[31m);[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mScript MySql Cadastro Qualidade de Arquivo[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mOrigem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31minsert into controle_bigdata.tah6_regr_arqu_cerf values ( “CD5.RETR.B<Origem.[Mnemônico]>” , [1;35m\"[0m[31m<Origem.[Nome da base/arquivo]>[1;35m\"[0m[31m , [1;35m\"[0m[31mT[1;35m\"[0m[31m , “CD5.RETR.B<Origem.[Mnemônico]>” , “” , “CD5P<Origem.[Mnemônico]>[1;35m\"[0m[31m , [1;35m\"[0m[31m[1;35m\"[0m[31m , [1;35m\"[0m[31m[1;35m\"[0m[31m , [1;35m\"[0m[31m[1;35m\"[0m[31m , [1;35m\"[0m[31mN[1;35m\"[0m[31m , [1;35m\"[0m[31mN[1;35m\"[0m[31m , [1;35m\"[0m[31mN[1;35m\"[0m[31m , [1;35m\"[0m[31mNORMAL[1;35m\"[0m[31m , [1;35m\"[0m[31mNORMAL[1;35m\"[0m[31m , [1;35m\"[0m[31mNORMAL[1;35m\"[0m[31m , [1;35m\"[0m[31mCONTROLE QUALIDADE[1;35m\"[0m[31m , [1;35m\"[0m[31mSistema_CD5@correio.itau.com.br[1;35m\"[0m[31m , [1;35m\"[0m[31mCONTROLE QUALIDADE[1;35m\"[0m[31m , [1;35m\"[0m[31mSistema_CD5@correio.itau.com.br[1;35m\"[0m[31m , [1;35m\"[0m[31mCONTROLE QUALIDADE[1;35m\"[0m[31m , [1;35m\"[0m[31mSistema_CD5@correio.itau.com.br[1;35m\"[0m[31m );[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mScript MySql Cadastro Regra de Qualidade de Arquivo[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mOrigem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31minsert into controle_bigdata.tah6_regr_camo_cerf values ([1;35m\"[0m[31mCD5.RETR.B<Origem.[Mnemônico]>[1;35m\"[0m[31m,[1;35m\"[0m[31mCD5.RETR.B<Origem.[Mnemônico]>[1;35m\"[0m[31m,[1;35m\"[0m[31mQTD[1;35m\"[0m[31m,null,[1;35m\"[0m[31mN[1;35m\"[0m[31m,[1;35m\"[0m[31mN[1;35m\"[0m[31m,[1;35m\"[0m[31mN[1;35m\"[0m[31m,[1;35m\"[0m[31mN[1;35m\"[0m[31m,[1;35m\"[0m[31mN[1;35m\"[0m[31m,[1;35m\"[0m[31mN[1;35m\"[0m[31m,[1;35m\"[0m[31mN[1;35m\"[0m[31m,[1;35m\"[0m[31mN[1;35m\"[0m[31m,[1;35m\"[0m[31mV[1;35m\"[0m[31m,-10.000,10.000,0,0,[1;35m\"[0m[31mNORMAL[1;35m\"[0m[31m,[1;35m\"[0m[31mCONTROLE QUALIDADE[1;35m\"[0m[31m,[1;35m\"[0m[31mSistema_CD5@correio.itau.com.br[1;35m\"[0m[31m);[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mScript MySql Cadastro de Processo de Calculo de Variavel - Rotina PV[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mProcesso[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31minsert into controle_bigdata.tah6_pro values (“<Processo.[Nome da rotina]>”,”<Processo.[Nome da rotina]>”,”<Processo.[@periodicidade_processo_mysql]>”,”2014-12-23”);[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mScript MySql Cadastro de Processo de Calculo de Tabela - Rotina PT[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Tabela.[Tipo=seleção]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31minsert into controle_bigdata.tah6_pro values (“<Tabela.[Nome rotina big data]>”,”<Tabela.[Nome rotina big data]>”,”<Tabela.[@periodicidade_tabela_mysql]>”,”2014-12-23”);[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mIntegração CD5 Cadastro de Campo de Entrada[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mCampos de Origem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Campos de Origem.[Vai usar?=true]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31m<Campos de Origem.[Núm var cd5]>|4|<Origem.[Cód. origem CD5]><Campos de Origem.[Nome do campo]>|<Origem.[Cód. origem CD5]><Campos de Origem.[Nome do campo]>|<Origem.[Cód. origem CD5]><Campos de Origem.[Nome do campo]>|55|H|<Campos de Origem.[Formato origem CD5]>|<Campos de Origem.[Tam.]>|<Campos de Origem.[Decimal]>|55|S|<Origem.[Cód. origem CD5]>|<Campos de Origem.[Posição]>|<Campos de Origem.[Tam.]>|<Campos de Origem.[Formato origem CD5]>|<Campos de Origem.[Decimal]>|55|R||Não se aplica|Não se aplica|Seleção H|<Campos de Origem.[Desc. form. origem cd5 (Tipo Dado)]>|N/A|Semanal|<Origem.[Nome origem CD5]>|Repositório de Dados|<Campos de Origem.[Desc. form. origem cd5 (Tipo Dado)]>|N/A||N|[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mIntegração CD5 Cadastro de Campo de Saida[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mCampos de Origem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m<Campos de Origem.[Vai usar?=true]>[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31m<Campos de Origem.[Núm var cd5]>| <Origem.[Cód. destino CD5]><Campos de Origem.[Nome do campo]>| <Origem.[Cód. destino CD5]>|<Campos de Origem.[Formato CD5]>|55|<Campos de Origem.[Formato CD5]>| <Campos de Origem.[@posicao_saida]>| <Campos de Origem.[@tamanho_expandido]>|<Campos de Origem.[Decimal]>|<Campos de Origem.[Descrição formato CD5]>|N/A|[1;35m\"[0m[31m<Campos de Origem.[Valor Padrao (Tipo Dado)]>[1;35m\"[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mSmap Rotina Mainframe Extrator[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mOrigem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mRotina Extratora:  CD5B<Origem.[Mnemônico]>[1;35m\n[0m[31mStep[1;35m\t[0m[31m[1;35m\t[0m[31mCampo[1;35m\t[0m[31m[1;35m\t[0m[31mValor[1;35m\n[0m[31mCD5SRI40[1;35m\t[0m[31mSORTIN[1;35m\t[0m[31m[1;35m\t[0m[31m<Origem.[Nome da base/arquivo]>[1;35m\n[0m[31mCD5SRI40[1;35m\t[0m[31mSORTOUT[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.BASE.O<Origem.[Mnemônico]>(0)[1;35m\n[0m[31mCD5BEX2A[1;35m\t[0m[31mPARM[1;35m\t[0m[31m[1;35m\t[0m[31m<Origem.[Cód. origem CD5]>SB[1;35m\n[0m[31mCD5BEX2A[1;35m\t[0m[31mSYS010[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.BASE.O<Origem.[Mnemônico]>(+1)[1;35m\n[0m[31mCD5BEX2A[1;35m\t[0m[31mSYS024[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.WORK.B<Origem.[Mnemônico]>(+1)[1;35m\n[0m[31mCD5BEX2A[1;35m\t[0m[31mSYS040[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.BASE.QB<Origem.[Mnemônico]>(+1)[1;35m\n[0m[31mCD5SR18A[1;35m\t[0m[31mSORTIN[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.BASE.QB<Origem.[Mnemônico]>(+1)[1;35m\n[0m[31mCD5SR18A[1;35m\t[0m[31mSORTOUT[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.WORK.QB<Origem.[Mnemônico]>(+1)[1;35m\n[0m[31mICEGENA[1;35m\t[0m[31m[1;35m\t[0m[31mSYSUT1[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.WORK.B<Origem.[Mnemônico]>(+1)[1;35m\n[0m[31mICEGENA[1;35m\t[0m[31m[1;35m\t[0m[31mSYSUT1[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.WORK.Q<Origem.[Mnemônico]>(+1)[1;35m\n[0m[31mICEGENA[1;35m\t[0m[31m[1;35m\t[0m[31mSYSUT2[1;35m\t[0m[31m[1;35m\t[0m[31mCD5.BASE.B<Origem.[Mnemônico]>(+1)[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mSmap Rotina Mainframe Roteador[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mOrigem[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mfalse[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mRotina de Roteamento: CD5R<Origem.[Mnemônico]>[1;35m\n[0m[31mStep[1;35m\t[0m[31m[1;35m\t[0m[31mCampo[1;35m\t[0m[31mValor[1;35m\n[0m[31mCD5BROTA[1;35m\t[0m[31mPARM[1;35m\t[0m[31m<Origem.[Cód. origem CD5]>[1;35m\n[0m[31mCD5BROTA[1;35m\t[0m[31mSYS011[1;35m\t[0m[31mCD5.BASE.Q<Origem.[Mnemônico]>(0)[1;35m\n[0m[31mICEGENB[1;35m\t[0m[31m[1;35m\t[0m[31mSYSUT1[1;35m\t[0m[31mCD5.BASE.B<Origem.[Mnemônico]>(0)[1;35m\n[0m[31mICEGENC[1;35m\t[0m[31m[1;35m\t[0m[31mSYSUT1[1;35m\t[0m[31mCD5.BASE.B<Origem.[Mnemônico]>(0)[1;35m\n[0m[31mICEGEND[1;35m\t[0m[31m[1;35m\t[0m[31mSYSUT1[1;35m\t[0m[31mCD5.BASE.B<Origem.[Mnemônico]>(0)[1;35m\n[0m[31mCD5BRO2A[1;35m\t[0m[31mPARM[1;35m\t[0m[31m<Origem.[Cód. origem CD5]>[1;35m\n[0m[31mCD5BRO2B[1;35m\t[0m[31mPARM[1;35m\t[0m[31m<Origem.[Cód. origem CD5]>[1;35m\n[0m[31mCD5BRO2C[1;35m\t[0m[31mPARM[1;35m\t[0m[31m<Origem.[Cód. origem CD5]>[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mSmap Rotina PV[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mProcesso[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mCampo[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31mValor[1;35m\n[0m[31mNome da Rotina[1;35m\t[0m[31m[1;35m\t[0m[31m<Processo.[Nome da rotina]>[1;35m\n[0m[31mPeriodicidade[1;35m\t[0m[31m[1;35m\t[0m[31m<Processo.[@periodicidade_processo_smap]>[1;35m\n[0m[31mLinha de negócio[1;35m\t[0m[31mcrm-marketing[1;35m\n[0m[31mArea Afetada[1;35m\t[0m[31m[1;35m\t[0m[31mmarketing[1;35m\n[0m[31mSPPTI Planejamento[1;35m\t[0m[31macionar analista[1;35m\n[0m[31mSucessora[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m<Variavel.[@lista_de_rotinas_sucessoras]>[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mSmap Rotina PT[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mCampo[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31mValor[1;35m\n[0m[31mNome da Rotina[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[Nome rotina big data]>[1;35m\n[0m[31mPeriodicidade[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[@periodicidade_tabela_smap]>[1;35m\n[0m[31mLinha de negócio[1;35m\t[0m[31mcrm-marketing[1;35m\n[0m[31mArea Afetada[1;35m\t[0m[31m[1;35m\t[0m[31mmarketing[1;35m\n[0m[31mSPPTI Planejamento[1;35m\t[0m[31macionar analista[1;35m\n[0m[31mSucessora[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[Nome rotina saida]>[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mSmap Rotina PS[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mCampo[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31mValor[1;35m\n[0m[31mNome da Rotina[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[Nome rotina saida]>[1;35m\n[0m[31mPeriodicidade[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[@periodicidade_tabela_smap]>[1;35m\n[0m[31mLinha de negócio[1;35m\t[0m[31mcrm-marketing[1;35m\n[0m[31mArea Afetada[1;35m\t[0m[31m[1;35m\t[0m[31mmarketing[1;35m\n[0m[31mSPPTI Planejamento[1;35m\t[0m[31macionar analista[1;35m\n[0m[31mSucessora[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[Nome rotina ziptrans]>[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mSmap Rotina Ziptrans[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mCampo[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31mValor[1;35m\n[0m[31mNome da Rotina[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[Nome rotina ziptrans]>[1;35m\n[0m[31mPeriodicidade[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[@periodicidade_tabela_smap]>[1;35m\n[0m[31mLinha de negócio[1;35m\t[0m[31mcrm-marketing[1;35m\n[0m[31mArea Afetada[1;35m\t[0m[31m[1;35m\t[0m[31mmarketing[1;35m\n[0m[31mSPPTI Planejamento[1;35m\t[0m[31macionar analista[1;35m\n[0m[31mSucessora[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[Nome rotina data stage espelho]>[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mSmap Rotina Data Stage Espelho[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mCampo[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31mValor[1;35m\n[0m[31mNome da Rotina[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[Nome rotina data stage espelho]>[1;35m\n[0m[31mPeriodicidade[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[@periodicidade_tabela_smap]>[1;35m\n[0m[31mLinha de negócio[1;35m\t[0m[31mcrm-marketing[1;35m\n[0m[31mArea Afetada[1;35m\t[0m[31m[1;35m\t[0m[31mmarketing[1;35m\n[0m[31mSPPTI Planejamento[1;35m\t[0m[31macionar analista[1;35m\n[0m[31m[1;35m\n[0m[31m[1;35m\n[0m[31m    [1;31m"[0m[31m[0m},
+ [31m[1;31m"[0m[31mSmap Rotina Data Stage Definitivo[1;31m"[0m[31m[0m=>
+  {[31m[1;31m"[0m[31mentity_master_br[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mTabela[1;31m"[0m[31m[0m,
+   [31m[1;31m"[0m[31mind_group_related[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+   [31m[1;31m"[0m[31mcondition[1;31m"[0m[31m[0m=>[1;36mnil[0m,
+   [31m[1;31m"[0m[31mscript[1;31m"[0m[31m[0m=>
+    [31m[1;31m"[0m[31m[1;35m\n[0m[31mNome da Rotina[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[Nome rotina data stage difinitivo]>[1;35m\n[0m[31mPeriodicidade[1;35m\t[0m[31m[1;35m\t[0m[31m<Tabela.[@periodicidade_tabela_smap]>[1;35m\n[0m[31mLinha de negócio[1;35m\t[0m[31mcrm-marketing[1;35m\n[0m[31mArea Afetada[1;35m\t[0m[31m[1;35m\t[0m[31mmarketing[1;35m\n[0m[31mSPPTI Planejamento[1;35m\t[0m[31macionar analista[1;35m\n[0m[31m    [1;31m"[0m[31m[0m}}

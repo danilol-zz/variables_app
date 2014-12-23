@@ -770,7 +770,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 			@org2 = FactoryGirl.create(:origin , id:2  , updated_in_sprint:1, periodicity: "mensal", mnemonic:"CC01"  , file_name:"CD5.BASE.FCC0I" )
 		end
 		it 'should work' do
-			list=ExportScript.get_list_scritps
+			list=ExportScript.get_list_scripts
 			expect(list).to be_kind_of(Array)
 			expect(list.size > 0).to eq true
 
@@ -821,7 +821,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 		end
 
 		it "should work " do
-			list_scripts = ExportScript.get_list_scritps
+			list_scripts = ExportScript.get_list_scripts
 			expect(list_scripts).to be_kind_of(Array)
 			expect(list_scripts.size > 0).to eq true
 

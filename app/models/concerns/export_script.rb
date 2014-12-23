@@ -18,7 +18,7 @@ module ExportScript
     end
 
     output << "=========================================================================\n"
-    output << "Fim do Scritp\n"
+    output << "Fim do script\n"
   end
 
   #================================== metodos de processamento =========================================
@@ -400,9 +400,6 @@ module ExportScript
     #p sprint
     #p result.class
     #p result.size
-
-    #require 'pry' ; binding.pry;
-
     if result.size == 0
       return_value = nil
     else
@@ -430,13 +427,6 @@ module ExportScript
       end
     end
     result = Table.where(updated_in_sprint: sprint).where(cond).to_a
-
-    #p sprint
-    #p result.class
-    #p result.size
-
-
-    #require 'pry' ; binding.pry;
 
     if result.size == 0
       return_value = nil
@@ -473,7 +463,6 @@ module ExportScript
     #p result.size
     #p result
 
-    #require 'pry' ; binding.pry;
 
     if result.size == 0
       return_value = nil
@@ -530,8 +519,6 @@ module ExportScript
     #p result.size
     #p result
 
-    #require 'pry' ; binding.pry;
-
     #p "result.size = #{result.size}"
 
     if result.size == 0
@@ -573,8 +560,6 @@ module ExportScript
     #p result.size
     #p result
 
-    #require 'pry' ; binding.pry;
-
     if result.size == 0
       return_value = nil
     else
@@ -609,8 +594,6 @@ module ExportScript
     #p result.class
     #p result.size
     #p result
-
-    #require 'pry' ; binding.pry;
 
     if result.size == 0
       return_value = nil
@@ -677,13 +660,13 @@ module ExportScript
   def self.make_script_list
     #sprint, script, entity_master_br, ind_group_related, condition
     hash_scripts = {
-      "Scritp Unix Rotina PV" => 	{
+      "script Unix Rotina PV" => 	{
         "entity_master_br" => "Processo" ,
         "ind_group_related" => false ,
         "condition" => nil ,
         "script" => "<>"
       } ,
-      "Scritp Unix Rotina PT" => {
+      "script Unix Rotina PT" => {
         "entity_master_br" => "Tabela" ,
         "ind_group_related" => false ,
         "condition" => "<Tabela.[Tipo=seleção]>" ,
@@ -703,19 +686,19 @@ module ExportScript
         "script" => "<>"
 
       } ,
-      "Scritp Unix Data Stage Espelho Rotina PE" => {
+      "script Unix Data Stage Espelho Rotina PE" => {
         "entity_master_br" => "Tabela" ,
         "ind_group_related" => false ,
         "condition" => "<Tabela.[Tipo=seleção]>" ,
         "script" => "<>"
       } ,
-      "Scritp Unix Data Stage Espelho Rotina PD" => {
+      "script Unix Data Stage Espelho Rotina PD" => {
         "entity_master_br" => "Tabela" ,
         "ind_group_related" => false ,
         "condition" => "<Tabela.[Tipo=seleção]>" ,
         "script" => "<>"
       } ,
-      "Scritp Hive Tabela ORG" => {
+      "script Hive Tabela ORG" => {
         "entity_master_br" => "Origem" ,
         "ind_group_related" => true ,
         "condition" => "<Campos de Origem.[Vai usar?=true]>" ,
@@ -727,7 +710,7 @@ module ExportScript
         "condition" => nil ,
         "script" => "<>"
       } ,
-      "Scritp MySql Cadastro de Processo de Arquivo" => {
+      "script MySql Cadastro de Processo de Arquivo" => {
         "entity_master_br" => "Origem" ,
         "ind_group_related" => false ,
         "condition" => nil ,
@@ -830,7 +813,7 @@ module ExportScript
 
 
 
-    hash_scripts["Scritp Unix Rotina PV"]["script"] = "
+    hash_scripts["script Unix Rotina PV"]["script"] = "
 \#!/usr/bin/ksh
 set -x -a
 . /PROD/INCLUDE/include.prod
@@ -841,7 +824,7 @@ exit $codret
 
     "
 
-    hash_scripts["Scritp Unix Rotina PT"]["script"] = "
+    hash_scripts["script Unix Rotina PT"]["script"] = "
 \#!/usr/bin/ksh
 set -x -a
 . /PROD/INCLUDE/include.prod
@@ -863,7 +846,7 @@ $DIREXE/ZYPTRAN03 VCIXP0055CTO /PROD/FILE/<Tabela.[Nome tabela fisica espelho]>.
 
     "
 
-    hash_scripts["Scritp Unix Data Stage Espelho Rotina PE"]["script"] = "
+    hash_scripts["script Unix Data Stage Espelho Rotina PE"]["script"] = "
 \#!/usr/bin/ksh
 set -x -a
 . /PROD/INCLUDE/include.prod
@@ -876,7 +859,7 @@ exit $codret
 
     "
 
-    hash_scripts["Scritp Unix Data Stage Espelho Rotina PD"]["script"] = "
+    hash_scripts["script Unix Data Stage Espelho Rotina PD"]["script"] = "
 \#!/usr/bin/ksh
 set -x -a
 . /PROD/INCLUDE/include.prod
@@ -889,7 +872,7 @@ exit $codret
 
     "
 
-    hash_scripts["Scritp Hive Tabela ORG"]["script"] = "
+    hash_scripts["script Hive Tabela ORG"]["script"] = "
 use crm_origens;
 drop TABLE <Origem.[Nome tabela hive]>
 
@@ -928,7 +911,7 @@ LOCATION '/dados/crm/variaveis/<Processo.[Nome tabela var]>';
 
     "
 
-    hash_scripts["Scritp MySql Cadastro de Processo de Arquivo"]["script"] = '
+    hash_scripts["script MySql Cadastro de Processo de Arquivo"]["script"] = '
 insert into controle_bigdata.tah6_pro values (“CD5P<Origem.[Mnemônico]>”,”<Origem.[Nome da base/arquivo]>”,”<Origem.[@periodicidade_origem_mysql]>”,”2014-12-23”);
     '
 
@@ -1347,7 +1330,7 @@ SPPTI Planejamento	acionar analista
     return_value
   end
 
-  def self.get_list_scritps
+  def self.get_list_scripts
     make_script_list.keys
   end
 end
