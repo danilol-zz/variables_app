@@ -188,141 +188,139 @@ pt:
         campaign:
           attributes:
             name:
-              too_long: Campo Nome deve ter no máximo 50 caracteres!
-              blank: Campo Nome não pode ser vazio!
+              too_long: deve ter no máximo 50 caracteres!
+              blank: não pode ser vazio!
             priotity:
-              blank: Campo Prioridade não pode ser vazio!
+              blank: não pode ser vazio!
             campaign_origin:
-              too_long: Campo Origin da campanha deve ter no máximo 50 caracteres!
-              blank: Campo Nome não pode ser vazio!
+              too_long: deve ter no máximo 50 caracteres!
+              blank: não pode ser vazio!
             created_in_sprint:
-              blank: Campo Sprint em que foi criada não pode ser vazio!
+              blank: não pode ser vazio!
             created_in_sprint:
-              blank: Campo Sprint em que foi alterada não pode ser vazio!
+              blank: não pode ser vazio!
             channel:
-              too_long: Campo Canal deve ter no máximo 50 caracteres!
-              blank: Campo Canal não pode ser vazio!
+              too_long: deve ter no máximo 50 caracteres!
+              blank: não pode ser vazio!
             communication_channel:
-              too_long: Campo Código de comunicação deve ter no máximo 50 caracteres!
-              blank: Campo Código de comunicação não pode ser vazio!
+              too_long: deve ter no máximo 50 caracteres!
+              blank: não pode ser vazio!
             product:
-              too_long: Campo Produto deve ter no máximo 50 caracteres!
-              blank: Campo Produto não pode ser vazio!
+              too_long: deve ter no máximo 50 caracteres!
+              blank: não pode ser vazio!
             criterion:
-              too_long: Campo Critério da campanha deve ter no máximo 500 caracteres!
-              blank: Campo Critério da campanha não pode ser vazio!
+              too_long: deve ter no máximo 500 caracteres!
+              blank: não pode ser vazio!
             description:
-              too_long: Campo Descrição da campanha deve ter no máximo 200 caracteres!
-              blank: Campo Descrição da campanha não pode ser vazio!
+              too_long: deve ter no máximo 200 caracteres!
+              blank: da campanha não pode ser vazio!
             exists_in_legacy:
-              blank: Campo Campanha existe no legado? não pode ser vazio!
+              blank: não pode ser vazio!
             automatic_routine:
-              blank: Campo Rotina automática não pode ser vazio!
-              too_long: Campo Rotina automática deve ter no máximo 50 caracteres!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 50 caracteres!
             factory_criterion_status: 
-              blank: Campo Status do critério de fábrica não pode ser vazio!
-              inclusion: Campo Status do critério de fábrica deve ser ok ou pendente
+              blank: não pode ser vazio!
+              inclusion: deve ser ok ou pendente
         origin:
           attributes:
             file_name:
-              blank: Campo Nome da base/arquivo não pode ser vazio!
-              too_long: Campo Nome da base/arquivo deve ter no máximo 50 caracteres!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 50 caracteres!
             file_description:
-              blank: Campo Descrição da base/arquivo não pode ser vazio!
-              too_long: Campo Descrição da base/arquivo deve ter no máximo 200 caracteres!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 200 caracteres!
             created_in_sprint:
-              blank: Campo Sprint em que foi criada não pode ser vazio!
+              blank: não pode ser vazio!
             updated_in_sprint:
-              blank: Campo Sprint em que foi alterada não pode ser vazio!
+              blank: não pode ser vazio!
             abbreviation:
-              blank: Campo Sigla não pode ser vazio!
-              too_long: Campo Sigla deve ter no máximo 3 caracteres!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 3 caracteres!
             base_type:
-              blank: Campo Tipo de base não pode ser vazio!
+              blank: não pode ser vazio!
             book_mainframe:
-              too_long: Campo Book mainframe deve ter no máximo 10 caracteres!
+              too_long: deve ter no máximo 10 caracteres!
             periodicity:
-              blank: Campo Periodicidade não pode ser vazio!
+              blank: não pode ser vazio!
             periodicity_details:
-              too_long: Campo Detalhe da periodicidade deve ter no máximo 50 caracteres!
+              too_long: deve ter no máximo 50 caracteres!
             data_retention_type:
-              blank: Campo Tipo de retenção dos dados não pode ser vazio!
+              blank: não pode ser vazio!
             extractor_file_type:
-              blank: Campo Característica do arquivo no Extrator não pode ser vazio!
+              blank: não pode ser vazio!
             room_1_notes:
-              too_long: Campo Observação deve ter no máximo 500 caracteres!
+              too_long: deve ter no máximo 500 caracteres!
             mnemonic:
-              blank: Campo Mnemônico não pode ser vazio!
-              too_long: Campo Mnemônico deve ter no máximo 4 caracteres!
-              uniqueness: Campo Mnemônico deve ser único!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 4 caracteres!
+              uniqueness: deve ser único!
               taken: já cadastrado!
             cd5_portal_origin_code:
-              blank: Campo Cód. origem CD5 não pode ser vazio!
-              uniqueness: Campo Cód. origem CD5 deve ser único!
+              blank: não pode ser vazio!
+              uniqueness: deve ser único!
             cd5_portal_destination_code:
-              blank: Campo Cód. destino CD5 não pode ser vazio!
-              uniqueness: Campo Cód. destino CD5 deve ser único!
+              blank: não pode ser vazio!
+              uniqueness: deve ser único!
             mainframe_storage_type:
-              blank: Campo Tipo de armazenamento mainframe não pode ser vazio!
+              blank: não pode ser vazio!
             room_2_notes:
-              too_long: Campo Observação - sala 2 deve ter no máximo 500 caracteres!
+              too_long: deve ter no máximo 500 caracteres!
             dmt_advice:
-              blank: Campo Parecer DMT não pode ser vazio!
-              too_long: Campo Parecer DMT deve ter no máximo 200 caracteres!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 200 caracteres!
             dmt_classification:
-              blank: Campo Classificação DMT não pode ser vazio!
+              blank: não pode ser vazio!
             status:
-              blank: Campo Status não pode ser vazio!
+              blank: não pode ser vazio!
         processid:
           attributes:
             process_number:
-              blank: Campo Número do processo não pode ser vazio!
-              uniqueness: Campo Número do processo deve ser único!
+              blank: não pode ser vazio!
+              uniqueness: deve ser único!
             mnemonic:
-              blank: Campo Número do processo não pode ser vazio!
-              blank: Campo Mnemônico não pode ser vazio!
-              too_long: Campo Mnemônico deve ter no máximo 100 caracteres!
-              uniqueness: Campo Mnemônico deve ser único!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 100 caracteres!
+              uniqueness: deve ser único!
             routine_name:
-              blank: Campo Nome da rotina não pode ser vazio!
+              blank: não pode ser vazio!
             var_table_name:
-              blank: Campo Nome tabela var não pode ser vazio!
+              blank: não pode ser vazio!
             conference_rule:
-              blank: Campo Regra de conferência não pode ser vazio!
-              too_long: Campo Regra de conferência deve ter no máximo 100 caracteres!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 100 caracteres!
             acceptance_percent:
-              blank: Campo Percentual de aceite não pode ser vazio!
+              blank: não pode ser vazio!
             keep_previous_work:
-              blank: Campo Manter movimento anterior? de aceite não pode ser vazio!
+              blank: não pode ser vazio!
             counting_rule:
-              blank: Campo Regra de contagem não pode ser vazio!
-              too_long: Campo Regra de contagem deve ter no máximo 100 caracteres!
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 100 caracteres!
             notes:
-              blank: Campo Observações não pode ser vazio!
-              too_long: Campo Observações deve ter no máximo 100 caracteres!
-
+              blank: não pode ser vazio!
+              too_long: deve ter no máximo 100 caracteres!
         origin_field:
           attributes:
             decimal:
-              blank: Campo Decimal não pode ser vazio!
+              blank: não pode ser vazio!
             field_name:
-              blank: Campo Nome do campo não pode ser vazio!
+              blank: não pode ser vazio!
             data_type:
-              inclusion: Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
+              inclusion: deve ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
             is_key:
               blank: não pode ser vazio!
             will_use:
-              blank: Campo Vai usar? não pode ser vazio!
+              blank: não pode ser vazio!
             has_signal:
-              blank: Campo Tem sinal? não pode ser vazio!
+              blank: não pode ser vazio!
             cd5_variable_number:
-              blank: Campo Núm var cd5 não pode ser vazio!
+              blank: não pode ser vazio!
             position:
               blank: não pode ser vazio!
             width:
               blank: não pode ser vazio!
             data_type:
-              inclusion: Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
+              inclusion: deve ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
               blank: não pode ser vazio!
 
   are_you_sure: Você tem certeza?
