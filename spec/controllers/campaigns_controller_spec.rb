@@ -31,7 +31,7 @@ RSpec.describe CampaignsController, :type => :controller do
       :owner => 'teste',
       :status => 'sala1',
       :variable_list => {"1" => "checked", "2" => "checked" },
-      :current_user_id => session[:user_id]
+      :current_user_id => session[:user_id].id
     }
   }
 
