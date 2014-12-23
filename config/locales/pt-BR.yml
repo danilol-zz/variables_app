@@ -298,7 +298,7 @@ pt:
               too_long: deve ter no máximo 100 caracteres!
             notes:
               blank: não pode ser vazio!
-              too_long: deve ter no máximo 100 caracteres!
+              too_long: deve ter no máximo 500 caracteres!
         origin_field:
           attributes:
             decimal:
