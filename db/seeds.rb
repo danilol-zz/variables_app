@@ -170,7 +170,8 @@ CSV.read("db/fixtures/tabela.csv", { headers: true, :col_sep => ","}).each_with_
     mirror_data_stage_routine_name: campo["nome rotina data stage espelho"],
     final_data_stage_routine_name: campo["nome rotina data stage definitivo"],
     room_2_notes: campo["observação sala 2"],
-    status: Constants::STATUS[:SALA2]
+    status: Constants::STATUS[:SALA2],
+    current_user_id: User.first.id
   )
 end
 
