@@ -1,5 +1,5 @@
 <section>
-  <h3 class="line-bottom">Cadastro de <span class="destaque"><%= OriginField.model_name.human.capitalize %></h3>
+  <h3 class="line-bottom">Cadastro de <span class="destaque"><%= this_model_name(OriginField) %></h3>
 
   <table summary="" class="tabela-zebra tabela-hover">
     <thead>
@@ -36,9 +36,9 @@
           <td><%= origin_field.mask %></td>
           <td><%= origin_field.position %></td>
           <td><%= origin_field.width %></td>
-          <td><%= origin_field.is_key %></td>
-          <td><%= origin_field.will_use %></td>
-          <td><%= origin_field.has_signal %></td>
+          <td><%= boolean_to_sim_nao(origin_field.is_key) %></td>
+          <td><%= boolean_to_sim_nao(origin_field.will_use) %></td>
+          <td><%= boolean_to_sim_nao(origin_field.has_signal) %></td>
           <% if @current_user.profile == User::ROOM2 %>
             <td><%= origin_field.cd5_variable_number %></td>
             <td><%= origin_field.cd5_output_order %></td>

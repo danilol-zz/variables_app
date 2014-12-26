@@ -1,6 +1,6 @@
 <section>
-  <h3 class="line-bottom">Cadastro de <%= Origin.model_name.human.capitalize %></h3>
-  
+  <h3 class="line-bottom">Cadastro de <%= this_model_name( Origin ) %></h3>
+
   <h2><%= @current_user.profile %></h2>
   <div class="box-info">
     <table class="resumo">
@@ -31,7 +31,7 @@
          <tr>
            <th><%= t('activerecord.attributes.origin.mainframe_storage_type') %>:</th>
            <td><%= @origin.mainframe_storage_type %></td>
-         </tr>                   
+         </tr>
          <tr>
            <th><%= t('activerecord.attributes.origin.room_2_notes') %>:</th>
            <td><%= @origin.room_2_notes %></td>

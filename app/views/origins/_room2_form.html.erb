@@ -59,7 +59,7 @@
 
 <a name="forms-construido" class="link-ancora"></a>
 <section>
-  <h3 class="line-bottom">Cadastro de <span class="destaque"><%= Origin.model_name.human.capitalize %></span></h3>
+  <h3 class="line-bottom">Cadastro de <span class="destaque"><%= this_model_name( Origin ) %></span></h3>
 
   <%= form_for(@origin) do |f| %>
     <% if @origin.errors.any? %>
