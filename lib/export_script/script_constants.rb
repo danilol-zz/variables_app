@@ -1,4 +1,5 @@
 module ScriptConstants
+  REGEX = Regexp.new("<([A-Za-z\\ ]+)\\.\\[(.+?)\\]>", Regexp::MULTILINE)
 
   HASH_SCRIPTS = {
     "script Unix Rotina PV" => 	{

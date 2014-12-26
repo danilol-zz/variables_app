@@ -143,74 +143,34 @@ module Generator
     if return_value.size == 0 || ind_valid_relationship == "N" || ind_group_funcion == 'N'
       return_value = nil
     end
-    #p return_value
-    return_value
 
+    return_value
   end
 
-
-
-
-
-
   def self.get_entities_list(script)
-    return_value = ''
+    list = script.scan(ScriptConstants::REGEX)
 
-    #reg = Regexp.new("<([A-Za-z]+)\\.\\[([A-Za-z\\ \\_]+)\\]>", Regexp::MULTILINE)
-    reg = Regexp.new("<([A-Za-z\\ ]+)\\.\\[(.+?)\\]>", Regexp::MULTILINE)
-
-    lista = script.scan(reg)
-    lista_ent = Hash.new
-
-
-    lista.each do |item|
-      unless lista_ent.has_key?(item[0])
-        #lista_ea_ent.has_key?(item[0])
-        lista_ent[item[0]]=[item[1]]
+    list_ent = {}
+    list.each do |item|
+      if list_ent.has_key?(item[0])
+        list_ent[item[0]] << item[1]
+        list_ent[item[0]].uniq!
       else
-        lista_ent[item[0]] << item[1]
-        lista_ent[item[0]].uniq!
+        list_ent[item[0]]=[item[1]]
       end
     end
 
-    unless lista_ent.empty?
-      return_value = lista_ent
-    else
-      return_value = nil
-    end
-
-    return_value
-
+    list_ent
   end
 
-
-
-
-
-
   def self.translate_list(list, hash_transl)
-
-
-
     return_value=''
     test_hash_pass='S'
     test_entity='S'
     test_attr='S'
-    #p "================================"
-    #p "nova execução"
-    #p list
-    #p "-------------------------------"
+
     lista_ent = Hash.new
 
-    #p "montagem do dicionario"
-    #dicionario
-
-    #p "dicionario: "
-
-    #p hash_transl
-
-    #p "--------------------------------------"
-    #p "inicio da busca"
     unless list != nil &&  (list.instance_of? Hash) && list.size > 0
       test_hash_pass='N'
       test_attr = 'S'
@@ -230,16 +190,8 @@ module Generator
             unless hash_transl[ent_Br]["atribute_translate"].has_key?(attr_Br.split(/\=/).first) ||
               attr_Br.include?("@")
               test_attr = 'N'
-              #p "falhou"
-              #p ent_Br
-              #p attr_Br
-              #p attr_Br.split(/\=/).first
-              #p hash_transl[ent_Br]["atribute_translate"]
-              #p hash_transl[ent_Br]["atribute_translate"].has_key?(attr_Br.split(/\=/).first)
-              #p "/-entidade nao encontrada"
             else
               attr_Eng = hash_transl[ent_Br]["atribute_translate"][attr_Br.split(/\=/).first]
-              #p "/-atributo ingles: #{attr_Eng}"
               if attr_Br.include? "="
                 lista_ent[ent_Eng] << attr_Eng + "=" + attr_Br.split(/\=/).last
               elsif attr_Br.include? "@"
@@ -259,10 +211,8 @@ module Generator
 
 
     if test_hash_pass == 'S' && test_entity == 'S' && test_attr == 'S'
-      #p lista_ent
       return_value = lista_ent
     else
-      #p "retorno com falha: hash #{test_hash_pass} , entity #{test_entity}, attr #{test_attr}"
       return_value = nil
     end
 

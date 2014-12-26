@@ -54,13 +54,12 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
   context '.get_entities_list' do
 
     it "should return error script empty" do
-      str=""
-      expect(Generator.get_entities_list(str)).to eq nil
+      expect(Generator.get_entities_list("")).to eq Hash.new
     end
 
     it "should return erro without dint find any entit" do
-      str="string sem valor"
-      expect(Generator.get_entities_list(str)).to eq nil
+      str = "string sem valor"
+      expect(Generator.get_entities_list(str)).to eq Hash.new
     end
 
     it "should get sucess with simple exemplo" do
@@ -826,7 +825,6 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       list_scripts.each do |script|
         Generator.export_script_by_sprint(1,script)
       end
-      #Generator.export_script_by_sprint(1,"Smap Rotina Mainframe Extrator")
     end
   end
 
