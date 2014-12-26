@@ -14,14 +14,14 @@ class OriginField < ActiveRecord::Base
   has_and_belongs_to_many :variables
 
   validates :field_name, presence: true, if: :current_user_is_room1?
-  #validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
+  validates :data_type, presence: true, inclusion: { in: Constants::DATA_TYPES }, if: :current_user_is_room1?
   validates :decimal, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
   validates :mask, length: { maximum: 30 }, if: :current_user_is_room1?
   validates :position, presence: true, if: :current_user_is_room1?
+  validates_inclusion_of :is_key, in: [true, false], if: :current_user_is_room1?
   validates :width, presence: true, if: :current_user_is_room1?
-  validates :is_key, presence: true, if: :current_user_is_room1?
-  validates :will_use, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
-  validates :has_signal, presence: true, if: lambda { current_user_is_room1? && data_type_is_numeric? }
+  validates_inclusion_of :will_use, in: [true, false], if: lambda { current_user_is_room1? && data_type_is_numeric? }
+  validates_inclusion_of :has_signal, in: [true, false], if: lambda { current_user_is_room1? && data_type_is_numeric? }
 
   validates :cd5_variable_number, presence: true, if: lambda { current_user_is_room2? && !self.is_key && self.will_use }
   validates :cd5_variable_number, uniqueness: true, if: :current_user_is_room2?
@@ -183,7 +183,7 @@ class OriginField < ActiveRecord::Base
       case self.data_type
         when "Alfanumérico"
           self.default_value = "_"
-        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com Vírgula", "Binário Mainframe", "Data"
+        when "Numérico", "Compactado", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe", "Data"
           self.default_value = 0
         else
           self.default_value = nil

@@ -19,7 +19,7 @@ class Processid < ActiveRecord::Base
   validates :var_table_name, presence: true, if: :current_user_is_room2?
   validates :conference_rule, presence: true, length: { maximum: 100 }, if: :current_user_is_room2?
   validates :acceptance_percent, presence: true, if: :current_user_is_room2?
-  validates :keep_previous_work, presence: true, if: :current_user_is_room2?
+  validates_inclusion_of :keep_previous_work, in: [true, false], if: :current_user_is_room2?
   validates :counting_rule, presence: true, length: { maximum: 100 }, if: :current_user_is_room2?
   validates :notes, presence: true, length: { maximum: 500 }, if: :current_user_is_room2?
 

@@ -26,7 +26,7 @@ class Campaign < ActiveRecord::Base
   validates :criterion, length: { maximum: 500 }, if: :current_user_is_room1?
   validates :description, presence: true, if: :current_user_is_room1?
   validates :description, length: { maximum: 200 }, if: :current_user_is_room1?
-  validates :exists_in_legacy, presence: true, if: :current_user_is_room1?
+  validates_inclusion_of :exists_in_legacy, in: [true, false], if: :current_user_is_room1?
   validates :automatic_routine, presence: true, length: { maximum: 50 }, if: lambda { current_user_is_room1? && self.exists_in_legacy }
   validates :factory_criterion_status, presence: true, inclusion: { in: Constants::FactoryCriterionStatus }
   validates :it_status, presence: true, if: :current_user_is_room1?

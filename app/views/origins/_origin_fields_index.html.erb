@@ -18,10 +18,10 @@
           <th><%= t('activerecord.attributes.origin_field.cd5_variable_number') %></th>
           <th><%= t('activerecord.attributes.origin_field.cd5_output_order') %></th>
         <% end %>
-        <th></th>  
+        <th></th>
         <% if @current_user.profile == User::ROOM1 %>
           <td></td>
-        <% end %>      
+        <% end %>
       </tr>
     </thead>
     <tbody>
@@ -36,8 +36,8 @@
           <td><%= origin_field.mask %></td>
           <td><%= origin_field.position %></td>
           <td><%= origin_field.width %></td>
-          <td><%= origin_field.is_key  %></td>
-          <td><%= origin_field.will_use  %></td>
+          <td><%= origin_field.is_key %></td>
+          <td><%= origin_field.will_use %></td>
           <td><%= origin_field.has_signal %></td>
           <% if @current_user.profile == User::ROOM2 %>
             <td><%= origin_field.cd5_variable_number %></td>

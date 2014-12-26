@@ -17,7 +17,6 @@ describe Processid do
     it { expect(subject).to validate_presence_of(:conference_rule) }
     it { expect(subject).to ensure_length_of(:conference_rule).is_at_most(100) }
     it { expect(subject).to validate_presence_of(:acceptance_percent) }
-    it { expect(subject).to validate_presence_of(:keep_previous_work) }
     it { expect(subject).to validate_presence_of(:counting_rule) }
     it { expect(subject).to ensure_length_of(:counting_rule).is_at_most(100) }
     it { expect(subject).to validate_presence_of(:notes) }

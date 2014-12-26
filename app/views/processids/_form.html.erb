@@ -44,25 +44,25 @@
         <div class="left t1">
           <%= f.label :conference_rule %>
           <%= f.text_field :conference_rule  %>
-        </div>         
+        </div>
       </div>
 
-      <div class="row clearfix">               
+      <div class="row clearfix">
         <div class="left t6">
           <%= f.label :acceptance_percent %>
           <%= f.text_field :acceptance_percent %>
         </div>
         <div class="left t6">
           <%= f.label :keep_previous_work %>
-          <%= f.select(:keep_previous_work,  [["Sim", 1],  ["Nao",0]] , {:include_blank => 'Selecione'}) %>          
-        </div>       
+          <%= f.select(:keep_previous_work, Constants::YES_NO, {:include_blank => 'Selecione'}) %>
+        </div>
       </div>
 
-      <div class="row clearfix">      
+      <div class="row clearfix">
         <div class="left t1">
           <%= f.label :counting_rule %>
-          <%= f.text_field :counting_rule %>        
-        </div>        
+          <%= f.text_field :counting_rule %>
+        </div>
 
       </div>
 
@@ -70,11 +70,11 @@
         <div class="left t6">
           <%= f.label :notes %>
           <%= f.text_area :notes, rows: 5 %>
-        </div>      
+        </div>
       </div>
 
      <%= render 'variables_form' %>
-                
+
     </fieldset>
 
     <section>

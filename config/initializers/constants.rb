@@ -5,4 +5,6 @@ module Constants
   DATA_TYPES = ["Alfanumérico", "Numérico", "Compactado", "Data", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe"]
 
   FactoryCriterionStatus = ["ok", "pending"]
+
+  YES_NO = [ ["Sim", true], ["Não", false] ]
 end

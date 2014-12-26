@@ -5,26 +5,22 @@ describe OriginField do
 
   before do
     user = FactoryGirl.create(:user, profile: profile)
-
     subject.current_user_id = user.id
   end
 
   describe 'validations' do
     describe 'when user profile is room1' do
       it { expect(subject).to validate_presence_of(:field_name) }
-      xit { expect(subject).to validate_presence_of(:data_type) }
-      xit { expect(subject).to validate_inclusion_of(:data_type).in_array(Constants::DATA_TYPES) }
+      it { expect(subject).to validate_presence_of(:data_type) }
+      it { expect(subject).to validate_inclusion_of(:data_type).in_array(Constants::DATA_TYPES) }
       it { expect(subject).to ensure_length_of(:mask).is_at_most(30) }
       it { expect(subject).to validate_presence_of(:position) }
       it { expect(subject).to validate_presence_of(:width) }
-      it { expect(subject).to validate_presence_of(:is_key) }
 
       context 'when profile user is room1 and data type is numeric' do
         let(:origin_field) { FactoryGirl.build(:origin_field, data_type: 'Numérico') }
 
         it { expect(origin_field).to validate_presence_of(:decimal) }
-        it { expect(origin_field).to validate_presence_of(:will_use) }
-        it { expect(origin_field).to validate_presence_of(:has_signal) }
       end
     end
 
@@ -238,12 +234,6 @@ describe OriginField do
         expect(o7.cd5_format).to eq "6"
       end
 
-      let(:o8) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
-      xit "when cd5_variable_number is fill and data_type equal ----" do
-        o8.valid?
-
-        expect(o8.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
-      end
     end
 
     context "define cd5_format_desc according the data_type" do
@@ -282,12 +272,6 @@ describe OriginField do
         expect(o7.cd5_format_desc).to eq "numeric"
       end
 
-      let(:o8) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
-      xit "when cd5_variable_number is fill and data_type equal ----" do
-        o8.valid?
-
-        expect(o8.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
-      end
     end
 
     context "define default_value according the data_type" do
@@ -311,13 +295,21 @@ describe OriginField do
         expect(o3.default_value).to eq 0
       end
 
-      let(:o4) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
-      xit "when cd5_variable_number is fill and data_type equal ----" do
-        o4.valid?
-
-        expect(o4.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
-
+      let(:o4) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Numérico com Vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Numérico com Vírgula" do
+        expect(o4.default_value).to eq 0
       end
+
+      let(:o5) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Compactado com Vírgula") }
+      it "when cd5_variable_number is fill and data_type equal Compactado com Vírgula" do
+        expect(o5.default_value).to eq 0
+      end
+
+      let(:o6) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Binário Mainframe") }
+      it "when cd5_variable_number is fill and data_type equal Binário Mainframe" do
+        expect(o6.default_value).to eq 0
+      end
+
     end
 
     context "define cd5_origin_format_desc according the data_type" do
@@ -356,13 +348,7 @@ describe OriginField do
         expect(o7.cd5_origin_format_desc).to eq "numeric"
       end
 
-      let(:o8) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
-      xit "when cd5_variable_number is fill and data_type equal ----" do
-        o8.valid?
-
-        expect(o8.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
-      end
-    end
+   end
 
     context "define cd5_origin_format according the data_type" do
       let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
@@ -400,13 +386,7 @@ describe OriginField do
         expect(o7.cd5_origin_format).to eq "6"
       end
 
-      let(:o8) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "----") }
-      xit "when cd5_variable_number is fill and data_type equal ----" do
-        o8.valid?
-
-        expect(o8.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
-      end
-    end
+   end
 
     context "define generic_data_type according the data_type" do
       let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, data_type: "Alfanumérico") }
@@ -444,13 +424,7 @@ describe OriginField do
         expect(o6.generic_data_type).to eq "numero"
       end
 
-      let(:o7) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "---") }
-      xit "equal Binário Mainframe" do
-        o7.valid?
-
-        expect(o7.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
-      end
-    end
+   end
 
     context "define fmbase_format_type according the data_type" do
 
@@ -489,12 +463,6 @@ describe OriginField do
         expect(o6.fmbase_format_type).to eq "BI"
       end
 
-      let(:o7) { FactoryGirl.build(:origin_field, cd5_variable_number: 555, data_type: "-----") }
-      xit "equal Binário Mainframe" do
-        o7.valid?
-
-        expect(o7.errors[:data_type]).to eq ["Campo Tipo de dado de ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe"]
-      end
-    end
+   end
   end
 end

@@ -10,9 +10,9 @@ class CreateOriginFields < ActiveRecord::Migration
       t.string  :mask, length: 30
       t.integer :position
       t.integer :width
-      t.boolean  :is_key
-      t.boolean  :will_use
-      t.boolean  :has_signal
+      t.boolean :is_key
+      t.boolean :will_use
+      t.boolean :has_signal
       t.text    :room_1_notes
       t.integer :cd5_variable_number, unique: true
       t.integer :cd5_output_order
