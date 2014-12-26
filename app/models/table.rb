@@ -1,4 +1,6 @@
 class Table < ActiveRecord::Base
+  include UserSession
+
   before_save :calculate_field_hive_table
   before_save :calculate_field_big_data_routine_name
   before_save :calculate_field_output_routine_name
@@ -13,6 +15,7 @@ class Table < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
+  validates :table_key, presence: true, length: { maximum: 100 }, if: :current_user_is_room1?
 
   def code
     "TA#{self.id.to_s.rjust(3,'0')}"

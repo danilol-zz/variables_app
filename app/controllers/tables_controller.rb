@@ -82,7 +82,7 @@ class TablesController < ApplicationController
       :key_fields_hive_script,
       :room_2_notes,
       :status
-      )
+    ).merge(current_user_id: current_user.id)
   end
 end
 

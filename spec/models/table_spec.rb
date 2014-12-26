@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 describe Table do
+  let(:profile) { 'sala1' }
+
+  before do
+    user = FactoryGirl.create(:user, profile: profile)
+
+    subject.current_user_id = user.id
+  end
+
   context "statuses" do
     before do
       FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
@@ -55,19 +63,20 @@ describe Table do
 
   context ".set_variables" do
     context "on create" do
-      subject(:saved_table) { @table.save }
-
       before do
-        @table = FactoryGirl.build(:table)
         FactoryGirl.create(:variable, id: 1, name: "v1")
         FactoryGirl.create(:variable, id: 5, name: "v2")
         FactoryGirl.create(:variable, id: 9, name: "v3")
+
+        @table = FactoryGirl.build(:table)
+        @table.save
       end
 
       context "with no variables selected" do
         it "not saves variables" do
           @table.set_variables(nil)
-          expect{saved_table}.to_not change{@table.variables.count}
+
+          expect(@table.variables.count).to eq 0
         end
       end
 
@@ -77,7 +86,8 @@ describe Table do
 
           it "saves variables" do
             @table.set_variables(table_params)
-            expect{subject}.to change{@table.variables.count}.by(1)
+
+            expect(@table.variables.count).to eq 1
           end
         end
 
@@ -86,7 +96,8 @@ describe Table do
 
           it "saves variables" do
             @table.set_variables(table_params)
-            expect{subject}.to change{@table.variables.count}.by(3)
+
+            expect(@table.variables.count).to eq 3
           end
         end
       end
@@ -163,13 +174,13 @@ describe Table do
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:table, logic_table_name: logic_table_name).status_screen_name }
+    subject { FactoryGirl.build(:table, logic_table_name: logic_table_name) }
 
     context "when logic_table_name is nil"  do
       let(:logic_table_name) { nil }
 
       it "returns an empty string" do
-        expect(subject).to be_blank
+        expect(subject.status_screen_name).to be_blank
       end
     end
 
@@ -178,7 +189,7 @@ describe Table do
         let(:logic_table_name) { "testnamestring" }
 
         it "returns the same string" do
-          expect(subject).to eq "testnamestring"
+          expect(subject.status_screen_name).to eq "testnamestring"
         end
       end
 
@@ -186,7 +197,7 @@ describe Table do
         let(:logic_table_name) { "testnamestringbiggertha20characters" }
 
         it "returns the same string" do
-          expect(subject).to eq "testnamestringbigger"
+          expect(subject.status_screen_name).to eq "testnamestringbigger"
         end
       end
     end

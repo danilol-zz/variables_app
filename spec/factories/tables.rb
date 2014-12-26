@@ -24,6 +24,7 @@ FactoryGirl.define do
     final_data_stage_routine_name "MyString"
     key_fields_hive_script "MyString"
     room_2_notes "MyString"
+    current_user_id 1
     status ""
   end
 end

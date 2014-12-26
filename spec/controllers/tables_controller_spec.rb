@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe TablesController, :type => :controller do
+  before do
+    session[:user_id] = User.create(user_attributes)
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Table. As you add validations to Table, be sure to
@@ -27,7 +30,8 @@ RSpec.describe TablesController, :type => :controller do
       :mirror_data_stage_routine_name => 'teste',
       :final_data_stage_routine_name => 'teste',
       :room_2_notes => 'teste',
-      :variable_list => {"1" => "checked", "2" => "checked" }
+      :variable_list => {"1" => "checked", "2" => "checked" },
+      :current_user_id => session[:user_id].id
     }
   }
 
@@ -51,8 +55,8 @@ RSpec.describe TablesController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new table as @table" do
-      session[:user_id] = User.create! user_attributes
       get :new, {}, valid_session
+
       expect(assigns(:table)).to be_a_new(Table)
     end
   end
@@ -60,8 +64,9 @@ RSpec.describe TablesController, :type => :controller do
   describe "GET edit" do
     it "assigns the requested table as @table" do
       table = Table.create! valid_attributes
-      session[:user_id] = User.create! user_attributes
+
       get :edit, {:id => table.to_param}, valid_session
+
       expect(assigns(:table)).to eq(table)
     end
   end
@@ -75,37 +80,24 @@ RSpec.describe TablesController, :type => :controller do
 
       it "creates a new Table" do
         expect {
-          session[:user_id] = User.create! user_attributes
           post :create, {:table => valid_attributes}, valid_session
         }.to change(Table, :count).by(1)
       end
 
       it "assigns a newly created table as @table" do
-        session[:user_id] = User.create! user_attributes
         post :create, {:table => valid_attributes}, valid_session
+
         expect(assigns(:table)).to be_a(Table)
         expect(assigns(:table)).to be_persisted
         expect(assigns(:table).status).to eq 'sala1'
       end
 
       it "redirects to the created table" do
-        session[:user_id] = User.create! user_attributes
         post :create, {:table => valid_attributes}, valid_session
+
         expect(response).to redirect_to(root_path({status: 'table', notice: 'Tabela criada com sucesso'}))
       end
     end
-
-    #describe "with invalid params" do
-    #  it "assigns a newly created but unsaved table as @table" do
-    #    post :create, {:table => invalid_attributes}, valid_session
-    #    expect(assigns(:table)).to be_a_new(Table)
-    #  end
-
-    #  it "re-renders the 'new' template" do
-    #    post :create, {:table => invalid_attributes}, valid_session
-    #    expect(response).to render_template("new")
-    #  end
-    #end
   end
 
   describe "PUT update" do
@@ -137,24 +129,30 @@ RSpec.describe TablesController, :type => :controller do
 
       it "updates the requested table" do
         table = Table.create! valid_attributes
-        session[:user_id] = User.create! user_attributes
+
         put :update, {:id => table.to_param, :table => new_attributes}, valid_session
-        table.reload
-        #skip("Add assertions for updated state")
       end
 
       it "assigns the requested table as @table" do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+
         table = Table.create! valid_attributes
+
         put :update, {:id => table.to_param, :table => valid_attributes}, valid_session
+
         expect(assigns(:table)).to eq(table)
       end
 
       it "assigns the requested table as @table and changes status" do
         FactoryGirl.create(:variable, id: 1)
         FactoryGirl.create(:variable, id: 2)
-        session[:user_id] = User.create! user_attributes
+
+
         table = Table.create! valid_attributes
+
         put :update, { id: table.to_param, table: valid_attributes, update_status: "sala2" }, valid_session
+
         expect(assigns(:table)).to eq(table)
         expect(assigns(:table).status).to eq 'sala2'
       end
@@ -162,25 +160,13 @@ RSpec.describe TablesController, :type => :controller do
       it "redirects to the table" do
         FactoryGirl.create(:variable, id: 1)
         FactoryGirl.create(:variable, id: 2)
+
         table = Table.create! valid_attributes
-        session[:user_id] = User.create! user_attributes
+
         put :update, {:id => table.to_param, :table => valid_attributes}, valid_session
+
         expect(response).to redirect_to(root_path({status: 'table', notice: 'Tabela atualizada com sucesso'}))
       end
     end
-
-    #describe "with invalid params" do
-    #  it "assigns the table as @table" do
-    #    table = Table.create! valid_attributes
-    #    put :update, {:id => table.to_param, :table => invalid_attributes}, valid_session
-    #    expect(assigns(:table)).to eq(table)
-    #  end
-
-    #  it "re-renders the 'edit' template" do
-    #    table = Table.create! valid_attributes
-    #    put :update, {:id => table.to_param, :table => invalid_attributes}, valid_session
-    #    expect(response).to render_template("edit")
-    #  end
-    #end
   end
 end
