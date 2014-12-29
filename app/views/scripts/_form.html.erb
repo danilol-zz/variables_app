@@ -5,11 +5,11 @@
   <%= form_for :scripts, url: export_script_path, action: "post" do |f| %>
 
     <fieldset>
-    
+
       <div class="row clearfix">
         <div class="left t2">
           <label for="script_name">Scripts</label>
-          <%= select_tag :script_name, options_for_select(ExportScript.get_list_scripts.map), prompt: "Selecione" -%>
+          <%= select_tag :script_name, options_for_select(@scripts_list), prompt: "Selecione" -%>
         </div>
 
         <div class="left t12">
