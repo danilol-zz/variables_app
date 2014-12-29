@@ -1,25 +1,29 @@
-<%= form_for :origin_field, url: create_origin_field_upload_path, :multipart => true do |f| %>
+<a name="forms-construido" class="link-ancora"></a>
 <section>
-  <h3 class="line-bottom">Adicionar <span class="destaque">campos de origem através de upload</span></h3>
-
-<fieldset>
-  <%= f.hidden_field :origin_id, value: @origin.id%>
-
-  <%= radio_button_tag 'file_type', "mainframe" %> Mainframe
-  <%= radio_button_tag 'file_type', "hadoop" %> Hadoop
-
-  
+  <h3 class="line-bottom">Adicionar <span class="destaque"><%= this_model_name(OriginField) %> através de upload</span></h3>
+  <%= form_for :origin_field, url: create_origin_field_upload_path, :multipart => true do |f| %>
+    <fieldset>
+      <legend></legend>
       <div class="row clearfix">
-        <div class="left t2">
-  <p><label for="upload_file">Selecione o Arquivo</label>
-  <%= f.file_field 'datafile' %></p>
-  </div>
-</div> 
-</fieldset>
-
-<div class="actions">
-<%= submit_tag "Upload" %>
-</div>
-
-<% end %>
+        <%= f.hidden_field :origin_id, value: @origin.id %>
+        <div class="left t6">
+          <p class="left"><%= radio_button_tag 'file_type', "mainframe", checked: true %> Mainframe</p>
+        </div>
+        <div class="left t6">
+          <p class="left"><%= radio_button_tag 'file_type', "hadoop" %> Hadoop</p>
+        </div>
+      </div>
+    </fieldset>
+    <div class="row clearfix">
+      <div class="actions">
+        <label for="upload_file">Selecione o Arquivo</label>
+        <%= f.file_field 'datafile' %>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="actions">
+        <%= submit_tag "Upload" %>
+      </div>
+    </div>
+  <% end %>
 </section>

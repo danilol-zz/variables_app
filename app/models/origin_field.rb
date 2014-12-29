@@ -55,21 +55,21 @@ class OriginField < ActiveRecord::Base
 
       if ind_comma
         if fmbase_value == "ZD"
-          data_type = "numerico com virgula"
+          data_type = "Numérico com vírgula"
         elsif fmbase_value == "PD"
-          data_type = "compactado com virgula"
+          data_type = "Compactado com Vírgula"
         else
           data_type = ""
         end
       else
         if fmbase_value ==  "ZD"
-          data_type = "numerico"
+          data_type = "Numérico"
         elsif fmbase_value == "PD"
-          data_type = "compactado"
+          data_type = "Compactado"
         elsif fmbase_value == "BI"
-          data_type = "binario mainframe"
+          data_type = "Binário Mainframe"
         elsif fmbase_value == "AN"
-          data_type = "alfanumerico"
+          data_type = "Alfanumérico"
         else
           data_type = ""
         end
@@ -105,9 +105,7 @@ class OriginField < ActiveRecord::Base
         origin_field.is_key = true
         origin_field.has_signal = true
 
-
         origin_field.save
-
         value_return = origin_field
 
     end
@@ -115,27 +113,24 @@ class OriginField < ActiveRecord::Base
     value_return
   end
 
-    def self.text_parser_generico(text_value, origin_id, current_user_id)
-
+  def self.text_parser_generico(text_value, origin_id, current_user_id)
     return_value=nil
-
     unless (/^(\"[a-zA-Z0-9\_\-\<\>]*\"\,){3}(\"[a-zA-Z0-9\_\-\<\>]*\")$/.match(text_value).nil?)
-
-      field_name=text_value.gsub('"', '').split(',').first
-
-      origin_field = OriginField.new
-            origin_field.field_name = field_name
-            origin_field.origin_pic = "X(255)"
-            origin_field.data_type = "alfanumerico"
-            origin_field.position = 0
-            origin_field.width = 0
-            origin_field.origin_id = origin_id
-            origin_field.current_user_id = current_user_id
-
-            origin_field.save
-
-            return_value = origin_field
-      end
+      field_name                    = text_value.gsub('"', '').split(',').first
+      origin_field                  = OriginField.new
+      origin_field.field_name       = field_name
+      origin_field.origin_pic       = "X(255)"
+      origin_field.data_type        = "Alfanumérico"
+      origin_field.is_key           = false
+      origin_field.will_use         = false
+      origin_field.has_signal       = false
+      origin_field.position         = 0
+      origin_field.width            = 0
+      origin_field.origin_id        = origin_id
+      origin_field.current_user_id  = current_user_id
+      origin_field.save
+      return_value                  = origin_field
+    end
 
     return_value
   end
@@ -149,7 +144,7 @@ class OriginField < ActiveRecord::Base
           self.cd5_format = "2"
         when "Compactado"
           self.cd5_format = "4"
-        when "Numérico com Vírgula"
+        when "Numérico com vírgula"
           self.cd5_format = "2"
         when "Compactado com Vírgula"
           self.cd5_format = "4"
@@ -168,10 +163,10 @@ class OriginField < ActiveRecord::Base
       case self.data_type
         when "Alfanumérico"
           self.cd5_format_desc = "character"
-        when "Numérico", "Compactado", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe"
+        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com Vírgula", "Binário Mainframe"
           self.cd5_format_desc = "numeric"
         when "Data"
-          self.cd5_format_desc = "data"
+          self.cd5_format_desc = "Data"
         else
           self.cd5_format_desc = nil
         end
@@ -183,7 +178,7 @@ class OriginField < ActiveRecord::Base
       case self.data_type
         when "Alfanumérico"
           self.default_value = "_"
-        when "Numérico", "Compactado", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe", "Data"
+        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com Vírgula", "Binário Mainframe", "Data"
           self.default_value = 0
         else
           self.default_value = nil
@@ -196,10 +191,10 @@ class OriginField < ActiveRecord::Base
       case self.data_type
         when "Alfanumérico"
           self.cd5_origin_format_desc = "character"
-        when "Numérico", "Compactado", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe"
+        when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com Vírgula", "Binário Mainframe"
           self.cd5_origin_format_desc = "numeric"
         when "Data"
-          self.cd5_origin_format_desc = "data"
+          self.cd5_origin_format_desc = "Data"
         else
           self.cd5_origin_format_desc = nil
         end
@@ -215,7 +210,7 @@ class OriginField < ActiveRecord::Base
           self.cd5_origin_format = "2"
         when "Compactado"
           self.cd5_origin_format = "4"
-        when "Numérico com Vírgula"
+        when "Numérico com vírgula"
           self.cd5_origin_format = "2"
         when "Compactado com Vírgula"
           self.cd5_origin_format = "4"
@@ -239,7 +234,7 @@ class OriginField < ActiveRecord::Base
     case self.data_type
       when "Alfanumérico"
         self.generic_data_type = "texto"
-      when "Numérico", "Compactado", "Numérico com Vírgula", "Compactado com Vírgula", "Binário Mainframe"
+      when "Numérico", "Compactado", "Numérico com vírgula", "Compactado com Vírgula", "Binário Mainframe"
         self.generic_data_type = "numero"
       when "Data"
         self.generic_data_type = "data"
@@ -252,7 +247,7 @@ class OriginField < ActiveRecord::Base
     case self.data_type
       when "Alfanumérico"
         self.fmbase_format_type = "AN"
-      when "Numérico", "Data", "Numérico com Vírgula"
+      when "Numérico", "Data", "Numérico com vírgula"
         self.fmbase_format_type = "ZD"
       when "Compactado", "Compactado com Vírgula"
         self.fmbase_format_type = "PD"

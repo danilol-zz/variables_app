@@ -1,0 +1,12 @@
+    <% if !@data_file.blank? && @data_file.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@data_file.errors.count, "error") %> proibiram esse campo de origem de ser salvo:</h2>
+        <ul>
+          <% @data_file.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+

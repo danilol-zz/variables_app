@@ -219,7 +219,7 @@ pt:
             automatic_routine:
               blank: não pode ser vazio!
               too_long: deve ter no máximo 50 caracteres!
-            factory_criterion_status: 
+            factory_criterion_status:
               blank: não pode ser vazio!
               inclusion: deve ser ok ou pendente
         origin:
@@ -309,10 +309,13 @@ pt:
               inclusion: deve ser Alfanumérico, Numérico, Compactado, Data, Numérico com vírgula, Compactado com Vírgula ou Binário Mainframe
             is_key:
               blank: não pode ser vazio!
+              inclusion: não pode ser vazio!
             will_use:
               blank: não pode ser vazio!
+              inclusion: não pode ser vazio!
             has_signal:
               blank: não pode ser vazio!
+              inclusion: não pode ser vazio!
             cd5_variable_number:
               blank: não pode ser vazio!
             position:

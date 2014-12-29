@@ -84,40 +84,43 @@ class OriginsController < ApplicationController
   end
 
   def create_origin_field_upload
-    @origin = Origin.find(params[:origin_field][:origin_id])
-    @file_type = params[:file_type]
     @data_file = params[:origin_field][:datafile]
-
-    array_linha = Array.new
-    conta_linha = 0
-    conta_valido = 0
-
-    resultado = false
-
-    # abre o arquivo temporario
-    File.open(@data_file.tempfile) do |txt|
-      txt.each_line() do |linha|
-
-        # ignora o header e linhas vazias para oa arquivos do hadoop
-        array_linha = linha.split(",")
-        if @file_type == "hadoop" && array_linha.size > 1 && conta_linha > 0
-          resultado = OriginField.text_parser(@file_type, linha, @origin.id, current_user.id)
-          conta_valido += 1
-        elsif (!linha.downcase.include? "end of data") && @file_type == "mainframe"
-          resultado = OriginField.text_parser(@file_type, linha, @origin.id, current_user.id)
-          if resultado
-            conta_valido += 1
-          end
-        end
-
-        conta_linha += 1
-      end
-    end
-
-    if resultado || conta_valido > 0
-      redirect_to @origin, notice: "#{conta_valido} #{OriginField.model_name.human.capitalize} criados com sucesso"
+    @origin = Origin.find(params[:origin_field][:origin_id])
+    unless @data_file
+      redirect_to @origin, notice: "Voce tentou fazer Upload sem selecionar um arquivo. Selecione um arquivo, por favor."
     else
-      redirect_to @origin, notice: "Nenhum #{OriginField.model_name.human.capitalize} foi criado!"
+      @file_type = params[:file_type]
+
+      array_linha = Array.new
+      conta_linha = 0
+      conta_valido = 0
+
+      resultado = false
+
+      # abre o arquivo temporario
+      File.open(@data_file.tempfile) do |txt|
+        txt.each_line() do |linha|
+
+          # ignora o header e linhas vazias para oa arquivos do hadoop
+          array_linha = linha.split(",")
+          if @file_type == "hadoop" && array_linha.size > 1 && conta_linha > 0
+            resultado = OriginField.text_parser(@file_type, linha, @origin.id, current_user.id)
+            conta_valido += 1
+          elsif (!linha.downcase.include? "end of data") && @file_type == "mainframe"
+            resultado = OriginField.text_parser(@file_type, linha, @origin.id, current_user.id)
+            if resultado
+              conta_valido += 1
+            end
+          end
+          conta_linha += 1
+        end
+      end
+
+      if resultado || conta_valido > 0
+        redirect_to @origin, notice: "#{conta_valido} #{OriginField.model_name.human.capitalize} criados com sucesso"
+      else
+        redirect_to @origin, notice: "Nenhum #{OriginField.model_name.human.capitalize} foi criado!"
+      end
     end
   end
 
