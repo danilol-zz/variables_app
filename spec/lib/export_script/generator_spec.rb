@@ -27,7 +27,7 @@ exit $codret
 insert into controle_bigdata.tah6_pro values (“CD5P<Origem.[Mnemônico]>”,”<Origem.[Nome da base/arquivo]>”,”<Origem.[@periodicidade_origem_mysql]>”,”2014-12-23”);
   '
 
-  condition = "<Campos de Origem.[Vai usar?=true]>"
+  #condition = "<Campos de Origem.[Vai usar?=true]>"
 
 
   script_mini2 = '
@@ -87,6 +87,57 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
           expect(subject["Processo"].size).to eq 2
           expect(subject["Processo"][0]).to eq "Nome da rotina"
           expect(subject["Processo"][1]).to eq "Nome tabela var"
+        end
+      end
+    end
+  end
+
+  context '.get_campaign_by_sprint' do
+    before do
+      FactoryGirl.create(:user, id: 1)
+      @campaign1 = FactoryGirl.create(:campaign, id: 1, updated_in_sprint: 1, communication_channel: "CRE300" )
+      @campaign2 = FactoryGirl.create(:campaign, id: 2, updated_in_sprint: 1, communication_channel: "CRE301" )
+      @campaign3 = FactoryGirl.create(:campaign, id: 3, updated_in_sprint: 2, communication_channel: "CRE302" )
+    end
+
+    subject { Generator.get_campaign_by_sprint(sprint, condition) }
+
+    context "with invalid params" do
+      let(:sprint)    { nil }
+      let(:condition) { '1 = 1' }
+
+      it "returns an empty array for nil sprint value" do
+        expect(subject).to eq []
+      end
+    end
+
+    context "with valid param" do
+      context 'without condition param' do
+        let(:sprint)    { 1 }
+        let(:condition) { nil }
+
+        it "returns two existing campaigns" do
+          expect(subject).to eq [@campaign1, @campaign2]
+        end
+      end
+
+      context 'with condition param' do
+        context "when campaign is not found" do
+          let(:sprint)    { 1 }
+          let(:condition) { "communication_channel=CRE302" }
+
+          it "returns an existing campaign" do
+            expect(subject).to eq []
+          end
+        end
+
+        context "when campaign is found" do
+          let(:sprint)    { 1 }
+          let(:condition) { "communication_channel=CRE301" }
+
+          it "returns an existing campaign" do
+            expect(subject).to eq [@campaign2]
+          end
         end
       end
     end
