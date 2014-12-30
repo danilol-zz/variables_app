@@ -1,4 +1,25 @@
 module Support
+
+  def self.make_dictionary
+    hash_transl = {
+      "Campanha"         => { name_entity: Campaign.to_s, class_entity: Campaign, atribute_translate: Hash.new } ,
+      "Origem"           => { name_entity: Origin.to_s, class_entity: Origin, atribute_translate: Hash.new } ,
+      "Campos de Origem" => { name_entity: OriginField.to_s, class_entity: OriginField, atribute_translate: Hash.new } ,
+      "Processo"         => { name_entity: Processid.to_s , class_entity: Processid , atribute_translate: Hash.new } ,
+      "Tabela"           => { name_entity: Table.to_s, class_entity: Table, atribute_translate: Hash.new } ,
+      "Variavel"         => { name_entity: Variable.to_s, class_entity: Variable, atribute_translate: Hash.new }
+    }
+
+    hash_transl.each_key do |entity|
+      hash_transl[entity][:class_entity].attribute_names.each do |attribute_eng|
+        attribute_br = hash_transl[entity][:class_entity].human_attribute_name(attribute_eng)
+        hash_transl[entity][:atribute_translate][attribute_br] = attribute_eng
+      end
+    end
+
+    hash_transl
+  end
+
   REGEX = Regexp.new("<([A-Za-z\\ ]+)\\.\\[(.+?)\\]>", Regexp::MULTILINE)
 
   HASH_SCRIPTS = {
@@ -261,8 +282,4 @@ module Support
                    SPPTI Planejamento	acionar analista"
     }
   }
-
-
-
-
 end

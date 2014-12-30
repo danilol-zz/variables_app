@@ -26,12 +26,12 @@ module Generator
 
     list_entit     = get_entities_list(script)
     list_condition = get_entities_list(condition) if condition
-    dicionary      = make_dictionary
+    dicionary      = Support.make_dictionary
 
     invert_entity_dicionary = Hash.new
 
     dicionary.keys.each do |key|
-      invert_entity_dicionary[dicionary[key]["class_entity"].to_s] = key
+      invert_entity_dicionary[dicionary[key][:class_entity].to_s] = key
     end
 
     list_entit_translated = translate_list(list_entit,dicionary)
@@ -42,7 +42,7 @@ module Generator
     list_entit_reference_name =[]
 
     list_entit_translated.each_key do |entity_name_eng|
-      if dicionary[entity_master_br]["name_entity"] == entity_name_eng
+      if dicionary[entity_master_br][:name_entity] == entity_name_eng
         if condition
           list_entit_master = get_entits_by_sprint(sprint, entity_name_eng, list_condition_translated[entity_name_eng])
         else
@@ -63,8 +63,8 @@ module Generator
 
       list_entit[entity_master_br].each do |attr_master_Br|
         key_replace_master   = "<#{entity_master_br}.[#{attr_master_Br}]>"
-        ent_Eng              = dicionary[entity_master_br]["name_entity"]
-        attr_master_eng      = dicionary[entity_master_br]["atribute_translate"][attr_master_Br]
+        ent_Eng              = dicionary[entity_master_br][:name_entity]
+        attr_master_eng      = dicionary[entity_master_br][:atribute_translate][attr_master_Br]
 
         if attr_master_Br.include? "@"
           value_replace_master = value_by_function(entity_master,attr_master_Br)
@@ -98,7 +98,7 @@ module Generator
           list_entit[entity_reference_name_br].each do |attr_reference_Br|
 
             key_replace_reference = "<#{entity_reference_name_br}.[#{attr_reference_Br}]>"
-            attr_reference_eng    = dicionary[entity_reference_name_br]["atribute_translate"][attr_reference_Br]
+            attr_reference_eng    = dicionary[entity_reference_name_br][:atribute_translate][attr_reference_Br]
 
             if array_entits_related == nil
               ind_valid_relationship = "N"
@@ -169,14 +169,14 @@ module Generator
           list[ent_Br].size > 0 && hash_transl.has_key?(ent_Br)
           test_entity = 'N'
         else
-          ent_Eng=hash_transl[ent_Br]["name_entity"]
+          ent_Eng=hash_transl[ent_Br][:name_entity]
           lista_ent[ent_Eng] = []
           list[ent_Br].each do |attr_Br|
-            unless hash_transl[ent_Br]["atribute_translate"].has_key?(attr_Br.split(/\=/).first) ||
+            unless hash_transl[ent_Br][:atribute_translate].has_key?(attr_Br.split(/\=/).first) ||
               attr_Br.include?("@")
               test_attr = 'N'
             else
-              attr_Eng = hash_transl[ent_Br]["atribute_translate"][attr_Br.split(/\=/).first]
+              attr_Eng = hash_transl[ent_Br][:atribute_translate][attr_Br.split(/\=/).first]
               if attr_Br.include? "="
                 lista_ent[ent_Eng] << attr_Eng + "=" + attr_Br.split(/\=/).last
               elsif attr_Br.include? "@"
@@ -529,53 +529,7 @@ module Generator
     return_value
   end
 
-
-  def self.make_dictionary
-    hash_transl = {
-      "Campanha" => {
-        "name_entity" => "Campaign" ,
-        "class_entity" => Campaign ,
-        "atribute_translate" => Hash.new
-      } ,
-      "Origem" => {
-        "name_entity"=> "Origin" ,
-        "class_entity" => Origin,
-        "atribute_translate" => Hash.new
-      } ,
-      "Campos de Origem" => {
-        "name_entity" => "OriginField" ,
-        "class_entity" => OriginField,
-        "atribute_translate" => Hash.new
-      } ,
-      "Processo" => {
-        "name_entity" => "Processid" ,
-        "class_entity" => Processid ,
-        "atribute_translate" => Hash.new
-      } ,
-      "Tabela" => {
-        "name_entity" => "Table" ,
-        "class_entity" => Table ,
-        "atribute_translate" => Hash.new
-      } ,
-      "Variavel" => {
-        "name_entity" => "Variable" ,
-        "class_entity" => Variable ,
-        "atribute_translate" => Hash.new
-      }
-    }
-
-    hash_transl.each_key do |entity|
-      hash_transl[entity]["class_entity"].attribute_names.each do |attribute_eng|
-        attribute_br = hash_transl[entity]["class_entity"].human_attribute_name(attribute_eng)
-        hash_transl[entity]["atribute_translate"][attribute_br] = attribute_eng
-      end
-    end
-
-    hash_transl
-  end
-
   def self.value_by_function(entity,attr_master_Br)
-
     return_value = ''
 
     case attr_master_Br
