@@ -3,13 +3,10 @@ require 'rails_helper'
 
 describe ScriptsController do
   before do
-    user = User.new(valid_attributes)
-    controller.session[:user_id] = user.id
+    session[:user_id] = User.create(user_attributes)
   end
 
-  after { session[:user_id] = nil }
-
-  let(:valid_attributes) {
+  let(:user_attributes) {
     {
       :email    => "zekitow@gmail.com",
       :name     => "José Ribeiro",
@@ -18,14 +15,19 @@ describe ScriptsController do
     }
   }
 
-  let(:valid_session) { {} }
-
-  describe "GET index" do
-    it "render index" do
-      user = User.create! valid_attributes
-      session[:user_id] = user.id
-      get :index, {}, valid_session
-      expect(response.code).to eq("200")
+  describe "#index" do
+    context "GET index" do
+      it "renders index" do
+        get :index
+        expect(response).to render_template(:index)
+      end
+    end
+    context "POST index" do
+      it "renders index" do
+        post :index
+        expect(response).to render_template(:index)
+      end
     end
   end
+
 end

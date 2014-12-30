@@ -4,16 +4,18 @@ class ScriptsController < ApplicationController
 
   def index
     @scripts_list = Support::HASH_SCRIPTS.keys
-  end
-
-  def generate_script
     @generated_script = ""
-    if params["sprint_number"] != "" && params["script_name"] != ""
-      sprint = params["sprint_number"].to_i
+    sprint = params["sprint_number"]
+    if sprint
       script_name = params["script_name"]
-      @generated_script = Generator.export_script_by_sprint(sprint, script_name)
+      sprint = sprint.to_i
+      begin
+        @generated_script = Generator.export_script_by_sprint(sprint, script_name)
+        @script_name = @generated_script.split("\n")[0].split(": ")[1]
+      rescue
+        params[:errors] = "Para os valores informados, não há scripts a serem gerados."
+      end
     end
-    render "index",  generated_script: @generated_script
   end
 
 end
