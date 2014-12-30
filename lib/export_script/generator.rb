@@ -24,7 +24,7 @@ class Generator
     condition         = Support::HASH_SCRIPTS[script_name]["condition"]
 
     ind_valid_relationship = 'S'
-    ind_entity_reference    = 'N'
+    ind_entity_reference   = 'N'
     ind_group_funcion      = 'S'
 
     list_entity    = get_entities_list(script)
@@ -36,9 +36,8 @@ class Generator
       invert_entity_dictionary[dictionary[key][:name_entity]] = key
     end
 
-    list_entity_translated = translate_list(list_entity, dictionary)
-
-    list_condition_translated = translate_list(list_condition,dictionary) if condition
+    list_entity_translated    = translate_list(list_entity,    dictionary)
+    list_condition_translated = translate_list(list_condition, dictionary) if condition
 
     list_entity_master = []
     list_entity_reference_name =[]
@@ -163,13 +162,10 @@ class Generator
 
     lista_ent = Hash.new
 
-    #unless list != nil && (list.instance_of? Hash) && list.size > 0
     if list && (list.instance_of? Hash) && list.size > 0
       list.each_key do |ent_Br|
-        unless list[ent_Br] != nil && (list[ent_Br].instance_of? Array) && list[ent_Br].size > 0 && hash_transl.has_key?(ent_Br)
-          test_entity = 'N'
-        else
-          ent_Eng=hash_transl[ent_Br][:name_entity]
+        if list[ent_Br] && (list[ent_Br].instance_of? Array) && list[ent_Br].size > 0 && hash_transl.has_key?(ent_Br)
+          ent_Eng = hash_transl[ent_Br][:name_entity]
           lista_ent[ent_Eng] = []
           list[ent_Br].each do |attr_Br|
             unless hash_transl[ent_Br][:translated_attribute].has_key?(attr_Br.split(/\=/).first) ||
@@ -186,6 +182,8 @@ class Generator
               end
             end
           end
+        else
+          test_entity = 'N'
         end
       end
     else
@@ -210,7 +208,7 @@ class Generator
     else
       case entity
       when "Campaign"
-        value = get_Campaign_by_sprint(sprint,condition)
+        value = get_campaign_by_sprint(sprint,condition)
       when "Table"
         value = get_Table_by_sprint(sprint,condition)
       when "Origin"
@@ -310,36 +308,17 @@ class Generator
   end
 
 
-  def self.get_Campaign_by_sprint(sprint,condition)
-    return_value = ''
+  def self.get_campaign_by_sprint(sprint, condition = nil)
+    return [] unless sprint
 
-    #concect = Table.connection
-    #p concect.class
-    #p concect
-    #p Table.connected?
-    #result = Table.select { |m| m.updated_in_sprint == sprint }
     cond = {}
-    if condition.nil?
-      cond = false
-    else
-      condition.each do |item|
-        words=item.split(/\=/)
-        cond[words[0]]=words[1]
-      end
+
+    Array(condition).each do |item|
+      words = item.split(/\=/)
+      cond[words[0]] = words[1]
     end
 
     result = Campaign.where(updated_in_sprint: sprint).where(cond).to_a
-
-    #p sprint
-    #p result.class
-    #p result.size
-    if result.size == 0
-      return_value = nil
-    else
-      return_value = result
-    end
-
-    return_value
   end
 
   def self.get_Table_by_sprint(sprint,condition)
@@ -368,11 +347,6 @@ class Generator
   def self.get_Origin_by_sprint(sprint,condition)
     return_value = ''
 
-    #concect = Table.connection
-    #p concect.class
-    #p concect
-    #p Table.connected?
-    #result = Table.select { |m| m.updated_in_sprint == sprint }
     cond = {}
     if condition.nil?
       cond = false
@@ -384,12 +358,6 @@ class Generator
     end
 
     result = Origin.where(updated_in_sprint: sprint).where(cond).to_a
-
-    #p sprint
-    #p result.class
-    #p result.size
-    #p result
-
 
     if result.size == 0
       return_value = nil
@@ -403,12 +371,6 @@ class Generator
   def self.get_OriginField_by_sprint(sprint,condition)
     return_value = ''
 
-    #concect = Table.connection
-    #p concect.class
-    #p concect
-    #p Table.connected?
-    #result = Table.select { |m| m.updated_in_sprint == sprint }
-    #p "condition = #{condition}"
     cond = {}
     if condition.nil?
       cond = false
@@ -424,29 +386,11 @@ class Generator
         cond[words[0]]=words[1]
       end
     end
-    #p "sprint = #{sprint}"
-    #p "cond"
-    #p cond
 
     result = []
-    #p "entity in the sprint"
-    #p Origin.where(updated_in_sprint: sprint)
-    #p "size org #{Origin.where(updated_in_sprint: sprint).to_a.size}"
     Origin.where(updated_in_sprint: sprint).to_a.each do |org|
-      #p "orign fields"
-      #p org.origin_fields
       result = result + org.origin_fields.where(cond).to_a
     end
-
-
-
-    #p sprint
-    #p result.class
-    #p result[0].class
-    #p result.size
-    #p result
-
-    #p "result.size = #{result.size}"
 
     if result.size == 0
       return_value = nil
@@ -460,11 +404,6 @@ class Generator
   def self.get_Processid_by_sprint(sprint,condition)
     return_value = ''
 
-    #concect = Table.connection
-    #p concect.class
-    #p concect
-    #p Table.connected?
-    #result = Table.select { |m| m.updated_in_sprint == sprint }
     cond = {}
     if condition.nil?
       cond = false
@@ -475,17 +414,10 @@ class Generator
       end
     end
 
-
     result = []
     Variable.where(updated_in_sprint: sprint).to_a.each do |pro|
       result = result + pro.processids.where(cond).to_a
     end
-
-    #p sprint
-    #p result.class
-    #p result[0].class
-    #p result.size
-    #p result
 
     if result.size == 0
       return_value = nil
@@ -499,11 +431,6 @@ class Generator
   def self.get_Variable_by_sprint(sprint,condition)
     return_value = ''
 
-    #concect = Table.connection
-    #p concect.class
-    #p concect
-    #p Table.connected?
-    #result = Table.select { |m| m.updated_in_sprint == sprint }
     cond = {}
     if condition.nil?
       cond = false
@@ -514,13 +441,7 @@ class Generator
       end
     end
 
-
     result = Variable.where(updated_in_sprint: sprint).where(cond).to_a
-
-    #p sprint
-    #p result.class
-    #p result.size
-    #p result
 
     if result.size == 0
       return_value = nil
