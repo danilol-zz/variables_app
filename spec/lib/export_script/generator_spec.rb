@@ -76,7 +76,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
   end
 
-  context '.translate_list' do
+  context '.make_dictionary' do
     before do
       @dic = Generator.make_dictionary
     end
@@ -124,7 +124,6 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       expect(list_trans["Processid"][0]).to eq "routine_name"
       expect(list_trans["Processid"][1]).to eq "var_table_name"
     end
-
   end
 
 
@@ -804,7 +803,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     end
 
     it "should work " do
-      list_scripts = ScriptConstants::HASH_SCRIPTS.keys
+      list_scripts = Support::HASH_SCRIPTS.keys
       expect(list_scripts).to be_kind_of(Array)
       expect(list_scripts.size > 0).to eq true
 

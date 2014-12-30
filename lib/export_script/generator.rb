@@ -1,5 +1,3 @@
-require 'export_script/script_constants'
-
 module Generator
   def self.export_script_by_sprint(sprint, script_name)
     array_script = generate_script_by_sprint(sprint, script_name)
@@ -17,10 +15,10 @@ module Generator
 
   #================================== metodos de processamento =========================================
   def self.generate_script_by_sprint(sprint, script_name)
-    entity_master_br  = ScriptConstants::HASH_SCRIPTS[script_name]["entity_master_br"]
-    ind_group_related = ScriptConstants::HASH_SCRIPTS[script_name]["ind_group_related"]
-    script            = ScriptConstants::HASH_SCRIPTS[script_name]["script"]
-    condition         = ScriptConstants::HASH_SCRIPTS[script_name]["condition"]
+    entity_master_br  = Support::HASH_SCRIPTS[script_name]["entity_master_br"]
+    ind_group_related = Support::HASH_SCRIPTS[script_name]["ind_group_related"]
+    script            = Support::HASH_SCRIPTS[script_name]["script"]
+    condition         = Support::HASH_SCRIPTS[script_name]["condition"]
 
     ind_valid_relationship = 'S'
     ind_entit_reference    = 'N'
@@ -33,7 +31,7 @@ module Generator
     invert_entity_dicionary = Hash.new
 
     dicionary.keys.each do |key|
-      invert_entity_dicionary[dicionary[key]["name_entity"]] = key
+      invert_entity_dicionary[dicionary[key]["class_entity"].to_s] = key
     end
 
     list_entit_translated = translate_list(list_entit,dicionary)
@@ -139,9 +137,9 @@ module Generator
   end
 
   def self.get_entities_list(script)
-    list = script.scan(ScriptConstants::REGEX)
+    list = script.scan(Support::REGEX)
 
-    list_ent = {}
+    list_ent = Hash.new
     list.each do |item|
       if list_ent.has_key?(item[0])
         list_ent[item[0]] << item[1]

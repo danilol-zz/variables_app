@@ -3,7 +3,7 @@ class ScriptsController < ApplicationController
   before_filter :ensure_authentication, :only => [:index]
 
   def index
-    @scripts_list = ScriptConstants::HASH_SCRIPTS.keys
+    @scripts_list = Support::HASH_SCRIPTS.keys
   end
 
   def generate_script
