@@ -1,4 +1,5 @@
-module Generator
+class Generator
+
   def self.export_script_by_sprint(sprint, script_name)
     array_script = generate_script_by_sprint(sprint, script_name)
     output = "Nome do Script: #{script_name}\nResultado do Script : \n"
@@ -15,7 +16,8 @@ module Generator
 
   #================================== metodos de processamento =========================================
   def self.generate_script_by_sprint(sprint, script_name)
-    dictionary        = Support.make_dictionary
+    dictionary   = Support.make_dictionary
+
     entity_master_br  = Support::HASH_SCRIPTS[script_name]["entity_master_br"]
     ind_group_related = Support::HASH_SCRIPTS[script_name]["ind_group_related"]
     script            = Support::HASH_SCRIPTS[script_name]["script"]
@@ -31,7 +33,7 @@ module Generator
     invert_entity_dictionary = Hash.new
 
     dictionary.keys.each do |key|
-      invert_entity_dictionary[dictionary[key][:class_entity].to_s] = key
+      invert_entity_dictionary[dictionary[key][:name_entity]] = key
     end
 
     list_entity_translated = translate_list(list_entity, dictionary)
@@ -64,7 +66,7 @@ module Generator
       list_entity[entity_master_br].each do |attr_master_Br|
         key_replace_master   = "<#{entity_master_br}.[#{attr_master_Br}]>"
         ent_Eng              = dictionary[entity_master_br][:name_entity]
-        attr_master_eng      = dictionary[entity_master_br][:attribute_translated][attr_master_Br]
+        attr_master_eng      = dictionary[entity_master_br][:translated_attribute][attr_master_Br]
 
         if attr_master_Br.include? "@"
           value_replace_master = value_by_function(entity_master,attr_master_Br)
@@ -98,7 +100,7 @@ module Generator
           list_entity[entity_reference_name_br].each do |attr_reference_Br|
 
             key_replace_reference = "<#{entity_reference_name_br}.[#{attr_reference_Br}]>"
-            attr_reference_eng    = dictionary[entity_reference_name_br][:attribute_translated][attr_reference_Br]
+            attr_reference_eng    = dictionary[entity_reference_name_br][:translated_attribute][attr_reference_Br]
 
             if array_entities_related.nil?
               ind_valid_relationship = "N"
@@ -154,37 +156,41 @@ module Generator
     list_ent
   end
 
-  def self.translate_list(list, hash_transl)
+  def self.translate_list(list = nil, hash_transl)
     test_hash_pass='S'
     test_entity='S'
     test_attr='S'
 
     lista_ent = Hash.new
 
-    list.each_key do |ent_Br|
-      unless list[ent_Br] != nil && (list[ent_Br].instance_of? Array) &&
-        list[ent_Br].size > 0 && hash_transl.has_key?(ent_Br)
-        test_entity = 'N'
-      else
-        ent_Eng=hash_transl[ent_Br][:name_entity]
-        lista_ent[ent_Eng] = []
-        list[ent_Br].each do |attr_Br|
-          unless hash_transl[ent_Br][:attribute_translated].has_key?(attr_Br.split(/\=/).first) ||
-            attr_Br.include?("@")
-            test_attr = 'N'
-          else
-            attr_Eng = hash_transl[ent_Br][:attribute_translated][attr_Br.split(/\=/).first]
-            if attr_Br.include? "="
-              lista_ent[ent_Eng] << attr_Eng + "=" + attr_Br.split(/\=/).last
-            elsif attr_Br.include? "@"
-              lista_ent[ent_Eng] << attr_Br
+    #unless list != nil && (list.instance_of? Hash) && list.size > 0
+    if list && (list.instance_of? Hash) && list.size > 0
+      list.each_key do |ent_Br|
+        unless list[ent_Br] != nil && (list[ent_Br].instance_of? Array) && list[ent_Br].size > 0 && hash_transl.has_key?(ent_Br)
+          test_entity = 'N'
+        else
+          ent_Eng=hash_transl[ent_Br][:name_entity]
+          lista_ent[ent_Eng] = []
+          list[ent_Br].each do |attr_Br|
+            unless hash_transl[ent_Br][:translated_attribute].has_key?(attr_Br.split(/\=/).first) ||
+              attr_Br.include?("@")
+              test_attr = 'N'
             else
-              lista_ent[ent_Eng] << attr_Eng
+              attr_Eng = hash_transl[ent_Br][:translated_attribute][attr_Br.split(/\=/).first]
+              if attr_Br.include? "="
+                lista_ent[ent_Eng] << attr_Eng + "=" + attr_Br.split(/\=/).last
+              elsif attr_Br.include? "@"
+                lista_ent[ent_Eng] << attr_Br
+              else
+                lista_ent[ent_Eng] << attr_Eng
+              end
             end
-
           end
         end
       end
+    else
+      test_hash_pass='N'
+      test_attr = 'S'
     end
 
     if test_hash_pass == 'S' && test_entity == 'S' && test_attr == 'S'

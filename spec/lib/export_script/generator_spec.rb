@@ -777,4 +777,69 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       end
     end
   end
+
+  context '.translate_list' do
+    let(:dic) { Support.make_dictionary }
+
+    subject { Generator.translate_list(@list, dic) }
+
+    context 'with invalid values' do
+      it "returns nil when param is an empty hash" do
+        @list = Hash.new
+        expect(subject).to eq nil
+      end
+
+      it "returns nil when param is an nil" do
+        @list = nil
+        expect(subject).to eq nil
+      end
+
+      it "returns nil when param is an empty string" do
+        @list = ""
+        expect(subject).to eq nil
+      end
+
+      it "returns nil when param is a hash with nil value" do
+        @list = {"Processo" => nil }
+        expect(subject).to eq nil
+      end
+
+      it "returns nil when param is a hash with empty string value" do
+        @list = {"Processo" => "" }
+        expect(subject).to eq nil
+      end
+
+      it "returns nil when param is a hash with empty array value" do
+        @list = {"Processo" => [] }
+        expect(subject).to eq nil
+      end
+    end
+
+    context 'with valid values' do
+      context 'with wrong data' do
+        it "returns nil if dont find a entity" do
+          @list = { "Processo_Erro" => ["Nome programa"] }
+          expect(subject).to eq nil
+        end
+
+        it "returns nil if dont find an attribute" do
+          @list = { "Processo" => ["Nome programa erro"] }
+          expect(subject).to eq nil
+        end
+      end
+
+      context 'with correct data' do
+        it "returns the translated list sucessfully" do
+          @list = Generator.get_entities_list("<Processo.[Nome da rotina]>.SQL <Processo.[Nome tabela var]>")
+
+          expect(subject).to be_kind_of(Hash)
+          expect(subject.size).to eq 1
+          expect(subject.has_key?("Processid")).to eq true
+          expect(subject["Processid"].size).to eq 2
+          expect(subject["Processid"][0]).to eq "routine_name"
+          expect(subject["Processid"][1]).to eq "var_table_name"
+        end
+      end
+    end
+  end
 end

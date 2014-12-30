@@ -193,8 +193,6 @@ RSpec.describe OriginsController, type: :controller do
 
     context "with invalid file type and valid file" do
       it "not created any origin_fields" do
-        #require "pry";binding.pry;
-        #session[:user_id] = User.create! user_attributes
         origin = FactoryGirl.create(:origin)
 
         file_test = File.new(Rails.root + 'spec/fixtures/upload_hadoop.txt')
@@ -203,8 +201,6 @@ RSpec.describe OriginsController, type: :controller do
         expect {
           post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  }, file_type: "invalid" }, valid_session
         }.to change(OriginField, :count).by(0)
-
-        #expect(response).to redirect_to(origin_field)
       end
     end
   end
@@ -212,8 +208,6 @@ RSpec.describe OriginsController, type: :controller do
   describe "POST create origin field upload mainframe file" do
     context "with valid file type and valid file" do
       it "assigns new created origin_fields" do
-        #require "pry";binding.pry;
-        #session[:user_id] = User.create! user_attributes
         origin = FactoryGirl.create(:origin)
 
         file_test = File.new(Rails.root + 'spec/fixtures/upload_mainframe.txt')
@@ -222,8 +216,6 @@ RSpec.describe OriginsController, type: :controller do
         expect {
           post :create_origin_field_upload, { origin_field: { origin_id: origin.id, datafile: file  } , file_type: "mainframe" }, valid_session
         }.to change(OriginField, :count).by(40)
-
-        #expect(response).to redirect_to(origin_field)
       end
     end
 

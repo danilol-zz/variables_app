@@ -2,18 +2,18 @@ module Support
 
   def self.make_dictionary
     hash_transl = {
-      "Campanha"         => { name_entity: Campaign.to_s, class_entity: Campaign, attribute_translated: Hash.new } ,
-      "Origem"           => { name_entity: Origin.to_s, class_entity: Origin, attribute_translated: Hash.new } ,
-      "Campos de Origem" => { name_entity: OriginField.to_s, class_entity: OriginField, attribute_translated: Hash.new } ,
-      "Processo"         => { name_entity: Processid.to_s , class_entity: Processid , attribute_translated: Hash.new } ,
-      "Tabela"           => { name_entity: Table.to_s, class_entity: Table, attribute_translated: Hash.new } ,
-      "Variavel"         => { name_entity: Variable.to_s, class_entity: Variable, attribute_translated: Hash.new }
+      "Campanha"         => { name_entity: Campaign.to_s, class_entity: Campaign, translated_attribute: Hash.new } ,
+      "Origem"           => { name_entity: Origin.to_s, class_entity: Origin, translated_attribute: Hash.new } ,
+      "Campos de Origem" => { name_entity: OriginField.to_s, class_entity: OriginField, translated_attribute: Hash.new } ,
+      "Processo"         => { name_entity: Processid.to_s , class_entity: Processid , translated_attribute: Hash.new } ,
+      "Tabela"           => { name_entity: Table.to_s, class_entity: Table, translated_attribute: Hash.new } ,
+      "Variavel"         => { name_entity: Variable.to_s, class_entity: Variable, translated_attribute: Hash.new }
     }
 
     hash_transl.each_key do |entity|
       hash_transl[entity][:class_entity].attribute_names.each do |attribute_eng|
         attribute_br = hash_transl[entity][:class_entity].human_attribute_name(attribute_eng)
-        hash_transl[entity][:attribute_translated][attribute_br] = attribute_eng
+        hash_transl[entity][:translated_attribute][attribute_br] = attribute_eng
       end
     end
 
