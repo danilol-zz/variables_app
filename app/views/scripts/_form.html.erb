@@ -1,35 +1,40 @@
 <section>
-  <h3 class="line-bottom">Gerar de <span class="destaque">Scripts</span></h3>
+  <h3 class="line-bottom">Gerador de <span class="destaque">Scripts</span></h3>
 
-  <p id="notice"><%#= notice %></p>
+  <p id="notice"><%= params[:errors] %></p>
   <%= form_for :scripts, url: export_script_path, action: "post" do |f| %>
-
     <fieldset>
-
       <div class="row clearfix">
         <div class="left t2">
           <label for="script_name">Scripts</label>
-          <%= select_tag :script_name, options_for_select(@scripts_list), prompt: "Selecione" -%>
+          <%= select_tag :script_name, options_for_select(@scripts_list) %>
         </div>
-
-        <div class="left t12">
+        <div class="left t10">
           <label for="sprint_number">Sprint</label>
-          <%= text_field_tag :sprint_number, nil, maxlength: 4 -%>
-        </div>
-
-        <div class="left t12">
-          <%#= tag "input", { type: "button", value: "Add Row", onclick: "addRow()" } %>
-          <%= submit_tag "Gerar"  -%>
-           <%#= ExportScript.export_script_by_sprint(1, "Script MySql Cadastro de Arquivo") -%>
+          <%= text_field_tag :sprint_number, "1", maxlength: 4 %>
         </div>
       </div>
-
-      <div class="row clearfix">
-        <label for="campaign_name">Resultado</label>
-        <%= text_area_tag(:generated_script, @generated_script, rows: 20 )  -%>
-      </div>
-
     </fieldset>
+    <section>
+      <div class="botoes clearfix">
+        <div class="row clearfix">
+          <%= submit_tag "Gerar"  -%>
+        </div>
+      </div>
+    </section>
   <% end %>
 
+  <h3 class="line-bottom">>>> RESULTADO |  <span class="destaque">Script gerado</span></h3>
+  <ul class="guide">
+    <li>Selecione no quadro abaixo o script que será utilizado.</li>
+    <li>Copie e cole a área selecionada.</li>
+  </ul>
+  <div class="row clearfix">
+    <div class="left t1">
+      <label>Nome do script: <span class="destaque"><strong><%= @script_name %></strong></span></label>
+      <%= text_area_tag(:generated_script, @generated_script, rows: 20 )  -%>
+    </div>
+  </div>
+
 </section>
+
