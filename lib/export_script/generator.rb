@@ -2,13 +2,7 @@ require 'export_script/script_constants'
 
 module Generator
   def self.export_script_by_sprint(sprint, script_name)
-    entity_master_br  = ScriptConstants::HASH_SCRIPTS[script_name]["entity_master_br"]
-    script            = ScriptConstants::HASH_SCRIPTS[script_name]["script"]
-    ind_group_related = ScriptConstants::HASH_SCRIPTS[script_name]["ind_group_related"]
-    condition         = ScriptConstants::HASH_SCRIPTS[script_name]["condition"]
-
-    array_script = generate_script_by_sprint(sprint, script, entity_master_br, ind_group_related, condition)
-
+    array_script = generate_script_by_sprint(sprint, script_name)
     output = "Nome do Script: #{script_name}\nResultado do Script : \n"
     output << "=========================================================================\n"
 
@@ -22,7 +16,12 @@ module Generator
   end
 
   #================================== metodos de processamento =========================================
-  def self.generate_script_by_sprint(sprint, script, entity_master_br, ind_group_related, condition)
+  def self.generate_script_by_sprint(sprint, script_name)
+    entity_master_br  = ScriptConstants::HASH_SCRIPTS[script_name]["entity_master_br"]
+    ind_group_related = ScriptConstants::HASH_SCRIPTS[script_name]["ind_group_related"]
+    script            = ScriptConstants::HASH_SCRIPTS[script_name]["script"]
+    condition         = ScriptConstants::HASH_SCRIPTS[script_name]["condition"]
+
     ind_valid_relationship = 'S'
     ind_entit_reference    = 'N'
     ind_group_funcion      = 'S'
@@ -130,15 +129,7 @@ module Generator
 
         return_value = return_value + [script_replace]
       end
-
     end
-
-    #p "====result_value==="
-    #p return_value
-    #p return_value.class
-    #p return_value.size
-    #p ind_valid_relationship
-    #p ind_group_funcion
 
     if return_value.size == 0 || ind_valid_relationship == "N" || ind_group_funcion == 'N'
       return_value = nil
@@ -176,17 +167,13 @@ module Generator
       test_attr = 'S'
     else
       list.each_key do |ent_Br|
-        #p "/-- Entidade portugues = #{ent_Br}"
         unless list[ent_Br] != nil && (list[ent_Br].instance_of? Array) &&
           list[ent_Br].size > 0 && hash_transl.has_key?(ent_Br)
           test_entity = 'N'
-          #p "/--entidade nao existe ou com lista de campos incosistente"
         else
           ent_Eng=hash_transl[ent_Br]["name_entity"]
-          #p "/--entidade ingles atual: #{ent_Eng}"
           lista_ent[ent_Eng] = []
           list[ent_Br].each do |attr_Br|
-            #p "/-atributo portugues: #{attr_Br}"
             unless hash_transl[ent_Br]["atribute_translate"].has_key?(attr_Br.split(/\=/).first) ||
               attr_Br.include?("@")
               test_attr = 'N'
@@ -202,13 +189,9 @@ module Generator
 
             end
           end
-          #lista_ent[ent_Eng].uniq!
         end
       end
     end
-
-    #p "fim da busca"
-
 
     if test_hash_pass == 'S' && test_entity == 'S' && test_attr == 'S'
       return_value = lista_ent
@@ -362,11 +345,6 @@ module Generator
   def self.get_Table_by_sprint(sprint,condition)
     return_value = ''
 
-    #concect = Table.connection
-    #p concect.class
-    #p concect
-    #p Table.connected?
-    #result = Table.select { |m| m.updated_in_sprint == sprint }
     cond = {}
     if condition.nil?
       cond = false
@@ -385,7 +363,6 @@ module Generator
     end
 
     return_value
-    #nil
   end
 
   def self.get_Origin_by_sprint(sprint,condition)

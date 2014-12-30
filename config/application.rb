@@ -27,6 +27,8 @@ module VariablesApp
     config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :pt
 
+    require "export_script/export_script"
+
     config.generators do |g|
       g.test_framework :rspec,
         fixtures: true,

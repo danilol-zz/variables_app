@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Generator do
+  let(:script_mysql_name) { "Script MySql Cadastro de Arquivo" }
   script_ref = '
 
         insert into controle_bigdata.tah6_regr_arqu_cerf values ( “CD5.RETR.B<Origem.[Mnemônico]>” , "<Origem.[Nome da base/arquivo]>" , "T" , “CD5.RETR.B<Origem.[Mnemônico]>” , “” , “CD5P<Origem.[Mnemônico]>" , "" , "" , "" , "N" , "N" , "N" , "NORMAL" , "NORMAL" , "NORMAL" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" , "CONTROLE QUALIDADE" , "Sistema_CD5@correio.itau.com.br" );
@@ -366,6 +367,8 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
   end
 
   context '.generate_script_by_sprint' do
+    subject { Generator.generate_script_by_sprint(1, script_name)}
+
     before do
       FactoryGirl.create(:user, id: 1  )
       FactoryGirl.create(:origin , id:1, updated_in_sprint:1 , periodicity: "diaria", mnemonic:"L001"  , file_name:"L0.BASE.ALP01" )
@@ -377,24 +380,25 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: true, field_name: "AGENCIA"  )
       FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: false, field_name: "CONTA"    )
 
-      FactoryGirl.create(:table , id: 1 , mirror_table_number: 225 , updated_in_sprint: 1 , mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE")
+      FactoryGirl.create(:table , id: 1 , mirror_table_number: 225 , updated_in_sprint: 1 , mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE", table_type: 'seleção')
     end
 
-    it "should return sucessfull with one entity" do
 
-      result = Generator.generate_script_by_sprint(1, script_ref, "Origem", false, nil)
+    context "cadastro qualidade de arquivo" do
+      let(:script_name) { "Script MySql Cadastro Qualidade de Arquivo" }
 
-      expect(result).to be_kind_of(Array)
-      expect(result.size).to eq 2
-      expect(result[0].include?("L001") ).to eq true
-      expect(result[0].include?("L0.BASE.ALP01") ).to eq true
-      expect(result[1].include?("CC01" ) ).to eq true
-      expect(result[1].include?("CD5.BASE.FCC0I") ).to eq true
-
+      it "should return sucessfull with one entity" do
+        expect(subject).to be_kind_of(Array)
+        expect(subject.size).to eq 2
+        expect(subject[0].include?("L001") ).to eq true
+        expect(subject[0].include?("L0.BASE.ALP01") ).to eq true
+        expect(subject[1].include?("CC01" ) ).to eq true
+        expect(subject[1].include?("CD5.BASE.FCC0I") ).to eq true
+      end
     end
 
-    it "should return sucessfull with more than one entity" do
-      result = Generator.generate_script_by_sprint(1, script_ref2, "Campos de Origem", false, nil)
+    xit "should return sucessfull with more than one entity" do
+      result = Generator.generate_script_by_sprint(1, "Integração CD5 Cadastro de Campo de Entrada")
 
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 4
@@ -404,60 +408,42 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
       expect(result[2].include? "AGENCIA" ).to eq true
       expect(result[3].include? "CONTA" ).to eq true
-
     end
 
-    it "should return sucessfull with more than one entity and with condition" do
-      result = Generator.generate_script_by_sprint(1, script_ref2, "Campos de Origem", false, condition)
+    context "unix data stage espelho" do
+      let(:script_name) { "script Unix Data Stage Espelho Rotina PE" }
 
-      expect(result).to be_kind_of(Array)
-      expect(result.size).to eq 2
-
-      expect(result[0].include? "CPF" ).to eq true
-
-
-      expect(result[1].include? "AGENCIA" ).to eq true
-
-
+      it "should return sucessful with function for one entity" do
+        expect(subject).to be_kind_of(Array)
+        expect(subject.size).to eq 1
+        expect(subject[0].include? "CD5_225_carga_tabela_csld_ramo_ccre_esp" ).to eq true
+      end
     end
 
-    it "should return sucessful with function for one entity" do
+    context "cadstro de processo de arquivo" do
+      let(:script_name) { "script MySql Cadastro de Processo de Arquivo" }
 
-      result = Generator.generate_script_by_sprint(1, script_ref3, "Tabela", false, nil)
+      it "should return sucessful with function for one entity" do
+        expect(subject).to be_kind_of(Array)
+        expect(subject.size).to eq 2
 
-      expect(result).to be_kind_of(Array)
-      expect(result.size).to eq 1
-
-      expect(result[0].include? "CD5_225_carga_tabela_csld_ramo_ccre_esp" ).to eq true
-
+        expect(subject[0].include? '”D”' ).to eq true
+        expect(subject[1].include? '”M”' ).to eq true
+      end
     end
 
-    it "should return sucessful with function for one entity" do
+    context "script Hive tablea ORG" do
+      let(:script_name) { "script Hive Tabela ORG" }
 
-      result = Generator.generate_script_by_sprint(1, script_ref4, "Origem", false, nil)
+      it "should return sucessfull with more than one entity and with condition and function to agregate" do
+        expect(subject).to be_kind_of(Array)
+        expect(subject.size).to eq 2
 
-      expect(result).to be_kind_of(Array)
-      expect(result.size).to eq 2
-
-      expect(result[0].include? '”D”' ).to eq true
-      expect(result[1].include? '”M”' ).to eq true
-
+        expect(subject[0].include? "CPF" ).to eq true
+        expect(subject[1].include? "AGENCIA" ).to eq true
+      end
     end
-
-    it "should return sucessfull with more than one entity and with condition and function to agregate" do
-      result = Generator.generate_script_by_sprint(1, script_mini2, "Origem", true, condition)
-
-      expect(result).to be_kind_of(Array)
-      expect(result.size).to eq 2
-
-      expect(result[0].include? "CPF" ).to eq true
-      expect(result[1].include? "AGENCIA" ).to eq true
-
-
-    end
-
   end
-
 
   context 'functions for Generator' do
     before do
@@ -761,6 +747,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
   end
 
   context '.export_script_by_sprint' do
+
     before do
       FactoryGirl.create(:user, id: 1  )
       @org1 = FactoryGirl.create(:origin , id:1  , updated_in_sprint:1, periodicity: "diaria", mnemonic:"L001"  , file_name:"L0.BASE.ALP01" )
@@ -770,8 +757,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       #list=Generator.get_list_scripts
       #expect(list).to be_kind_of(Array)
       #expect(list.size > 0).to eq true
-
-      array_script = Generator.export_script_by_sprint(1,"Script MySql Cadastro de Arquivo")
+      array_script = Generator.export_script_by_sprint(1, script_mysql_name)
       expect(array_script).to be_kind_of(String)
       expect(array_script.split("\n").size > 5).to eq true
 
