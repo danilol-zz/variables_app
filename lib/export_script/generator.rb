@@ -212,13 +212,13 @@ class Generator
       when "Table"
         value = get_table_by_sprint(sprint,condition)
       when "Origin"
-        value = get_Origin_by_sprint(sprint,condition)
+        value = get_origin_by_sprint(sprint,condition)
       when "OriginField"
         value = get_OriginField_by_sprint(sprint,condition)
       when "Processid"
         value = get_Processid_by_sprint(sprint,condition)
       when "Variable"
-        value = get_Variable_by_sprint(sprint,condition)
+        value = get_variable_by_sprint(sprint,condition)
       else
         value = nil
       end
@@ -316,7 +316,7 @@ class Generator
       cond[words[0]] = words[1]
     end
 
-    result = Campaign.where(updated_in_sprint: sprint).where(cond).to_a
+    Campaign.where(updated_in_sprint: sprint).where(cond).to_a
   end
 
   def self.get_table_by_sprint(sprint = nil, condition = nil)
@@ -327,31 +327,18 @@ class Generator
       cond[words[0]] = words[1]
     end
 
-    result = Table.where(updated_in_sprint: sprint).where(cond).to_a
+    Table.where(updated_in_sprint: sprint).where(cond).to_a
   end
 
-  def self.get_Origin_by_sprint(sprint,condition)
-    return_value = ''
-
+  def self.get_origin_by_sprint(sprint = nil, condition = nil)
     cond = {}
-    if condition.nil?
-      cond = false
-    else
-      condition.each do |item|
-        words=item.split(/\=/)
-        cond[words[0]]=words[1]
-      end
+
+    Array(condition).each do |item|
+      words = item.split(/\=/)
+      cond[words[0]] = words[1]
     end
 
-    result = Origin.where(updated_in_sprint: sprint).where(cond).to_a
-
-    if result.size == 0
-      return_value = nil
-    else
-      return_value = result
-    end
-
-    return_value
+    Origin.where(updated_in_sprint: sprint).where(cond).to_a
   end
 
   def self.get_OriginField_by_sprint(sprint,condition)
@@ -414,28 +401,15 @@ class Generator
     return_value
   end
 
-  def self.get_Variable_by_sprint(sprint,condition)
-    return_value = ''
-
+  def self.get_variable_by_sprint(sprint = nil, condition = nil)
     cond = {}
-    if condition.nil?
-      cond = false
-    else
-      condition.each do |item|
-        words=item.split(/\=/)
-        cond[words[0]]=words[1]
-      end
+
+    Array(condition).each do |item|
+      words = item.split(/\=/)
+      cond[words[0]] = words[1]
     end
 
-    result = Variable.where(updated_in_sprint: sprint).where(cond).to_a
-
-    if result.size == 0
-      return_value = nil
-    else
-      return_value = result
-    end
-
-    return_value
+    Variable.where(updated_in_sprint: sprint).where(cond).to_a
   end
 
   def self.value_by_function(entity,attr_master_Br)

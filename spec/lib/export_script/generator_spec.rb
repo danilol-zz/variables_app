@@ -193,6 +193,108 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       end
     end
   end
+
+  context '.get_origin_by_sprint' do
+    before do
+      FactoryGirl.create(:user, id: 1)
+      @origin1 = FactoryGirl.create(:origin, id: 1, updated_in_sprint: 1, mnemonic: "L001" )
+      @origin2 = FactoryGirl.create(:origin, id: 2, updated_in_sprint: 1, mnemonic: "L002" )
+      @origin3 = FactoryGirl.create(:origin, id: 3, updated_in_sprint: 2, mnemonic: "L003" )
+    end
+
+    subject { Generator.get_origin_by_sprint(sprint, condition) }
+
+    context "with null values" do
+      let(:sprint)    { nil }
+      let(:condition) { nil }
+
+      it "returns an empty array for nil sprint value" do
+        expect(subject).to eq []
+      end
+    end
+
+    context "with valid param" do
+      context 'without condition param' do
+        let(:sprint)    { 1 }
+        let(:condition) { nil }
+
+        it "returns two existing origins" do
+          expect(subject).to eq [@origin1, @origin2]
+        end
+      end
+
+      context 'with condition param' do
+        context "when origin is not found" do
+          let(:sprint)    { 1 }
+          let(:condition) { "mnemonic=L003" }
+
+          it "returns an existing origin" do
+            expect(subject).to eq []
+          end
+        end
+
+        context "when origin is found" do
+          let(:sprint)    { 1 }
+          let(:condition) { "mnemonic=L001" }
+
+          it "returns an existing origin" do
+            expect(subject).to eq [@origin1]
+          end
+        end
+      end
+    end
+  end
+
+  context '.get_variable_by_sprint' do
+    before do
+      @var1 = FactoryGirl.create(:variable, id:1, updated_in_sprint:1 , name: "Indicador Elegibilidade")
+      @var2 = FactoryGirl.create(:variable, id:2, updated_in_sprint:1 , name: "Indicador Elegibilidade Funcionario")
+      @var3 = FactoryGirl.create(:variable, id:3, updated_in_sprint:2 , name: "Indicador Elegibilidade Teste")
+    end
+
+    subject { Generator.get_variable_by_sprint(sprint, condition) }
+
+    context "with null values" do
+      let(:sprint)    { nil }
+      let(:condition) { nil }
+
+      it "returns an empty array for nil sprint value" do
+        expect(subject).to eq []
+      end
+    end
+
+    context "with valid param" do
+      context 'without condition param' do
+        let(:sprint)    { 1 }
+        let(:condition) { nil }
+
+        it "returns two existing variables" do
+          expect(subject).to eq [@var1, @var2]
+        end
+      end
+
+      context 'with condition param' do
+        context "when variable is not found" do
+          let(:sprint)    { 1 }
+          let(:condition) { "name=Indicador Elegibilidade Teste" }
+
+          it "returns an existing variable" do
+            expect(subject).to eq []
+          end
+        end
+
+        context "when variable is found" do
+          let(:sprint)    { 1 }
+          let(:condition) { "name=Indicador Elegibilidade" }
+
+          it "returns an existing variable" do
+            expect(subject).to eq [@var1]
+          end
+        end
+      end
+    end
+  end
+
   context '.get_entities_by_sprint' do
     before do
       FactoryGirl.create(:user, id: 1  )
