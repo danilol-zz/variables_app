@@ -210,7 +210,7 @@ class Generator
       when "Campaign"
         value = get_campaign_by_sprint(sprint,condition)
       when "Table"
-        value = get_Table_by_sprint(sprint,condition)
+        value = get_table_by_sprint(sprint,condition)
       when "Origin"
         value = get_Origin_by_sprint(sprint,condition)
       when "OriginField"
@@ -308,9 +308,7 @@ class Generator
   end
 
 
-  def self.get_campaign_by_sprint(sprint, condition = nil)
-    return [] unless sprint
-
+  def self.get_campaign_by_sprint(sprint = nil, condition = nil)
     cond = {}
 
     Array(condition).each do |item|
@@ -321,27 +319,15 @@ class Generator
     result = Campaign.where(updated_in_sprint: sprint).where(cond).to_a
   end
 
-  def self.get_Table_by_sprint(sprint,condition)
-    return_value = ''
-
+  def self.get_table_by_sprint(sprint = nil, condition = nil)
     cond = {}
-    if condition.nil?
-      cond = false
-    else
-      condition.each do |item|
-        words=item.split(/\=/)
-        cond[words[0]]=words[1]
-      end
+
+    Array(condition).each do |item|
+      words = item.split(/\=/)
+      cond[words[0]] = words[1]
     end
+
     result = Table.where(updated_in_sprint: sprint).where(cond).to_a
-
-    if result.size == 0
-      return_value = nil
-    else
-      return_value = result
-    end
-
-    return_value
   end
 
   def self.get_Origin_by_sprint(sprint,condition)

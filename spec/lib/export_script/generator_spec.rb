@@ -102,9 +102,9 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
     subject { Generator.get_campaign_by_sprint(sprint, condition) }
 
-    context "with invalid params" do
+    context "with null values" do
       let(:sprint)    { nil }
-      let(:condition) { '1 = 1' }
+      let(:condition) { nil }
 
       it "returns an empty array for nil sprint value" do
         expect(subject).to eq []
@@ -143,6 +143,56 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     end
   end
 
+  context '.get_table_by_sprint' do
+    before do
+      FactoryGirl.create(:user, id: 1)
+      @table1 = FactoryGirl.create(:table, id: 1, updated_in_sprint: 1, routine_number: 1 )
+      @table2 = FactoryGirl.create(:table, id: 2, updated_in_sprint: 1, routine_number: 2 )
+      @table3 = FactoryGirl.create(:table, id: 3, updated_in_sprint: 2, routine_number: 3 )
+    end
+
+    subject { Generator.get_table_by_sprint(sprint, condition) }
+
+    context "with null values" do
+      let(:sprint)    { nil }
+      let(:condition) { nil }
+
+      it "returns an empty array for nil sprint value" do
+        expect(subject).to eq []
+      end
+    end
+
+    context "with valid param" do
+      context 'without condition param' do
+        let(:sprint)    { 1 }
+        let(:condition) { nil }
+
+        it "returns two existing tables" do
+          expect(subject).to eq [@table1, @table2]
+        end
+      end
+
+      context 'with condition param' do
+        context "when table is not found" do
+          let(:sprint)    { 1 }
+          let(:condition) { "routine_number=3" }
+
+          it "returns an existing table" do
+            expect(subject).to eq []
+          end
+        end
+
+        context "when table is found" do
+          let(:sprint)    { 1 }
+          let(:condition) { "routine_number=1" }
+
+          it "returns an existing table" do
+            expect(subject).to eq [@table1]
+          end
+        end
+      end
+    end
+  end
   context '.get_entities_by_sprint' do
     before do
       FactoryGirl.create(:user, id: 1  )
@@ -203,7 +253,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
       sprint = 1111
       entity = "Table"
-      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint, entity, nil)).to eq []
     end
 
     it 'should return sucessfull Origin' do
