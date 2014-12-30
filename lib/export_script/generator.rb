@@ -15,56 +15,56 @@ module Generator
 
   #================================== metodos de processamento =========================================
   def self.generate_script_by_sprint(sprint, script_name)
+    dictionary        = Support.make_dictionary
     entity_master_br  = Support::HASH_SCRIPTS[script_name]["entity_master_br"]
     ind_group_related = Support::HASH_SCRIPTS[script_name]["ind_group_related"]
     script            = Support::HASH_SCRIPTS[script_name]["script"]
     condition         = Support::HASH_SCRIPTS[script_name]["condition"]
 
     ind_valid_relationship = 'S'
-    ind_entit_reference    = 'N'
+    ind_entity_reference    = 'N'
     ind_group_funcion      = 'S'
 
-    list_entit     = get_entities_list(script)
+    list_entity    = get_entities_list(script)
     list_condition = get_entities_list(condition) if condition
-    dicionary      = Support.make_dictionary
 
-    invert_entity_dicionary = Hash.new
+    invert_entity_dictionary = Hash.new
 
-    dicionary.keys.each do |key|
-      invert_entity_dicionary[dicionary[key][:class_entity].to_s] = key
+    dictionary.keys.each do |key|
+      invert_entity_dictionary[dictionary[key][:class_entity].to_s] = key
     end
 
-    list_entit_translated = translate_list(list_entit,dicionary)
+    list_entity_translated = translate_list(list_entity, dictionary)
 
-    list_condition_translated = translate_list(list_condition,dicionary) if condition
+    list_condition_translated = translate_list(list_condition,dictionary) if condition
 
-    list_entit_master = []
-    list_entit_reference_name =[]
+    list_entity_master = []
+    list_entity_reference_name =[]
 
-    list_entit_translated.each_key do |entity_name_eng|
-      if dicionary[entity_master_br][:name_entity] == entity_name_eng
+    list_entity_translated.each_key do |entity_name_eng|
+      if dictionary[entity_master_br][:name_entity] == entity_name_eng
         if condition
-          list_entit_master = get_entits_by_sprint(sprint, entity_name_eng, list_condition_translated[entity_name_eng])
+          list_entity_master = get_entities_by_sprint(sprint, entity_name_eng, list_condition_translated[entity_name_eng])
         else
-          list_entit_master = get_entits_by_sprint(sprint, entity_name_eng, nil)
+          list_entity_master = get_entities_by_sprint(sprint, entity_name_eng, nil)
         end
       else
-        list_entit_reference_name = list_entit_reference_name + [entity_name_eng]
+        list_entity_reference_name = list_entity_reference_name + [entity_name_eng]
       end
     end
 
-    ind_entit_reference = 'S' if list_entit_reference_name.size > 0
+    ind_entity_reference = 'S' if list_entity_reference_name.size > 0
 
     hash_replace_master = {}
     return_value = []
 
-    list_entit_master.each do |entity_master|
+    list_entity_master.each do |entity_master|
       hash_replace_master = {}
 
-      list_entit[entity_master_br].each do |attr_master_Br|
+      list_entity[entity_master_br].each do |attr_master_Br|
         key_replace_master   = "<#{entity_master_br}.[#{attr_master_Br}]>"
-        ent_Eng              = dicionary[entity_master_br][:name_entity]
-        attr_master_eng      = dicionary[entity_master_br][:atribute_translate][attr_master_Br]
+        ent_Eng              = dictionary[entity_master_br][:name_entity]
+        attr_master_eng      = dictionary[entity_master_br][:attribute_translated][attr_master_Br]
 
         if attr_master_Br.include? "@"
           value_replace_master = value_by_function(entity_master,attr_master_Br)
@@ -75,7 +75,7 @@ module Generator
         hash_replace_master[key_replace_master] = value_replace_master
       end
 
-      if ind_entit_reference == 'N'
+      if ind_entity_reference == 'N'
         script_replace = script.gsub /\<[A-Za-z\ ]+\.\[.+?\]\>/ do
           |match| hash_replace_master[match.to_s]
         end
@@ -84,35 +84,35 @@ module Generator
       else
         hash_repalce_related = {}
 
-        list_entit_reference_name.each do |entity_reference_name_eng|
-          array_entits_related = []
+        list_entity_reference_name.each do |entity_reference_name_eng|
+          array_entities_related = []
 
           if condition
-            array_entits_related = get_entits_related(entity_master, entity_reference_name_eng, list_condition_translated[entity_reference_name_eng])
+            array_entities_related = get_entities_related(entity_master, entity_reference_name_eng, list_condition_translated[entity_reference_name_eng])
           else
-            array_entits_related = get_entits_related(entity_master, entity_reference_name_eng)
+            array_entities_related = get_entities_related(entity_master, entity_reference_name_eng)
           end
 
-          entity_reference_name_br = invert_entity_dicionary[entity_reference_name_eng]
+          entity_reference_name_br = invert_entity_dictionary[entity_reference_name_eng]
 
-          list_entit[entity_reference_name_br].each do |attr_reference_Br|
+          list_entity[entity_reference_name_br].each do |attr_reference_Br|
 
             key_replace_reference = "<#{entity_reference_name_br}.[#{attr_reference_Br}]>"
-            attr_reference_eng    = dicionary[entity_reference_name_br][:atribute_translate][attr_reference_Br]
+            attr_reference_eng    = dictionary[entity_reference_name_br][:attribute_translated][attr_reference_Br]
 
-            if array_entits_related == nil
+            if array_entities_related.nil?
               ind_valid_relationship = "N"
 
             elsif ind_group_related && attr_reference_Br.include?("@")
-              value_replace_reference = value_by_function(array_entits_related,attr_reference_Br)
+              value_replace_reference = value_by_function(array_entities_related,attr_reference_Br)
 
             elsif ind_group_related && ( ! attr_reference_Br.include?("@") )
               ind_group_funcion = 'N'
 
             elsif ( ! ind_group_related ) && ( attr_reference_Br.include? ("@") )
-              value_replace_reference = value_by_function(array_entits_related,attr_reference_Br)
+              value_replace_reference = value_by_function(array_entities_related,attr_reference_Br)
             else
-              value_replace_reference = array_entits_related[0][attr_reference_eng]
+              value_replace_reference = array_entities_related[0][attr_reference_eng]
             end
 
             hash_repalce_related[key_replace_reference] = value_replace_reference
@@ -136,16 +136,18 @@ module Generator
     return_value
   end
 
-  def self.get_entities_list(script)
-    list = script.scan(Support::REGEX)
+  def self.get_entities_list(script = nil)
+    return {} unless script
+
+    script_list = script.scan(Support::REGEX)
 
     list_ent = Hash.new
-    list.each do |item|
+    script_list.each do |item|
       if list_ent.has_key?(item[0])
         list_ent[item[0]] << item[1]
         list_ent[item[0]].uniq!
       else
-        list_ent[item[0]]=[item[1]]
+        list_ent[item[0]] = [item[1]]
       end
     end
 
@@ -153,39 +155,33 @@ module Generator
   end
 
   def self.translate_list(list, hash_transl)
-    return_value=''
     test_hash_pass='S'
     test_entity='S'
     test_attr='S'
 
     lista_ent = Hash.new
 
-    unless list != nil &&  (list.instance_of? Hash) && list.size > 0
-      test_hash_pass='N'
-      test_attr = 'S'
-    else
-      list.each_key do |ent_Br|
-        unless list[ent_Br] != nil && (list[ent_Br].instance_of? Array) &&
-          list[ent_Br].size > 0 && hash_transl.has_key?(ent_Br)
-          test_entity = 'N'
-        else
-          ent_Eng=hash_transl[ent_Br][:name_entity]
-          lista_ent[ent_Eng] = []
-          list[ent_Br].each do |attr_Br|
-            unless hash_transl[ent_Br][:atribute_translate].has_key?(attr_Br.split(/\=/).first) ||
-              attr_Br.include?("@")
-              test_attr = 'N'
+    list.each_key do |ent_Br|
+      unless list[ent_Br] != nil && (list[ent_Br].instance_of? Array) &&
+        list[ent_Br].size > 0 && hash_transl.has_key?(ent_Br)
+        test_entity = 'N'
+      else
+        ent_Eng=hash_transl[ent_Br][:name_entity]
+        lista_ent[ent_Eng] = []
+        list[ent_Br].each do |attr_Br|
+          unless hash_transl[ent_Br][:attribute_translated].has_key?(attr_Br.split(/\=/).first) ||
+            attr_Br.include?("@")
+            test_attr = 'N'
+          else
+            attr_Eng = hash_transl[ent_Br][:attribute_translated][attr_Br.split(/\=/).first]
+            if attr_Br.include? "="
+              lista_ent[ent_Eng] << attr_Eng + "=" + attr_Br.split(/\=/).last
+            elsif attr_Br.include? "@"
+              lista_ent[ent_Eng] << attr_Br
             else
-              attr_Eng = hash_transl[ent_Br][:atribute_translate][attr_Br.split(/\=/).first]
-              if attr_Br.include? "="
-                lista_ent[ent_Eng] << attr_Eng + "=" + attr_Br.split(/\=/).last
-              elsif attr_Br.include? "@"
-                lista_ent[ent_Eng] << attr_Br
-              else
-                lista_ent[ent_Eng] << attr_Eng
-              end
-
+              lista_ent[ent_Eng] << attr_Eng
             end
+
           end
         end
       end
@@ -202,7 +198,7 @@ module Generator
 
 
 
-  def self.get_entits_by_sprint(sprint, entity, condition)
+  def self.get_entities_by_sprint(sprint, entity, condition)
     unless ( ! (sprint.nil?) ) && ( ! (entity.nil?) ) && (sprint.instance_of?(Fixnum)) && (entity.instance_of?(String)) && ! (entity.empty?) && (sprint > 0 )
       value = nil
     else
@@ -227,8 +223,8 @@ module Generator
     value
   end
 
-  def self.get_entits_related(entity_ref, name_entity_to_find, condition = nil)
-    list_entit_valid = { "Variable" => "variables" ,
+  def self.get_entities_related(entity_ref, name_entity_to_find, condition = nil)
+    list_entity_valid = { "Variable" => "variables" ,
                          "Origin" => "origin" ,
                          "OriginField" => "origin_fields" ,
                          "Campaign" => "campaigns" ,
@@ -241,8 +237,8 @@ module Generator
     list_relationtship = []
 
     unless entity_ref != nil && name_entity_to_find != nil &&
-      list_entit_valid.has_key?(entity_ref.class.to_s) &&
-      list_entit_valid.has_key?(name_entity_to_find)
+      list_entity_valid.has_key?(entity_ref.class.to_s) &&
+      list_entity_valid.has_key?(name_entity_to_find)
 
       ind_valid_parms = 'N'
     else
@@ -260,7 +256,7 @@ module Generator
 
       list_relationtship.uniq!
 
-      unless list_relationtship.size > 0 && list_relationtship.include?(list_entit_valid[name_entity_to_find])
+      unless list_relationtship.size > 0 && list_relationtship.include?(list_entity_valid[name_entity_to_find])
         ind_valid_relationship = 'N'
       end
     end
@@ -285,7 +281,7 @@ module Generator
         end
       end
 
-      case list_entit_valid[name_entity_to_find]
+      case list_entity_valid[name_entity_to_find]
       when "variables"
         value = entity_ref.variables.where(cond).to_a
       when "origin"
@@ -627,7 +623,7 @@ module Generator
       return_value = nil
 
     else
-      if 	entity.instance_of?(Origin)
+      if entity.instance_of?(Origin)
         if type == "smap"
           return_value = entity.periodicity
         elsif entity.periodicity == "mensal" && type == "mysql"

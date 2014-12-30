@@ -30,9 +30,6 @@ insert into controle_bigdata.tah6_pro values (“CD5P<Origem.[Mnemônico]>”,�
   condition = "<Campos de Origem.[Vai usar?=true]>"
 
 
-  script_mini = "<Processo.[Nome da rotina]>.SQL
-        <Processo.[Nome tabela var]>"
-
   script_mini2 = '
 
 use crm_origens;
@@ -53,81 +50,49 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
   '
 
   context '.get_entities_list' do
+    subject { Generator.get_entities_list(entity_param) }
 
-    it "should return error script empty" do
-      expect(Generator.get_entities_list("")).to eq Hash.new
+    context "with nil value" do
+      let(:entity_param) { nil }
+
+      it "should return error script empty" do
+        expect(subject).to eq Hash.new
+      end
     end
 
-    it "should return erro without dint find any entit" do
-      str = "string sem valor"
-      expect(Generator.get_entities_list(str)).to eq Hash.new
+    context 'with invalid value' do
+      let(:entity_param) { "" }
+
+      it "should return error script empty" do
+        expect(subject).to eq Hash.new
+      end
     end
 
-    it "should get sucess with simple exemplo" do
-      str=script_mini
-      result = Generator.get_entities_list(str)
-      expect(result).to be_kind_of(Hash)
-      expect(result.size).to eq 1
-      expect(result.has_key?("Processo")).to eq true
-      expect(result["Processo"].size).to eq 2
-      expect(result["Processo"][0]).to eq "Nome da rotina"
-      expect(result["Processo"][1]).to eq "Nome tabela var"
-    end
+    context 'with valid value' do
+      context 'with wrong script' do
+        let(:entity_param) { "string sem valor" }
 
+        it "returns an empty hash" do
+          expect(subject).to eq Hash.new
+        end
+      end
+
+      context "with valid script" do
+        let(:entity_param) { "<Processo.[Nome da rotina]>.SQL <Processo.[Nome tabela var]>" }
+
+        it "should get sucess with simple exemplo" do
+          expect(subject).to be_kind_of(Hash)
+          expect(subject.size).to eq 1
+          expect(subject.has_key?("Processo")).to eq true
+          expect(subject["Processo"].size).to eq 2
+          expect(subject["Processo"][0]).to eq "Nome da rotina"
+          expect(subject["Processo"][1]).to eq "Nome tabela var"
+        end
+      end
+    end
   end
 
-  #context '.make_dictionary' do
-    #before do
-      #@dic = Generator.make_dictionary
-    #end
-
-    #it "should return error if list is invalid" do
-      #list = Hash.new
-      #expect(Generator.translate_list(list,@dic)).to eq nil
-
-      #list = nil
-      #expect(Generator.translate_list(list,@dic)).to eq nil
-
-      #list=""
-      #expect(Generator.translate_list(list,@dic)).to eq nil
-
-      #list={"Processo" => nil }
-      #expect(Generator.translate_list(list,@dic)).to eq nil
-
-      #list={"Processo" => "" }
-      #expect(Generator.translate_list(list,@dic)).to eq nil
-
-      #list={"Processo" => [] }
-      #expect(Generator.translate_list(list,@dic)).to eq nil
-    #end
-
-    #it "should return error if dont find a entity" do
-      #list = Hash.new
-      #list["Processo_Erro"] = ["Nome programa"]
-      #expect(Generator.translate_list(list,@dic)).to eq nil
-    #end
-
-    #it "should return erro if dont find a attribute" do
-      #list = Hash.new
-      #list["Processo"] = ["Nome programa erro"]
-      #expect(Generator.translate_list(list,@dic)).to eq nil
-    #end
-
-    #it "should execute sucessfull" do
-      #str=script_mini
-      #list = Generator.get_entities_list(str)
-      #list_trans = Generator.translate_list(list,@dic)
-      #expect(list_trans).to be_kind_of(Hash)
-      #expect(list_trans.size).to eq 1
-      #expect(list_trans.has_key?("Processid")).to eq true
-      #expect(list_trans["Processid"].size).to eq 2
-      #expect(list_trans["Processid"][0]).to eq "routine_name"
-      #expect(list_trans["Processid"][1]).to eq "var_table_name"
-    #end
-  #end
-
-
-  context '.get_entits_by_sprint' do
+  context '.get_entities_by_sprint' do
     before do
       FactoryGirl.create(:user, id: 1  )
       FactoryGirl.create(:origin      , id:1, updated_in_sprint:1 , mnemonic: "L001"   )
@@ -154,46 +119,46 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
       sprint = nil
       entity = "Table_Erro"
-      expect(Generator.get_entits_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
 
       sprint = 10
       entity = nil
-      expect(Generator.get_entits_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
 
       sprint = ''
       entity = "Table_Erro"
-      expect(Generator.get_entits_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
 
       sprint = 10
       entity = 10
-      expect(Generator.get_entits_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
 
       sprint = 0
       entity = "Table_Erro"
-      expect(Generator.get_entits_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
 
       sprint = 10
       entity = ""
-      expect(Generator.get_entits_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
     end
 
     it 'should return erro if the entity is invalid' do
       sprint = 10
       entity = "Table_Erro"
-      expect(Generator.get_entits_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
     end
 
     it 'should return erro if the sprint dont exists' do
 
       sprint = 1111
       entity = "Table"
-      expect(Generator.get_entits_by_sprint(sprint,entity,nil)).to eq nil
+      expect(Generator.get_entities_by_sprint(sprint,entity,nil)).to eq nil
     end
 
     it 'should return sucessfull Origin' do
       sprint = 1
       entity = "Origin"
-      result=Generator.get_entits_by_sprint(sprint,entity,nil)
+      result=Generator.get_entities_by_sprint(sprint,entity,nil)
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 1
       expect(result[0]["updated_in_sprint"]).to eq 1
@@ -203,7 +168,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     it 'should return sucessfull OriginField' do
       sprint = 1
       entity = "OriginField"
-      result=Generator.get_entits_by_sprint(sprint,entity,nil)
+      result=Generator.get_entities_by_sprint(sprint,entity,nil)
       expect(result).to be_kind_of(Array)
 
       expect(result.size).to eq 2
@@ -218,7 +183,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     it 'should return sucessfull Campaign' do
       sprint = 1
       entity = "Campaign"
-      result=Generator.get_entits_by_sprint(sprint,entity,nil)
+      result=Generator.get_entities_by_sprint(sprint,entity,nil)
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 1
       expect(result[0]["updated_in_sprint"]).to eq 1
@@ -228,7 +193,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     it 'should return sucessfull variable' do
       sprint = 1
       entity = "Variable"
-      result=Generator.get_entits_by_sprint(sprint,entity,nil)
+      result=Generator.get_entities_by_sprint(sprint,entity,nil)
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 1
       expect(result[0]["updated_in_sprint"]).to eq 1
@@ -238,7 +203,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     it 'should return sucessfull Processid' do
       sprint = 1
       entity = "Processid"
-      result=Generator.get_entits_by_sprint(sprint,entity,nil)
+      result=Generator.get_entities_by_sprint(sprint,entity,nil)
       expect(result).to be_kind_of(Array)
 
       expect(result.size).to eq 1
@@ -247,7 +212,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       expect(result[0]["process_number"]).to eq 1
 
       sprint = 2
-      result=Generator.get_entits_by_sprint(sprint,entity,nil)
+      result=Generator.get_entities_by_sprint(sprint,entity,nil)
       expect(result).to be_kind_of(Array)
 
       expect(result.size).to eq 1
@@ -260,7 +225,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     it 'should return sucessfull Table' do
       sprint = 10
       entity = "Table"
-      result=Generator.get_entits_by_sprint(sprint,entity,nil)
+      result=Generator.get_entities_by_sprint(sprint,entity,nil)
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 1
       expect(result[0]["updated_in_sprint"]).to eq 10
@@ -272,7 +237,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
 
 
-  context '.get_entits_related' do
+  context '.get_entities_related' do
     before do
       FactoryGirl.create(:user, id: 1  )
       @org = FactoryGirl.create(:origin      , id:1, updated_in_sprint:1 , mnemonic: "L001"   )
@@ -303,32 +268,32 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
       entity_ref=nil
       name_entity_to_find="OriginField"
-      expect(Generator.get_entits_related(entity_ref,name_entity_to_find,nil)).to eq nil
+      expect(Generator.get_entities_related(entity_ref,name_entity_to_find,nil)).to eq nil
 
       entity_ref=@org
       name_entity_to_find=nil
-      expect(Generator.get_entits_related(entity_ref,name_entity_to_find,nil)).to eq nil
+      expect(Generator.get_entities_related(entity_ref,name_entity_to_find,nil)).to eq nil
 
       entity_ref=""
       name_entity_to_find="OriginField"
-      expect(Generator.get_entits_related(entity_ref,name_entity_to_find,nil)).to eq nil
+      expect(Generator.get_entities_related(entity_ref,name_entity_to_find,nil)).to eq nil
 
       entity_ref=@org
       name_entity_to_find=""
-      expect(Generator.get_entits_related(entity_ref,name_entity_to_find,nil)).to eq nil
+      expect(Generator.get_entities_related(entity_ref,name_entity_to_find,nil)).to eq nil
 
     end
 
     it 'should return erro if entity dont have relationship' do
       entity_ref=@org
       name_entity_to_find="Table"
-      expect(Generator.get_entits_related(entity_ref,name_entity_to_find,nil)).to eq nil
+      expect(Generator.get_entities_related(entity_ref,name_entity_to_find,nil)).to eq nil
     end
 
     it 'should sucessfull execution ' do
       entity_ref=@org
       name_entity_to_find="OriginField"
-      result=Generator.get_entits_related(entity_ref,name_entity_to_find,nil)
+      result=Generator.get_entities_related(entity_ref,name_entity_to_find,nil)
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 2
       expect(result[0]).to be_kind_of(OriginField)
@@ -337,7 +302,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
       entity_ref=@of1
       name_entity_to_find="Origin"
-      result=Generator.get_entits_related(entity_ref,name_entity_to_find,nil)
+      result=Generator.get_entities_related(entity_ref,name_entity_to_find,nil)
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 1
       expect(result[0]).to be_kind_of(Origin)
@@ -346,7 +311,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
       entity_ref=@var2
       name_entity_to_find="OriginField"
-      result=Generator.get_entits_related(entity_ref,name_entity_to_find,nil)
+      result=Generator.get_entities_related(entity_ref,name_entity_to_find,nil)
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 1
       expect(result[0]).to be_kind_of(OriginField)
@@ -354,7 +319,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
       entity_ref=@tb
       name_entity_to_find="Variable"
-      result=Generator.get_entits_related(entity_ref,name_entity_to_find,nil)
+      result=Generator.get_entities_related(entity_ref,name_entity_to_find,nil)
       expect(result).to be_kind_of(Array)
       expect(result.size).to eq 2
       expect(result[0]).to be_kind_of(Variable)
@@ -812,5 +777,4 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       end
     end
   end
-
 end
