@@ -124,7 +124,7 @@ pt:
         room_1_notes: Observação da sala 1
         final_physical_table_name: Nome tabela fisica definitiva
         mirror_physical_table_name: Nome tabela fisica espelho
-        final_table_number: Numero tabela fisica
+        final_table_number: Numero tabela fisica definitiva
         mirror_table_number: Numero tabela espelho
         mnemonic: Mnemônico
         routine_number: Numero rotina
