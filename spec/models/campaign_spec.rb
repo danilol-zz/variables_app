@@ -1,15 +1,11 @@
 require 'rails_helper'
 
 describe Campaign do
+  let(:current_user_id) { FactoryGirl.create(:user, profile: profile).id }
   let(:profile) { 'sala1' }
 
-  before do
-    user = FactoryGirl.create(:user, profile: profile)
-
-    subject.current_user_id = user.id
-  end
-
   context "attributes validations" do
+    subject { FactoryGirl.build(:campaign, current_user_id: current_user_id)  }
 
     it { expect(subject).to validate_presence_of(:name) }
     it { expect(subject).to ensure_length_of(:name).is_at_most(50) }
@@ -32,14 +28,14 @@ describe Campaign do
     it { expect(subject).to validate_presence_of(:it_status) }
 
     context 'when exists in legacy is true' do
-      subject(:campaign) { FactoryGirl.build(:campaign, exists_in_legacy: true) }
+      subject(:campaign) { FactoryGirl.build(:campaign, exists_in_legacy: true, current_user_id: current_user_id) }
 
       it { expect(campaign).to validate_presence_of(:automatic_routine) }
       it { expect(campaign).to ensure_length_of(:automatic_routine).is_at_most(50) }
     end
 
     context 'when exists in legacy is false' do
-      subject(:campaign) { FactoryGirl.build(:campaign, exists_in_legacy: false) }
+      subject(:campaign) { FactoryGirl.build(:campaign, exists_in_legacy: false, current_user_id: current_user_id) }
 
       it { expect(campaign).to_not validate_presence_of(:automatic_routine) }
       it { expect(campaign).to_not ensure_length_of(:automatic_routine).is_at_most(50) }
@@ -47,15 +43,15 @@ describe Campaign do
 
     context "statuses" do
       before do
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1])
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
       end
 
       it "should check the scopes" do
@@ -71,7 +67,7 @@ describe Campaign do
       var1 = FactoryGirl.create(:variable, name: "var1")
       var2 = FactoryGirl.create(:variable, name: "var2")
       var3 = FactoryGirl.create(:variable, name: "var3")
-      @campaign = FactoryGirl.create(:campaign)
+      @campaign = FactoryGirl.create(:campaign, current_user_id: current_user_id)
       @campaign.variables << [var1, var2, var3]
     end
 
@@ -83,7 +79,7 @@ describe Campaign do
 
   context ".set_variables" do
     context "on create" do
-      subject { FactoryGirl.create(:campaign) }
+      subject { FactoryGirl.create(:campaign, current_user_id: current_user_id) }
 
 
       context "with no variables selected" do
@@ -96,7 +92,7 @@ describe Campaign do
 
       context "with variables selected" do
         before do
-          @campaign = FactoryGirl.build(:campaign)
+          @campaign = FactoryGirl.build(:campaign, current_user_id: current_user_id)
 
           FactoryGirl.create(:variable, id: 1, name: "v1")
           FactoryGirl.create(:variable, id: 5, name: "v2")
@@ -132,7 +128,7 @@ describe Campaign do
         v3 = FactoryGirl.create(:variable, id:  9, name: "v3")
         v4 = FactoryGirl.create(:variable, id: 15, name: "v4")
         v5 = FactoryGirl.create(:variable, id: 19, name: "v5")
-        @campaign = FactoryGirl.create(:campaign, variables: [v1, v2])
+        @campaign = FactoryGirl.create(:campaign, variables: [v1, v2], current_user_id: current_user_id)
       end
 
       context "with no variables selected" do
@@ -169,16 +165,16 @@ describe Campaign do
 
   context ".code" do
     before do
-      @a = FactoryGirl.create(:campaign)
-      @b = FactoryGirl.create(:campaign)
-      @c = FactoryGirl.create(:campaign, id: 10)
-      @d = FactoryGirl.create(:campaign, id: 100)
-      @e = FactoryGirl.create(:campaign, id: 1000)
+      @a = FactoryGirl.create(:campaign, id: 1,    current_user_id: current_user_id)
+      @b = FactoryGirl.create(:campaign, id: 87,   current_user_id: current_user_id)
+      @c = FactoryGirl.create(:campaign, id: 10,   current_user_id: current_user_id)
+      @d = FactoryGirl.create(:campaign, id: 100,  current_user_id: current_user_id)
+      @e = FactoryGirl.create(:campaign, id: 1000, current_user_id: current_user_id)
     end
 
     it "should generate right codes" do
       expect(@a.code).to eq "CA001"
-      expect(@b.code).to eq "CA002"
+      expect(@b.code).to eq "CA087"
       expect(@c.code).to eq "CA010"
       expect(@d.code).to eq "CA100"
       expect(@e.code).to eq "CA1000"
@@ -186,7 +182,7 @@ describe Campaign do
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:campaign, name: name) }
+    subject { FactoryGirl.build(:campaign, name: name, current_user_id: current_user_id) }
 
     context "when name is nil"  do
       let(:name) { nil }

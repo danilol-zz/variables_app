@@ -112,7 +112,7 @@ describe User do
     context "room 1 is editing the origin" do
       before do
         @user = FactoryGirl.create(:user, profile: 'sala1' )
-        @origin = FactoryGirl.create(:origin)
+        @origin = FactoryGirl.create(:origin, current_user_id: @user.id)
       end
 
       it "grants access to users" do
@@ -123,7 +123,7 @@ describe User do
     context "room 1 is editing room2 origin" do
       before do
         @user = FactoryGirl.create(:user, profile: 'sala1' )
-        @origin = FactoryGirl.create(:origin, status: 'sala2')
+        @origin = FactoryGirl.create(:origin, status: 'sala2', current_user_id: @user.id)
       end
 
       it "grants access to users" do
@@ -134,7 +134,7 @@ describe User do
     context "room 2 is editing room2 origin" do
       before do
         @user = FactoryGirl.create(:user, profile: 'sala2' )
-        @origin = FactoryGirl.create(:origin, status: 'sala2')
+        @origin = FactoryGirl.create(:origin, status: 'sala2', current_user_id: @user.id)
       end
 
       it "grants access to users" do
@@ -145,7 +145,7 @@ describe User do
     context "room 2 is editing finished origin" do
       before do
         @user = FactoryGirl.create(:user, profile: 'sala2' )
-        @origin = FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
+        @origin = FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO], current_user_id: @user.id)
       end
 
       it "grants access to users" do
@@ -155,7 +155,7 @@ describe User do
     context "room 1 is editing finished origin" do
       before do
         @user = FactoryGirl.create(:user, profile: 'sala1' )
-        @origin = FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
+        @origin = FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO], current_user_id: @user.id)
       end
 
       it "grants access to users" do

@@ -167,6 +167,8 @@ pt:
         default_value: Valor padrão
         room_2_notes: Observação sala 2
     errors:
+      messages:
+        record_invalid: Registro inválido
       models:
         user:
           attributes:

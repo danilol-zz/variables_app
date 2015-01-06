@@ -1,16 +1,11 @@
 require 'rails_helper'
 
 describe Origin do
+  let(:current_user_id) { FactoryGirl.create(:user, profile: profile).id }
   let(:profile) { 'sala1' }
 
-  before do
-    user = FactoryGirl.create(:user, profile: profile)
-
-    subject.current_user_id = user.id
-  end
-
   context "fields" do
-    subject { FactoryGirl.build(:origin)  }
+    subject { FactoryGirl.build(:origin, current_user_id: current_user_id)  }
 
     context "validations" do
       context 'when user profile is room1' do
@@ -75,16 +70,16 @@ describe Origin do
 
   context ".code" do
     before do
-      @a = FactoryGirl.create(:origin)
-      @b = FactoryGirl.create(:origin)
-      @c = FactoryGirl.create(:origin, id: 10)
-      @d = FactoryGirl.create(:origin, id: 100)
-      @e = FactoryGirl.create(:origin, id: 1000)
+      @a = FactoryGirl.create(:origin, id: 1,    current_user_id: current_user_id)
+      @b = FactoryGirl.create(:origin, id: 980,  current_user_id: current_user_id)
+      @c = FactoryGirl.create(:origin, id: 10,   current_user_id: current_user_id)
+      @d = FactoryGirl.create(:origin, id: 100,  current_user_id: current_user_id)
+      @e = FactoryGirl.create(:origin, id: 1000, current_user_id: current_user_id)
     end
 
     it "should generate right codes" do
       expect(@a.code).to eq "OR001"
-      expect(@b.code).to eq "OR002"
+      expect(@b.code).to eq "OR980"
       expect(@c.code).to eq "OR010"
       expect(@d.code).to eq "OR100"
       expect(@e.code).to eq "OR1000"
@@ -93,15 +88,15 @@ describe Origin do
 
   context "statuses" do
     before do
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
+      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
+      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
     end
 
     it "check the scopes" do
@@ -113,7 +108,7 @@ describe Origin do
 
   context "before_save calculate fields" do
     context "when the mnemonic is fill out" do
-      let(:origin) { FactoryGirl.create(:origin, mnemonic: "ABC") }
+      let(:origin) { FactoryGirl.create(:origin, mnemonic: "ABC", current_user_id: current_user_id) }
 
       it "the hive_table_name start with 'ORG_' append with the mnemonic" do
         expect(origin.hive_table_name).to eq "ORG_ABC"
@@ -133,7 +128,7 @@ describe Origin do
     end
 
     context "when the mnemonic is not fill out" do
-      let(:origin) { FactoryGirl.create(:origin, mnemonic: nil) }
+      let(:origin) { FactoryGirl.create(:origin, mnemonic: nil, current_user_id: current_user_id) }
 
       it "the hive_table_name start with 'ORG_' append with the mnemonic" do
         expect(origin.hive_table_name).not_to eq "ORG_ABC"
@@ -154,7 +149,7 @@ describe Origin do
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:origin, file_name: file_name) }
+    subject { FactoryGirl.build(:origin, file_name: file_name, current_user_id: current_user_id) }
 
     context "when file_name is nil"  do
       let(:file_name) { nil }

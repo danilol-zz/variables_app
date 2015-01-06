@@ -1,25 +1,21 @@
 require 'rails_helper'
 
 describe Table do
+  let(:current_user_id) { FactoryGirl.create(:user, profile: profile).id }
+
   let(:profile) { 'sala1' }
-
-  before do
-    user = FactoryGirl.create(:user, profile: profile)
-
-    subject.current_user_id = user.id
-  end
 
   context "statuses" do
     before do
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
+      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
+      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
+      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
     end
 
     it "checks the scopes" do
@@ -34,7 +30,7 @@ describe Table do
       v1 = FactoryGirl.create(:variable, name: "v1")
       v2 = FactoryGirl.create(:variable, name: "v2")
       v3 = FactoryGirl.create(:variable, name: "v3")
-      @table = FactoryGirl.create(:table, variables: [v1, v2, v3])
+      @table = FactoryGirl.create(:table, variables: [v1, v2, v3], current_user_id: current_user_id)
     end
 
     it "has relationship" do
@@ -45,16 +41,16 @@ describe Table do
 
   context ".code" do
     before do
-      @a = FactoryGirl.create(:table)
-      @b = FactoryGirl.create(:table)
-      @c = FactoryGirl.create(:table, id: 10)
-      @d = FactoryGirl.create(:table, id: 100)
-      @e = FactoryGirl.create(:table, id: 1000)
+      @a = FactoryGirl.create(:table, id: 1 ,   current_user_id: current_user_id)
+      @b = FactoryGirl.create(:table, id: 80,   current_user_id: current_user_id)
+      @c = FactoryGirl.create(:table, id: 10,   current_user_id: current_user_id)
+      @d = FactoryGirl.create(:table, id: 100,  current_user_id: current_user_id)
+      @e = FactoryGirl.create(:table, id: 1000, current_user_id: current_user_id)
     end
 
     it "generates right codes" do
       expect(@a.code).to eq "TA001"
-      expect(@b.code).to eq "TA002"
+      expect(@b.code).to eq "TA080"
       expect(@c.code).to eq "TA010"
       expect(@d.code).to eq "TA100"
       expect(@e.code).to eq "TA1000"
@@ -68,7 +64,7 @@ describe Table do
         FactoryGirl.create(:variable, id: 5, name: "v2")
         FactoryGirl.create(:variable, id: 9, name: "v3")
 
-        @table = FactoryGirl.build(:table)
+        @table = FactoryGirl.build(:table, current_user_id: current_user_id)
         @table.save
       end
 
@@ -110,7 +106,7 @@ describe Table do
         v3 = FactoryGirl.create(:variable, id: 9, name: "v3")
         v4 = FactoryGirl.create(:variable, id: 15, name: "v4")
         v5 = FactoryGirl.create(:variable, id: 19, name: "v5")
-        @table = FactoryGirl.create(:table, variables: [v1, v2])
+        @table = FactoryGirl.create(:table, variables: [v1, v2], current_user_id: current_user_id)
       end
 
       context "with no variables selected" do
@@ -149,7 +145,7 @@ describe Table do
     context "when the mnemonic field was filled" do
 
       before do
-        @a = FactoryGirl.create(:table, mnemonic: "XPTO")
+        @a = FactoryGirl.create(:table, mnemonic: "XPTO", current_user_id: current_user_id)
       end
 
       it "the hive_table has the begin 'TAB_' concatenated with the mnemonic" do
@@ -164,7 +160,7 @@ describe Table do
     context "when the mnemonic field was not filled" do
 
       before do
-        @a = FactoryGirl.create(:table)
+        @a = FactoryGirl.create(:table, current_user_id: current_user_id)
       end
 
       it "the hive_table has the nil value" do
@@ -174,7 +170,7 @@ describe Table do
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:table, logic_table_name: logic_table_name) }
+    subject { FactoryGirl.build(:table, logic_table_name: logic_table_name, current_user_id: current_user_id) }
 
     context "when logic_table_name is nil"  do
       let(:logic_table_name) { nil }

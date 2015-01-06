@@ -77,7 +77,7 @@ class OriginsController < ApplicationController
   end
 
   def get_origin_field_to_update
-    @origin_field = OriginField.find(params[:format])
+    @origin_field = OriginField.find(params[:id])
     @origin       = Origin.find(@origin_field.origin_id)
     set_desabled_fields
     render :show
