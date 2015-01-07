@@ -9,6 +9,8 @@ class Campaign < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2])   }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
+  scope :recent, -> { order(updated_at: :desc) }
+
   validates :name, presence: true, if: :current_user_is_room1?
   validates :name, length: { maximum: 50 }, if: :current_user_is_room1?
   validates :priority, presence: true, if: :current_user_is_room1?

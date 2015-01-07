@@ -5,9 +5,6 @@ RSpec.describe TablesController, :type => :controller do
     session[:user_id] = User.create(user_attributes)
   end
 
-  # This should return the minimal set of attributes required to create a valid
-  # Table. As you add validations to Table, be sure to
-  # adjust the attributes here as well.
   let(:valid_attributes) {
     valid_attributes = {
       :logic_table_name => 'teste',
@@ -48,9 +45,6 @@ RSpec.describe TablesController, :type => :controller do
     #skip("Add a hash of attributes invalid for your model")
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # TablesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET new" do

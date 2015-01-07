@@ -15,6 +15,8 @@ class Table < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
+  scope :recent, -> { order(updated_at: :desc) }
+
   validates :table_key, presence: true, length: { maximum: 100 }, if: :current_user_is_room1?
 
   def code

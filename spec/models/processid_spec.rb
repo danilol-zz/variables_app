@@ -21,23 +21,31 @@ describe Processid do
     it { expect(subject).to ensure_length_of(:notes).is_at_most(500) }
   end
 
-  context "statuses" do
+  context "scopes" do
     before do
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
-      FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
-      FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
+      @processid1 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
+      @processid2 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 8.hour, current_user_id: current_user_id)
+      @processid3 = FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 7.hour, current_user_id: current_user_id)
+      @processid4 = FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 6.hour, current_user_id: current_user_id)
+      @processid5 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 5.hour, current_user_id: current_user_id)
+      @processid6 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 4.hour, current_user_id: current_user_id)
+      @processid7 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 3.hour, current_user_id: current_user_id)
+      @processid8 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 2.days, current_user_id: current_user_id)
+      @processid9 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 1.hour, current_user_id: current_user_id)
     end
 
-    it "check the scopes" do
-      expect(Processid.draft.count).to eq 3
-      expect(Processid.development.count).to eq 4
-      expect(Processid.done.count).to eq 2
+    context "statuses" do
+      it "filters by status" do
+        expect(Processid.draft.count).to eq 3
+        expect(Processid.development.count).to eq 4
+        expect(Processid.done.count).to eq 2
+      end
+    end
+
+    context "recent" do
+      it "orders the records by most recent changes" do
+        expect(Processid.recent.limit(3)).to eq [@processid9, @processid1, @processid7]
+      end
     end
   end
 
@@ -92,7 +100,7 @@ describe Processid do
       @e = FactoryGirl.create(:processid, id: 1000, current_user_id: current_user_id)
     end
 
-    it "should generate right codes" do
+    it "generates right codes" do
       expect(@a.code).to eq "PR001"
       expect(@b.code).to eq "PR080"
       expect(@c.code).to eq "PR810"
@@ -102,15 +110,13 @@ describe Processid do
   end
 
   describe "before_save calculate fields" do
+    subject { FactoryGirl.create(:processid, mnemonic: mnemonic, current_user_id: current_user_id) }
+
     context "when the mnemonic is fill out" do
-      let(:resource) { FactoryGirl.create(:processid, mnemonic: "XPTO", current_user_id: current_user_id) }
+      let(:mnemonic) { "XPTO" }
 
-      it "the 'var_table_name' begin with string 'VAR_' append with the mnemonic value" do
-        expect(resource.var_table_name).to eq "VAR_XPTO"
-      end
-
-      it "the 'var_table_name' NOT equal nil" do
-        expect(resource.var_table_name).not_to eq nil
+      it "calculates fields correctly" do
+        expect(subject.var_table_name).to eq "VAR_XPTO"
       end
     end
   end

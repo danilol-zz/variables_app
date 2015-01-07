@@ -11,6 +11,8 @@ class Processid < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
+  scope :recent, -> { order(updated_at: :desc) }
+
   validates :process_number, uniqueness: true, allow_blank: true, if: :current_user_is_room2?
   validates :process_number, presence: true, if: :current_user_is_room2?
   validates :mnemonic, presence: true, if: :current_user_is_room2?

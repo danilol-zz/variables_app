@@ -1,31 +1,30 @@
 class WelcomeController < ApplicationController
   def index
     @filter = params[:status] || 'origin'
-    if @filter == "origin"
-      @entity_status  = Origin.select( :id ).select(:status).select( :file_name ).where( :status => Constants::STATUS[:SALA1]).order( :id => :desc ).to_a,
-        Origin.select( :id ).select( :status).select( :file_name ).where( :status => Constants::STATUS[:SALA2]).order( :id => :desc ).to_a,
-        Origin.select( :id ).select(:status).select( :file_name ).where( :status => Constants::STATUS[:PRODUCAO]).order( :id => :desc ).to_a
-    elsif  @filter == "campaign"
-      @entity_status  = Campaign.select( :id ).select(:status).select( :name ).where( :status => Constants::STATUS[:SALA1]).order( :id => :desc ).to_a,
-        Campaign.select( :id ).select( :status).select( :name ).where( :status => Constants::STATUS[:SALA2]).order( :id => :desc ).to_a,
-        Campaign.select( :id ).select(:status).select( :name ).where( :status => Constants::STATUS[:PRODUCAO]).order( :id => :desc ).to_a
-    elsif  @filter == "variable"
-      @entity_status  = Variable.select( :id ).select(:status).select( :name ).where( :status => Constants::STATUS[:SALA1]).order( :id => :desc ).to_a,
-        Variable.select( :id ).select( :status).select( :name ).where( :status => Constants::STATUS[:SALA2]).order( :id => :desc ).to_a,
-        Variable.select( :id ).select(:status).select( :name ).where( :status => Constants::STATUS[:PRODUCAO]).order( :id => :desc ).to_a
-    elsif  @filter == "table"
-      @entity_status  = Table.select( :id ).select(:status).select( :logic_table_name ).where( :status => Constants::STATUS[:SALA1]).order( :id => :desc ).to_a,
-        Table.select( :id ).select( :status).select( :logic_table_name ).where( :status => Constants::STATUS[:SALA2]).order( :id => :desc ).to_a,
-        Table.select( :id ).select(:status).select( :logic_table_name ).where( :status => Constants::STATUS[:PRODUCAO]).order( :id => :desc ).to_a
-    elsif  @filter == "processid"
-      @entity_status  = Processid.select( :id ).select(:status).select( :mnemonic ).where( :status => Constants::STATUS[:SALA1]).order( :id => :desc ).to_a,
-        Processid.select( :id ).select( :status).select( :mnemonic ).where( :status => Constants::STATUS[:SALA2]).order( :id => :desc ).to_a,
-        Processid.select( :id ).select(:status).select( :mnemonic ).where( :status => Constants::STATUS[:PRODUCAO]).order( :id => :desc ).to_a
-    end
 
-    # get the maximum size array
-    @max_size = @entity_status[0].size
-    @max_size = @entity_status[1].size if @entity_status[1].size > @max_size
-    @max_size = @entity_status[2].size if @entity_status[2].size > @max_size
+    @items = case @filter
+             when "origin"
+               [Origin.select(:id, :status, :file_name).draft.recent.limit(10),
+                Origin.select(:id, :status, :file_name).development.recent.limit(10),
+                Origin.select(:id, :status, :file_name).done.recent.limit(10)]
+             when "campaign"
+               [Campaign.select(:id, :status, :name).draft.recent.limit(10),
+                Campaign.select(:id, :status, :name).development.recent.limit(10),
+                Campaign.select(:id, :status, :name).done.recent.limit(10)]
+             when "variable"
+               [Variable.select(:id, :status, :name).draft.recent.limit(10),
+                Variable.select(:id, :status, :name).development.recent.limit(10),
+                Variable.select(:id, :status, :name).done.recent.limit(10)]
+             when "table"
+               [Table.select(:id, :status, :logic_table_name).draft.recent.limit(10),
+                Table.select(:id, :status, :logic_table_name).development.recent.limit(10),
+                Table.select(:id, :status, :logic_table_name).done.recent.limit(10)]
+             when "processid"
+               [Processid.select(:id, :status, :mnemonic).draft.recent.limit(10),
+                Processid.select(:id, :status, :mnemonic).development.recent.limit(10),
+                Processid.select(:id, :status, :mnemonic).done.recent.limit(10)]
+             end
+
+    @max_size = [@items[0].size, @items[1].size, @items[2].size].max
   end
 end

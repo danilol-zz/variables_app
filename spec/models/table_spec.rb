@@ -5,23 +5,31 @@ describe Table do
 
   let(:profile) { 'sala1' }
 
-  context "statuses" do
+  context "scopes" do
     before do
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
-      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
-      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
+      @table1 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
+      @table2 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 8.hour, current_user_id: current_user_id)
+      @table3 = FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 7.hour, current_user_id: current_user_id)
+      @table4 = FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 6.hour, current_user_id: current_user_id)
+      @table5 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 5.hour, current_user_id: current_user_id)
+      @table6 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 4.hour, current_user_id: current_user_id)
+      @table7 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 3.hour, current_user_id: current_user_id)
+      @table8 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 2.days, current_user_id: current_user_id)
+      @table9 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 1.hour, current_user_id: current_user_id)
     end
 
-    it "checks the scopes" do
-      expect(Table.draft.count).to eq 3
-      expect(Table.development.count).to eq 4
-      expect(Table.done.count).to eq 2
+    context "statuses" do
+      it "filters by status" do
+        expect(Table.draft.count).to eq 3
+        expect(Table.development.count).to eq 4
+        expect(Table.done.count).to eq 2
+      end
+    end
+
+    context "recent" do
+      it "orders the records by most recent changes" do
+        expect(Table.recent.limit(3)).to eq [@table9, @table1, @table7]
+      end
     end
   end
 
@@ -142,29 +150,21 @@ describe Table do
   end
 
   describe "before_save calculate fields of Table" do
-    context "when the mnemonic field was filled" do
+    subject { FactoryGirl.create(:table, mnemonic: mnemonic, current_user_id: current_user_id) }
 
-      before do
-        @a = FactoryGirl.create(:table, mnemonic: "XPTO", current_user_id: current_user_id)
-      end
+    context "when the mnemonic field was not filled" do
+      let(:mnemonic) { nil }
 
-      it "the hive_table has the begin 'TAB_' concatenated with the mnemonic" do
-        expect(@a.hive_table) == "TAB_XPTO"
-      end
-
-      it "the hive_table has the begin 'TAB_' NOT concatenated with the mnemonic" do
-        expect(@a.hive_table) != "TAB_qqqqq"
+      it "not calculates fields" do
+        expect(subject.hive_table).to be_nil
       end
     end
 
-    context "when the mnemonic field was not filled" do
+    context "when the mnemonic field was filled" do
+      let(:mnemonic) { "XPTO" }
 
-      before do
-        @a = FactoryGirl.create(:table, current_user_id: current_user_id)
-      end
-
-      it "the hive_table has the nil value" do
-        expect(@a.hive_table) == nil
+      it "calculates field correctly" do
+        expect(subject.hive_table).to eq "TAB_XPTO"
       end
     end
   end

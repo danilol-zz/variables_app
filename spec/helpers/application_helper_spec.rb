@@ -26,7 +26,6 @@ describe 'ApplicationHelper' do
         expect(this_model_name(OriginField)).to eq "Campos de origem"
       end
     end
-   end
-
+  end
 end
 

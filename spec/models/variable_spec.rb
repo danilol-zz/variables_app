@@ -1,28 +1,32 @@
 require 'rails_helper'
 
 describe Variable do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:current_user_id) { user.id }
+  let(:current_user_id) { FactoryGirl.create(:user).id }
 
+  describe "scopes" do
+    before do
+      @variable1 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
+      @variable2 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 8.hour, current_user_id: current_user_id)
+      @variable3 = FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 7.hour, current_user_id: current_user_id)
+      @variable4 = FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 6.hour, current_user_id: current_user_id)
+      @variable5 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 5.hour, current_user_id: current_user_id)
+      @variable6 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 4.hour, current_user_id: current_user_id)
+      @variable7 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 3.hour, current_user_id: current_user_id)
+      @variable8 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 9.hour, current_user_id: current_user_id)
+      @variable9 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 1.hour, current_user_id: current_user_id)
+    end
 
-  describe "attributes validations" do
     context "statuses" do
-      before do
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-      end
-
-      it "check the scopes" do
+      it "filters by status" do
         expect(Variable.draft.count).to eq 3
         expect(Variable.development.count).to eq 4
         expect(Variable.done.count).to eq 2
+      end
+    end
+
+    context "recent" do
+      it "orders the records by most recent changes" do
+        expect(Variable.recent.limit(3)).to eq [@variable9, @variable1, @variable7]
       end
     end
   end
@@ -51,7 +55,7 @@ describe Variable do
       @variable.campaigns << [c1, c2, c3]
     end
 
-    it "should have relationship" do
+    it "has relationship" do
       expect(@variable.campaigns.count).to eq 3
       expect(@variable.campaigns.map(&:name)).to include "c1", "c2", "c3"
     end
@@ -66,7 +70,7 @@ describe Variable do
       @variable.tables << [t1, t2, t3]
     end
 
-    it "should have relationship" do
+    it "has relationship" do
       expect(@variable.tables.count).to eq 3
       expect(@variable.tables.map(&:name)).to include "t1", "t2", "t3"
     end
@@ -81,7 +85,7 @@ describe Variable do
       @variable.processids << [p1, p2, p3]
     end
 
-    it "should have relationship" do
+    it "has relationship" do
       expect(@variable.processids.count).to eq 3
       expect(@variable.processids.map(&:mnemonic)).to include "p1", "p2", "p3"
     end
@@ -90,7 +94,6 @@ describe Variable do
   context ".set_origin_fields" do
     context "on create" do
       subject { FactoryGirl.create(:variable) }
-
 
       context "with no origin_field selected" do
         it "not saves origin_field" do
@@ -183,7 +186,7 @@ describe Variable do
       @d = FactoryGirl.create(:variable, id: 1000)
     end
 
-    it "should generate right codes" do
+    it "generates codes successfully" do
       expect(@a.code).to eq "VA001"
       expect(@b.code).to eq "VA010"
       expect(@c.code).to eq "VA997"

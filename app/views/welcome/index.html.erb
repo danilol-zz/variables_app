@@ -4,7 +4,7 @@
       <div class="modulo modulo-sidebar" id="guide-move">
         <h4>Cadastros</h4>
         <div class="botoes clearfix">
-          <% if @current_user.profile == User::ROOM1 %>
+          <% if @current_user.room1? %>
             <div class="row clearfix">
               <%= link_to "#{Origin.model_name.human.capitalize}", new_origin_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
@@ -41,7 +41,6 @@
       <div class="modulo">
         <section class="formulario">
           <h3 class="line-bottom">Status</h3>
-
           <fieldset>
             <legend></legend>
             <div id="status" class="row clearfix line-bottom">
@@ -84,7 +83,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% if @entity_status.empty? %>
+                <% if @items.empty? %>
                   <tr>
                     <td class="largura-fixa120"></td>
                     <td class="largura-fixa120"></td>
@@ -95,8 +94,7 @@
                     <tr>
                       <% 3.times do |e| %>
                         <td class="largura-fixa120">
-                          <%= link_to "#{@entity_status[e][t].code} #{@entity_status[e][t].status_screen_name}",
-                            "#{@filter}s/#{@entity_status[e][t].id}/edit" unless @entity_status[e][t].nil? %>
+                          <%= link_to "#{@items[e][t].code} #{@items[e][t].status_screen_name}", "#{@filter}s/#{@items[e][t].id}/edit" unless @items[e][t].nil? %>
                         </td>
                       <% end %>
                     </tr>
@@ -104,6 +102,11 @@
                 <% end %>
               </tbody>
             </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
+            <% unless @max_size == 0 %>
+              <div>
+                mais...
+              </div>
+            <% end %>
           </section> <!-- grid section -->
         </section> <!-- formulario -->
       </div> <!-- modulo -->

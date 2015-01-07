@@ -40,24 +40,32 @@ describe Campaign do
       it { expect(campaign).to_not validate_presence_of(:automatic_routine) }
       it { expect(campaign).to_not ensure_length_of(:automatic_routine).is_at_most(50) }
     end
+  end
+
+  context "scopes" do
+    before do
+      @campaign1 = FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
+      @campaign2 = FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 8.hour, current_user_id: current_user_id)
+      @campaign3 = FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 7.hour, current_user_id: current_user_id)
+      @campaign4 = FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 6.hour, current_user_id: current_user_id)
+      @campaign5 = FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 5.hour, current_user_id: current_user_id)
+      @campaign6 = FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 4.hour, current_user_id: current_user_id)
+      @campaign7 = FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 3.hour, current_user_id: current_user_id)
+      @campaign8 = FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 2.days, current_user_id: current_user_id)
+      @campaign9 = FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 1.hour, current_user_id: current_user_id)
+    end
 
     context "statuses" do
-      before do
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:PRODUCAO], current_user_id: current_user_id)
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA2], current_user_id: current_user_id)
-        FactoryGirl.create(:campaign, status: Constants::STATUS[:SALA1], current_user_id: current_user_id)
-      end
-
-      it "should check the scopes" do
+      it "filters by status" do
         expect(Campaign.draft.count).to eq 3
         expect(Campaign.development.count).to eq 4
         expect(Campaign.done.count).to eq 2
+      end
+    end
+
+    context "recent" do
+      it "orders the records by most recent changes" do
+        expect(Campaign.recent.limit(3)).to eq [@campaign9, @campaign1, @campaign7]
       end
     end
   end
@@ -71,7 +79,7 @@ describe Campaign do
       @campaign.variables << [var1, var2, var3]
     end
 
-    it "should have relationship" do
+    it "has relationship" do
       expect(@campaign.variables.count).to eq 3
       expect(@campaign.variables.map(&:name)).to include "var1", "var2", "var3"
     end
@@ -80,7 +88,6 @@ describe Campaign do
   context ".set_variables" do
     context "on create" do
       subject { FactoryGirl.create(:campaign, current_user_id: current_user_id) }
-
 
       context "with no variables selected" do
         it "not saves variable" do
@@ -104,7 +111,6 @@ describe Campaign do
 
           it "saves cmpaigns" do
             subject.set_variables(campaign_params)
-
             expect(subject.variables.size).to eq 1
           end
         end
@@ -114,7 +120,6 @@ describe Campaign do
 
           it "saves variables" do
             subject.set_variables(campaign_params)
-
             expect(subject.variables.size).to eq 3
           end
         end
@@ -172,7 +177,7 @@ describe Campaign do
       @e = FactoryGirl.create(:campaign, id: 1000, current_user_id: current_user_id)
     end
 
-    it "should generate right codes" do
+    it "generates the codes successfully" do
       expect(@a.code).to eq "CA001"
       expect(@b.code).to eq "CA087"
       expect(@c.code).to eq "CA010"

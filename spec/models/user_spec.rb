@@ -41,14 +41,14 @@ describe User do
 
   context "#room1?" do
     context "valid room1?" do
-      it "should check the status" do
+      it "checks the status" do
         user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA1])
         expect(user.room1?).to be_truthy
       end
     end
 
     context "invalid room1?" do
-      it "should check the status" do
+      it "checks the status" do
         user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA2])
         expect(user.room1?).to be_falsy
       end
@@ -57,14 +57,14 @@ describe User do
 
   context "#room2?" do
     context "valid room2?" do
-      it "should check the status" do
+      it "checks the status" do
         user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA2])
         expect(user.room2?).to be_truthy
       end
     end
 
     context "invalid room2?" do
-      it "should check the status" do
+      it "checks the status" do
         user = FactoryGirl.create(:user, profile: Constants::STATUS[:SALA1])
         expect(user.room2?).to be_falsy
       end
