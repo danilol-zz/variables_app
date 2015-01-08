@@ -3,17 +3,111 @@ require 'rails_helper'
 RSpec.describe OriginsController, type: :controller do
   before { session[:user_id] = current_user_id }
 
-  let(:current_user_id) { User.create(user_attributes).id }
+  let(:current_user_id)  { User.create(user_attributes).id }
   let(:valid_attributes) { FactoryGirl.attributes_for(:origin, current_user_id: current_user_id) }
   let(:user_attributes)  { FactoryGirl.attributes_for(:user) }
   let(:valid_session)    { {} }
 
+
+  describe "GET index" do
+    let(:origin) { Origin.create(valid_attributes) }
+
+    it "assigns all origins as @origins" do
+      get :index, {}, valid_session
+      expect(assigns(:origins)).to eq([origin])
+    end
+  end
+
+  describe "POST search" do
+    before do
+      @origin1 = FactoryGirl.create(:origin, file_name: "name01", current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
+      @origin2 = FactoryGirl.create(:origin, file_name: "name02", current_user_id: current_user_id, status: Constants::STATUS[:SALA2])
+      @origin3 = FactoryGirl.create(:origin, file_name: "name3",  current_user_id: current_user_id, status: Constants::STATUS[:PRODUCAO])
+      @origin4 = FactoryGirl.create(:origin, file_name: "name4",  current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
+    end
+
+    context "with invalid params" do
+      context "when no params is sent" do
+        it 'returns all records' do
+          post :search, valid_session
+          expect(assigns(:origins)).to eq([@origin1, @origin2, @origin3, @origin4])
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "when params is blank" do
+        it 'returns all records' do
+          post :search, { file_name: "", status: "" }, valid_session
+          expect(assigns(:origins)).to eq([@origin1, @origin2, @origin3, @origin4])
+          expect(response).to render_template("index")
+        end
+      end
+    end
+
+    context "with valid params" do
+      subject { post :search, { query: { file_name: file, status: status } }, valid_session }
+
+      context "with only text param" do
+        context "with no existent name" do
+          let(:file)   { "invalid" }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:origins)).to eq([])
+          end
+        end
+
+        context "with part of existent name" do
+          let(:file)   { 'name0' }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:origins)).to eq([@origin1, @origin2])
+          end
+        end
+
+        context "with exactly the same name" do
+          let(:file)   { 'name3' }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:origins)).to eq([@origin3])
+          end
+        end
+      end
+
+      context "with only status param" do
+        let(:file)   { '' }
+        let(:status) { "sala1" }
+
+        it 'returns filtered records' do
+          subject
+          expect(assigns(:origins)).to eq([@origin1, @origin4])
+        end
+      end
+
+      context "with both params" do
+        let(:file)   { 'name0' }
+        let(:status) { "sala1" }
+
+        it 'returns filtered records' do
+          subject
+          expect(assigns(:origins)).to eq([@origin1])
+          expect(response).to render_template("index")
+        end
+      end
+    end
+  end
+
   describe "GET show" do
+    let(:origin) { Origin.create(valid_attributes) }
+
     it "assigns the requested origin as @origin" do
-      origin = Origin.create(valid_attributes)
 
       get :show, { id: origin.to_param }, valid_session
-
       expect(assigns(:origin)).to eq(origin)
     end
   end
@@ -27,11 +121,10 @@ RSpec.describe OriginsController, type: :controller do
   end
 
   describe "GET edit" do
+    let(:origin) { Origin.create(valid_attributes) }
+
     it "assigns the requested origin as @origin" do
-      origin = Origin.create(valid_attributes)
-
       get :edit, { id: origin.to_param }, valid_session
-
       expect(assigns(:origin)).to eq(origin)
     end
   end
@@ -212,9 +305,9 @@ RSpec.describe OriginsController, type: :controller do
     end
 
     context "with invalid file type and valid file" do
-      it "not created any origin_fields" do
-        origin = FactoryGirl.create(:origin, current_user_id: current_user_id)
+      let(:origin) { FactoryGirl.create(:origin, current_user_id: current_user_id) }
 
+      it "not created any origin_fields" do
         file_test = File.new(Rails.root + 'spec/fixtures/upload_mainframe.txt')
         file = ActionDispatch::Http::UploadedFile.new(tempfile: file_test, filename: File.basename("spec/fixtures/upload_mainframe.txt"), content_type: "text/plain")
 

@@ -25,4 +25,6 @@ Rails.application.routes.draw do
 
   get  "/remember_password/:id" => "users#remember_password_index", :as => "remember"
   post "/remember_password"     => "users#remember_password"
+
+  post "/search/origin"         => "origins#search", :as => "search_origin"
 end

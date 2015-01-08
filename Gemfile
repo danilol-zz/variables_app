@@ -18,6 +18,7 @@ gem 'capistrano-rails', '~> 1.1.1'
 gem 'capistrano-rvm', github: "capistrano/rvm"
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'will_paginate'
 
 group :development, :test do
   gem 'shoulda-matchers'
