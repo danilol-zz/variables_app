@@ -5,7 +5,7 @@
   <div class="box-info">
     <table class="resumo">
       <tbody>
-       <% if @current_user.profile == User::ROOM1 %>
+       <% if @current_user.room1? %>
          <tr>
            <th><%= t('activerecord.attributes.origin.file_name') %>:</th>
            <td><%= @origin.file_name %></td>
@@ -15,7 +15,7 @@
           <td><%= @origin.file_description %></td>
          </tr>
        <% end %>
-       <% if @current_user.profile == User::ROOM2 %>
+       <% if @current_user.room2? %>
          <tr>
            <th><%= t('activerecord.attributes.origin.mnemonic') %>:</th>
            <td><%= @origin.mnemonic %></td>

@@ -138,12 +138,13 @@ class OriginsController < ApplicationController
   private
 
   def set_desabled_fields
-    if @current_user.profile == User::ROOM1
+    if @current_user.room1?
       @disabled_for_room1 = "false"
     else
       @disabled_for_room1 = "true"
     end
-    if @current_user.profile == User::ROOM2
+
+    if @current_user.room2?
       @disabled_for_room2 = "false"
     else
       @disabled_for_room2 = "true"
@@ -178,8 +179,7 @@ class OriginsController < ApplicationController
       :room_2_notes,
       :dmt_advice,
       :dmt_classification,
-      :status,
-      :query
+      :status
     ).merge(current_user_id: current_user.id)
   end
 

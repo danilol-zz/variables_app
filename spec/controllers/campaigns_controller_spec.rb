@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CampaignsController, :type => :controller do
-  before do
-    session[:user_id] = User.create(user_attributes)
-  end
+  before { session[:user_id] = current_user_id }
+
+  let(:current_user_id)  { User.create(user_attributes).id }
 
   let(:valid_attributes) {
 
@@ -28,10 +28,9 @@ RSpec.describe CampaignsController, :type => :controller do
       :owner => 'teste',
       :status => 'sala1',
       :variable_list => {"1" => "checked", "2" => "checked" },
-      :current_user_id => session[:user_id].id
+      :current_user_id => current_user_id
     }
   }
-
 
   let(:user_attributes) {
     {
@@ -40,10 +39,6 @@ RSpec.describe CampaignsController, :type => :controller do
       :profile  => "Sala 1",
       :password => "123456"
     }
-  }
-
-  let(:invalid_attributes) {
-    #skip("Add a hash of attributes invalid for your model")
   }
 
   let(:valid_session) { {} }
@@ -56,6 +51,98 @@ RSpec.describe CampaignsController, :type => :controller do
     end
   end
 
+  describe "GET index" do
+    let(:campaign) { Campaign.create(valid_attributes) }
+
+    it "assigns all campaigns as @campaigns" do
+      get :index, {}, valid_session
+      expect(assigns(:campaigns)).to eq([campaign])
+    end
+  end
+
+  describe "POST search" do
+    before do
+      @campaign1 = FactoryGirl.create(:campaign, name: "name01", current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
+      @campaign2 = FactoryGirl.create(:campaign, name: "name02", current_user_id: current_user_id, status: Constants::STATUS[:SALA2])
+      @campaign3 = FactoryGirl.create(:campaign, name: "name3",  current_user_id: current_user_id, status: Constants::STATUS[:PRODUCAO])
+      @campaign4 = FactoryGirl.create(:campaign, name: "name4",  current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
+    end
+
+    context "with invalid params" do
+      context "when no params is sent" do
+        it 'returns all records' do
+          post :search, valid_session
+          expect(assigns(:campaigns)).to eq([@campaign1, @campaign2, @campaign3, @campaign4])
+          expect(response).to render_template("index")
+        end
+      end
+
+      context "when params is blank" do
+        it 'returns all records' do
+          post :search, { name: "", status: "" }, valid_session
+          expect(assigns(:campaigns)).to eq([@campaign1, @campaign2, @campaign3, @campaign4])
+          expect(response).to render_template("index")
+        end
+      end
+    end
+
+    context "with valid params" do
+      subject { post :search, { query: { name: name, status: status } }, valid_session }
+
+      context "with only text param" do
+        context "with no existent name" do
+          let(:name)   { "invalid" }
+          let(:status) { "" }
+
+          it 'returns no records' do
+            subject
+            expect(assigns(:campaigns)).to eq([])
+          end
+        end
+
+        context "with part of existent name" do
+          let(:name)   { 'name0' }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:campaigns)).to eq([@campaign1, @campaign2])
+          end
+        end
+
+        context "with exactly the same name" do
+          let(:name)   { 'name3' }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:campaigns)).to eq([@campaign3])
+          end
+        end
+      end
+
+      context "with only status param" do
+        let(:name)   { '' }
+        let(:status) { "sala1" }
+
+        it 'returns filtered records' do
+          subject
+          expect(assigns(:campaigns)).to eq([@campaign1, @campaign4])
+        end
+      end
+
+      context "with both params" do
+        let(:name)   { 'name0' }
+        let(:status) { "sala1" }
+
+        it 'returns filtered records' do
+          subject
+          expect(assigns(:campaigns)).to eq([@campaign1])
+          expect(response).to render_template("index")
+        end
+      end
+    end
+  end
   describe "GET edit" do
     it "assigns the requested campaign as @campaign" do
       campaign = Campaign.create!(valid_attributes)

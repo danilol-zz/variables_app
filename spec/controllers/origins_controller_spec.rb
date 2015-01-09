@@ -52,7 +52,7 @@ RSpec.describe OriginsController, type: :controller do
           let(:file)   { "invalid" }
           let(:status) { "" }
 
-          it 'returns filtered records' do
+          it 'returns no records' do
             subject
             expect(assigns(:origins)).to eq([])
           end
@@ -106,7 +106,6 @@ RSpec.describe OriginsController, type: :controller do
     let(:origin) { Origin.create(valid_attributes) }
 
     it "assigns the requested origin as @origin" do
-
       get :show, { id: origin.to_param }, valid_session
       expect(assigns(:origin)).to eq(origin)
     end

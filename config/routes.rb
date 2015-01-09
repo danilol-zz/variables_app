@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
 
   post "index" => "welcome#index"
+  get  "index" => "welcome#index"
 
   post "/create_or_update_origin_field" => "origins#create_or_update_origin_field"
   get "/get_origin_field_to_update"     => "origins#get_origin_field_to_update"
@@ -27,4 +28,5 @@ Rails.application.routes.draw do
   post "/remember_password"     => "users#remember_password"
 
   post "/search/origin"         => "origins#search", :as => "search_origin"
+  post "/search/campaign"       => "campaigns#search", :as => "search_campaign"
 end

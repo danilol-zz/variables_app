@@ -6,26 +6,29 @@
         <div class="botoes clearfix">
           <% if @current_user.room1? %>
             <div class="row clearfix">
-              <%= link_to "#{Origin.model_name.human.capitalize}", new_origin_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Origin),   new_origin_path,   :class => "btn btn-secundario left txt-no-transform" %>
             </div>
             <div class="row clearfix">
-              <%= link_to "#{Campaign.model_name.human.capitalize}", new_campaign_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Campaign), new_campaign_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
             <div class="row clearfix">
-              <%= link_to "#{Variable.model_name.human.capitalize}", new_variable_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Variable), new_variable_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
             <div class="row clearfix">
-              <%= link_to "#{Table.model_name.human.capitalize}", new_table_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Table),    new_table_path,    :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>
-          <% if @current_user.profile == User::ROOM2 %>
+
+          <% if @current_user.room2? %>
             <div class="row clearfix">
-              <%= link_to "#{Processid.model_name.human.capitalize}", new_processid_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Processid), new_processid_path, :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>
+
         </div>
       </div>
-      <% if @current_user.profile == User::ROOM2 %>
+
+      <% if @current_user.room2? %>
         <div class="modulo modulo-sidebar" id="guide-move">
           <h4>Utilitários</h4>
           <div class="botoes clearfix">
@@ -49,22 +52,26 @@
                   <input type="radio" value="origin" <%='checked' if @filter == 'origin' %> id="status01" name="status", onclick="this.form.submit();" />
                   <label for="status01"><%= this_model_name( Origin ) %></label>
                 </p>
-                <% if @current_user.profile == User::ROOM1 %>
+
+                <% if @current_user.room1? %>
                   <p class="left">
                     <input type="radio" value="campaign" <%='checked' if @filter == 'campaign' %> id="status02" name="status", onclick="this.form.submit();" />
                     <label for="status02"><%= this_model_name( Campaign ) %></label>
                   </p>
                 <% end %>
+
                 <p class="left">
                   <input type="radio" value="variable" <%='checked' if @filter == 'variable' %> id="status03" name="status", onclick="this.form.submit();" />
                   <label for="status03"><%= this_model_name( Variable ) %></label>
                 </p>
-                <% if @current_user.profile == User::ROOM2 %>
+
+                <% if @current_user.room2? %>
                   <p class="left">
                     <input type="radio" value="processid" <%='checked' if @filter == 'processid' %> id="status05" name="status", onclick="this.form.submit();" />
                     <label for="status05"><%= this_model_name( Processid ) %></label>
                   </p>
                 <% end %>
+
                 <p class="left">
                   <input type="radio" value="table" <%='checked' if @filter == 'table' %> id="status04" name="status", onclick="this.form.submit();" />
                   <label for="status04"><%= this_model_name( Table ) %></label>
@@ -77,9 +84,9 @@
             <table summary="" class="tabela-zebra tabela-hover">
               <thead>
                 <tr class="txt-no-transform">
-                  <th><%= Constants::STATUS[:SALA1].upcase %></th>
-                  <th><%= Constants::STATUS[:SALA2].upcase %></th>
-                  <th><%= Constants::STATUS[:PRODUCAO].mb_chars.upcase %></th>
+                  <th>SALA1</th>
+                  <th>SALA2</th>
+                  <th>PRODUÇÃO</th>
                 </tr>
               </thead>
               <tbody>
@@ -90,11 +97,11 @@
                     <td class="largura-fixa120"></td>
                   </tr>
                 <% else %>
-                  <% 0.upto(@max_size - 1) do |t| %>
+                  <% 0.upto(@max_size - 1) do |i| %>
                     <tr>
-                      <% 3.times do |e| %>
+                      <% 3.times do |column| %>
                         <td class="largura-fixa120">
-                          <%= link_to "#{@items[e][t].code} #{@items[e][t].status_screen_name}", "#{@filter}s/#{@items[e][t].id}/edit" unless @items[e][t].nil? %>
+                          <%= link_to "#{@items[column][i].code} #{@items[column][i].status_screen_name}", "#{@filter}s/#{@items[column][i].id}/edit" unless @items[column][i].nil? %>
                         </td>
                       <% end %>
                     </tr>
@@ -102,11 +109,13 @@
                 <% end %>
               </tbody>
             </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
-            <% unless @max_size == 0 %>
+
+            <% if @max_size > 0 %>
               <div>
-                <%= link_to "mais ...", origins_path %>
+                <%= link_to "mais ...", entity_path %>
               </div>
             <% end %>
+
           </section> <!-- grid section -->
         </section> <!-- formulario -->
       </div> <!-- modulo -->

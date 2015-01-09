@@ -9,7 +9,7 @@
             <%= form_tag(search_origin_path,  method: :post ) do  %>
               <div class="row clearfix">
                 <div class='left t4'>
-                  <%= text_field_tag 'query[file_name]' %>
+                  <%= text_field_tag 'query[file_name]', params[:query][:file_name] || '' %>
                 </div>
                 <div class="left t10">
                   <label class="custom-select"><%= select_tag "query[status]", options_for_select(Constants::STATUS, params[:query][:status] || nil), prompt: 'Todos' %></label>

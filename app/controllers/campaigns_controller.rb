@@ -1,7 +1,19 @@
 class CampaignsController < ApplicationController
   before_action :set_campaign, only: [:edit, :update]
   before_action :load_variables
+  before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
+
+  def index
+    params[:query] = {}
+    @campaigns = Campaign.all.paginate(page: params[:page], per_page: 10)
+  end
+
+  def search
+    @campaigns = Campaign.where(@name_query).where(@status_query).paginate(page: 1, per_page: 10).to_a
+
+    render :index
+  end
 
   def new
     @campaign = Campaign.new
@@ -52,6 +64,15 @@ class CampaignsController < ApplicationController
 
   def set_campaign
     @campaign = Campaign.find(params[:id])
+  end
+
+  def set_query_param
+    @name_query = @status_query = nil
+
+    if params[:query]
+      @name_query = Campaign.arel_table[:name].matches("%#{params[:query][:name]}%").to_sql
+      @status_query    = Campaign.arel_table[:status].matches("%#{params[:query][:status]}%").to_sql
+    end
   end
 
   def campaign_params

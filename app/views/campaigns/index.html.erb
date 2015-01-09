@@ -1,0 +1,73 @@
+<section class="main">
+  <div class="row clearfix">
+    <div class="col13" role="main">
+      <div class="modulo">
+        <section class="formulario">
+          <h3 class="line-bottom">Campanhas</h3>
+          <fieldset>
+            <legend></legend>
+            <%= form_tag(search_campaign_path,  method: :post ) do  %>
+              <div class="row clearfix">
+                <div class='left t4'>
+                  <%= text_field_tag 'query[name]', params[:query][:name] || '' %>
+                </div>
+                <div class="left t10">
+                  <label class="custom-select"><%= select_tag "query[status]", options_for_select(Constants::STATUS, params[:query][:status] || nil), prompt: 'Todos' %></label>
+                </div>
+                <div class="left btn btn-primary">
+                  <%= submit_tag "Filtrar" %>
+                </div>
+              </div>
+            <% end %>
+          </fieldset>
+          <section>
+            <table summary="" class="tabela-zebra tabela-hover">
+              <thead>
+                <tr class="txt-no-transform">
+                  <th>id</th>
+                  <th>nome</td>
+                  <th>priioridade</td>
+                  <th>sprint criado</td>
+                  <th>sprint alterado</td>
+                  <th>origem da campanha</td>
+                  <th>canal</td>
+                  <th>canal comunicação</td>
+                  <th>produto</td>
+                  <th>legado?</td>
+                  <th>tipo processo</td>
+                  <th>status</td>
+                  <th>responsável</td>
+                  <th>status</td>
+                </tr>
+              </thead>
+              <tbody>
+                <% @campaigns.each do |campaign| %>
+                  <tr>
+                    <td><%= campaign.ident %></td>
+                    <td><%= campaign.name %></td>
+                    <td><%= campaign.priority %></td>
+                    <td><%= campaign.created_in_sprint %></td>
+                    <td><%= campaign.updated_in_sprint %></td>
+                    <td><%= campaign.campaign_origin %></td>
+                    <td><%= campaign.channel %></td>
+                    <td><%= campaign.communication_channel %></td>
+                    <td><%= campaign.product %></td>
+                    <td><%= campaign.exists_in_legacy %></td>
+                    <td><%= campaign.process_type %></td>
+                    <td><%= campaign.owner %></td>
+                    <td><%= campaign.status %></td>
+                    <td><%= link_to t('edit'), edit_campaign_path(campaign) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
+            <div>
+              <%= will_paginate @campaigns %>
+            </div>
+          </section> <!-- grid section -->
+        </section> <!-- formulario -->
+      </div> <!-- modulo -->
+    </div> <!-- col -->
+  </div> <!-- row clearfix -->
+</section> <!-- main -->
+
