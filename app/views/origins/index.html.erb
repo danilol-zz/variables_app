@@ -49,6 +49,7 @@
                     <td><%= origin.cd5_portal_origin_code %></td>
                     <td><%= origin.cd5_portal_destination_code %></td>
                     <td><%= origin.status %></td>
+                    <td><%= link_to t('edit'), edit_origin_path(origin) %></td>
                   </tr>
                 <% end %>
               </tbody>
