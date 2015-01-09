@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get  "/remember_password/:id" => "users#remember_password_index", :as => "remember"
   post "/remember_password"     => "users#remember_password"
 
-  post "/search/origin"         => "origins#search", :as => "search_origin"
-  post "/search/campaign"       => "campaigns#search", :as => "search_campaign"
+  post "/search/origin"   => "origins#search",   :as => "search_origin"
+  post "/search/campaign" => "campaigns#search", :as => "search_campaign"
+  post "/search/table"    => "tables#search",    :as => "search_table"
 end

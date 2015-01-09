@@ -1,0 +1,61 @@
+<section class="main">
+  <div class="row clearfix">
+    <div class="col13" role="main">
+      <div class="modulo">
+        <section class="formulario">
+          <h3 class="line-bottom">Tabelas</h3>
+          <fieldset>
+            <legend></legend>
+            <%= form_tag(search_table_path,  method: :post ) do  %>
+              <div class="row clearfix">
+                <div class='left t4'>
+                  <%= text_field_tag 'query[table_name]', params[:query][:table_name] || '' %>
+                </div>
+                <div class="left t10">
+                  <label class="custom-select"><%= select_tag "query[status]", options_for_select(Constants::STATUS, params[:query][:status] || nil), prompt: 'Todos' %></label>
+                </div>
+                <div class="left btn btn-primary">
+                  <%= submit_tag "Filtrar" %>
+                </div>
+              </div>
+            <% end %>
+          </fieldset>
+          <section>
+            <table summary="" class="tabela-zebra tabela-hover">
+              <thead>
+                <tr class="txt-no-transform">
+                  <th>Nome tabela lógica</th>
+                  <th>tipo</th>
+                  <th>sprint criado</td>
+                  <th>sprint alterado</td>
+                  <th>tabela física definitiva</td>
+                  <th>mnemônico</td>
+                  <th>status</td>
+                </tr>
+              </thead>
+              <tbody>
+                <% @tables.each do |table| %>
+                  <tr>
+                    <td><%= table.logic_table_name %></td>
+                    <td><%= table.table_type %></td>
+                    <td><%= table.created_in_sprint %></td>
+                    <td><%= table.updated_in_sprint %></td>
+                    <td><%= table.final_physical_table_name %></td>
+                    <td><%= table.mnemonic %></td>
+                    <td><%= table.status %></td>
+                    <td><%= link_to t('edit'), edit_table_path(table) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
+            <div>
+              <%= will_paginate @tables %>
+            </div>
+          </section> <!-- grid section -->
+        </section> <!-- formulario -->
+      </div> <!-- modulo -->
+    </div> <!-- col -->
+  </div> <!-- row clearfix -->
+</section> <!-- main -->
+
+

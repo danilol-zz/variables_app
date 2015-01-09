@@ -4,44 +4,9 @@ RSpec.describe CampaignsController, :type => :controller do
   before { session[:user_id] = current_user_id }
 
   let(:current_user_id)  { User.create(user_attributes).id }
-
-  let(:valid_attributes) {
-
-    valid_attributes = {
-      :ident => 'teste',
-      :name => 'teste',
-      :priority => 'teste',
-      :created_in_sprint => 'teste',
-      :updated_in_sprint => 'teste',
-      :campaign_origin => 'teste',
-      :channel => 'teste',
-      :communication_channel => 'teste',
-      :product => 'teste',
-      :criterion => 'teste',
-      :exists_in_legacy => 'teste',
-      :automatic_routine => 'teste',
-      :factory_criterion_status => 'ok',
-      :process_type => 'teste',
-      :crm_room_suggestion => 'teste',
-      :it_status => 'teste',
-      :notes => 'teste',
-      :owner => 'teste',
-      :status => 'sala1',
-      :variable_list => {"1" => "checked", "2" => "checked" },
-      :current_user_id => current_user_id
-    }
-  }
-
-  let(:user_attributes) {
-    {
-      :email    => "zekitow@gmail.com",
-      :name     => "José Ribeiro",
-      :profile  => "Sala 1",
-      :password => "123456"
-    }
-  }
-
-  let(:valid_session) { {} }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:campaign, current_user_id: current_user_id) }
+  let(:user_attributes)  { FactoryGirl.attributes_for(:user) }
+  let(:valid_session)    { {} }
 
   describe "GET new" do
     it "assigns a new campaign as @campaign" do

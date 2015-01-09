@@ -1,52 +1,105 @@
 require 'rails_helper'
 
 RSpec.describe TablesController, :type => :controller do
-  before do
-    session[:user_id] = User.create(user_attributes)
+  before { session[:user_id] = current_user_id }
+
+  let(:current_user_id)  { User.create(user_attributes).id }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:table, current_user_id: current_user_id) }
+  let(:user_attributes)  { FactoryGirl.attributes_for(:user) }
+  let(:valid_session)    { {} }
+
+  describe "GET index" do
+    let(:table) { Table.create(valid_attributes) }
+
+    it "assigns all tables as @tables" do
+      get :index, {}, valid_session
+      expect(assigns(:tables)).to eq([table])
+    end
   end
 
-  let(:valid_attributes) {
-    valid_attributes = {
-      :logic_table_name => 'teste',
-      :initial_volume => 'teste',
-      :growth_estimation => 'teste',
-      :created_in_sprint => 'teste',
-      :updated_in_sprint => 'teste',
-      :room_1_notes => 'teste',
-      :final_physical_table_name => 'teste',
-      :mirror_physical_table_name => 'teste',
-      :final_table_number => 'teste',
-      :mirror_table_number => 'teste',
-      :mnemonic => 'teste',
-      :routine_number => 'teste',
-      :master_base => 'teste',
-      :hive_table => 'teste',
-      :big_data_routine_name => 'teste',
-      :output_routine_name => 'teste',
-      :ziptrans_routine_name => 'teste',
-      :mirror_data_stage_routine_name => 'teste',
-      :final_data_stage_routine_name => 'teste',
-      :room_2_notes => 'teste',
-      :variable_list => {"1" => "checked", "2" => "checked" },
-      :current_user_id => session[:user_id].id
-    }
-  }
+  describe "POST search" do
+    before do
+      @table1 = FactoryGirl.create(:table, logic_table_name: "name01", current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
+      @table2 = FactoryGirl.create(:table, logic_table_name: "name02", current_user_id: current_user_id, status: Constants::STATUS[:SALA2])
+      @table3 = FactoryGirl.create(:table, logic_table_name: "name3",  current_user_id: current_user_id, status: Constants::STATUS[:PRODUCAO])
+      @table4 = FactoryGirl.create(:table, logic_table_name: "name4",  current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
+    end
 
-  let(:user_attributes) {
-    {
-      :email    => "zekitow@gmail.com",
-      :name     => "José Ribeiro",
-      :profile  => "Sala 1",
-      :password => "123456"
-    }
-  }
+    context "with invalid params" do
+      context "when no params is sent" do
+        it 'returns all records' do
+          post :search, valid_session
+          expect(assigns(:tables)).to eq([@table1, @table2, @table3, @table4])
+          expect(response).to render_template("index")
+        end
+      end
 
-  let(:invalid_attributes) {
-    #skip("Add a hash of attributes invalid for your model")
-  }
+      context "when params is blank" do
+        it 'returns all records' do
+          post :search, { table_name: "", status: "" }, valid_session
+          expect(assigns(:tables)).to eq([@table1, @table2, @table3, @table4])
+          expect(response).to render_template("index")
+        end
+      end
+    end
 
-  let(:valid_session) { {} }
+    context "with valid params" do
+      subject { post :search, { query: { table_name: name, status: status } }, valid_session }
 
+      context "with only text param" do
+        context "with no existent name" do
+          let(:name)   { "invalid" }
+          let(:status) { "" }
+
+          it 'returns no records' do
+            subject
+            expect(assigns(:tables)).to eq([])
+          end
+        end
+
+        context "with part of existent name" do
+          let(:name)   { 'name0' }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:tables)).to eq([@table1, @table2])
+          end
+        end
+
+        context "with exactly the same name" do
+          let(:name)   { 'name3' }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:tables)).to eq([@table3])
+          end
+        end
+      end
+
+      context "with only status param" do
+        let(:name)   { '' }
+        let(:status) { "sala1" }
+
+        it 'returns filtered records' do
+          subject
+          expect(assigns(:tables)).to eq([@table1, @table4])
+        end
+      end
+
+      context "with both params" do
+        let(:name)   { 'name0' }
+        let(:status) { "sala1" }
+
+        it 'returns filtered records' do
+          subject
+          expect(assigns(:tables)).to eq([@table1])
+          expect(response).to render_template("index")
+        end
+      end
+    end
+  end
   describe "GET new" do
     it "assigns a new table as @table" do
       get :new, {}, valid_session

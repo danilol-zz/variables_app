@@ -1,7 +1,19 @@
 class TablesController < ApplicationController
   before_action :set_table, only: [:edit, :update]
   before_action :load_variables
+  before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
+
+  def index
+    params[:query] = {}
+    @tables = Table.all.paginate(page: params[:page], per_page: 10)
+  end
+
+  def search
+    @tables = Table.where(@table_name_query).where(@status_query).paginate(page: 1, per_page: 10).to_a
+
+    render :index
+  end
 
   def new
     @table = Table.new
@@ -53,6 +65,15 @@ class TablesController < ApplicationController
 
   def set_table
     @table = Table.find(params[:id])
+  end
+
+  def set_query_param
+    @table_name_query = @status_query = nil
+
+    if params[:query]
+      @table_name_query = Table.arel_table[:logic_table_name].matches("%#{params[:query][:table_name]}%").to_sql
+      @status_query    = Table.arel_table[:status].matches("%#{params[:query][:status]}%").to_sql
+    end
   end
 
   def table_params
