@@ -11,6 +11,8 @@ class Origin < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
+  scope :recent,      -> { order(updated_at: :desc) }
+
   # room1 validations
   validates :file_name,                   presence: true, length: { maximum: 50 }, if: :current_user_is_room1?
   validates :file_description,            presence: true, length: { maximum: 200 }, if: :current_user_is_room1?

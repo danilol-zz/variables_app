@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Generator do
+  let(:current_user_id) { FactoryGirl.create(:user, id: 1) }
   let(:script_mysql_name) { "Script MySql Cadastro de Arquivo" }
   script_ref = '
 
@@ -80,8 +81,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       context "with valid script" do
         let(:entity_param) { "<Processo.[Nome da rotina]>.SQL <Processo.[Nome tabela var]>" }
 
-        it "should get sucess with simple exemplo" do
-          expect(subject).to be_kind_of(Hash)
+        it "should get sucess with simple example" do
           expect(subject.size).to eq 1
           expect(subject.has_key?("Processo")).to eq true
           expect(subject["Processo"].size).to eq 2
@@ -94,10 +94,9 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
   context '.get_campaign_by_sprint' do
     before do
-      FactoryGirl.create(:user, id: 1)
-      @campaign1 = FactoryGirl.create(:campaign, id: 1, updated_in_sprint: 1, communication_channel: "CRE300" )
-      @campaign2 = FactoryGirl.create(:campaign, id: 2, updated_in_sprint: 1, communication_channel: "CRE301" )
-      @campaign3 = FactoryGirl.create(:campaign, id: 3, updated_in_sprint: 2, communication_channel: "CRE302" )
+      @campaign1 = FactoryGirl.create(:campaign, id: 1, updated_in_sprint: 1, communication_channel: "CRE300", current_user_id: current_user_id)
+      @campaign2 = FactoryGirl.create(:campaign, id: 2, updated_in_sprint: 1, communication_channel: "CRE301", current_user_id: current_user_id)
+      @campaign3 = FactoryGirl.create(:campaign, id: 3, updated_in_sprint: 2, communication_channel: "CRE302", current_user_id: current_user_id)
     end
 
     subject { Generator.get_campaign_by_sprint(sprint, condition) }
@@ -124,7 +123,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       context 'with condition param' do
         context "when campaign is not found" do
           let(:sprint)    { 1 }
-          let(:condition) { "communication_channel=CRE302" }
+          let(:condition) { { communication_channel: "CRE302" } }
 
           it "returns an existing campaign" do
             expect(subject).to eq []
@@ -133,7 +132,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
         context "when campaign is found" do
           let(:sprint)    { 1 }
-          let(:condition) { "communication_channel=CRE301" }
+          let(:condition) { { communication_channel: "CRE301" } }
 
           it "returns an existing campaign" do
             expect(subject).to eq [@campaign2]
@@ -145,10 +144,9 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
   context '.get_table_by_sprint' do
     before do
-      FactoryGirl.create(:user, id: 1)
-      @table1 = FactoryGirl.create(:table, id: 1, updated_in_sprint: 1, routine_number: 1 )
-      @table2 = FactoryGirl.create(:table, id: 2, updated_in_sprint: 1, routine_number: 2 )
-      @table3 = FactoryGirl.create(:table, id: 3, updated_in_sprint: 2, routine_number: 3 )
+      @table1 = FactoryGirl.create(:table, id: 1, updated_in_sprint: 1, routine_number: 1, current_user_id: current_user_id)
+      @table2 = FactoryGirl.create(:table, id: 2, updated_in_sprint: 1, routine_number: 2, current_user_id: current_user_id)
+      @table3 = FactoryGirl.create(:table, id: 3, updated_in_sprint: 2, routine_number: 3, current_user_id: current_user_id)
     end
 
     subject { Generator.get_table_by_sprint(sprint, condition) }
@@ -196,10 +194,9 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
   context '.get_origin_by_sprint' do
     before do
-      FactoryGirl.create(:user, id: 1)
-      @origin1 = FactoryGirl.create(:origin, id: 1, updated_in_sprint: 1, mnemonic: "L001" )
-      @origin2 = FactoryGirl.create(:origin, id: 2, updated_in_sprint: 1, mnemonic: "L002" )
-      @origin3 = FactoryGirl.create(:origin, id: 3, updated_in_sprint: 2, mnemonic: "L003" )
+      @origin1 = FactoryGirl.create(:origin, id: 1, updated_in_sprint: 1, mnemonic: "L001", current_user_id: current_user_id)
+      @origin2 = FactoryGirl.create(:origin, id: 2, updated_in_sprint: 1, mnemonic: "L002", current_user_id: current_user_id)
+      @origin3 = FactoryGirl.create(:origin, id: 3, updated_in_sprint: 2, mnemonic: "L003", current_user_id: current_user_id)
     end
 
     subject { Generator.get_origin_by_sprint(sprint, condition) }
@@ -226,7 +223,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       context 'with condition param' do
         context "when origin is not found" do
           let(:sprint)    { 1 }
-          let(:condition) { "mnemonic=L003" }
+          let(:condition) { { mnemonic: "L003" } }
 
           it "returns an existing origin" do
             expect(subject).to eq []
@@ -235,7 +232,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
         context "when origin is found" do
           let(:sprint)    { 1 }
-          let(:condition) { "mnemonic=L001" }
+          let(:condition) { { mnemonic: "L001" } }
 
           it "returns an existing origin" do
             expect(subject).to eq [@origin1]
@@ -247,9 +244,9 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
   context '.get_variable_by_sprint' do
     before do
-      @var1 = FactoryGirl.create(:variable, id:1, updated_in_sprint:1 , name: "Indicador Elegibilidade")
-      @var2 = FactoryGirl.create(:variable, id:2, updated_in_sprint:1 , name: "Indicador Elegibilidade Funcionario")
-      @var3 = FactoryGirl.create(:variable, id:3, updated_in_sprint:2 , name: "Indicador Elegibilidade Teste")
+      @var1 = FactoryGirl.create(:variable, id: 1, updated_in_sprint: 1, name: "Indicador Elegibilidade", current_user_id: current_user_id)
+      @var2 = FactoryGirl.create(:variable, id: 2, updated_in_sprint: 1, name: "Indicador Elegibilidade Funcionario", current_user_id: current_user_id)
+      @var3 = FactoryGirl.create(:variable, id: 3, updated_in_sprint: 2, name: "Indicador Elegibilidade Teste", current_user_id: current_user_id)
     end
 
     subject { Generator.get_variable_by_sprint(sprint, condition) }
@@ -295,29 +292,88 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     end
   end
 
+  context '.get_origin_field_by_sprint' do
+    before do
+      @origin1       = FactoryGirl.create(:origin, id: 1, updated_in_sprint: 1, mnemonic: "L001", current_user_id: current_user_id)
+      @origin2       = FactoryGirl.create(:origin, id: 2, updated_in_sprint: 2, mnemonic: "L002", current_user_id: current_user_id)
+      @origin_field1 = FactoryGirl.create(:origin_field, id: 1, origin_id: 1, field_name: "CPF",  will_use:  true, current_user_id: current_user_id)
+      @origin_field2 = FactoryGirl.create(:origin_field, id: 2, origin_id: 1, field_name: "CPF2", will_use: false, current_user_id: current_user_id)
+      @origin_field3 = FactoryGirl.create(:origin_field, id: 3, origin_id: 2, field_name: "CPF3", will_use:  true, current_user_id: current_user_id)
+      @origin_field4 = FactoryGirl.create(:origin_field, id: 4, origin_id: 2, field_name: "CPF4", will_use: false, current_user_id: current_user_id)
+    end
+
+    subject { Generator.get_origin_field_by_sprint(sprint, condition) }
+
+    context "with null values" do
+      let(:sprint)    { nil }
+      let(:condition) { nil }
+
+      it "returns an empty array for nil sprint value" do
+        expect(subject).to eq []
+      end
+    end
+
+    context "when origin doesnt exist" do
+      let(:sprint)    { 5 }
+      let(:condition) { nil }
+
+      it "returns two existing origin fields" do
+        expect(subject).to eq []
+      end
+    end
+
+    context "with valid param" do
+      context "when origin exists" do
+        context 'without condition param' do
+          let(:sprint)    { 1 }
+          let(:condition) { nil }
+
+          it "returns two existing origin fields" do
+            expect(subject).to eq [@origin_field1, @origin_field2]
+          end
+        end
+
+        context 'with condition param' do
+          context "when origin field is not found" do
+            let(:sprint)    { 4 }
+            let(:condition) { { will_use: true } }
+
+            it "returns an empty array" do
+              expect(subject).to eq []
+            end
+          end
+
+          context "when origin field is found" do
+            let(:sprint)    { 2 }
+            let(:condition) { { will_use: false } }
+
+            it "returns an existing origin field" do
+              expect(subject).to eq [@origin_field4]
+            end
+          end
+        end
+      end
+    end
+  end
+
   context '.get_entities_by_sprint' do
     before do
-      FactoryGirl.create(:user, id: 1  )
-      FactoryGirl.create(:origin      , id:1, updated_in_sprint:1 , mnemonic: "L001"   )
+      FactoryGirl.create(:origin, id: 1, updated_in_sprint: 1, mnemonic: "L001", current_user_id: current_user_id)
 
-      FactoryGirl.create(:origin_field, id:1, origin_id: 1        , field_name: "CPF"  )
-      FactoryGirl.create(:origin_field, id:2, origin_id:1         , field_name: "LIMIT")
+      FactoryGirl.create(:origin_field, id: 1, origin_id: 1, field_name:   "CPF", current_user_id: current_user_id)
+      FactoryGirl.create(:origin_field, id: 2, origin_id: 1, field_name: "LIMIT", current_user_id: current_user_id)
 
-      FactoryGirl.create(:campaign    , id:1, updated_in_sprint:1 , communication_channel: "CRE300")
+      FactoryGirl.create(:campaign, id: 1, updated_in_sprint: 1, communication_channel: "CRE300", current_user_id: current_user_id)
 
-      var = FactoryGirl.create(:variable    , id:1, updated_in_sprint:1 , name: "Indicador Elegibilidade")
+      var1 = FactoryGirl.create(:variable, id: 1, updated_in_sprint: 1, name: "Indicador Elegibilidade", current_user_id: current_user_id)
+      var2 = FactoryGirl.create(:variable, id: 2, updated_in_sprint: 2, name: "Indicador Elegibilidade Funcionario", current_user_id: current_user_id)
 
-      var2 = FactoryGirl.create(:variable    , id:2, updated_in_sprint:2 , name: "Indicador Elegibilidade Funcionario")
+      pro = FactoryGirl.create(:processid, id: 1, process_number: 1, current_user_id: current_user_id)
+      pro.variables << [var1, var2]
 
-      pro = FactoryGirl.create(:processid    , id:1,                       process_number: 1)
-
-      pro.variables << [var, var2]
-
-      FactoryGirl.create(:table      , id:1, updated_in_sprint:10 , routine_number: 1   )
-
-
-
+      FactoryGirl.create(:table, id: 1, updated_in_sprint: 10, routine_number: 1, current_user_id: current_user_id)
     end
+
     it 'should return erro if the parms is invalid' do
 
       sprint = nil
@@ -442,33 +498,29 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
   context '.get_entities_related' do
     before do
-      FactoryGirl.create(:user, id: 1  )
-      @org = FactoryGirl.create(:origin      , id:1, updated_in_sprint:1 , mnemonic: "L001"   )
+      @org = FactoryGirl.create(:origin, id: 1, updated_in_sprint: 1, mnemonic: "L001", current_user_id: current_user_id)
 
-      @of1 = FactoryGirl.create(:origin_field, id:1, origin_id: 1        , field_name: "CPF"  )
-      @of2 = FactoryGirl.create(:origin_field, id:2, origin_id:1         , field_name: "LIMIT")
+      @of1 = FactoryGirl.create(:origin_field, id: 1, origin_id: 1, field_name:   "CPF", current_user_id: current_user_id)
+      @of2 = FactoryGirl.create(:origin_field, id: 2, origin_id: 1, field_name: "LIMIT", current_user_id: current_user_id)
 
-      @cp = FactoryGirl.create(:campaign    , id:1, updated_in_sprint:1 , communication_channel: "CRE300")
+      @cp = FactoryGirl.create(:campaign, id: 1, updated_in_sprint: 1, communication_channel: "CRE300", current_user_id: current_user_id)
 
-      @var = FactoryGirl.create(:variable    , id:1, updated_in_sprint:1 , name: "Indicador Elegibilidade")
+      @var1 = FactoryGirl.create(:variable, id: 1, updated_in_sprint: 1, name: "Indicador Elegibilidade", current_user_id: current_user_id)
+      @var2 = FactoryGirl.create(:variable, id: 2, updated_in_sprint: 2, name: "Indicador Elegibilidade Funcionario", current_user_id: current_user_id)
 
-      @var2 = FactoryGirl.create(:variable    , id:2, updated_in_sprint:2 , name: "Indicador Elegibilidade Funcionario")
+      @pro = FactoryGirl.create(:processid, id: 1, process_number: 1, current_user_id: current_user_id)
 
-      @pro = FactoryGirl.create(:processid    , id:1,                       process_number: 1)
+      @tb = FactoryGirl.create(:table, id: 1, updated_in_sprint: 10, routine_number: 1, current_user_id: current_user_id)
 
-      @tb = FactoryGirl.create(:table      , id:1, updated_in_sprint:10 , routine_number: 1   )
+      @tb.variables  << [@var1, @var2]
+      @pro.variables << [@var1, @var2]
+      @cp.variables  << [@var1, @var2]
 
-      @tb.variables  << [@var, @var2]
-      @pro.variables << [@var, @var2]
-      @cp.variables  << [@var, @var2]
-
-      @var.origin_fields << [@of1]
+      @var1.origin_fields << [@of1]
       @var2.origin_fields << [@of2]
-
     end
 
     it 'should return erro if parm invalid' do
-
       entity_ref=nil
       name_entity_to_find="OriginField"
       expect(Generator.get_entities_related(entity_ref,name_entity_to_find,nil)).to eq nil
@@ -534,22 +586,20 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
   end
 
   context '.generate_script_by_sprint' do
-    subject { Generator.generate_script_by_sprint(1, script_name)}
-
     before do
-      FactoryGirl.create(:user, id: 1  )
-      FactoryGirl.create(:origin , id:1, updated_in_sprint:1 , periodicity: "diaria", mnemonic:"L001"  , file_name:"L0.BASE.ALP01" )
-      FactoryGirl.create(:origin , id:2, updated_in_sprint:1 , periodicity: "mensal", mnemonic:"CC01"  , file_name:"CD5.BASE.FCC0I" )
+      FactoryGirl.create(:origin, id: 1, updated_in_sprint: 1, periodicity: "diaria", mnemonic: "L001", file_name: "L0.BASE.ALP01", current_user_id: current_user_id )
+      FactoryGirl.create(:origin, id: 2, updated_in_sprint: 1, periodicity: "mensal", mnemonic: "CC01", file_name: "CD5.BASE.FCC0I", current_user_id: current_user_id )
 
-      FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: true, field_name: "CPF"  )
-      FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: false, field_name: "LIMIT")
+      FactoryGirl.create(:origin_field, id: 1, origin_id: 1, will_use:  true, field_name:   "CPF", current_user_id: current_user_id  )
+      FactoryGirl.create(:origin_field, id: 2, origin_id: 1, will_use: false, field_name: "LIMIT", current_user_id: current_user_id)
 
-      FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: true, field_name: "AGENCIA"  )
-      FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: false, field_name: "CONTA"    )
+      FactoryGirl.create(:origin_field, id: 3, origin_id: 2, will_use:  true, field_name: "AGENCIA", current_user_id: current_user_id  )
+      FactoryGirl.create(:origin_field, id: 4, origin_id: 2, will_use: false, field_name: "  CONTA", current_user_id: current_user_id    )
 
-      FactoryGirl.create(:table , id: 1 , mirror_table_number: 225 , updated_in_sprint: 1 , mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE", table_type: 'seleção')
+      FactoryGirl.create(:table, id: 1, mirror_table_number: 225, updated_in_sprint: 1, mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE", table_type: 'seleção', current_user_id: current_user_id)
     end
 
+    subject { Generator.generate_script_by_sprint(1, script_name)}
 
     context "cadastro qualidade de arquivo" do
       let(:script_name) { "Script MySql Cadastro Qualidade de Arquivo" }
@@ -564,23 +614,26 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       end
     end
 
-    xit "should return sucessfull with more than one entity" do
-      result = Generator.generate_script_by_sprint(1, "Integração CD5 Cadastro de Campo de Entrada")
+    context "integração cd5" do
+      let(:script_name) { "Integração CD5 Cadastro de Campo de Entrada" }
 
-      expect(result).to be_kind_of(Array)
-      expect(result.size).to eq 4
+      xit "should return sucessfull with more than one entity" do
+        expect(subject).to be_kind_of(Array)
+        expect(subject.size).to eq 4
 
-      expect(result[0].include? "CPF" ).to eq true
-      expect(result[1].include? "LIMIT" ).to eq true
+        expect(subject[0].include? "CPF" ).to eq true
+        expect(subject[1].include? "LIMIT" ).to eq true
 
-      expect(result[2].include? "AGENCIA" ).to eq true
-      expect(result[3].include? "CONTA" ).to eq true
+        expect(subject[2].include? "AGENCIA" ).to eq true
+        expect(subject[3].include? "CONTA" ).to eq true
+      end
     end
+
 
     context "unix data stage espelho" do
       let(:script_name) { "script Unix Data Stage Espelho Rotina PE" }
 
-      it "should return sucessful with function for one entity" do
+      xit "should return sucessful with function for one entity" do
         expect(subject).to be_kind_of(Array)
         expect(subject.size).to eq 1
         expect(subject[0].include? "CD5_225_carga_tabela_csld_ramo_ccre_esp" ).to eq true
@@ -614,36 +667,33 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
   context 'functions for Generator' do
     before do
-      FactoryGirl.create(:user, id: 1  )
-      @tb = FactoryGirl.create(:table , id: 1   , mirror_table_number: 225 , final_table_number: 224 ,  mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE", final_physical_table_name: "TBCD5224_CSLD_UTIZ_RAMO_CCRE" )
+      @tb  = FactoryGirl.create(:table, id: 1, mirror_table_number: 225, final_table_number: 224, mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE", final_physical_table_name: "TBCD5224_CSLD_UTIZ_RAMO_CCRE", current_user_id: current_user_id)
+      @tb2 = FactoryGirl.create(:table, id: 2, key_fields_hive_script: "CPF string ,", table_type: "seleção", current_user_id: current_user_id)
 
-      @org1 = FactoryGirl.create(:origin , id:1  , periodicity: "diaria", mnemonic:"L001"  , file_name:"L0.BASE.ALP01" )
-      @org2 = FactoryGirl.create(:origin , id:2  , periodicity: "mensal", mnemonic:"CC01"  , file_name:"CD5.BASE.FCC0I" )
+      @org1 = FactoryGirl.create(:origin, id: 1, periodicity: "diaria", mnemonic:"L001", file_name: "L0.BASE.ALP01", current_user_id: current_user_id)
+      @org2 = FactoryGirl.create(:origin, id: 2, periodicity: "mensal", mnemonic:"CC01", file_name: "CD5.BASE.FCC0I", current_user_id: current_user_id)
 
-      @org3 = FactoryGirl.create(:origin , id:3   )
+      @org3 = FactoryGirl.create(:origin, id: 3, current_user_id: current_user_id)
 
-      @of1 = FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: true, field_name: "CPF"  )
-      @of2 = FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: false, field_name: "LIMIT")
+      @of1 = FactoryGirl.create(:origin_field, id: 1, origin_id: 1, will_use:  true, field_name:   "CPF", current_user_id: current_user_id)
+      @of2 = FactoryGirl.create(:origin_field, id: 2, origin_id: 1, will_use: false, field_name: "LIMIT", current_user_id: current_user_id)
 
-      @of3 = FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: true, field_name: "AGENCIA"  )
-      @of4 = FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: false, field_name: "CONTA"    )
+      @of3 = FactoryGirl.create(:origin_field, id: 3, origin_id: 2, will_use:  true, field_name: "AGENCIA", current_user_id: current_user_id)
+      @of4 = FactoryGirl.create(:origin_field, id: 4, origin_id: 2, will_use: false, field_name:   "CONTA", current_user_id: current_user_id)
 
-      @of5  = FactoryGirl.create(:origin_field, id:5, origin_id:3, width:10, field_name: "CAMPO_TEXTO"                    , fmbase_format_datyp: "AN", has_signal: false, data_type: "alfanumerico"           , will_use: false, cd5_output_order: 1)
-      @of6  = FactoryGirl.create(:origin_field, id:6, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO"                , fmbase_format_datyp: "PD", has_signal: false, data_type: "compactado"             , will_use: true, cd5_output_order: 2)
-      @of7  = FactoryGirl.create(:origin_field, id:7, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO_SINAL"          , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado"             , will_use: true, cd5_output_order: 3)
-      @of8  = FactoryGirl.create(:origin_field, id:8, origin_id:3, width:10, field_name: "CAMPO_NUMERICO_VIRGULA"         , fmbase_format_datyp: "ZD", has_signal: false, data_type: "numerico com virgula"   , will_use: true, cd5_output_order: 4)
-      @of9  = FactoryGirl.create(:origin_field, id:9, origin_id:3, width:10, field_name: "CAMPO_COMPACTADO_VIRGULA_SINAL" , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado com virgula" , will_use: true, cd5_output_order: 5)
+      @of5  = FactoryGirl.create(:origin_field, id: 5, origin_id: 3, width: 10, field_name: "CAMPO_TEXTO"                    , fmbase_format_datyp: "AN", has_signal: false, data_type: "alfanumerico"           , will_use: false, cd5_output_order: 1, current_user_id: current_user_id)
+      @of6  = FactoryGirl.create(:origin_field, id: 6, origin_id: 3, width: 10, field_name: "CAMPO_COMPACTDO"                , fmbase_format_datyp: "PD", has_signal: false, data_type: "compactado"             , will_use:  true, cd5_output_order: 2, current_user_id: current_user_id)
+      @of7  = FactoryGirl.create(:origin_field, id: 7, origin_id: 3, width: 10, field_name: "CAMPO_COMPACTDO_SINAL"          , fmbase_format_datyp: "PD", has_signal:  true, data_type: "compactado"             , will_use:  true, cd5_output_order: 3, current_user_id: current_user_id)
+      @of8  = FactoryGirl.create(:origin_field, id: 8, origin_id: 3, width: 10, field_name: "CAMPO_NUMERICO_VIRGULA"         , fmbase_format_datyp: "ZD", has_signal: false, data_type: "numerico com virgula"   , will_use:  true, cd5_output_order: 4, current_user_id: current_user_id)
+      @of9  = FactoryGirl.create(:origin_field, id: 9, origin_id: 3, width: 10, field_name: "CAMPO_COMPACTADO_VIRGULA_SINAL" , fmbase_format_datyp: "PD", has_signal:  true, data_type: "compactado com virgula" , will_use:  true, cd5_output_order: 5, current_user_id: current_user_id)
 
-      @tb2 = FactoryGirl.create(:table      , id:2, key_fields_hive_script: "CPF string ," , table_type: "seleção")
-      @pro = FactoryGirl.create(:processid    , id:1, process_number: 1)
+      @pro = FactoryGirl.create(:processid, id: 1, process_number: 1, current_user_id: current_user_id)
 
-      @var = FactoryGirl.create(:variable    , id:1,  name: "Indicador Elegibilidade",  model_field_name:"IND_ELEG", sas_update_periodicity: "semanal")
+      @var1 = FactoryGirl.create(:variable, id: 1, name: "Indicador Elegibilidade",              model_field_name: "IND_ELEG",      sas_update_periodicity: "semanal", current_user_id: current_user_id)
+      @var2 = FactoryGirl.create(:variable, id: 2, name: "Indicador Elegibilidade Funcionario",  model_field_name: "IND_ELEG_FUNC", sas_update_periodicity: "diária",  current_user_id: current_user_id)
 
-      @var2 = FactoryGirl.create(:variable    , id:2, name: "Indicador Elegibilidade Funcionario",  model_field_name: "IND_ELEG_FUNC", sas_update_periodicity: "diária")
-
-      @pro.variables << [@var, @var2]
-      @tb2.variables << [@var, @var2]
-
+      @pro.variables << [@var1, @var2]
+      @tb2.variables << [@var1, @var2]
     end
 
 
@@ -769,7 +819,6 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       expect(result.split("\n").size).to eq 3
       expect(result.include?("CPF")).to eq true
       expect(result.include?("LIMIT")).to eq true
-
     end
 
     it ".tamanho_expandido: should return erro by invalid parm" do
@@ -839,9 +888,9 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       expect(Generator.chave_hive(pro)).to eq nil
     end
     it ".chave_hive should return error entity without relationship" do
-      pro = FactoryGirl.create(:processid, id:666)
+      pro = FactoryGirl.create(:processid, id: 666, current_user_id: current_user_id)
       expect(Generator.chave_hive(pro)).to eq nil
-      var = FactoryGirl.create(:variable, id:666)
+      var = FactoryGirl.create(:variable, id: 666, current_user_id: current_user_id)
       expect(Generator.chave_hive(pro)).to eq nil
 
     end
@@ -863,7 +912,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
     end
 
     it ".campos_modelo should return erro entity without relationship" do
-      pro = FactoryGirl.create(:processid, id:667)
+      pro = FactoryGirl.create(:processid, id: 667, current_user_id: current_user_id)
       expect(Generator.campos_modelo(pro)).to eq nil
     end
 
@@ -916,9 +965,8 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
   context '.export_script_by_sprint' do
 
     before do
-      FactoryGirl.create(:user, id: 1  )
-      @org1 = FactoryGirl.create(:origin , id:1  , updated_in_sprint:1, periodicity: "diaria", mnemonic:"L001"  , file_name:"L0.BASE.ALP01" )
-      @org2 = FactoryGirl.create(:origin , id:2  , updated_in_sprint:1, periodicity: "mensal", mnemonic:"CC01"  , file_name:"CD5.BASE.FCC0I" )
+      @org1 = FactoryGirl.create(:origin, id: 1, updated_in_sprint: 1, periodicity: "diaria", mnemonic:"L001", file_name: "L0.BASE.ALP01", current_user_id: current_user_id)
+      @org2 = FactoryGirl.create(:origin, id: 2, updated_in_sprint: 1, periodicity: "mensal", mnemonic:"CC01", file_name: "CD5.BASE.FCC0I", current_user_id: current_user_id)
     end
     it 'should work' do
       #list=Generator.get_list_scripts
@@ -933,35 +981,30 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
 
   context 'test full' do
     before do
-      FactoryGirl.create(:user, id: 1  )
+      @cm = FactoryGirl.create(:campaign, id: 1, updated_in_sprint: 1, communication_channel: "CRE300", current_user_id: current_user_id)
 
-      @cm = FactoryGirl.create(:campaign    , id:1, updated_in_sprint:1 , communication_channel: "CRE300")
+      @tb  = FactoryGirl.create(:table, id: 1, mirror_table_number: 225, final_table_number: 224, mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE", final_physical_table_name: "TBCD5224_CSLD_UTIZ_RAMO_CCRE", current_user_id: current_user_id)
+      @tb2 = FactoryGirl.create(:table, id: 2, key_fields_hive_script: "CPF string ,", table_type: "seleção", current_user_id: current_user_id)
 
-      @tb = FactoryGirl.create(:table , id: 1   , mirror_table_number: 225 , final_table_number: 224 ,  mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE", final_physical_table_name: "TBCD5224_CSLD_UTIZ_RAMO_CCRE" )
+      @org1 = FactoryGirl.create(:origin, cd5_portal_origin_code: 100, id: 1, updated_in_sprint: 2, periodicity: "diaria", mnemonic:"L001", file_name:"L0.BASE.ALP01", current_user_id: current_user_id)
+      @org2 = FactoryGirl.create(:origin, cd5_portal_origin_code: 111, id: 2, updated_in_sprint: 2, periodicity: "mensal", mnemonic:"CC01", file_name:"CD5.BASE.FCC0I", current_user_id: current_user_id)
 
-      @org1 = FactoryGirl.create(:origin , cd5_portal_origin_code: 100, id:1  , updated_in_sprint:2, periodicity: "diaria", mnemonic:"L001"  , file_name:"L0.BASE.ALP01" )
-      @org2 = FactoryGirl.create(:origin , cd5_portal_origin_code: 111, id:2  , updated_in_sprint:2, periodicity: "mensal", mnemonic:"CC01"  , file_name:"CD5.BASE.FCC0I" )
+      @org3 = FactoryGirl.create(:origin, cd5_portal_origin_code: 222, id: 3, updated_in_sprint: 1, periodicity: "mensal", mnemonic:"TT", file_name:"TT5.BASE.TESTE01", current_user_id: current_user_id)
 
-      @org3 = FactoryGirl.create(:origin , cd5_portal_origin_code: 222, id:3 , updated_in_sprint:1, periodicity: "mensal", mnemonic:"TT"  , file_name:"TT5.BASE.TESTE01"   )
+      @of1 = FactoryGirl.create(:origin_field, id: 1, origin_id: 1, will_use:  true, field_name:     "CPF", current_user_id: current_user_id)
+      @of2 = FactoryGirl.create(:origin_field, id: 2, origin_id: 1, will_use: false, field_name:   "LIMIT", current_user_id: current_user_id)
+      @of3 = FactoryGirl.create(:origin_field, id: 3, origin_id: 2, will_use:  true, field_name: "AGENCIA", current_user_id: current_user_id)
+      @of4 = FactoryGirl.create(:origin_field, id: 4, origin_id: 2, will_use: false, field_name:   "CONTA", current_user_id: current_user_id)
+      @of5 = FactoryGirl.create(:origin_field, id: 5, origin_id: 3, width: 10, field_name: "CAMPO_TEXTO"                    , fmbase_format_datyp: "AN", has_signal: false, data_type: "alfanumerico"           , will_use: false, cd5_output_order: 1, current_user_id: current_user_id)
+      @of6 = FactoryGirl.create(:origin_field, id: 6, origin_id: 3, width: 10, field_name: "CAMPO_COMPACTDO"                , fmbase_format_datyp: "PD", has_signal: false, data_type: "compactado"             , will_use: true, cd5_output_order: 2, current_user_id: current_user_id)
+      @of7 = FactoryGirl.create(:origin_field, id: 7, origin_id: 3, width: 10, field_name: "CAMPO_COMPACTDO_SINAL"          , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado"             , will_use: true, cd5_output_order: 3, current_user_id: current_user_id)
+      @of8 = FactoryGirl.create(:origin_field, id: 8, origin_id: 3, width: 10, field_name: "CAMPO_NUMERICO_VIRGULA"         , fmbase_format_datyp: "ZD", has_signal: false, data_type: "numerico com virgula"   , will_use: true, cd5_output_order: 4, current_user_id: current_user_id)
+      @of9 = FactoryGirl.create(:origin_field, id: 9, origin_id: 3, width: 10, field_name: "CAMPO_COMPACTADO_VIRGULA_SINAL" , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado com virgula" , will_use: true, cd5_output_order: 5, current_user_id: current_user_id)
 
-      @of1 = FactoryGirl.create(:origin_field, id:1, origin_id:1, will_use: true, field_name: "CPF"  )
-      @of2 = FactoryGirl.create(:origin_field, id:2, origin_id:1, will_use: false, field_name: "LIMIT")
+      @pro = FactoryGirl.create(:processid, id: 1, process_number: 1, current_user_id: current_user_id)
 
-      @of3 = FactoryGirl.create(:origin_field, id:3, origin_id:2, will_use: true, field_name: "AGENCIA"  )
-      @of4 = FactoryGirl.create(:origin_field, id:4, origin_id:2, will_use: false, field_name: "CONTA"    )
-
-      @of5  = FactoryGirl.create(:origin_field, id:5, origin_id:3, width:10, field_name: "CAMPO_TEXTO"                    , fmbase_format_datyp: "AN", has_signal: false, data_type: "alfanumerico"           , will_use: false, cd5_output_order: 1)
-      @of6  = FactoryGirl.create(:origin_field, id:6, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO"                , fmbase_format_datyp: "PD", has_signal: false, data_type: "compactado"             , will_use: true, cd5_output_order: 2)
-      @of7  = FactoryGirl.create(:origin_field, id:7, origin_id:3, width:10, field_name: "CAMPO_COMPACTDO_SINAL"          , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado"             , will_use: true, cd5_output_order: 3)
-      @of8  = FactoryGirl.create(:origin_field, id:8, origin_id:3, width:10, field_name: "CAMPO_NUMERICO_VIRGULA"         , fmbase_format_datyp: "ZD", has_signal: false, data_type: "numerico com virgula"   , will_use: true, cd5_output_order: 4)
-      @of9  = FactoryGirl.create(:origin_field, id:9, origin_id:3, width:10, field_name: "CAMPO_COMPACTADO_VIRGULA_SINAL" , fmbase_format_datyp: "PD", has_signal: true, data_type: "compactado com virgula" , will_use: true, cd5_output_order: 5)
-
-      @tb2 = FactoryGirl.create(:table      , id:2, key_fields_hive_script: "CPF string ," , table_type: "seleção")
-      @pro = FactoryGirl.create(:processid    , id:1, process_number: 1)
-
-      @var = FactoryGirl.create(:variable    ,  updated_in_sprint:1 , id:1,  name: "Indicador Elegibilidade",  model_field_name:"IND_ELEG", sas_update_periodicity: "semanal")
-
-      @var2 = FactoryGirl.create(:variable    ,  updated_in_sprint:1, id:2, name: "Indicador Elegibilidade Funcionario",  model_field_name: "IND_ELEG_FUNC", sas_update_periodicity: "diária")
+      @var  = FactoryGirl.create(:variable, updated_in_sprint: 1, id: 1, name: "Indicador Elegibilidade",             model_field_name:"IND_ELEG", sas_update_periodicity: "semanal", current_user_id: current_user_id)
+      @var2 = FactoryGirl.create(:variable, updated_in_sprint: 1, id: 2, name: "Indicador Elegibilidade Funcionario", model_field_name: "IND_ELEG_FUNC", sas_update_periodicity: "diária", current_user_id: current_user_id)
 
       @pro.variables << [@var, @var2]
       @tb2.variables << [@var, @var2]
@@ -975,9 +1018,9 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       expect(list_scripts).to be_kind_of(Array)
       expect(list_scripts.size > 0).to eq true
 
-      list_scripts.each do |script|
-        Generator.export_script_by_sprint(1,script)
-      end
+      #list_scripts.each do |script|
+        #Generator.export_script_by_sprint(1,script)
+      #end
     end
   end
 
@@ -1026,7 +1069,13 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
         end
 
         it "returns nil if dont find an attribute" do
-          @list = { "Processo" => ["Nome programa erro"] }
+          @list = { "processo" => ["nome programa erro"] }
+          expect(subject).to eq nil
+        end
+
+        xit "returns nil if param type is wrong" do
+          FactoryGirl.create(:table, id: 1, mirror_table_number: 225, updated_in_sprint: 1, mirror_physical_table_name: "TBCD5225_ESPL_CSLD_RAMO_CCRE", table_type: 'seleção', current_user_id: current_user_id)
+          @list = {"Tabela"=>["Tipo=seleção"]}
           expect(subject).to eq nil
         end
       end
@@ -1035,7 +1084,6 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
         it "returns the translated list sucessfully" do
           @list = Generator.get_entities_list("<Processo.[Nome da rotina]>.SQL <Processo.[Nome tabela var]>")
 
-          expect(subject).to be_kind_of(Hash)
           expect(subject.size).to eq 1
           expect(subject.has_key?("Processid")).to eq true
           expect(subject["Processid"].size).to eq 2

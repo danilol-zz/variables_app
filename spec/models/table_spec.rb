@@ -1,31 +1,35 @@
 require 'rails_helper'
 
 describe Table do
+  let(:current_user_id) { FactoryGirl.create(:user, profile: profile).id }
+
   let(:profile) { 'sala1' }
 
-  before do
-    user = FactoryGirl.create(:user, profile: profile)
-
-    subject.current_user_id = user.id
-  end
-
-  context "statuses" do
+  context "scopes" do
     before do
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:table, status: Constants::STATUS[:SALA1])
+      @table1 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
+      @table2 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 8.hour, current_user_id: current_user_id)
+      @table3 = FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 7.hour, current_user_id: current_user_id)
+      @table4 = FactoryGirl.create(:table, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 6.hour, current_user_id: current_user_id)
+      @table5 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 5.hour, current_user_id: current_user_id)
+      @table6 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 4.hour, current_user_id: current_user_id)
+      @table7 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 3.hour, current_user_id: current_user_id)
+      @table8 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 2.days, current_user_id: current_user_id)
+      @table9 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 1.hour, current_user_id: current_user_id)
     end
 
-    it "checks the scopes" do
-      expect(Table.draft.count).to eq 3
-      expect(Table.development.count).to eq 4
-      expect(Table.done.count).to eq 2
+    context "statuses" do
+      it "filters by status" do
+        expect(Table.draft.count).to eq 3
+        expect(Table.development.count).to eq 4
+        expect(Table.done.count).to eq 2
+      end
+    end
+
+    context "recent" do
+      it "orders the records by most recent changes" do
+        expect(Table.recent.limit(3)).to eq [@table9, @table1, @table7]
+      end
     end
   end
 
@@ -34,7 +38,7 @@ describe Table do
       v1 = FactoryGirl.create(:variable, name: "v1")
       v2 = FactoryGirl.create(:variable, name: "v2")
       v3 = FactoryGirl.create(:variable, name: "v3")
-      @table = FactoryGirl.create(:table, variables: [v1, v2, v3])
+      @table = FactoryGirl.create(:table, variables: [v1, v2, v3], current_user_id: current_user_id)
     end
 
     it "has relationship" do
@@ -45,16 +49,16 @@ describe Table do
 
   context ".code" do
     before do
-      @a = FactoryGirl.create(:table)
-      @b = FactoryGirl.create(:table)
-      @c = FactoryGirl.create(:table, id: 10)
-      @d = FactoryGirl.create(:table, id: 100)
-      @e = FactoryGirl.create(:table, id: 1000)
+      @a = FactoryGirl.create(:table, id: 1 ,   current_user_id: current_user_id)
+      @b = FactoryGirl.create(:table, id: 80,   current_user_id: current_user_id)
+      @c = FactoryGirl.create(:table, id: 10,   current_user_id: current_user_id)
+      @d = FactoryGirl.create(:table, id: 100,  current_user_id: current_user_id)
+      @e = FactoryGirl.create(:table, id: 1000, current_user_id: current_user_id)
     end
 
     it "generates right codes" do
       expect(@a.code).to eq "TA001"
-      expect(@b.code).to eq "TA002"
+      expect(@b.code).to eq "TA080"
       expect(@c.code).to eq "TA010"
       expect(@d.code).to eq "TA100"
       expect(@e.code).to eq "TA1000"
@@ -68,7 +72,7 @@ describe Table do
         FactoryGirl.create(:variable, id: 5, name: "v2")
         FactoryGirl.create(:variable, id: 9, name: "v3")
 
-        @table = FactoryGirl.build(:table)
+        @table = FactoryGirl.build(:table, current_user_id: current_user_id)
         @table.save
       end
 
@@ -110,7 +114,7 @@ describe Table do
         v3 = FactoryGirl.create(:variable, id: 9, name: "v3")
         v4 = FactoryGirl.create(:variable, id: 15, name: "v4")
         v5 = FactoryGirl.create(:variable, id: 19, name: "v5")
-        @table = FactoryGirl.create(:table, variables: [v1, v2])
+        @table = FactoryGirl.create(:table, variables: [v1, v2], current_user_id: current_user_id)
       end
 
       context "with no variables selected" do
@@ -146,35 +150,27 @@ describe Table do
   end
 
   describe "before_save calculate fields of Table" do
-    context "when the mnemonic field was filled" do
+    subject { FactoryGirl.create(:table, mnemonic: mnemonic, current_user_id: current_user_id) }
 
-      before do
-        @a = FactoryGirl.create(:table, mnemonic: "XPTO")
-      end
+    context "when the mnemonic field was not filled" do
+      let(:mnemonic) { nil }
 
-      it "the hive_table has the begin 'TAB_' concatenated with the mnemonic" do
-        expect(@a.hive_table) == "TAB_XPTO"
-      end
-
-      it "the hive_table has the begin 'TAB_' NOT concatenated with the mnemonic" do
-        expect(@a.hive_table) != "TAB_qqqqq"
+      it "not calculates fields" do
+        expect(subject.hive_table).to be_nil
       end
     end
 
-    context "when the mnemonic field was not filled" do
+    context "when the mnemonic field was filled" do
+      let(:mnemonic) { "XPTO" }
 
-      before do
-        @a = FactoryGirl.create(:table)
-      end
-
-      it "the hive_table has the nil value" do
-        expect(@a.hive_table) == nil
+      it "calculates field correctly" do
+        expect(subject.hive_table).to eq "TAB_XPTO"
       end
     end
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:table, logic_table_name: logic_table_name) }
+    subject { FactoryGirl.build(:table, logic_table_name: logic_table_name, current_user_id: current_user_id) }
 
     context "when logic_table_name is nil"  do
       let(:logic_table_name) { nil }

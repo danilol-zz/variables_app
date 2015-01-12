@@ -1,0 +1,66 @@
+<section class="main">
+  <div class="row clearfix">
+    <div class="col13" role="main">
+      <div class="modulo">
+        <section class="formulario">
+          <h3 class="line-bottom">Origens</h3>
+          <fieldset>
+            <legend></legend>
+            <%= form_tag(search_origin_path,  method: :post ) do  %>
+              <div class="row clearfix">
+                <div class='left t4'>
+                  <%= text_field_tag 'query[file_name]', params[:query][:file_name] || '' %>
+                </div>
+                <div class="left t10">
+                  <label class="custom-select"><%= select_tag "query[status]", options_for_select(Constants::STATUS, params[:query][:status] || nil), prompt: 'Todos' %></label>
+                </div>
+                <div class="left btn btn-primary">
+                  <%= submit_tag "Filtrar" %>
+                </div>
+              </div>
+            <% end %>
+          </fieldset>
+          <section>
+            <table summary="" class="tabela-zebra tabela-hover">
+              <thead>
+                <tr class="txt-no-transform">
+                  <th>arquivo / base</th>
+                  <th>sprint criado</td>
+                  <th>sprint alterado</td>
+                  <th>sigla</td>
+                  <th>tipo</td>
+                  <th>periodicidade</td>
+                  <th>mnemônico</td>
+                  <th>cód origem CD5</td>
+                  <th>cód destino CD5</td>
+                  <th>status</td>
+                </tr>
+              </thead>
+              <tbody>
+                <% @origins.each do |origin| %>
+                  <tr>
+                    <td><%= origin.file_name %></td>
+                    <td><%= origin.created_in_sprint %></td>
+                    <td><%= origin.updated_in_sprint %></td>
+                    <td><%= origin.abbreviation %></td>
+                    <td><%= origin.base_type %></td>
+                    <td><%= origin.periodicity %></td>
+                    <td><%= origin.mnemonic %></td>
+                    <td><%= origin.cd5_portal_origin_code %></td>
+                    <td><%= origin.cd5_portal_destination_code %></td>
+                    <td><%= origin.status %></td>
+                    <td><%= link_to t('edit'), edit_origin_path(origin) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
+            <div>
+              <%= will_paginate @origins %>
+            </div>
+          </section> <!-- grid section -->
+        </section> <!-- formulario -->
+      </div> <!-- modulo -->
+    </div> <!-- col -->
+  </div> <!-- row clearfix -->
+</section> <!-- main -->
+

@@ -14,12 +14,14 @@
         <th><%= t('activerecord.attributes.origin_field.is_key')  %></th>
         <th><%= t('activerecord.attributes.origin_field.will_use')  %></th>
         <th><%= t('activerecord.attributes.origin_field.has_signal') %></th>
-        <% if @current_user.profile == User::ROOM2 %>
+
+        <% if @current_user.profile.room2?%>
           <th><%= t('activerecord.attributes.origin_field.cd5_variable_number') %></th>
           <th><%= t('activerecord.attributes.origin_field.cd5_output_order') %></th>
         <% end %>
         <th></th>
-        <% if @current_user.profile == User::ROOM1 %>
+
+        <% if @current_user.profile.room1?%>
           <td></td>
         <% end %>
       </tr>
@@ -39,12 +41,15 @@
           <td><%= boolean_to_sim_nao(origin_field.is_key) %></td>
           <td><%= boolean_to_sim_nao(origin_field.will_use) %></td>
           <td><%= boolean_to_sim_nao(origin_field.has_signal) %></td>
-          <% if @current_user.profile == User::ROOM2 %>
+
+          <% if @current_user.room2? %>
             <td><%= origin_field.cd5_variable_number %></td>
             <td><%= origin_field.cd5_output_order %></td>
           <% end %>
-          <td><%= link_to t('edit'), get_origin_field_to_update_path(origin_field.id) %></td>
-          <% if @current_user.profile == User::ROOM1 %>
+
+          <td><%= link_to t('edit'), get_origin_field_to_update_path(id: origin_field.id) %></td>
+
+          <% if @current_user.room1? %>
             <td><%= link_to t('destroy'), destroy_origin_field_path(origin_field.id), method: :delete, data: { confirm: t('are_you_sure') } %></td>
           <% end %>
         </tr>

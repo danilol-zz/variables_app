@@ -1,16 +1,11 @@
 require 'rails_helper'
 
 describe Origin do
+  let(:current_user_id) { FactoryGirl.create(:user, profile: profile).id }
   let(:profile) { 'sala1' }
 
-  before do
-    user = FactoryGirl.create(:user, profile: profile)
-
-    subject.current_user_id = user.id
-  end
-
   context "fields" do
-    subject { FactoryGirl.build(:origin)  }
+    subject { FactoryGirl.build(:origin, current_user_id: current_user_id)  }
 
     context "validations" do
       context 'when user profile is room1' do
@@ -75,86 +70,76 @@ describe Origin do
 
   context ".code" do
     before do
-      @a = FactoryGirl.create(:origin)
-      @b = FactoryGirl.create(:origin)
-      @c = FactoryGirl.create(:origin, id: 10)
-      @d = FactoryGirl.create(:origin, id: 100)
-      @e = FactoryGirl.create(:origin, id: 1000)
+      @a = FactoryGirl.create(:origin, id: 1,    current_user_id: current_user_id)
+      @b = FactoryGirl.create(:origin, id: 980,  current_user_id: current_user_id)
+      @c = FactoryGirl.create(:origin, id: 10,   current_user_id: current_user_id)
+      @d = FactoryGirl.create(:origin, id: 100,  current_user_id: current_user_id)
+      @e = FactoryGirl.create(:origin, id: 1000, current_user_id: current_user_id)
     end
 
-    it "should generate right codes" do
+    it "generate codes successfully" do
       expect(@a.code).to eq "OR001"
-      expect(@b.code).to eq "OR002"
+      expect(@b.code).to eq "OR980"
       expect(@c.code).to eq "OR010"
       expect(@d.code).to eq "OR100"
       expect(@e.code).to eq "OR1000"
     end
   end
 
-  context "statuses" do
+  context "scopes" do
     before do
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1])
+      @origin1 = FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
+      @origin2 = FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 8.hour, current_user_id: current_user_id)
+      @origin3 = FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 7.hour, current_user_id: current_user_id)
+      @origin4 = FactoryGirl.create(:origin, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 6.hour, current_user_id: current_user_id)
+      @origin5 = FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 5.hour, current_user_id: current_user_id)
+      @origin6 = FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 4.hour, current_user_id: current_user_id)
+      @origin7 = FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 3.hour, current_user_id: current_user_id)
+      @origin8 = FactoryGirl.create(:origin, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 2.days, current_user_id: current_user_id)
+      @origin9 = FactoryGirl.create(:origin, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 1.hour, current_user_id: current_user_id)
     end
 
-    it "check the scopes" do
-      expect(Origin.draft.count).to       eq 3
-      expect(Origin.development.count).to eq 4
-      expect(Origin.done.count).to        eq 2
+    context "statuses" do
+      it "filters by status" do
+        expect(Origin.draft.count).to       eq 3
+        expect(Origin.development.count).to eq 4
+        expect(Origin.done.count).to        eq 2
+      end
+    end
+
+    context "recent" do
+      it "orders the records by most recent changes" do
+        expect(Origin.recent.limit(3)).to eq [@origin9, @origin1, @origin7]
+      end
     end
   end
 
   context "before_save calculate fields" do
-    context "when the mnemonic is fill out" do
-      let(:origin) { FactoryGirl.create(:origin, mnemonic: "ABC") }
+    subject { FactoryGirl.create(:origin, mnemonic: mnemonic, current_user_id: current_user_id) }
 
-      it "the hive_table_name start with 'ORG_' append with the mnemonic" do
-        expect(origin.hive_table_name).to eq "ORG_ABC"
-      end
+    context "when the mnemonic is not fill out" do
+      let(:mnemonic) { "" }
 
-      it "the hive_table_name not equal nil" do
-        expect(origin.hive_table_name).not_to eq nil
-      end
-
-      it "the cd5_portal_destination_name start with 'CD5.RETR.B' append with the mnemonic" do
-        expect(origin.cd5_portal_destination_name).to eq "CD5.RETR.BABC"
-      end
-
-      it "the cd5_portal_origin_name start with 'CD5.BASE.O' apend with the mnemonic" do
-        expect(origin.cd5_portal_origin_name).to eq "CD5.BASE.OABC"
+      it "not calculates fields" do
+        expect(subject.hive_table_name).to eq nil
+        expect(subject.cd5_portal_destination_name).to eq nil
+        expect(subject.cd5_portal_origin_name).to eq nil
       end
     end
 
-    context "when the mnemonic is not fill out" do
-      let(:origin) { FactoryGirl.create(:origin, mnemonic: nil) }
+    context "when the mnemonic is fill out" do
+      let(:mnemonic) { 'ABC' }
 
-      it "the hive_table_name start with 'ORG_' append with the mnemonic" do
-        expect(origin.hive_table_name).not_to eq "ORG_ABC"
-      end
-
-      it "the hive_table_name equal nil" do
-        expect(origin.hive_table_name).to eq nil
-      end
-
-      it "the cd5_portal_destination_name equal nil" do
-        expect(origin.cd5_portal_destination_name).to eq nil
-      end
-
-      it "the cd5_portal_origin_name equal nil" do
-        expect(origin.cd5_portal_origin_name).to eq nil
+      it "calculate fields correctly" do
+        expect(subject.hive_table_name).to eq "ORG_ABC"
+        expect(subject.cd5_portal_destination_name).to eq "CD5.RETR.BABC"
+        expect(subject.cd5_portal_origin_name).to eq "CD5.BASE.OABC"
       end
     end
   end
 
   context ".status_screen_name" do
-    subject { FactoryGirl.build(:origin, file_name: file_name) }
+    subject { FactoryGirl.build(:origin, file_name: file_name, current_user_id: current_user_id) }
 
     context "when file_name is nil"  do
       let(:file_name) { nil }

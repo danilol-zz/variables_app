@@ -1,15 +1,13 @@
 require 'rails_helper'
 
 describe Processid do
+  let(:current_user_id) { FactoryGirl.create(:user, profile: profile).id }
+
   let(:profile) { 'sala2' }
 
-  before do
-    user = FactoryGirl.create(:user, profile: profile)
-
-    subject.current_user_id = user.id
-  end
-
   context 'validations' do
+    subject { FactoryGirl.build(:processid, current_user_id: current_user_id)  }
+
     it { expect(subject).to validate_presence_of(:process_number) }
     it { expect(subject).to validate_presence_of(:mnemonic) }
     it { expect(subject).to validate_presence_of(:routine_name) }
@@ -23,23 +21,31 @@ describe Processid do
     it { expect(subject).to ensure_length_of(:notes).is_at_most(500) }
   end
 
-  context "statuses" do
+  context "scopes" do
     before do
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2])
-      FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1])
+      @processid1 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
+      @processid2 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 8.hour, current_user_id: current_user_id)
+      @processid3 = FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 7.hour, current_user_id: current_user_id)
+      @processid4 = FactoryGirl.create(:processid, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 6.hour, current_user_id: current_user_id)
+      @processid5 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 5.hour, current_user_id: current_user_id)
+      @processid6 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 4.hour, current_user_id: current_user_id)
+      @processid7 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 3.hour, current_user_id: current_user_id)
+      @processid8 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 2.days, current_user_id: current_user_id)
+      @processid9 = FactoryGirl.create(:processid, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 1.hour, current_user_id: current_user_id)
     end
 
-    it "check the scopes" do
-      expect(Processid.draft.count).to eq 3
-      expect(Processid.development.count).to eq 4
-      expect(Processid.done.count).to eq 2
+    context "statuses" do
+      it "filters by status" do
+        expect(Processid.draft.count).to eq 3
+        expect(Processid.development.count).to eq 4
+        expect(Processid.done.count).to eq 2
+      end
+    end
+
+    context "recent" do
+      it "orders the records by most recent changes" do
+        expect(Processid.recent.limit(3)).to eq [@processid9, @processid1, @processid7]
+      end
     end
   end
 
@@ -50,7 +56,7 @@ describe Processid do
         FactoryGirl.create(:variable, id: 5, name: "v2")
         FactoryGirl.create(:variable, id: 9, name: "v3")
 
-        @processid = FactoryGirl.create(:processid)
+        @processid = FactoryGirl.create(:processid, current_user_id: current_user_id)
       end
 
       context "with no variables selected" do
@@ -87,32 +93,30 @@ describe Processid do
 
   context ".code" do
     before do
-      @a = FactoryGirl.create(:processid)
-      @b = FactoryGirl.create(:processid)
-      @c = FactoryGirl.create(:processid, id: 10)
-      @d = FactoryGirl.create(:processid, id: 100)
-      @e = FactoryGirl.create(:processid, id: 1000)
+      @a = FactoryGirl.create(:processid, id: 1,    current_user_id: current_user_id)
+      @b = FactoryGirl.create(:processid, id: 80,   current_user_id: current_user_id)
+      @c = FactoryGirl.create(:processid, id: 810,  current_user_id: current_user_id)
+      @d = FactoryGirl.create(:processid, id: 100,  current_user_id: current_user_id)
+      @e = FactoryGirl.create(:processid, id: 1000, current_user_id: current_user_id)
     end
 
-    it "should generate right codes" do
+    it "generates right codes" do
       expect(@a.code).to eq "PR001"
-      expect(@b.code).to eq "PR002"
-      expect(@c.code).to eq "PR010"
+      expect(@b.code).to eq "PR080"
+      expect(@c.code).to eq "PR810"
       expect(@d.code).to eq "PR100"
       expect(@e.code).to eq "PR1000"
     end
   end
 
   describe "before_save calculate fields" do
+    subject { FactoryGirl.create(:processid, mnemonic: mnemonic, current_user_id: current_user_id) }
+
     context "when the mnemonic is fill out" do
-      let(:resource) { FactoryGirl.create(:processid, mnemonic: "XPTO") }
+      let(:mnemonic) { "XPTO" }
 
-      it "the 'var_table_name' begin with string 'VAR_' append with the mnemonic value" do
-        expect(resource.var_table_name).to eq "VAR_XPTO"
-      end
-
-      it "the 'var_table_name' NOT equal nil" do
-        expect(resource.var_table_name).not_to eq nil
+      it "calculates fields correctly" do
+        expect(subject.var_table_name).to eq "VAR_XPTO"
       end
     end
   end

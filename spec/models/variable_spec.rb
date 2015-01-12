@@ -1,28 +1,32 @@
 require 'rails_helper'
 
 describe Variable do
-  let(:current_user_id) { @user.id }
+  let(:current_user_id) { FactoryGirl.create(:user).id }
 
-  before { @user = FactoryGirl.create(:user) }
+  describe "scopes" do
+    before do
+      @variable1 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
+      @variable2 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 8.hour, current_user_id: current_user_id)
+      @variable3 = FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 7.hour, current_user_id: current_user_id)
+      @variable4 = FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO], updated_at: Time.now - 6.hour, current_user_id: current_user_id)
+      @variable5 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 5.hour, current_user_id: current_user_id)
+      @variable6 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 4.hour, current_user_id: current_user_id)
+      @variable7 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 3.hour, current_user_id: current_user_id)
+      @variable8 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2],    updated_at: Time.now - 9.hour, current_user_id: current_user_id)
+      @variable9 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 1.hour, current_user_id: current_user_id)
+    end
 
-  describe "attributes validations" do
     context "statuses" do
-      before do
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:PRODUCAO])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA2])
-        FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1])
-      end
-
-      it "check the scopes" do
+      it "filters by status" do
         expect(Variable.draft.count).to eq 3
         expect(Variable.development.count).to eq 4
         expect(Variable.done.count).to eq 2
+      end
+    end
+
+    context "recent" do
+      it "orders the records by most recent changes" do
+        expect(Variable.recent.limit(3)).to eq [@variable9, @variable1, @variable7]
       end
     end
   end
@@ -30,9 +34,9 @@ describe Variable do
   context "origin_fields_x_variables" do
     before do
       origin = FactoryGirl.create(:origin, current_user_id: current_user_id)
-      o1 = FactoryGirl.create(:origin_field, field_name: "o1", origin: origin)
-      o2 = FactoryGirl.create(:origin_field, field_name: "o2", origin: origin)
-      o3 = FactoryGirl.create(:origin_field, field_name: "o3", origin: origin)
+      o1 = FactoryGirl.create(:origin_field, field_name: "o1", origin: origin, current_user_id: current_user_id)
+      o2 = FactoryGirl.create(:origin_field, field_name: "o2", origin: origin, current_user_id: current_user_id)
+      o3 = FactoryGirl.create(:origin_field, field_name: "o3", origin: origin, current_user_id: current_user_id)
       @variable = FactoryGirl.create(:variable, origin_fields: [o1, o2, o3])
     end
 
@@ -44,14 +48,14 @@ describe Variable do
 
   context "campaigns_x_variables" do
     before do
-      c1 = FactoryGirl.create(:campaign, name: "c1")
-      c2 = FactoryGirl.create(:campaign, name: "c2")
-      c3 = FactoryGirl.create(:campaign, name: "c3")
+      c1 = FactoryGirl.create(:campaign, name: "c1", current_user_id: current_user_id)
+      c2 = FactoryGirl.create(:campaign, name: "c2", current_user_id: current_user_id)
+      c3 = FactoryGirl.create(:campaign, name: "c3", current_user_id: current_user_id)
       @variable = FactoryGirl.create(:variable)
       @variable.campaigns << [c1, c2, c3]
     end
 
-    it "should have relationship" do
+    it "has relationship" do
       expect(@variable.campaigns.count).to eq 3
       expect(@variable.campaigns.map(&:name)).to include "c1", "c2", "c3"
     end
@@ -59,14 +63,14 @@ describe Variable do
 
   context "tables_x_variables" do
     before do
-      t1 = FactoryGirl.create(:table, name: "t1")
-      t2 = FactoryGirl.create(:table, name: "t2")
-      t3 = FactoryGirl.create(:table, name: "t3")
+      t1 = FactoryGirl.create(:table, name: "t1", current_user_id: current_user_id)
+      t2 = FactoryGirl.create(:table, name: "t2", current_user_id: current_user_id)
+      t3 = FactoryGirl.create(:table, name: "t3", current_user_id: current_user_id)
       @variable = FactoryGirl.create(:variable)
       @variable.tables << [t1, t2, t3]
     end
 
-    it "should have relationship" do
+    it "has relationship" do
       expect(@variable.tables.count).to eq 3
       expect(@variable.tables.map(&:name)).to include "t1", "t2", "t3"
     end
@@ -74,14 +78,14 @@ describe Variable do
 
   context "processids_x_variables" do
     before do
-      p1 = FactoryGirl.create(:processid, mnemonic: "p1")
-      p2 = FactoryGirl.create(:processid, mnemonic: "p2")
-      p3 = FactoryGirl.create(:processid, mnemonic: "p3")
+      p1 = FactoryGirl.create(:processid, mnemonic: "p1", current_user_id: current_user_id)
+      p2 = FactoryGirl.create(:processid, mnemonic: "p2", current_user_id: current_user_id)
+      p3 = FactoryGirl.create(:processid, mnemonic: "p3", current_user_id: current_user_id)
       @variable = FactoryGirl.create(:variable)
       @variable.processids << [p1, p2, p3]
     end
 
-    it "should have relationship" do
+    it "has relationship" do
       expect(@variable.processids.count).to eq 3
       expect(@variable.processids.map(&:mnemonic)).to include "p1", "p2", "p3"
     end
@@ -90,7 +94,6 @@ describe Variable do
   context ".set_origin_fields" do
     context "on create" do
       subject { FactoryGirl.create(:variable) }
-
 
       context "with no origin_field selected" do
         it "not saves origin_field" do
@@ -103,18 +106,18 @@ describe Variable do
       context "with origin_fields selected" do
         before do
           @variable = FactoryGirl.build(:variable)
-          origin = FactoryGirl.create(:origin)
+          origin = FactoryGirl.create(:origin, current_user_id: current_user_id)
 
-          FactoryGirl.create(:origin_field, id: 1, field_name: "o1", origin: origin)
-          FactoryGirl.create(:origin_field, id: 5, field_name: "o2", origin: origin)
-          FactoryGirl.create(:origin_field, id: 9, field_name: "o3", origin: origin)
+          FactoryGirl.create(:origin_field, id: 1, field_name: "o1", origin: origin, current_user_id: current_user_id)
+          FactoryGirl.create(:origin_field, id: 5, field_name: "o2", origin: origin, current_user_id: current_user_id)
+          FactoryGirl.create(:origin_field, id: 9, field_name: "o3", origin: origin, current_user_id: current_user_id)
         end
 
         context "with one origin_field selected" do
           let(:variable_params) { {"5"=>"checked" } }
 
           it "saves origin_fields" do
-            subject.set_origin_fields(variable_params, @user.id)
+            subject.set_origin_fields(variable_params, current_user_id)
 
             expect(subject.origin_fields.size).to eq 1
           end
@@ -124,7 +127,7 @@ describe Variable do
           let(:variable_params) { {"1"=>"checked", "5" => "checked", "9" => "checked"} }
 
           it "saves origin_fields" do
-            subject.set_origin_fields(variable_params, @user.id)
+            subject.set_origin_fields(variable_params, current_user_id)
 
             expect(subject.origin_fields.size).to eq 3
           end
@@ -134,12 +137,12 @@ describe Variable do
 
     context "on update" do
       before do
-        origin = FactoryGirl.create(:origin, )
-        o1 = FactoryGirl.create(:origin_field, id:  1, field_name: "o1", origin: origin)
-        o2 = FactoryGirl.create(:origin_field, id:  5, field_name: "o2", origin: origin)
-        o3 = FactoryGirl.create(:origin_field, id:  9, field_name: "o3", origin: origin)
-        o4 = FactoryGirl.create(:origin_field, id: 15, field_name: "o4", origin: origin)
-        o5 = FactoryGirl.create(:origin_field, id: 19, field_name: "o5", origin: origin)
+        origin = FactoryGirl.create(:origin, current_user_id: current_user_id)
+        o1 = FactoryGirl.create(:origin_field, id:  1, field_name: "o1", origin: origin, current_user_id: current_user_id)
+        o2 = FactoryGirl.create(:origin_field, id:  5, field_name: "o2", origin: origin, current_user_id: current_user_id)
+        o3 = FactoryGirl.create(:origin_field, id:  9, field_name: "o3", origin: origin, current_user_id: current_user_id)
+        o4 = FactoryGirl.create(:origin_field, id: 15, field_name: "o4", origin: origin, current_user_id: current_user_id)
+        o5 = FactoryGirl.create(:origin_field, id: 19, field_name: "o5", origin: origin, current_user_id: current_user_id)
         @variable = FactoryGirl.create(:variable, origin_fields: [o1, o2])
       end
 
@@ -156,7 +159,7 @@ describe Variable do
           let(:variable_params) { {"5"=>"checked" } }
 
           it "saves only last selected origin_fields" do
-            @variable.set_origin_fields(variable_params, @user.id)
+            @variable.set_origin_fields(variable_params, current_user_id)
             @variable.save
             expect(@variable.origin_fields.count).to eq 1
           end
@@ -166,7 +169,7 @@ describe Variable do
           let(:variable_params) { {"15"=>"checked", "19" => "checked", "9" => "checked"} }
 
           it "saves origin_fields" do
-            @variable.set_origin_fields(variable_params, @user.id)
+            @variable.set_origin_fields(variable_params, current_user_id)
             @variable.save
             expect(@variable.origin_fields.count).to eq 3
           end
@@ -177,19 +180,17 @@ describe Variable do
 
   context ".code" do
     before do
-      @a = FactoryGirl.create(:variable)
-      @b = FactoryGirl.create(:variable)
-      @c = FactoryGirl.create(:variable, id: 10)
-      @d = FactoryGirl.create(:variable, id: 100)
-      @e = FactoryGirl.create(:variable, id: 1000)
+      @a = FactoryGirl.create(:variable, id: 1)
+      @b = FactoryGirl.create(:variable, id: 10)
+      @c = FactoryGirl.create(:variable, id: 997)
+      @d = FactoryGirl.create(:variable, id: 1000)
     end
 
-    it "should generate right codes" do
+    it "generates codes successfully" do
       expect(@a.code).to eq "VA001"
-      expect(@b.code).to eq "VA002"
-      expect(@c.code).to eq "VA010"
-      expect(@d.code).to eq "VA100"
-      expect(@e.code).to eq "VA1000"
+      expect(@b.code).to eq "VA010"
+      expect(@c.code).to eq "VA997"
+      expect(@d.code).to eq "VA1000"
     end
   end
 

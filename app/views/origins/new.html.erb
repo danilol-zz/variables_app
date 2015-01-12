@@ -1,10 +1,10 @@
 <h1>Nova <%= Origin.model_name.human.capitalize %></h1>
 
-<% if @current_user.profile == User::ROOM1 %>
+<% if @current_user.room1? %>
   <%= render 'room1_form' %>
 <% end %>
 
-<% if @current_user.profile == User::ROOM2 %>
+<% if @current_user.room2? %>
   <%= render 'room2_form' %>
 <% end %>
 

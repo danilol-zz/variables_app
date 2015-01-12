@@ -28,8 +28,6 @@ class OriginField < ActiveRecord::Base
   validates :cd5_output_order, presence: true, if: lambda { current_user_is_room2? && self.cd5_variable_number }
 
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
-    # remove quebra de linha windows
-
     text_value = text_value.to_s.gsub(/\n/, '').gsub(/\r/, '')
 
     return text_parser_mainframe(text_value, origin_id, current_user_id) if "mainframe" == origin_type

@@ -201,8 +201,6 @@ class Generator
     return_value
   end
 
-
-
   def self.get_entities_by_sprint(sprint, entity, condition)
     unless ( ! (sprint.nil?) ) && ( ! (entity.nil?) ) && (sprint.instance_of?(Fixnum)) && (entity.instance_of?(String)) && ! (entity.empty?) && (sprint > 0 )
       value = nil
@@ -215,7 +213,7 @@ class Generator
       when "Origin"
         value = get_origin_by_sprint(sprint,condition)
       when "OriginField"
-        value = get_OriginField_by_sprint(sprint,condition)
+        value = get_origin_field_by_sprint(sprint,condition)
       when "Processid"
         value = get_Processid_by_sprint(sprint,condition)
       when "Variable"
@@ -229,16 +227,15 @@ class Generator
   end
 
   def self.get_entities_related(entity_ref, name_entity_to_find, condition = nil)
-    list_entity_valid = { "Variable" => "variables" ,
-                         "Origin" => "origin" ,
-                         "OriginField" => "origin_fields" ,
-                         "Campaign" => "campaigns" ,
-                         "Processid" => "processids" ,
-                         "Table" => "tables" }
+    list_entity_valid = { "Variable"    => "variables",
+                          "Origin"      => "origin",
+                          "OriginField" => "origin_fields",
+                          "Campaign"    => "campaigns",
+                          "Processid"   => "processids",
+                          "Table"       => "tables" }
 
     ind_valid_parms = 'S'
     ind_valid_relationship = 'S'
-
     list_relationtship = []
 
     unless entity_ref != nil && name_entity_to_find != nil &&
@@ -274,9 +271,9 @@ class Generator
         cond = false
       else
         condition.each do |item|
-          words=item.split(/\=/)
-          if words[1]=="true"
-            words[1]= true
+          words = item.split(/\=/)
+          if words[1] =="true"
+            words[1] = true
           end
           if words[1] == "false"
             words[1] = false
@@ -308,41 +305,23 @@ class Generator
     value
   end
 
-
   def self.get_campaign_by_sprint(sprint = nil, condition = nil)
-    cond = {}
-
-    Array(condition).each do |item|
-      words = item.split(/\=/)
-      cond[words[0]] = words[1]
-    end
-
-    Campaign.where(updated_in_sprint: sprint).where(cond).to_a
+    Campaign.where(updated_in_sprint: sprint).where(condition).to_a
   end
 
   def self.get_table_by_sprint(sprint = nil, condition = nil)
-    cond = {}
-
-    Array(condition).each do |item|
-      words = item.split(/\=/)
-      cond[words[0]] = words[1]
-    end
-
-    Table.where(updated_in_sprint: sprint).where(cond).to_a
+    Table.where(updated_in_sprint: sprint).where(condition).to_a
   end
 
   def self.get_origin_by_sprint(sprint = nil, condition = nil)
-    cond = {}
-
-    Array(condition).each do |item|
-      words = item.split(/\=/)
-      cond[words[0]] = words[1]
-    end
-
-    Origin.where(updated_in_sprint: sprint).where(cond).to_a
+    Origin.where(updated_in_sprint: sprint).where(condition).to_a
   end
 
-  def self.get_OriginField_by_sprint(sprint,condition)
+  def self.get_origin_field_by_sprint(sprint = nil, condition = nil)
+    OriginField.joins(:origin).where("origins.updated_in_sprint = ?", sprint).where(condition).to_a
+  end
+
+  def self.get_originField_by_sprint(sprint,condition)
     return_value = ''
 
     cond = {}

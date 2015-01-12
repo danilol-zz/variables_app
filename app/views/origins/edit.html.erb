@@ -1,2 +1,2 @@
-<%= render 'room1_form' if @current_user.profile == User::ROOM1 %>
-<%= render 'room2_form' if @current_user.profile == User::ROOM2 %>
+<%= render 'room1_form' if @current_user.room1? %>
+<%= render 'room2_form' if @current_user.room2? %>

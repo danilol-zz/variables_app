@@ -1,6 +1,18 @@
 class OriginsController < ApplicationController
-  before_action :set_origin, only: [:show, :edit, :update]
+  before_action :set_origin,      only: [:show, :edit, :update]
+  before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
+
+  def index
+    params[:query] = {}
+    @origins = Origin.all.paginate(page: params[:page], per_page: 10)
+  end
+
+  def search
+    @origins = Origin.where(@file_name_query).where(@status_query).paginate(page: 1, per_page: 10).to_a
+
+    render :index
+  end
 
   def show
     @origin_field = OriginField.new
@@ -15,7 +27,6 @@ class OriginsController < ApplicationController
 
   def create
     @origin = Origin.new(origin_params.merge(status: Constants::STATUS[:SALA1]))
-
 
     respond_to do |format|
       if @origin.save
@@ -77,7 +88,7 @@ class OriginsController < ApplicationController
   end
 
   def get_origin_field_to_update
-    @origin_field = OriginField.find(params[:format])
+    @origin_field = OriginField.find(params[:id])
     @origin       = Origin.find(@origin_field.origin_id)
     set_desabled_fields
     render :show
@@ -127,12 +138,13 @@ class OriginsController < ApplicationController
   private
 
   def set_desabled_fields
-    if @current_user.profile == User::ROOM1
+    if @current_user.room1?
       @disabled_for_room1 = "false"
     else
       @disabled_for_room1 = "true"
     end
-    if @current_user.profile == User::ROOM2
+
+    if @current_user.room2?
       @disabled_for_room2 = "false"
     else
       @disabled_for_room2 = "true"
@@ -173,6 +185,15 @@ class OriginsController < ApplicationController
 
   def set_origin_field
     @origin_field = OriginField.find(params[:id])
+  end
+
+  def set_query_param
+    @file_name_query = @status_query = nil
+
+    if params[:query]
+      @file_name_query = Origin.arel_table[:file_name].matches("%#{params[:query][:file_name]}%").to_sql
+      @status_query    = Origin.arel_table[:status].matches("%#{params[:query][:status]}%").to_sql
+    end
   end
 
   def origin_field_params

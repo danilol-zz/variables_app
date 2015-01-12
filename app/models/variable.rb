@@ -10,6 +10,8 @@ class Variable < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
+  scope :recent, -> { order(updated_at: :desc) }
+
   def code
     "VA#{self.id.to_s.rjust(3,'0')}"
   end
