@@ -468,7 +468,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       expect(result.size).to eq 1
 
       expect(result[0]["id"]).to eq 1
-      expect(result[0]["process_number"]).to eq 1
+      expect(result[0]["process_number"]).to eq "1"
 
       sprint = 2
       result=Generator.get_entities_by_sprint(sprint,entity,nil)
@@ -477,7 +477,7 @@ CREATE EXTERNAL TABLE <Origem.[Nome tabela hive]>
       expect(result.size).to eq 1
 
       expect(result[0]["id"]).to eq 1
-      expect(result[0]["process_number"]).to eq 1
+      expect(result[0]["process_number"]).to eq "1"
     end
 
 

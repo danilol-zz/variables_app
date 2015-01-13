@@ -1,52 +1,107 @@
 require 'rails_helper'
 
 RSpec.describe VariablesController, :type => :controller do
+  before { session[:user_id] = current_user_id }
 
-  let(:valid_attributes) {
+  let(:current_user_id)  { User.create(user_attributes).id }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:variable, current_user_id: current_user_id) }
+  let(:user_attributes)  { FactoryGirl.attributes_for(:user) }
+  let(:valid_session)    { {} }
 
-    valid_attributes = {
-      :name => 'teste',
-      :model_field_name => 'teste',
-      :data_type => 'teste',
-      :width => 'teste',
-      :decimal => 'teste',
-      :sas_variable_def => 'teste',
-      :sas_variable_rule_def => 'teste',
-      :sas_update_periodicity => 'teste',
-      :domain_type => 'teste',
-      :sas_variable_domain => 'teste',
-      :variable_type => 'teste',
-      :created_in_sprint => 'teste',
-      :updated_in_sprint => 'teste',
-      :sas_data_model_status => 'teste',
-      :drs_bi_diagram_name => 'teste',
-      :drs_variable_status => 'teste',
-      :room_1_notes => 'teste',
-      :default_value => 'teste',
-      :room_2_notes => 'teste',
-      :owner => 'teste',
-      :status => 'teste',
-    }
-  }
+  describe "GET index" do
+    let(:variable) { Variable.create(valid_attributes) }
 
-  let(:invalid_attributes) {
-    #skip("Add a hash of attributes invalid for your model")
-  }
+    it "assigns all variables as @variables" do
+      get :index, {}, valid_session
+      expect(assigns(:variables)).to eq([variable])
+    end
+  end
 
-  let(:user_attributes) {
-    {
-      :email    => "zekitow@gmail.com",
-      :name     => "José Ribeiro",
-      :profile  => "Sala 1",
-      :password => "123456"
-    }
-  }
+  describe "GET search" do
+    before do
+      @variable1 = FactoryGirl.create(:variable, name: "name01", current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
+      @variable2 = FactoryGirl.create(:variable, name: "name02", current_user_id: current_user_id, status: Constants::STATUS[:SALA2])
+      @variable3 = FactoryGirl.create(:variable, name: "name3",  current_user_id: current_user_id, status: Constants::STATUS[:PRODUCAO])
+      @variable4 = FactoryGirl.create(:variable, name: "name4",  current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
+    end
 
-  let(:valid_session) { {} }
+    context "with invalid params" do
+      context "when no params is sent" do
+        it 'returns all records' do
+          post :search, valid_session
+          expect(assigns(:variables)).to eq([@variable1, @variable2, @variable3, @variable4])
+          expect(response).to render_template("index")
+        end
+      end
 
+      context "when params is blank" do
+        it 'returns all records' do
+          post :search, { text_param: "", status_param: "" }, valid_session
+          expect(assigns(:variables)).to eq([@variable1, @variable2, @variable3, @variable4])
+          expect(response).to render_template("index")
+        end
+      end
+    end
+
+    context "with valid params" do
+      subject { post :search, { text_param: file, status_param: status }, valid_session }
+
+      context "with only text param" do
+        context "with no existent name" do
+          let(:file)   { "invalid" }
+          let(:status) { "" }
+
+          it 'returns no records' do
+            subject
+            expect(assigns(:variables)).to eq([])
+          end
+        end
+
+        context "with part of existent name" do
+          let(:file)   { 'name0' }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:variables)).to eq([@variable1, @variable2])
+          end
+        end
+
+        context "with exactly the same name" do
+          let(:file)   { 'name3' }
+          let(:status) { "" }
+
+          it 'returns filtered records' do
+            subject
+            expect(assigns(:variables)).to eq([@variable3])
+          end
+        end
+      end
+
+      context "with only status param" do
+        let(:file)   { '' }
+        let(:status) { "sala1" }
+
+        it 'returns filtered records' do
+          subject
+          expect(assigns(:variables)).to eq([@variable1, @variable4])
+        end
+      end
+
+      context "with both params" do
+        let(:file)   { 'name0' }
+        let(:status) { "sala1" }
+
+        it 'returns filtered records' do
+          subject
+          expect(assigns(:variables)).to eq([@variable1])
+          expect(response).to render_template("index")
+        end
+      end
+    end
+  end
   describe "GET new" do
     it "assigns a new variable as @variable" do
-      session[:user_id] = User.create! user_attributes
       get :new, {}, valid_session
       expect(assigns(:variable)).to be_a_new(Variable)
     end
@@ -63,14 +118,12 @@ RSpec.describe VariablesController, :type => :controller do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Variable" do
-        session[:user_id] = User.create! user_attributes
         expect {
           post :create, {:variable => valid_attributes}, valid_session
         }.to change(Variable, :count).by(1)
       end
 
       it "assigns a newly created variable as @variable" do
-        session[:user_id] = User.create! user_attributes
         post :create, {:variable => valid_attributes}, valid_session
         expect(assigns(:variable)).to be_a(Variable)
         expect(assigns(:variable)).to be_persisted
@@ -78,7 +131,6 @@ RSpec.describe VariablesController, :type => :controller do
       end
 
       it "redirects to the created variable" do
-        session[:user_id] = User.create! user_attributes
         post :create, {:variable => valid_attributes}, valid_session
         expect(response).to redirect_to(root_path({status: 'variable', notice: 'Variável criada com sucesso'}))
       end
@@ -139,7 +191,6 @@ RSpec.describe VariablesController, :type => :controller do
       end
 
       it "assigns the requested variable as @variable and changes status" do
-        session[:user_id] = User.create! user_attributes
         variable = Variable.create! valid_attributes
         put :update, { id: variable.to_param, variable: valid_attributes, update_status: "sala2" }, valid_session
         expect(assigns(:variable)).to eq(variable)
@@ -148,7 +199,6 @@ RSpec.describe VariablesController, :type => :controller do
 
       it "redirects to the variable" do
         variable = Variable.create! valid_attributes
-        session[:user_id] = User.create! user_attributes
         put :update, {:id => variable.to_param, :variable => valid_attributes}, valid_session
         expect(response).to redirect_to(root_path({status: 'variable', notice: 'Variável atualizada com sucesso'}))
       end

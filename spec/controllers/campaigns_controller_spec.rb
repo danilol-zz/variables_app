@@ -25,7 +25,7 @@ RSpec.describe CampaignsController, :type => :controller do
     end
   end
 
-  describe "POST search" do
+  describe "GET search" do
     before do
       @campaign1 = FactoryGirl.create(:campaign, name: "name01", current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
       @campaign2 = FactoryGirl.create(:campaign, name: "name02", current_user_id: current_user_id, status: Constants::STATUS[:SALA2])
@@ -44,7 +44,7 @@ RSpec.describe CampaignsController, :type => :controller do
 
       context "when params is blank" do
         it 'returns all records' do
-          post :search, { name: "", status: "" }, valid_session
+          post :search, { text_param: "", status_param: "" }, valid_session
           expect(assigns(:campaigns)).to eq([@campaign1, @campaign2, @campaign3, @campaign4])
           expect(response).to render_template("index")
         end
@@ -52,7 +52,7 @@ RSpec.describe CampaignsController, :type => :controller do
     end
 
     context "with valid params" do
-      subject { post :search, { query: { name: name, status: status } }, valid_session }
+      subject { post :search, { text_param: name, status_param: status }, valid_session }
 
       context "with only text param" do
         context "with no existent name" do

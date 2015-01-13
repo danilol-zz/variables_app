@@ -1,7 +1,7 @@
 class CreateProcessids < ActiveRecord::Migration
   def change
     create_table :processids do |t|
-      t.integer :process_number
+      t.string  :process_number
       t.string  :mnemonic
       t.string  :routine_name
       t.string  :var_table_name

@@ -15,13 +15,13 @@
         <th><%= t('activerecord.attributes.origin_field.will_use')  %></th>
         <th><%= t('activerecord.attributes.origin_field.has_signal') %></th>
 
-        <% if @current_user.profile.room2?%>
+        <% if @current_user.room2?%>
           <th><%= t('activerecord.attributes.origin_field.cd5_variable_number') %></th>
           <th><%= t('activerecord.attributes.origin_field.cd5_output_order') %></th>
         <% end %>
         <th></th>
 
-        <% if @current_user.profile.room1?%>
+        <% if @current_user.room1?%>
           <td></td>
         <% end %>
       </tr>

@@ -3,10 +3,10 @@
     <div class="col13" role="main">
       <div class="modulo">
         <section class="formulario">
-          <h3 class="line-bottom">Origens</h3>
+          <h3 class="line-bottom">Variáveis</h3>
           <fieldset>
             <legend></legend>
-            <%= form_tag(search_origin_path,  method: :get ) do  %>
+            <%= form_tag(search_variable_path,  method: :get ) do  %>
               <div class="row clearfix">
                 <div class='left t4'>
                   <%= text_field_tag 'text_param', params[:text_param] || '' %>
@@ -24,38 +24,34 @@
             <table summary="" class="tabela-zebra tabela-hover">
               <thead>
                 <tr class="txt-no-transform">
-                  <th>arquivo / base</th>
+                  <th>nome</th>
+                  <th>campo modelo</td>
+                  <th>periodicidade atualização SAS</td>
                   <th>sprint criado</td>
                   <th>sprint alterado</td>
-                  <th>sigla</td>
                   <th>tipo</td>
-                  <th>periodicidade</td>
-                  <th>mnemônico</td>
-                  <th>cód origem CD5</td>
-                  <th>cód destino CD5</td>
+                  <th>responsável</td>
                   <th>status</td>
                 </tr>
               </thead>
               <tbody>
-                <% @origins.each do |origin| %>
+                <% @variables.each do |variable| %>
                   <tr>
-                    <td><%= origin.file_name %></td>
-                    <td><%= origin.created_in_sprint %></td>
-                    <td><%= origin.updated_in_sprint %></td>
-                    <td><%= origin.abbreviation %></td>
-                    <td><%= origin.base_type %></td>
-                    <td><%= origin.periodicity %></td>
-                    <td><%= origin.mnemonic %></td>
-                    <td><%= origin.cd5_portal_origin_code %></td>
-                    <td><%= origin.cd5_portal_destination_code %></td>
-                    <td><%= origin.status %></td>
-                    <td><%= link_to t('edit'), edit_origin_path(origin) %></td>
+                    <td><%= variable.name %></td>
+                    <td><%= variable.model_field_name %></td>
+                    <td><%= variable.sas_update_periodicity %></td>
+                    <td><%= variable.created_in_sprint %></td>
+                    <td><%= variable.updated_in_sprint %></td>
+                    <td><%= variable.variable_type %></td>
+                    <td><%= variable.owner %></td>
+                    <td><%= variable.status %></td>
+                    <td><%= link_to t('edit'), edit_variable_path(variable) %></td>
                   </tr>
                 <% end %>
               </tbody>
             </table> <!-- summary="" class="tabela-zebra tabela-hover" -->
             <div>
-              <%= will_paginate @origins %>
+              <%= will_paginate @variables %>
             </div>
           </section> <!-- grid section -->
         </section> <!-- formulario -->

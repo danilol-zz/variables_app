@@ -17,7 +17,7 @@ RSpec.describe TablesController, :type => :controller do
     end
   end
 
-  describe "POST search" do
+  describe "GET search" do
     before do
       @table1 = FactoryGirl.create(:table, logic_table_name: "name01", current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
       @table2 = FactoryGirl.create(:table, logic_table_name: "name02", current_user_id: current_user_id, status: Constants::STATUS[:SALA2])
@@ -44,7 +44,7 @@ RSpec.describe TablesController, :type => :controller do
     end
 
     context "with valid params" do
-      subject { post :search, { query: { table_name: name, status: status } }, valid_session }
+      subject { post :search, { text_param: name, status_param: status }, valid_session }
 
       context "with only text param" do
         context "with no existent name" do
