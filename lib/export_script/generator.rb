@@ -12,6 +12,7 @@ class Generator
 
     output << "=========================================================================\n"
     output << "Fim do script\n"
+    return output
   end
 
   #================================== metodos de processamento =========================================

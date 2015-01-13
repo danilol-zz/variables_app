@@ -127,21 +127,19 @@ RSpec.describe CampaignsController, :type => :controller do
 
       it "creates a new Campaign" do
         expect {
-          post :create, {:campaign => valid_attributes}, valid_session
+          post :create, {campaign: valid_attributes, variable_ids: ["1", "2"]}, valid_session
         }.to change(Campaign, :count).by(1)
       end
 
       it "assigns a newly created campaign as @campaign" do
-        post :create, {:campaign => valid_attributes}, valid_session
-
+        post :create, {:campaign => valid_attributes, variable_ids: ["1", "2"]}, valid_session
         expect(assigns(:campaign)).to be_a(Campaign)
         expect(assigns(:campaign)).to be_persisted
         expect(assigns(:campaign).status).to eq 'sala1'
       end
 
       it "redirects to the created campaign" do
-        post :create, {:campaign => valid_attributes}, valid_session
-
+        post :create, {:campaign => valid_attributes, variable_ids: ["1", "2"]}, valid_session
         expect(response).to redirect_to(root_path({status: 'campaign', notice: 'Campanha criada com sucesso'}))
       end
     end
@@ -149,8 +147,12 @@ RSpec.describe CampaignsController, :type => :controller do
 
   describe "PUT update" do
     describe "with valid params" do
-      let(:new_attributes) {
+      before do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+      end
 
+      let(:new_attributes) {
         new_attributes = {
           :ident => 'teste',
           :name => 'teste',
@@ -174,45 +176,74 @@ RSpec.describe CampaignsController, :type => :controller do
       }
 
       it "updates the requested campaign" do
-        campaign = Campaign.create! valid_attributes
-
-        put :update, {:id => campaign.to_param, :campaign => new_attributes}, valid_session
+        campaign = Campaign.create! valid_attributes.merge( variable_ids: ["1", "2"] )
+        put :update, {:id => campaign.to_param,
+                      :campaign => new_attributes,
+                      variable_ids: "|,1,2"
+        }, valid_session
       end
 
       it "assigns the requested campaign as @campaign" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
-
-        campaign = Campaign.create! valid_attributes
-
-        put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session
-
+        campaign = Campaign.create! valid_attributes.merge( variable_ids: ["1", "2"] )
+        put :update, {
+          :id => campaign.to_param,
+          :campaign => valid_attributes,
+          variable_ids: "|,1,2"
+        }, valid_session
         expect(assigns(:campaign)).to eq(campaign)
         expect(assigns(:campaign).status).to eq 'sala1'
       end
 
       it "assigns the requested campaign as @campaign and changes status" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
-
-        campaign = Campaign.create valid_attributes
-
-        put :update, { id: campaign.to_param, campaign: valid_attributes, update_status: "sala2" }, valid_session
-
+        campaign = Campaign.create valid_attributes.merge( variable_ids: ["1", "2"] )
+        put :update, { id: campaign.to_param,
+                       campaign: valid_attributes,
+                       update_status: "sala2",
+                       variable_ids: "|,1,2"
+        }, valid_session
         expect(assigns(:campaign)).to eq(campaign)
         expect(assigns(:campaign).status).to eq 'sala2'
       end
 
       it "redirects to the campaign" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
-
-        campaign = Campaign.create! valid_attributes
-
-        put :update, {:id => campaign.to_param, :campaign => valid_attributes}, valid_session
-
+        campaign = Campaign.create! valid_attributes.merge( variable_ids: ["1", "2"] )
+        put :update, {
+          :id => campaign.to_param,
+          :campaign => valid_attributes,
+          variable_ids: "|,1,2"
+        }, valid_session
         expect(response).to redirect_to(root_path({status: 'campaign', notice: 'Campanha atualizada com sucesso'}))
       end
     end
   end
+
+  describe "GET variables search" do
+
+    describe "with valid params" do
+      before do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+      end
+
+      it "returns successfully" do
+        campaign = Campaign.create!(
+          valid_attributes.merge( variable_ids: ["1", "2"] )
+        )
+        get :variables_search, {:id => campaign.to_param}, valid_session
+        expect(response).to be_success
+      end
+
+      it "returns 2 items" do
+        #require 'pry'; binding.pry
+        campaign = Campaign.create!(
+          valid_attributes.merge( variable_ids: ["1", "2"] )
+        )
+        get :variables_search, {:id => campaign.to_param}, valid_session
+        expect(JSON.parse(response.body).length).to eq(2)
+      end
+
+    end
+
+  end
+
 end

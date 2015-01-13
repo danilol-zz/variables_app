@@ -1,17 +1,17 @@
 <section class="formulario">
-  <h3 class="line-bottom">>>> Selecione abaixo as 
-    <span class="destaque"><%= Variable.model_name.human.capitalize.pluralize %></span> 
+  <h3 class="line-bottom">>>> Selecione abaixo as
+    <span class="destaque"><%= Variable.model_name.human.capitalize.pluralize %></span>
     para a <%= Campaign.model_name.human.capitalize %></h3>
   <fieldset>
     <legend></legend>
+
     <div class="row clearfix">
-      <% @variables.each do |var| %>
-        <p class="left" style="font-family: courier new,monospace;">
-          <%= check_box_tag( "campaign[variable_list][#{var.id}]", "checked", @campaign.variables.detect{|v| v == var}) %>
-          <%= truncate("#{var.name}".ljust(20,'.').gsub(' ','.'), length: 20) %>
-        </p>
-      <% end %>
+      <input id="campaign_id" type="hidden" value="<%= @campaign.id %>">
+      </input>
+      <input id="variables" style="width:100%"  type="hidden" value="|" name="variable_ids[]">
+      </input>
     </div>
+
   </fieldset>
 </section>
 

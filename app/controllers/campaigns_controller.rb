@@ -4,6 +4,17 @@ class CampaignsController < ApplicationController
   before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
 
+  def variables_search
+    result = []
+    y = {}
+    if params[:id].present?
+      Campaign.find(params[:id]).variables.each { |r| y[:id] = r.id; y[:text] = r.name; result << y; y = {} }
+    else
+      Variable.all.each { |r| y[:id] = r.id; y[:text] = r.name; result << y; y = {} }
+    end
+    render json: result
+  end
+
   def index
     @campaigns = Campaign.all.paginate(page: params[:page], per_page: 10)
   end
@@ -22,9 +33,10 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    @campaign = Campaign.new(campaign_params.merge(status: Constants::STATUS[:SALA1]))
-    @campaign.set_variables(params[:campaign][:variable_list])
-
+    @campaign = Campaign.new(campaign_params
+      .merge(status: Constants::STATUS[:SALA1])
+      .merge("variable_ids" => select2_fix(params[:variable_ids][0]) )
+    )
     respond_to do |format|
       if @campaign.save
         format.html { redirect_to root_path({ status: 'campaign', notice: "#{Campaign.model_name.human.capitalize} criada com sucesso" }) }
@@ -38,14 +50,9 @@ class CampaignsController < ApplicationController
 
   def update
     status = params[:update_status] ? { status: params[:update_status] } : {}
-
-    if params[:campaign][:variable_list]
-      @campaign.variables.delete_all
-      @campaign.set_variables(params[:campaign][:variable_list])
-    end
-
     respond_to do |format|
-      if @campaign.update(campaign_params.merge(status))
+      if @campaign.update(campaign_params.merge(status).
+        merge("variable_ids" => select2_fix(params[:variable_ids][0]) ) )
         format.html { redirect_to root_path({ status: 'campaign', notice: "#{Campaign.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @campaign }
       else
