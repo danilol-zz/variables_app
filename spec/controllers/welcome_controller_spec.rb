@@ -17,7 +17,7 @@ describe WelcomeController do
           origin2 = FactoryGirl.create(:origin, current_user_id: session[:user_id])
 
           get :index
-          expect(assigns(:items)).to eq [[origin2, origin1], [], [] ]
+          expect(assigns(:items)).to eq [[origin1, origin2], [], [] ]
         end
       end
 

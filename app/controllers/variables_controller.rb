@@ -1,6 +1,7 @@
 class VariablesController < ApplicationController
   before_action :set_variable, only: [:edit, :update]
   before_action :load_origin_fields
+  before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
 
   def name_search
@@ -10,6 +11,16 @@ class VariablesController < ApplicationController
       @variables = Variable.all
     end
     render json: @variables
+  end
+
+  def index
+    @variables = Variable.all.paginate(page: params[:page], per_page: 10)
+  end
+
+  def search
+    @variables = Variable.where(@text_param).where(@status_param).paginate(page: params[:page], per_page: 10).to_a
+
+    render :index
   end
 
   def new
@@ -62,6 +73,11 @@ class VariablesController < ApplicationController
 
   def set_variable
     @variable = Variable.find(params[:id])
+  end
+
+  def set_query_param
+    @text_param   = Variable.arel_table[:name].matches("%#{params[:text_param]}%").to_sql
+    @status_param = Variable.arel_table[:status].matches("%#{params[:status_param]}%").to_sql
   end
 
   def variable_params

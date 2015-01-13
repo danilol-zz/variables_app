@@ -1,7 +1,18 @@
 class ProcessidsController < ApplicationController
   before_action :set_processid, only: [:edit, :update]
   before_action :load_variables
+  before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
+
+  def index
+    @processids = Processid.all.paginate(page: params[:page], per_page: 10)
+  end
+
+  def search
+    @processids = Processid.where(@text_param).where(@status_param).paginate(page: params[:page], per_page: 10).to_a
+
+    render :index
+  end
 
   def new
     @processid = Processid.new
@@ -52,6 +63,11 @@ class ProcessidsController < ApplicationController
 
   def set_processid
     @processid = Processid.find(params[:id])
+  end
+
+  def set_query_param
+    @text_param   = Processid.arel_table[:process_number].matches("%#{params[:text_param]}%").to_sql
+    @status_param = Processid.arel_table[:status].matches("%#{params[:status_param]}%").to_sql
   end
 
   def processid_params

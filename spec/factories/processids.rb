@@ -18,5 +18,6 @@ FactoryGirl.define do
     counting_rule "MyString"
     notes "MyString"
     current_user_id 1
+    status "sala1"
   end
 end

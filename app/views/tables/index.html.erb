@@ -6,13 +6,13 @@
           <h3 class="line-bottom">Tabelas</h3>
           <fieldset>
             <legend></legend>
-            <%= form_tag(search_table_path,  method: :post ) do  %>
+            <%= form_tag(search_table_path,  method: :get ) do  %>
               <div class="row clearfix">
                 <div class='left t4'>
-                  <%= text_field_tag 'query[table_name]', params[:query][:table_name] || '' %>
+                  <%= text_field_tag 'text_param', params[:text_param] || '' %>
                 </div>
                 <div class="left t10">
-                  <label class="custom-select"><%= select_tag "query[status]", options_for_select(Constants::STATUS, params[:query][:status] || nil), prompt: 'Todos' %></label>
+                  <label class="custom-select"><%= select_tag "status_param", options_for_select(Constants::STATUS, params[:status_param] || nil), prompt: 'Todos' %></label>
                 </div>
                 <div class="left btn btn-primary">
                   <%= submit_tag "Filtrar" %>

@@ -8,7 +8,6 @@ RSpec.describe OriginsController, type: :controller do
   let(:user_attributes)  { FactoryGirl.attributes_for(:user) }
   let(:valid_session)    { {} }
 
-
   describe "GET index" do
     let(:origin) { Origin.create(valid_attributes) }
 
@@ -18,7 +17,7 @@ RSpec.describe OriginsController, type: :controller do
     end
   end
 
-  describe "POST search" do
+  describe "GET search" do
     before do
       @origin1 = FactoryGirl.create(:origin, file_name: "name01", current_user_id: current_user_id, status: Constants::STATUS[:SALA1])
       @origin2 = FactoryGirl.create(:origin, file_name: "name02", current_user_id: current_user_id, status: Constants::STATUS[:SALA2])
@@ -37,7 +36,7 @@ RSpec.describe OriginsController, type: :controller do
 
       context "when params is blank" do
         it 'returns all records' do
-          post :search, { file_name: "", status: "" }, valid_session
+          post :search, { text_param: "", status_param: "" }, valid_session
           expect(assigns(:origins)).to eq([@origin1, @origin2, @origin3, @origin4])
           expect(response).to render_template("index")
         end
@@ -45,7 +44,7 @@ RSpec.describe OriginsController, type: :controller do
     end
 
     context "with valid params" do
-      subject { post :search, { query: { file_name: file, status: status } }, valid_session }
+      subject { post :search, { text_param: file, status_param: status }, valid_session }
 
       context "with only text param" do
         context "with no existent name" do

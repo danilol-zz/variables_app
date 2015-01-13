@@ -25,7 +25,7 @@ FactoryGirl.define do
     key_fields_hive_script "MyString"
     room_2_notes "MyString"
     current_user_id 1
-    status ""
+    status "sala1"
   end
 end
 

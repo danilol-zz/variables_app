@@ -4,12 +4,11 @@ class OriginsController < ApplicationController
   before_filter :ensure_authentication
 
   def index
-    params[:query] = {}
     @origins = Origin.all.paginate(page: params[:page], per_page: 10)
   end
 
   def search
-    @origins = Origin.where(@file_name_query).where(@status_query).paginate(page: 1, per_page: 10).to_a
+    @origins = Origin.where(@text_param).where(@status_param).paginate(page: params[:page], per_page: 10).to_a
 
     render :index
   end
@@ -188,12 +187,8 @@ class OriginsController < ApplicationController
   end
 
   def set_query_param
-    @file_name_query = @status_query = nil
-
-    if params[:query]
-      @file_name_query = Origin.arel_table[:file_name].matches("%#{params[:query][:file_name]}%").to_sql
-      @status_query    = Origin.arel_table[:status].matches("%#{params[:query][:status]}%").to_sql
-    end
+    @text_param   = Origin.arel_table[:file_name].matches("%#{params[:text_param]}%").to_sql
+    @status_param = Origin.arel_table[:status].matches("%#{params[:status_param]}%").to_sql
   end
 
   def origin_field_params

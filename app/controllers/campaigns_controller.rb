@@ -16,12 +16,11 @@ class CampaignsController < ApplicationController
   end
 
   def index
-    params[:query] = {}
     @campaigns = Campaign.all.paginate(page: params[:page], per_page: 10)
   end
 
   def search
-    @campaigns = Campaign.where(@name_query).where(@status_query).paginate(page: 1, per_page: 10).to_a
+    @campaigns = Campaign.where(@text_param).where(@status_param).paginate(page: params[:page], per_page: 10).to_a
 
     render :index
   end
@@ -74,12 +73,8 @@ class CampaignsController < ApplicationController
   end
 
   def set_query_param
-    @name_query = @status_query = nil
-
-    if params[:query]
-      @name_query = Campaign.arel_table[:name].matches("%#{params[:query][:name]}%").to_sql
-      @status_query    = Campaign.arel_table[:status].matches("%#{params[:query][:status]}%").to_sql
-    end
+    @text_param   = Campaign.arel_table[:name].matches("%#{params[:text_param]}%").to_sql
+    @status_param = Campaign.arel_table[:status].matches("%#{params[:status_param]}%").to_sql
   end
 
   def campaign_params
