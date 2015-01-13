@@ -10,6 +10,12 @@ class ApplicationController < ActionController::Base
   #  end
   #end
 
+  def select2_fix( ids_list )
+    clean_ids_list = ids_list.gsub("|,","").gsub("|","")
+    result = clean_ids_list.split(",")
+    return result
+  end
+
   def ensure_authentication
     unless current_user
       redirect_to login_path, notice: "Faça o login para entrar no sistema, por favor."

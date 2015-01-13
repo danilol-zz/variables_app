@@ -168,4 +168,29 @@ RSpec.describe VariablesController, :type => :controller do
     #  end
     #end
   end
+
+  describe "GET name search" do
+
+    describe "with valid params" do
+      before do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+        session[:user_id] = User.create! user_attributes
+      end
+
+      it "returns successfully" do
+        get :name_search, {:term => 'MyString'}, valid_session
+        expect(response).to be_success
+      end
+
+      it "returns 2 items" do
+        get :name_search, {:term => 'MyString'}, valid_session
+        expect(JSON.parse(response.body).length).to eq(2)
+      end
+
+    end
+
+  end
+
+
 end

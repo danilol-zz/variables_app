@@ -3,6 +3,15 @@ class VariablesController < ApplicationController
   before_action :load_origin_fields
   before_filter :ensure_authentication
 
+  def name_search
+    if params[:term].present?
+      @variables = Variable.where( "variables.name like ?", "%#{params[:term]}%" )
+    else
+      @variables = Variable.all
+    end
+    render json: @variables
+  end
+
   def new
     @variable = Variable.new
   end
