@@ -38,7 +38,6 @@ class OriginField < ActiveRecord::Base
     captura = /(.{0,5})(.{0,40})(.{0,10})(.{0,8})(.{0,6})(.{0,6})(.{0,6})/.match(text_value)
 
     unless ( captura[7].empty? ) || (/^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip).nil? )
-
       field_name = /^[0-9]+\ ([A-Za-z0-9]+)[A-Za-z0-9\ ]*$/.match(captura[2].strip)[1]
       origin_pic = captura[3].strip
       fmbase_value = captura[4].strip

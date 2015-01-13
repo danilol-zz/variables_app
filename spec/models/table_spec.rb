@@ -5,6 +5,14 @@ describe Table do
 
   let(:profile) { 'sala1' }
 
+  describe 'validations' do
+    subject { FactoryGirl.build(:table, current_user_id: current_user_id)  }
+
+    it { expect(subject).to validate_presence_of(:table_key) }
+    it { expect(subject).to validate_presence_of(:table_type) }
+    it { expect(subject).to validate_inclusion_of(:table_type).in_array(Constants::TABLE_TYPE) }
+  end
+
   context "scopes" do
     before do
       @table1 = FactoryGirl.create(:table, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)

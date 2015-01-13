@@ -196,14 +196,14 @@ pt:
             name:
               too_long: deve ter no máximo 50 caracteres!
               blank: não pode ser vazio!
-            priotity:
+            priority:
               blank: não pode ser vazio!
             campaign_origin:
               too_long: deve ter no máximo 50 caracteres!
               blank: não pode ser vazio!
             created_in_sprint:
               blank: não pode ser vazio!
-            created_in_sprint:
+            updated_in_sprint:
               blank: não pode ser vazio!
             channel:
               too_long: deve ter no máximo 50 caracteres!
@@ -222,12 +222,15 @@ pt:
               blank: da campanha não pode ser vazio!
             exists_in_legacy:
               blank: não pode ser vazio!
+              inclusion: deve ser verdadeiro ou falso
             automatic_routine:
               blank: não pode ser vazio!
               too_long: deve ter no máximo 50 caracteres!
             factory_criterion_status:
               blank: não pode ser vazio!
               inclusion: deve ser ok ou pendente
+            it_status:
+              blank: não pode ser vazio!
         origin:
           attributes:
             file_name:
@@ -305,6 +308,13 @@ pt:
             notes:
               blank: não pode ser vazio!
               too_long: deve ter no máximo 500 caracteres!
+        table:
+          attributes:
+            table_key:
+              blank: não pode ser vazio!
+            table_type:
+              blank: não pode ser vazio!
+              inclusion: deve ser seleção, colagem, lookup interna, lookup externa, lookup blindagem
         origin_field:
           attributes:
             decimal:

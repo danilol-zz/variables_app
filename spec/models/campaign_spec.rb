@@ -24,7 +24,7 @@ describe Campaign do
     it { expect(subject).to ensure_length_of(:description).is_at_most(200) }
     it { expect(subject).to validate_presence_of(:criterion) }
     it { expect(subject).to ensure_length_of(:criterion).is_at_most(500) }
-    it { expect(subject).to validate_inclusion_of(:factory_criterion_status).in_array(Constants::FactoryCriterionStatus) }
+    it { expect(subject).to validate_inclusion_of(:factory_criterion_status).in_array(Constants::FACTORY_CRITERION_STATUS) }
     it { expect(subject).to validate_presence_of(:it_status) }
 
     context 'when exists in legacy is true' do
