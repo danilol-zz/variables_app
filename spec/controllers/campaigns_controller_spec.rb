@@ -234,7 +234,6 @@ RSpec.describe CampaignsController, :type => :controller do
       end
 
       it "returns 2 items" do
-        #require 'pry'; binding.pry
         campaign = Campaign.create!(
           valid_attributes.merge( variable_ids: ["1", "2"] )
         )
