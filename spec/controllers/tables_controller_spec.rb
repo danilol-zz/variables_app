@@ -183,7 +183,6 @@ RSpec.describe TablesController, :type => :controller do
                       :table        => new_attributes,
                       variable_ids: "|,1,2"
         }, valid_session
-        #put :update, {:id => table.to_param, :table => new_attributes}, valid_session
       end
 
       it "assigns the requested table as @table" do

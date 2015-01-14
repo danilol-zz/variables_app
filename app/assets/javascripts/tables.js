@@ -1,5 +1,5 @@
 $(document).on('page:change', function() {
-  $("#variables").select2({
+  $("#table_variables").select2({
     placeholder: "pesquisa...",
     minimumInputLength: 2,
     multiple: true,

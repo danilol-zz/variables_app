@@ -1,13 +1,13 @@
 $(document).on('page:change', function() {
-  $("#campaign_variables").select2({
+  $("#processid_variables").select2({
     placeholder: "pesquisa...",
     minimumInputLength: 2,
     multiple: true,
     width: "975px",
     initSelection : function (element, callback) {
-      var id=$('#campaign_id').val();
+      var id=$('#processid_id').val();
       if (id !== "") {
-        $.ajax("/campaign_variables_search/" + id).done(function(data) {
+        $.ajax("/processid_variables_search/" + id).done(function(data) {
           callback(data);
         })
       }
@@ -33,3 +33,4 @@ $(document).on('page:change', function() {
     }
   });
 });
+

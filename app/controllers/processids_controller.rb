@@ -4,6 +4,17 @@ class ProcessidsController < ApplicationController
   before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
 
+  def variables_search
+    result = []
+    y = {}
+    if params[:id].present?
+      Processid.find(params[:id]).variables.each { |r| y[:id] = r.id; y[:text] = r.name; result << y; y = {} }
+    else
+      Variable.all.each { |r| y[:id] = r.id; y[:text] = r.name; result << y; y = {} }
+    end
+    render json: result
+  end
+
   def index
     @processids = Processid.all.paginate(page: params[:page], per_page: 10)
   end
@@ -22,9 +33,10 @@ class ProcessidsController < ApplicationController
   end
 
   def create
-    @processid = Processid.new(processid_params.merge(status: Constants::STATUS[:SALA2]))
-    @processid.set_variables(params[:processid][:variable_list])
-
+    @processid = Processid.new(processid_params
+     .merge(status: Constants::STATUS[:SALA2])
+     .merge("variable_ids" => select2_fix(params[:variable_ids][0]) )
+    )
     respond_to do |format|
       if @processid.save
         format.html { redirect_to root_path({ status: 'processid', notice: "#{Processid.model_name.human.capitalize} criado com sucesso" }) }
@@ -38,14 +50,9 @@ class ProcessidsController < ApplicationController
 
   def update
     status = params[:update_status] ? { status: params[:update_status] } : {}
-
-    if params[:processid][:variable_list]
-      @processid.variables.delete_all
-      @processid.set_variables(params[:processid][:variable_list])
-    end
-
     respond_to do |format|
-      if @processid.update(processid_params.merge(status))
+      if @processid.update(processid_params.merge(status).
+        merge("variable_ids" => select2_fix(params[:variable_ids][0]) ) )
         format.html { redirect_to root_path({ status: 'processid', notice: "#{Processid.model_name.human.capitalize} atualizado com sucesso" }) }
         format.json { render :show, status: :ok, location: @processid }
       else
