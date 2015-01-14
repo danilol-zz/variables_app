@@ -35,24 +35,22 @@
           <%= f.label :email %>
           <%= f.text_field :email %>
         </div>
-      </div>     
+      </div>
 
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :profile %>
           <%= f.select(:profile,  User::PROFILES, {:include_blank => 'Selecione'}, disabled: !@current_user.admin?) %>
-        </div>    
-      </div>       
+        </div>
+      </div>
 
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label "Papel" %>
-          <%= select_tag("user[role]", 
-            options_for_select([ ['Selecione um nível', ''], ['Administrador', 'admin'], ['Usuário', 'user']], 
-            @user.role), disabled: !@current_user.admin? ) %>
-        </div>      
+          <%= select_tag("user[role]", options_for_select([ ['Selecione um nível', ''], ['Administrador', 'admin'], ['Usuário', 'user']], @user.role), disabled: !@current_user.admin? ) %>
+        </div>
       </div>
-                
+
     </fieldset>
 
     <div class="actions">
