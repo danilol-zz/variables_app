@@ -9,7 +9,7 @@ class Campaign < ActiveRecord::Base
   scope :development, -> { where(status: Constants::STATUS[:SALA2])   }
   scope :done,        -> { where(status: Constants::STATUS[:PRODUCAO]) }
 
-  scope :recent, -> { order(updated_at: :desc) }
+  scope :recent,      -> { order(updated_at: :desc) }
 
   validates :name, presence: true, if: :current_user_is_room1?
   validates :name, length: { maximum: 50 }, if: :current_user_is_room1?
@@ -30,7 +30,7 @@ class Campaign < ActiveRecord::Base
   validates :description, length: { maximum: 200 }, if: :current_user_is_room1?
   validates_inclusion_of :exists_in_legacy, in: [true, false], if: :current_user_is_room1?
   validates :automatic_routine, presence: true, length: { maximum: 50 }, if: lambda { current_user_is_room1? && self.exists_in_legacy }
-  validates :factory_criterion_status, presence: true, inclusion: { in: Constants::FactoryCriterionStatus }
+  validates :factory_criterion_status, presence: true, inclusion: { in: Constants::FACTORY_CRITERION_STATUS }
   validates :it_status, presence: true, if: :current_user_is_room1?
 
   def code

@@ -17,7 +17,8 @@ class Table < ActiveRecord::Base
 
   scope :recent, -> { order(updated_at: :desc) }
 
-  validates :table_key, presence: true, length: { maximum: 100 }, if: :current_user_is_room1?
+  validates :table_key,  presence: true
+  validates :table_type, presence: true, inclusion: { in: Constants::TABLE_TYPE }
 
   def code
     "TA#{self.id.to_s.rjust(3,'0')}"

@@ -12,8 +12,8 @@ FactoryGirl.define do
     criterion "MyString"
     exists_in_legacy true
     automatic_routine "MyString"
-    factory_criterion_status "ok"
-    process_type "MyString"
+    factory_criterion_status "Ok"
+    process_type "Manual"
     crm_room_suggestion "MyString"
     it_status "MyString"
     notes "MyString"

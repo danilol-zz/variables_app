@@ -13,11 +13,11 @@ describe WelcomeController do
 
       context "with less then 10 records" do
         it "assigns all origin as @origins" do
-          origin1 = FactoryGirl.create(:origin, current_user_id: session[:user_id])
-          origin2 = FactoryGirl.create(:origin, current_user_id: session[:user_id])
+          origin1  = FactoryGirl.create(:origin, current_user_id: session[:user_id], updated_at: Time.now - 1.week)
+          origin2  = FactoryGirl.create(:origin, current_user_id: session[:user_id], updated_at: Time.now - 10.minutes)
 
           get :index
-          expect(assigns(:items)).to eq [[origin1, origin2], [], [] ]
+          expect(assigns(:items)).to eq [[origin2, origin1], [], [] ]
         end
       end
 

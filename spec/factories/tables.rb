@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :table do
     logic_table_name "MyString"
-    table_type "MyString"
+    table_type Constants::TABLE_TYPE.sample
     name "MyString"
     table_key "MyString"
     initial_volume 1
