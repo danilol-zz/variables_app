@@ -315,6 +315,27 @@ pt:
             table_type:
               blank: não pode ser vazio!
               inclusion: deve ser seleção, colagem, lookup interna, lookup externa, lookup blindagem
+        variable:
+          attributes:
+            data_type:
+              blank: não pode ser vazio!
+              inclusion: deve ser Qtd, Data, Valor, Indicador, Nome, Código, Porcentagem, Número
+            sas_update_periodicity:
+              blank: não pode ser vazio!
+              inclusion: deve ser diária, semanal, quinzenal, mensal, anual, exporádica, outro
+            domain_type:
+              blank: não pode ser vazio!
+              inclusion: deve ser interno, externo, fixo
+            sas_data_model_status:
+              blank: não pode ser vazio!
+              inclusion: deve ser Ok, Pendente
+            drs_variable_status:
+              blank: não pode ser vazio!
+              inclusion: deve ser Ok, Pendente
+            variable_type:
+              blank: não pode ser vazio!
+              inclusion: deve ser calculado, movimentação direta, valor padrão
+
         origin_field:
           attributes:
             decimal:

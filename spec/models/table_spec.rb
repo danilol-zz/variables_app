@@ -5,7 +5,7 @@ describe Table do
 
   let(:profile) { 'sala1' }
 
-  describe 'validations' do
+  describe 'attribute validations' do
     subject { FactoryGirl.build(:table, current_user_id: current_user_id)  }
 
     it { expect(subject).to validate_presence_of(:table_key) }
@@ -43,9 +43,9 @@ describe Table do
 
   context "table_x_variables" do
     before do
-      v1 = FactoryGirl.create(:variable, name: "v1")
-      v2 = FactoryGirl.create(:variable, name: "v2")
-      v3 = FactoryGirl.create(:variable, name: "v3")
+      v1 = FactoryGirl.create(:variable, name: "v1", current_user_id: current_user_id)
+      v2 = FactoryGirl.create(:variable, name: "v2", current_user_id: current_user_id)
+      v3 = FactoryGirl.create(:variable, name: "v3", current_user_id: current_user_id)
       @table = FactoryGirl.create(:table, variables: [v1, v2, v3], current_user_id: current_user_id)
     end
 
@@ -76,9 +76,9 @@ describe Table do
   context ".set_variables" do
     context "on create" do
       before do
-        FactoryGirl.create(:variable, id: 1, name: "v1")
-        FactoryGirl.create(:variable, id: 5, name: "v2")
-        FactoryGirl.create(:variable, id: 9, name: "v3")
+        FactoryGirl.create(:variable, id: 1, name: "v1", current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 5, name: "v2", current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 9, name: "v3", current_user_id: current_user_id)
 
         @table = FactoryGirl.build(:table, current_user_id: current_user_id)
         @table.save
@@ -117,11 +117,11 @@ describe Table do
 
     context "on update" do
       before do
-        v1 = FactoryGirl.create(:variable, id: 1, name: "v1")
-        v2 = FactoryGirl.create(:variable, id: 5, name: "v2")
-        v3 = FactoryGirl.create(:variable, id: 9, name: "v3")
-        v4 = FactoryGirl.create(:variable, id: 15, name: "v4")
-        v5 = FactoryGirl.create(:variable, id: 19, name: "v5")
+        v1 = FactoryGirl.create(:variable, id:  1, name: "v1", current_user_id: current_user_id)
+        v2 = FactoryGirl.create(:variable, id:  5, name: "v2", current_user_id: current_user_id)
+        v3 = FactoryGirl.create(:variable, id:  9, name: "v3", current_user_id: current_user_id)
+        v4 = FactoryGirl.create(:variable, id: 15, name: "v4", current_user_id: current_user_id)
+        v5 = FactoryGirl.create(:variable, id: 19, name: "v5", current_user_id: current_user_id)
         @table = FactoryGirl.create(:table, variables: [v1, v2], current_user_id: current_user_id)
       end
 

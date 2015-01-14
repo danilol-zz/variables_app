@@ -40,7 +40,13 @@ class Campaign < ActiveRecord::Base
   def set_variables(variable_list = nil)
     self.variables = []
 
-    variable_list.each { |var| self.variables << Variable.find(var.first) } if variable_list
+    if variable_list
+      variable_list.each do |var|
+        v = Variable.find(var.first)
+        v.current_user_id = current_user_id
+        self.variables << v
+      end
+    end
   end
 
   def status_screen_name

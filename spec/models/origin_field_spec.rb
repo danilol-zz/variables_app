@@ -59,9 +59,9 @@ describe OriginField do
   context "origin_fields_x_variables" do
     before do
       FactoryGirl.create(:origin, current_user_id: current_user_id)
-      v1 = FactoryGirl.create(:variable, name: "v1")
-      v2 = FactoryGirl.create(:variable, name: "v2")
-      v3 = FactoryGirl.create(:variable, name: "v3")
+      v1 = FactoryGirl.create(:variable, name: "v1", current_user_id: current_user_id)
+      v2 = FactoryGirl.create(:variable, name: "v2", current_user_id: current_user_id)
+      v3 = FactoryGirl.create(:variable, name: "v3", current_user_id: current_user_id)
 
       @origin_field = FactoryGirl.create(:origin_field, variables: [v1, v2, v3], current_user_id: current_user_id)
     end

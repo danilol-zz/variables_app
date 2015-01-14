@@ -8,14 +8,6 @@ RSpec.describe CampaignsController, :type => :controller do
   let(:user_attributes)  { FactoryGirl.attributes_for(:user) }
   let(:valid_session)    { {} }
 
-  describe "GET new" do
-    it "assigns a new campaign as @campaign" do
-      get :new, {}, valid_session
-
-      expect(assigns(:campaign)).to be_a_new(Campaign)
-    end
-  end
-
   describe "GET index" do
     let(:campaign) { Campaign.create(valid_attributes) }
 
@@ -108,6 +100,15 @@ RSpec.describe CampaignsController, :type => :controller do
       end
     end
   end
+
+  describe "GET new" do
+    it "assigns a new campaign as @campaign" do
+      get :new, {}, valid_session
+
+      expect(assigns(:campaign)).to be_a_new(Campaign)
+    end
+  end
+
   describe "GET edit" do
     it "assigns the requested campaign as @campaign" do
       campaign = Campaign.create!(valid_attributes)
@@ -121,14 +122,12 @@ RSpec.describe CampaignsController, :type => :controller do
   describe "POST create" do
     describe "with valid params" do
       before do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
       end
 
       it "creates a new Campaign" do
-        expect {
-          post :create, {campaign: valid_attributes, variable_ids: ["1", "2"]}, valid_session
-        }.to change(Campaign, :count).by(1)
+        expect { post :create, {campaign: valid_attributes, variable_ids: ["1", "2"]}, valid_session, current_user_id: current_user_id }.to change(Campaign, :count).by(1)
       end
 
       it "assigns a newly created campaign as @campaign" do
@@ -148,8 +147,8 @@ RSpec.describe CampaignsController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       before do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
       end
 
       let(:new_attributes) {
@@ -221,8 +220,8 @@ RSpec.describe CampaignsController, :type => :controller do
 
     describe "with valid params" do
       before do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
       end
 
       it "returns successfully" do
@@ -240,9 +239,6 @@ RSpec.describe CampaignsController, :type => :controller do
         get :variables_search, {:id => campaign.to_param}, valid_session
         expect(JSON.parse(response.body).length).to eq(2)
       end
-
     end
-
   end
-
 end

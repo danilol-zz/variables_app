@@ -100,6 +100,7 @@ RSpec.describe VariablesController, :type => :controller do
       end
     end
   end
+
   describe "GET new" do
     it "assigns a new variable as @variable" do
       get :new, {}, valid_session
@@ -118,9 +119,7 @@ RSpec.describe VariablesController, :type => :controller do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Variable" do
-        expect {
-          post :create, {:variable => valid_attributes}, valid_session
-        }.to change(Variable, :count).by(1)
+        expect { post :create, {:variable => valid_attributes}, valid_session }.to change(Variable, :count).by(1)
       end
 
       it "assigns a newly created variable as @variable" do
@@ -222,8 +221,8 @@ RSpec.describe VariablesController, :type => :controller do
   describe "GET name search" do
     context "with valid params" do
       before do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
       end
 
       context "with params" do
@@ -267,6 +266,4 @@ RSpec.describe VariablesController, :type => :controller do
       end
     end
   end
-
-
 end

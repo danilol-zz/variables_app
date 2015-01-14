@@ -122,8 +122,8 @@ RSpec.describe ProcessidsController, :type => :controller do
   describe "POST create" do
     describe "with valid params" do
       before do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
       end
 
       it "creates a new Processid" do
@@ -150,8 +150,8 @@ RSpec.describe ProcessidsController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       before do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
       end
 
       let(:new_attributes) {
@@ -212,8 +212,8 @@ RSpec.describe ProcessidsController, :type => :controller do
 
   describe "GET variables search" do
     before do
-      FactoryGirl.create(:variable, id: 1)
-      FactoryGirl.create(:variable, id: 2)
+      FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+      FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
     end
     describe "with valid params" do
       it "returns successfully" do
