@@ -121,8 +121,8 @@ RSpec.describe TablesController, :type => :controller do
   describe "POST create" do
     describe "with valid params" do
       before do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
       end
 
       it "creates a new Table" do
@@ -181,8 +181,8 @@ RSpec.describe TablesController, :type => :controller do
       end
 
       it "assigns the requested table as @table" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
 
         table = Table.create! valid_attributes
 
@@ -192,8 +192,8 @@ RSpec.describe TablesController, :type => :controller do
       end
 
       it "assigns the requested table as @table and changes status" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
 
 
         table = Table.create! valid_attributes
@@ -205,8 +205,8 @@ RSpec.describe TablesController, :type => :controller do
       end
 
       it "redirects to the table" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
 
         table = Table.create! valid_attributes
 

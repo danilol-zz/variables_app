@@ -72,9 +72,9 @@ describe Campaign do
 
   context "campaigns_x_variables" do
     before do
-      var1 = FactoryGirl.create(:variable, name: "var1")
-      var2 = FactoryGirl.create(:variable, name: "var2")
-      var3 = FactoryGirl.create(:variable, name: "var3")
+      var1 = FactoryGirl.create(:variable, name: "var1", current_user_id: current_user_id)
+      var2 = FactoryGirl.create(:variable, name: "var2", current_user_id: current_user_id)
+      var3 = FactoryGirl.create(:variable, name: "var3", current_user_id: current_user_id)
       @campaign = FactoryGirl.create(:campaign, current_user_id: current_user_id)
       @campaign.variables << [var1, var2, var3]
     end
@@ -101,9 +101,9 @@ describe Campaign do
         before do
           @campaign = FactoryGirl.build(:campaign, current_user_id: current_user_id)
 
-          FactoryGirl.create(:variable, id: 1, name: "v1")
-          FactoryGirl.create(:variable, id: 5, name: "v2")
-          FactoryGirl.create(:variable, id: 9, name: "v3")
+          FactoryGirl.create(:variable, id: 1, name: "v1", current_user_id: current_user_id)
+          FactoryGirl.create(:variable, id: 5, name: "v2", current_user_id: current_user_id)
+          FactoryGirl.create(:variable, id: 9, name: "v3", current_user_id: current_user_id)
         end
 
         context "with one variable selected" do
@@ -128,11 +128,11 @@ describe Campaign do
 
     context "on update" do
       before do
-        v1 = FactoryGirl.create(:variable, id:  1, name: "v1")
-        v2 = FactoryGirl.create(:variable, id:  5, name: "v2")
-        v3 = FactoryGirl.create(:variable, id:  9, name: "v3")
-        v4 = FactoryGirl.create(:variable, id: 15, name: "v4")
-        v5 = FactoryGirl.create(:variable, id: 19, name: "v5")
+        v1 = FactoryGirl.create(:variable, id:  1, name: "v1", current_user_id: current_user_id)
+        v2 = FactoryGirl.create(:variable, id:  5, name: "v2", current_user_id: current_user_id)
+        v3 = FactoryGirl.create(:variable, id:  9, name: "v3", current_user_id: current_user_id)
+        v4 = FactoryGirl.create(:variable, id: 15, name: "v4", current_user_id: current_user_id)
+        v5 = FactoryGirl.create(:variable, id: 19, name: "v5", current_user_id: current_user_id)
         @campaign = FactoryGirl.create(:campaign, variables: [v1, v2], current_user_id: current_user_id)
       end
 

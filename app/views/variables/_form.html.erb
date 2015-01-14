@@ -32,7 +32,7 @@
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :data_type %>
-          <%= f.select(:data_type,  [ "QTD", "Data", "Valor", "Indicador", "Nome", "Código", "Porcentagem", "Número" ], {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
+          <%= f.select(:data_type,  Constants::DATA_TYPE, {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
         <div class="left t6">
           <%= f.label :width%>
@@ -58,11 +58,11 @@
         </div>
         <div class="left t6">
           <%= f.label :sas_update_periodicity %>
-          <%= f.select(:sas_update_periodicity,  ["diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"] , {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
+          <%= f.select(:sas_update_periodicity,  Constants::SAS_UPDATE_PERIODICITY, {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
         <div class="left t7">
           <%= f.label :domain_type %>
-          <%= f.select(:domain_type, [ "interno",  "externo", "fixo" ] , {:include_blank => 'Selecione'}, disabled: @current_user.room2?) %>
+          <%= f.select(:domain_type, Constants::DOMAIN_TYPE, {:include_blank => 'Selecione'}, disabled: @current_user.room2?) %>
         </div>
       </div>
 
@@ -84,7 +84,7 @@
       <div class="row clearfix">
         <div class="left t6">
           <%= f.label :sas_data_model_status %>
-          <%= f.select(:sas_data_model_status, [ "ok",  "pendente", "" ] , {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
+          <%= f.select(:sas_data_model_status, Constants::SAS_DATA_MODEL_STATUS, {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
         <div class="left t6">
           <%= f.label :drs_bi_diagram_name %>
@@ -92,7 +92,7 @@
         </div>
         <div class="left t5">
           <%= f.label :drs_variable_status %>
-          <%= f.select(:drs_variable_status, [ "ok",  "pendente", "" ] , {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
+          <%= f.select(:drs_variable_status, Constants::DRS_VARIABLE_STATUS, {:include_blank => 'Selecione'}, disabled: @current_user.room2? ) %>
         </div>
       </div>
 
@@ -103,7 +103,7 @@
         </div>
         <div class="left t6">
           <%= f.label :variable_type %>
-          <%= f.select(:variable_type, [ "calculado",  "movimentação direta", "valor padrão" ] , {:include_blank => 'Selecione'}, disabled: @current_user.room1? ) %>
+          <%= f.select(:variable_type, Constants::VARIABLE_TYPE, {:include_blank => 'Selecione'}, disabled: @current_user.room1? ) %>
         </div>
         <div class="left t6">
           <%= f.label :default_value %>
@@ -136,9 +136,11 @@
               <%= f.submit "Salvar" %>
               <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:SALA2] %>
             <% end %>
+
             <% if can_reopen?(@variable) %>
               <%= f.button "Reabrir", name: 'update_status', value: "sala1" %>
             <% end %>
+
             <% if can_finish_room2?(@variable) %>
               <%= f.submit "Salvar" %>
               <%= f.button "Finalizar", name: 'update_status', value: Constants::STATUS[:PRODUCAO] %>

@@ -122,8 +122,8 @@ RSpec.describe ProcessidsController, :type => :controller do
   describe "POST create" do
     describe "with valid params" do
       before do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
       end
 
       it "creates a new Processid" do
@@ -173,8 +173,8 @@ RSpec.describe ProcessidsController, :type => :controller do
       end
 
       it "assigns the requested processid as @processid" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
 
         processid = Processid.create! valid_attributes
 
@@ -184,8 +184,8 @@ RSpec.describe ProcessidsController, :type => :controller do
       end
 
       it "assigns the requested processid as @processid and changes status" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
 
         processid = Processid.create! valid_attributes
 
@@ -196,8 +196,8 @@ RSpec.describe ProcessidsController, :type => :controller do
       end
 
       it "redirects to the processid" do
-        FactoryGirl.create(:variable, id: 1)
-        FactoryGirl.create(:variable, id: 2)
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
 
         processid = Processid.create! valid_attributes
 

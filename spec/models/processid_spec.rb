@@ -52,9 +52,9 @@ describe Processid do
   context ".set_variables" do
     context "on create" do
       before do
-        FactoryGirl.create(:variable, id: 1, name: "v1")
-        FactoryGirl.create(:variable, id: 5, name: "v2")
-        FactoryGirl.create(:variable, id: 9, name: "v3")
+        FactoryGirl.create(:variable, id: 1, name: "v1", current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 5, name: "v2", current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 9, name: "v3", current_user_id: current_user_id)
 
         @processid = FactoryGirl.create(:processid, current_user_id: current_user_id)
       end
@@ -84,6 +84,47 @@ describe Processid do
           it "saves variables" do
             @processid.set_variables(processid_params)
 
+            expect(@processid.variables.count).to eq 3
+          end
+        end
+      end
+    end
+
+    context "on update" do
+      before do
+        v1 = FactoryGirl.create(:variable, id:  1, name: "v1", current_user_id: current_user_id)
+        v2 = FactoryGirl.create(:variable, id:  5, name: "v2", current_user_id: current_user_id)
+        v3 = FactoryGirl.create(:variable, id:  9, name: "v3", current_user_id: current_user_id)
+        v4 = FactoryGirl.create(:variable, id: 15, name: "v4", current_user_id: current_user_id)
+        v5 = FactoryGirl.create(:variable, id: 19, name: "v5", current_user_id: current_user_id)
+        @processid = FactoryGirl.create(:processid, variables: [v1, v2], current_user_id: current_user_id)
+      end
+
+      context "with no variables selected" do
+        it "unsets saved variables" do
+          @processid.set_variables
+          @processid.save
+          expect(@processid.variables.count).to eq 0
+        end
+      end
+
+      context "with variables selected" do
+        context "with one variable selected" do
+          let(:processid_params) { {"5"=>"checked" } }
+
+          it "saves only last selected variables" do
+            @processid.set_variables(processid_params)
+            @processid.save
+            expect(@processid.variables.count).to eq 1
+          end
+        end
+
+        context "with many variable selected" do
+          let(:processid_params) { {"15"=>"checked", "19" => "checked", "9" => "checked"} }
+
+          it "saves variables" do
+            @processid.set_variables(processid_params)
+            @processid.save
             expect(@processid.variables.count).to eq 3
           end
         end

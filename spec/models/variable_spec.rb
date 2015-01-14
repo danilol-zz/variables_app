@@ -3,6 +3,25 @@ require 'rails_helper'
 describe Variable do
   let(:current_user_id) { FactoryGirl.create(:user).id }
 
+  describe 'attribute validations' do
+    subject { FactoryGirl.build(:variable, current_user_id: current_user_id)  }
+
+    context "when user is room1" do
+      it { expect(subject).to validate_inclusion_of(:data_type).in_array(Constants::DATA_TYPE) }
+      it { expect(subject).to validate_inclusion_of(:sas_update_periodicity).in_array(Constants::SAS_UPDATE_PERIODICITY) }
+      it { expect(subject).to validate_inclusion_of(:domain_type).in_array(Constants::DOMAIN_TYPE) }
+      it { expect(subject).to validate_inclusion_of(:sas_data_model_status).in_array(Constants::SAS_DATA_MODEL_STATUS) }
+      it { expect(subject).to validate_inclusion_of(:drs_variable_status).in_array(Constants::DRS_VARIABLE_STATUS) }
+      it { expect(subject).to_not validate_inclusion_of(:variable_type).in_array(Constants::VARIABLE_TYPE) }
+    end
+
+    context "when user is room2" do
+      subject { FactoryGirl.build(:variable, current_user_id: FactoryGirl.create(:user, profile: "sala2").id ) }
+
+      xit { expect(subject).to validate_inclusion_of(:variable_type).in_array(Constants::VARIABLE_TYPE) }
+    end
+  end
+
   describe "scopes" do
     before do
       @variable1 = FactoryGirl.create(:variable, status: Constants::STATUS[:SALA1],    updated_at: Time.now - 2.hour, current_user_id: current_user_id)
@@ -37,7 +56,7 @@ describe Variable do
       o1 = FactoryGirl.create(:origin_field, field_name: "o1", origin: origin, current_user_id: current_user_id)
       o2 = FactoryGirl.create(:origin_field, field_name: "o2", origin: origin, current_user_id: current_user_id)
       o3 = FactoryGirl.create(:origin_field, field_name: "o3", origin: origin, current_user_id: current_user_id)
-      @variable = FactoryGirl.create(:variable, origin_fields: [o1, o2, o3])
+      @variable = FactoryGirl.create(:variable, origin_fields: [o1, o2, o3], current_user_id: current_user_id)
     end
 
     it "has relationship" do
@@ -51,7 +70,7 @@ describe Variable do
       c1 = FactoryGirl.create(:campaign, name: "c1", current_user_id: current_user_id)
       c2 = FactoryGirl.create(:campaign, name: "c2", current_user_id: current_user_id)
       c3 = FactoryGirl.create(:campaign, name: "c3", current_user_id: current_user_id)
-      @variable = FactoryGirl.create(:variable)
+      @variable = FactoryGirl.create(:variable, current_user_id: current_user_id)
       @variable.campaigns << [c1, c2, c3]
     end
 
@@ -66,7 +85,7 @@ describe Variable do
       t1 = FactoryGirl.create(:table, name: "t1", current_user_id: current_user_id)
       t2 = FactoryGirl.create(:table, name: "t2", current_user_id: current_user_id)
       t3 = FactoryGirl.create(:table, name: "t3", current_user_id: current_user_id)
-      @variable = FactoryGirl.create(:variable)
+      @variable = FactoryGirl.create(:variable, current_user_id: current_user_id)
       @variable.tables << [t1, t2, t3]
     end
 
@@ -81,7 +100,7 @@ describe Variable do
       p1 = FactoryGirl.create(:processid, mnemonic: "p1", current_user_id: current_user_id)
       p2 = FactoryGirl.create(:processid, mnemonic: "p2", current_user_id: current_user_id)
       p3 = FactoryGirl.create(:processid, mnemonic: "p3", current_user_id: current_user_id)
-      @variable = FactoryGirl.create(:variable)
+      @variable = FactoryGirl.create(:variable, current_user_id: current_user_id)
       @variable.processids << [p1, p2, p3]
     end
 
@@ -93,7 +112,7 @@ describe Variable do
 
   context ".set_origin_fields" do
     context "on create" do
-      subject { FactoryGirl.create(:variable) }
+      subject { FactoryGirl.create(:variable, current_user_id: current_user_id) }
 
       context "with no origin_field selected" do
         it "not saves origin_field" do
@@ -143,7 +162,7 @@ describe Variable do
         o3 = FactoryGirl.create(:origin_field, id:  9, field_name: "o3", origin: origin, current_user_id: current_user_id)
         o4 = FactoryGirl.create(:origin_field, id: 15, field_name: "o4", origin: origin, current_user_id: current_user_id)
         o5 = FactoryGirl.create(:origin_field, id: 19, field_name: "o5", origin: origin, current_user_id: current_user_id)
-        @variable = FactoryGirl.create(:variable, origin_fields: [o1, o2])
+        @variable = FactoryGirl.create(:variable, origin_fields: [o1, o2], current_user_id: current_user_id)
       end
 
       context "with no origin_fields selected" do
@@ -180,10 +199,10 @@ describe Variable do
 
   context ".code" do
     before do
-      @a = FactoryGirl.create(:variable, id: 1)
-      @b = FactoryGirl.create(:variable, id: 10)
-      @c = FactoryGirl.create(:variable, id: 997)
-      @d = FactoryGirl.create(:variable, id: 1000)
+      @a = FactoryGirl.create(:variable, id: 1,    current_user_id: current_user_id)
+      @b = FactoryGirl.create(:variable, id: 10,   current_user_id: current_user_id)
+      @c = FactoryGirl.create(:variable, id: 997,  current_user_id: current_user_id)
+      @d = FactoryGirl.create(:variable, id: 1000, current_user_id: current_user_id)
     end
 
     it "generates codes successfully" do

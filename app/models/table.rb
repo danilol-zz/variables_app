@@ -20,6 +20,13 @@ class Table < ActiveRecord::Base
   validates :table_key,  presence: true
   validates :table_type, presence: true, inclusion: { in: Constants::TABLE_TYPE }
 
+  DATA_TYPE              = [ "QTD", "Data", "Valor", "Indicador", "Nome", "Código", "Porcentagem", "Número" ]
+  SAS_UPDATE_PERIODICITY = [ "diária", "semanal", "quinzenal", "mensal", "anual", "exporádica", "outro"]
+  DOMAIN_TYPE            = [ "interno",  "externo", "fixo" ]
+  SAS_DATA_MODEL_STATUS  = [ "Ok",  "Pendente"]
+  DRS_VARIABLE_STATUS    = [ "Ok",  "Pendente"]
+  VARIABLE_TYPE          = [ "calculado",  "movimentação direta", "valor padrão" ]
+
   def code
     "TA#{self.id.to_s.rjust(3,'0')}"
   end

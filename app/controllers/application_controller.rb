@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
   def select2_fix( ids_list )
     clean_ids_list = ids_list.gsub("|,","").gsub("|","")
     result = clean_ids_list.split(",")
-    return result
   end
 
   def ensure_authentication
