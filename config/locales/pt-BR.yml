@@ -335,7 +335,6 @@ pt:
             variable_type:
               blank: não pode ser vazio!
               inclusion: deve ser calculado, movimentação direta, valor padrão
-
         origin_field:
           attributes:
             decimal:
@@ -354,6 +353,9 @@ pt:
               blank: não pode ser vazio!
               inclusion: não pode ser vazio!
             cd5_variable_number:
+              blank: não pode ser vazio!
+              taken: já cadastrado!
+            cd5_output_order:
               blank: não pode ser vazio!
             position:
               blank: não pode ser vazio!

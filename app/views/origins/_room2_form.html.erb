@@ -107,7 +107,7 @@
         </div>
         <div class="left t5">
           <%= f.label :mainframe_storage_type %>
-          <%= f.select(:mainframe_storage_type,  ["Disco", "Fita"], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:mainframe_storage_type,  Constants::MAINFRAME_STORAGE_TYPE, {:include_blank => 'Selecione'}) %>
         </div>
       </div>
 
