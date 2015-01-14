@@ -127,21 +127,19 @@ RSpec.describe TablesController, :type => :controller do
 
       it "creates a new Table" do
         expect {
-          post :create, {:table => valid_attributes}, valid_session
+          post :create, {:table => valid_attributes, variable_ids: ["1", "2"]}, valid_session
         }.to change(Table, :count).by(1)
       end
 
       it "assigns a newly created table as @table" do
-        post :create, {:table => valid_attributes}, valid_session
-
+        post :create, {:table => valid_attributes, variable_ids: ["1", "2"]}, valid_session
         expect(assigns(:table)).to be_a(Table)
         expect(assigns(:table)).to be_persisted
         expect(assigns(:table).status).to eq 'sala1'
       end
 
       it "redirects to the created table" do
-        post :create, {:table => valid_attributes}, valid_session
-
+        post :create, {:table => valid_attributes, variable_ids: ["1", "2"]}, valid_session
         expect(response).to redirect_to(root_path({status: 'table', notice: 'Tabela criada com sucesso'}))
       end
     end
@@ -149,6 +147,11 @@ RSpec.describe TablesController, :type => :controller do
 
   describe "PUT update" do
     describe "with valid params" do
+      before do
+        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
+      end
+
       let(:new_attributes) {
         new_attributes = {
           :logic_table_name => 'teste',
@@ -175,45 +178,87 @@ RSpec.describe TablesController, :type => :controller do
       }
 
       it "updates the requested table" do
-        table = Table.create! valid_attributes
-
-        put :update, {:id => table.to_param, :table => new_attributes}, valid_session
+        table = Table.create! valid_attributes.merge( variable_ids: ["1", "2"] )
+        put :update, {:id           => table.to_param,
+                      :table        => new_attributes,
+                      variable_ids: "|,1,2"
+        }, valid_session
+        #put :update, {:id => table.to_param, :table => new_attributes}, valid_session
       end
 
       it "assigns the requested table as @table" do
-        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
-        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
+        table = Table.create! valid_attributes.merge( variable_ids: ["1", "2"] )
 
-        table = Table.create! valid_attributes
-
-        put :update, {:id => table.to_param, :table => valid_attributes}, valid_session
-
+        put :update, {
+          :id => table.to_param,
+          :table => valid_attributes,
+          variable_ids: "|,1,2"
+        }, valid_session
         expect(assigns(:table)).to eq(table)
       end
 
       it "assigns the requested table as @table and changes status" do
-        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
-        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
-
-
-        table = Table.create! valid_attributes
-
-        put :update, { id: table.to_param, table: valid_attributes, update_status: "sala2" }, valid_session
-
+        table = Table.create! valid_attributes.merge( variable_ids: ["1", "2"] )
+        put :update, { id: table.to_param,
+                       table: valid_attributes,
+                       update_status: "sala2",
+                       variable_ids: "|,1,2"
+        }, valid_session
         expect(assigns(:table)).to eq(table)
         expect(assigns(:table).status).to eq 'sala2'
       end
 
       it "redirects to the table" do
-        FactoryGirl.create(:variable, id: 1, current_user_id: current_user_id)
-        FactoryGirl.create(:variable, id: 2, current_user_id: current_user_id)
-
-        table = Table.create! valid_attributes
-
-        put :update, {:id => table.to_param, :table => valid_attributes}, valid_session
-
+        table = Table.create! valid_attributes.merge( variable_ids: ["1", "2"] )
+        put :update, {
+          :id => table.to_param,
+          :table => valid_attributes,
+          variable_ids: "|,1,2"
+        }, valid_session
         expect(response).to redirect_to(root_path({status: 'table', notice: 'Tabela atualizada com sucesso'}))
       end
     end
   end
+
+  describe "GET variables search" do
+    describe "with valid params" do
+      before do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+      end
+      it "returns successfully" do
+        table = Table.create!(
+          valid_attributes.merge( variable_ids: ["1", "2"] )
+        )
+        get :variables_search, {:id => table.to_param}, valid_session
+        expect(response).to be_success
+      end
+      it "returns 2 items" do
+        table = Table.create!(
+          valid_attributes.merge( variable_ids: ["1", "2"] )
+        )
+        get :variables_search, {:id => table.to_param}, valid_session
+        expect(JSON.parse(response.body).length).to eq(2)
+      end
+    end
+    describe "with invalid params" do
+      before do
+        FactoryGirl.create(:variable, id: 1)
+        FactoryGirl.create(:variable, id: 2)
+      end
+      describe "without params" do
+        it "returns successfully" do
+          get :variables_search, valid_session
+          expect(response).to be_success
+        end
+        it "returns 2 items" do
+          get :variables_search, valid_session
+          expect(JSON.parse(response.body).length).to eq(2)
+        end
+      end
+    end
+
+  end
+
+
 end

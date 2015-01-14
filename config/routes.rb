@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   match 'variable_name_search'            , to: 'variables#name_search'     , :via => :get
   match 'campaign_variables_search/(:id)' , to: 'campaigns#variables_search', :via => :get
+  match 'table_variables_search/(:id)'    , to: 'tables#variables_search'   , :via => :get
 
   get "user/index"
   get "/login"             => "users#login"

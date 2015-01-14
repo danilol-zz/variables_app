@@ -4,6 +4,17 @@ class TablesController < ApplicationController
   before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
 
+  def variables_search
+    result = []
+    y = {}
+    if params[:id].present?
+      Table.find(params[:id]).variables.each { |r| y[:id] = r.id; y[:text] = r.name; result << y; y = {} }
+    else
+      Variable.all.each { |r| y[:id] = r.id; y[:text] = r.name; result << y; y = {} }
+    end
+    render json: result
+  end
+
   def index
     @tables = Table.all.paginate(page: params[:page], per_page: 10)
   end
@@ -22,10 +33,12 @@ class TablesController < ApplicationController
   end
 
   def create
-    @table = Table.new(table_params.merge(status: Constants::STATUS[:SALA1]))
-
-    @table.set_variables(params[:table][:variable_list])
-
+    @table = Table.new(table_params
+      .merge(status: Constants::STATUS[:SALA1])
+      .merge("variable_ids" => select2_fix(params[:variable_ids][0]) )
+    )
+    #@table = Table.new(table_params.merge(status: Constants::STATUS[:SALA1]))
+    #@table.set_variables(params[:table][:variable_list])
     respond_to do |format|
       if @table.save
         format.html { redirect_to root_path({ status: "table", notice: "#{Table.model_name.human.capitalize} criada com sucesso" }) }
@@ -39,14 +52,13 @@ class TablesController < ApplicationController
 
   def update
     status = params[:update_status] ? { status: params[:update_status] } : {}
-
-    if params[:table][:variable_list]
-      @table.variables.delete_all
-      @table.set_variables(params[:table][:variable_list])
-    end
-
+    #if params[:table][:variable_list]
+    #  @table.variables.delete_all
+    #  @table.set_variables(params[:table][:variable_list])
+    #end
     respond_to do |format|
-      if @table.update(table_params.merge(status))
+      if @table.update(table_params.merge(status).
+        merge("variable_ids" => select2_fix(params[:variable_ids][0]) ) )
         format.html { redirect_to root_path({ status: 'table', notice: "#{Table.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @table }
       else

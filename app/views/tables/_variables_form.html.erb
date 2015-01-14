@@ -1,16 +1,12 @@
 <section class="formulario">
   <% if @current_user.room1? %>
     <h3 class="line-bottom">>>> Selecione abaixo as <span class="destaque"><%= Variable.model_name.human.capitalize.pluralize %></span> para a <%= Table.model_name.human.capitalize %></h3>
-    <fieldset>
-      <div class="row clearfix">
-        <% @variables.each do |var| %>
-          <p class="left" style="font-family: courier new,monospace;">
-            <%= check_box_tag( "table[variable_list][#{var.id}]", "checked", @table.variables.detect{|v| v == var} ) %>
-            <%= truncate("#{var.name}".ljust(30,'.').gsub(' ','.'), length: 30) %>
-          </p>
-        <% end %>
-      </div>
-    </fieldset>
+    <div class="row clearfix">
+      <input id="table_id"  type="hidden" value="<%= @table.id %>">
+      </input>
+      <input id="variables" type="hidden" value="|" name="variable_ids[]">
+      </input>
+    </div>
   <% else %>
     <h3 class="line-bottom"><span class="destaque"><%= Variable.model_name.human.capitalize.pluralize %></span> para a <%= Table.model_name.human.capitalize %></h3>
     <fieldset>
