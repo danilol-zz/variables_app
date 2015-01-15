@@ -33,11 +33,11 @@
         </div>
         <div class="left t9">
           <%= f.label :fmbase_format_type %>
-          <%= f.text_field :fmbase_format_type, :disabled => true %>
+          <%= f.select(:fmbase_format_type, Constants::FMBASE_FORMAT_TYPE, {:include_blank => 'Selecione'}, disabled: true) %>
         </div>
         <div class="left t9">
           <%= f.label :generic_data_type %>
-          <%= f.text_field :generic_data_type, :disabled => true %>
+          <%= f.select(:generic_data_type, Constants::GENERIC_DATA_TYPE, {:include_blank => 'Selecione'}, disabled: true) %>
         </div>
       </div>
 
@@ -108,11 +108,11 @@
         </div>
         <div class="left t6">
           <%= f.label :cd5_origin_format %>
-          <%= f.text_field :cd5_origin_format, disabled: @current_user.room1?  %>
+          <%= f.select(:cd5_origin_format, Constants::CD5_ORIGIN_FORMAT, {:include_blank => 'Selecione'}, disabled: @current_user.room1?) %>
         </div>
         <div class="left t6">
           <%= f.label :cd5_origin_format_desc %>
-          <%= f.text_field :cd5_origin_format_desc, disabled: @current_user.room1?  %>
+          <%= f.select(:cd5_origin_format_desc, Constants::CD5_ORIGIN_FORMAT_DESC, {:include_blank => 'Selecione'}, disabled: @current_user.room1?) %>
         </div>
       </div>
 

@@ -8,10 +8,14 @@ module ApplicationHelper
   end
 
   def entity_path
-    "#{@filter.to_s.downcase.pluralize}"
+    @filter.to_s.downcase.pluralize
   end
 
   def capitalized_name(entity = nil)
     t("activerecord.models.#{entity.to_s.downcase}.one")
+  end
+
+  def status_screen_name(name = nil)
+    name.to_s[0..19]
   end
 end

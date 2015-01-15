@@ -42,7 +42,7 @@
         </div>
         <div class="left t8">
           <%= f.label :base_type %>
-          <%= f.select(:base_type,  ["Arquivo Mainframe", "Tabela Mainframe", "Base Hadoop", "Outro"], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:base_type,  Constants::BASE_TYPE, {:include_blank => 'Selecione'}) %>
         </div>
         <div class="left t10">
           <%= f.label :book_mainframe %>
@@ -53,7 +53,7 @@
       <div class="row clearfix">
         <div class="left t8">
           <%= f.label :periodicity %>
-          <%= f.select(:periodicity,  ["Diária", "Semanal", "Quinzenal", "Mensal", "Anual", "Exporádica", "Outro"], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:periodicity,  Constants::PERIODICITY, {:include_blank => 'Selecione'}) %>
         </div>
         <div class="left t8">
           <%= f.label :periodicity_details %>
@@ -61,21 +61,20 @@
         </div>
         <div class="left t4">
           <%= f.label :data_retention_type %>
-          <%= f.select(:data_retention_type,  ["Movimento do dia", "Apenas registros alterados", "Histórica", "Acumulado de um período"], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:data_retention_type,  Constants::DATA_RETENTION_TYPE, {:include_blank => 'Selecione'}) %>
         </div>
       </div>
 
       <div class="row clearfix">
         <div class="left t4">
           <%= f.label :extractor_file_type %>
-          <%= f.select(:extractor_file_type,  ["Novo", "Alterado"], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:extractor_file_type,  Constants::EXTRACTOR_FILE_TYPE, {:include_blank => 'Selecione'}) %>
         </div>
         <div class="left t3">
           <%= f.label :room_1_notes %>
           <%= f.text_area :room_1_notes, rows: 5 %>
         </div>
       </div>
-
 
       <div class="row clearfix">
         <div class="left t4">
@@ -84,10 +83,9 @@
         </div>
         <div class="left t4">
           <%= f.label :dmt_classification %>
-          <%= f.select(:dmt_classification,  ["Atendido", "Pendente Revisão","Não atendido"], {:include_blank => 'Selecione'}) %>
+          <%= f.select(:dmt_classification,  Constants::DMT_CLASSIFICATION, {:include_blank => 'Selecione'}) %>
         </div>
       </div>
-
     </fieldset>
 
     <section>
