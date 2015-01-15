@@ -37,10 +37,6 @@ Then(/^I should be granted access to VariablesApp$/) do
   expect(page).to have_content "Olá"
 end
 
-Then(/^Show me the page$/) do
-  puts response.body.inspect
-end
-
 Then(/^I should not be logged$/) do
   expect(page).to have_content "Faça o login para entrar no sistema, por favor."
 end

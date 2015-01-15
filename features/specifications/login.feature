@@ -19,7 +19,3 @@ Feature: Administrator authentication
      When I click to logout
      Then I should not be logged
 
-  #Scenario: Login with invalid password
-    #Given I am not logged in
-    #When I try to sign in with invalid password multiple times
-    #Then I should be informed that my account is locked
