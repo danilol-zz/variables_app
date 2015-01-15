@@ -118,19 +118,26 @@ RSpec.describe VariablesController, :type => :controller do
 
   describe "POST create" do
     describe "with valid params" do
+      before do
+        FactoryGirl.create(:origin_field, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:origin_field, id: 2, current_user_id: current_user_id)
+      end
+
       it "creates a new Variable" do
-        expect { post :create, {:variable => valid_attributes}, valid_session }.to change(Variable, :count).by(1)
+        expect {
+          post :create, {:variable => valid_attributes, origin_field_ids: ["1", "2"]}, valid_session
+        }.to change(Variable, :count).by(1)
       end
 
       it "assigns a newly created variable as @variable" do
-        post :create, {:variable => valid_attributes}, valid_session
+        post :create, {:variable => valid_attributes, origin_field_ids: ["1", "2"]}, valid_session
         expect(assigns(:variable)).to be_a(Variable)
         expect(assigns(:variable)).to be_persisted
         expect(assigns(:variable).status).to eq 'sala1'
       end
 
       it "redirects to the created variable" do
-        post :create, {:variable => valid_attributes}, valid_session
+        post :create, {:variable => valid_attributes, origin_field_ids: ["1", "2"]}, valid_session
         expect(response).to redirect_to(root_path({status: 'variable', notice: 'Variável criada com sucesso'}))
       end
     end
@@ -142,14 +149,19 @@ RSpec.describe VariablesController, :type => :controller do
     #  end
 
     #  it "re-renders the 'new' template" do
-    #    post :create, {:variable => invalid_attributes}, valid_session
-    #    expect(response).to render_template("new")
+    #     post :create, {:variable => invalid_attributes}, valid_session
+    #     expect(response).to render_template("new")
     #  end
     #end
   end
 
   describe "PUT update" do
     describe "with valid params" do
+      before do
+        FactoryGirl.create(:origin_field, id: 1, current_user_id: current_user_id)
+        FactoryGirl.create(:origin_field, id: 2, current_user_id: current_user_id)
+      end
+
       let(:new_attributes) {
         new_attributes = {
           :name => 'teste',
@@ -177,28 +189,43 @@ RSpec.describe VariablesController, :type => :controller do
       }
 
       it "updates the requested variable" do
-        variable = Variable.create! valid_attributes
-        put :update, {:id => variable.to_param, :variable => new_attributes}, valid_session
+        variable = Variable.create! valid_attributes.merge( origin_field_ids: ["1", "2"] )
+        put :update, {:id           => variable.to_param,
+                      :variable     => new_attributes,
+                      origin_field_ids: "|,1,2"
+        }, valid_session
         variable.reload
-        #skip("Add assertions for updated state")
       end
 
       it "assigns the requested variable as @variable" do
-        variable = Variable.create! valid_attributes
-        put :update, {:id => variable.to_param, :variable => valid_attributes}, valid_session
+        variable = Variable.create! valid_attributes.merge( origin_field_ids: ["1", "2"] )
+
+        put :update, {
+          :id       => variable.to_param,
+          :variable => valid_attributes,
+          origin_field_ids: "|,1,2"
+        }, valid_session
         expect(assigns(:variable)).to eq(variable)
       end
 
       it "assigns the requested variable as @variable and changes status" do
-        variable = Variable.create! valid_attributes
-        put :update, { id: variable.to_param, variable: valid_attributes, update_status: "sala2" }, valid_session
+        variable = Variable.create! valid_attributes.merge( origin_field_ids: ["1", "2"] )
+        put :update, { id: variable.to_param,
+                       variable: valid_attributes,
+                       update_status: "sala2",
+                       origin_field_ids: "|,1,2"
+        }, valid_session
         expect(assigns(:variable)).to eq(variable)
         expect(assigns(:variable).status).to eq 'sala2'
       end
 
       it "redirects to the variable" do
-        variable = Variable.create! valid_attributes
-        put :update, {:id => variable.to_param, :variable => valid_attributes}, valid_session
+        variable = Variable.create! valid_attributes.merge( origin_field_ids: ["1", "2"] )
+        put :update, {
+          :id => variable.to_param,
+          :variable => valid_attributes,
+          origin_field_ids: "|,1,2"
+        }, valid_session
         expect(response).to redirect_to(root_path({status: 'variable', notice: 'Variável atualizada com sucesso'}))
       end
     end
@@ -266,4 +293,47 @@ RSpec.describe VariablesController, :type => :controller do
       end
     end
   end
+
+  describe "GET origin fields search" do
+    before do
+      @origin = FactoryGirl.create(:origin, current_user_id: current_user_id )
+      @origin_field1 = FactoryGirl.create(:origin_field, id: 1, origin_id: @origin.id, field_name: "MyString1", current_user_id: current_user_id)
+      @origin_field2 = FactoryGirl.create(:origin_field, id: 2, origin_id: @origin.id, field_name: "MyString2", current_user_id: current_user_id)
+      @origin_field3 = FactoryGirl.create(:origin_field, id: 3, origin_id: @origin.id, field_name: "MyString1", current_user_id: current_user_id)
+      @origin_field4 = FactoryGirl.create(:origin_field, id: 4, origin_id: @origin.id, field_name: "MyString2", current_user_id: current_user_id)
+    end
+    describe "with valid params" do
+      it "returns successfully" do
+        variable = Variable.create!(
+          valid_attributes.merge( origin_fields: [@origin_field1, @origin_field2] )
+        )
+        get :origin_fields_search, {:id => variable.to_param}, valid_session
+        expect(response).to be_success
+      end
+      it "returns 2 items" do
+        variable = Variable.create!(
+          valid_attributes.merge( origin_fields: [@origin_field1, @origin_field2] )
+        )
+        get :origin_fields_search, {:id => variable.to_param}, valid_session
+        expect(JSON.parse(response.body).length).to eq(2)
+      end
+    end
+    describe "with invalid params" do
+      it "returns successfully" do
+        variable = Variable.create!(
+          valid_attributes.merge( origin_fields: [@origin_field1, @origin_field2] )
+        )
+        get :origin_fields_search, valid_session
+        expect(response).to be_success
+      end
+      it "returns 2 items" do
+        variable = Variable.create!(
+          valid_attributes.merge( origin_fields: [@origin_field1, @origin_field2] )
+        )
+        get :origin_fields_search, valid_session
+        expect(JSON.parse(response.body).length).to eq(4)
+      end
+    end
+  end
+
 end

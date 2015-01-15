@@ -30,7 +30,7 @@
       <% @origin.origin_fields.each do |origin_field| %>
         <tr>
           <td>
-            <%= link_to origin_field.field_name, get_origin_field_to_update_path(origin_field.id) %>
+            <%= link_to origin_field.field_name, get_origin_field_to_update_path(id: origin_field.id) %>
           </td>
           <td><%= origin_field.origin_pic %></td>
           <td><%= origin_field.data_type %></td>

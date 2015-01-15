@@ -316,4 +316,51 @@ RSpec.describe OriginsController, type: :controller do
       end
     end
   end
+
+  describe "GET name search" do
+    before do
+      @origin = FactoryGirl.create(:origin, current_user_id: current_user_id )
+      FactoryGirl.create(:origin_field, id: 1, origin_id: @origin.id, field_name: "MyString1", current_user_id: current_user_id)
+      FactoryGirl.create(:origin_field, id: 2, origin_id: @origin.id, field_name: "MyString2", current_user_id: current_user_id)
+    end
+    context "with valid params" do
+      context "with params" do
+        it "returns successfully" do
+          get :name_search, {:term => 'MyString1'}, valid_session
+          expect(response).to be_success
+        end
+
+        it "returns 2 items" do
+          get :name_search, {:term => 'MyString'}, valid_session
+          expect(JSON.parse(response.body).length).to eq(2)
+        end
+      end
+
+      context "without params" do
+        it "returns successfully" do
+          get :name_search, valid_session
+          expect(response).to be_success
+        end
+
+        it "returns 2 items" do
+          get :name_search, valid_session
+          expect(JSON.parse(response.body).length).to eq(2)
+        end
+      end
+    end
+
+    context "with invalid params" do
+      context "with params" do
+        it "does not return" do
+          get :name_search, {:term => 'DataNotFound'}, valid_session
+          expect(response).to be_success
+        end
+        it "returns 0 items" do
+          get :name_search, {:term => 'DataNotFound'}, valid_session
+          expect(JSON.parse(response.body).length).to eq(0)
+        end
+      end
+    end
+  end
+
 end

@@ -3,6 +3,15 @@ class OriginsController < ApplicationController
   before_action :set_query_param, only: [:search]
   before_filter :ensure_authentication
 
+  def name_search
+    if params[:term].present?
+      @origin_fields = OriginField.where( "origin_fields.field_name like ?", "%#{params[:term]}%" )
+    else
+      @origin_fields = OriginField.all
+    end
+    render json: @origin_fields
+  end
+
   def index
     @origins = Origin.all.paginate(page: params[:page], per_page: 10)
   end

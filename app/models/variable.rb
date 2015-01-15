@@ -4,7 +4,7 @@ class Variable < ActiveRecord::Base
   has_and_belongs_to_many :campaigns
   has_and_belongs_to_many :tables
   has_and_belongs_to_many :processids
-  has_and_belongs_to_many :origin_fields
+  has_and_belongs_to_many :origin_fields, validate: false
 
   scope :draft,       -> { where(status: Constants::STATUS[:SALA1]) }
   scope :development, -> { where(status: Constants::STATUS[:SALA2]) }

@@ -13,6 +13,18 @@ class VariablesController < ApplicationController
     render json: @variables
   end
 
+  def origin_fields_search
+    result = []
+    y = {}
+    if params[:id].present?
+      Variable.find(params[:id]).origin_fields.each { |r| y[:id] = r.id; y[:text] = r.field_name; result << y; y = {} }
+    else
+      OriginField.all.each { |r| y[:id] = r.id; y[:text] = r.field_name; result << y; y = {} }
+    end
+    render json: result
+  end
+
+
   def index
     @variables = Variable.all.paginate(page: params[:page], per_page: 10)
   end
@@ -31,10 +43,12 @@ class VariablesController < ApplicationController
   end
 
   def create
-    @variable = Variable.new(variable_params.merge(status: Constants::STATUS[:SALA1]))
-
-    @variable.set_origin_fields(params[:variable][:origin_fields_list], current_user.id)
-
+    @variable = Variable.new(variable_params
+      .merge(status: Constants::STATUS[:SALA1])
+      .merge("origin_field_ids" => select2_fix(params[:origin_field_ids][0]))
+    )
+    #@variable.set_origin_fields(params[:variable][:origin_fields_list], current_user.id)
+    #@variable.set_origin_fields(select2_fix(params[:origin_field_ids][0]), current_user.id)
     respond_to do |format|
       if @variable.save
         format.html { redirect_to root_path({ status: "variable", notice: "#{Variable.model_name.human.capitalize} criada com sucesso" } ) }
@@ -48,14 +62,13 @@ class VariablesController < ApplicationController
 
   def update
     status = params[:update_status] ? { status: params[:update_status] } : {}
-
-    if params[:variable][:origin_fields_list]
-      @variable.origin_fields.delete_all
-      @variable.set_origin_fields(params[:variable][:origin_fields_list])
-    end
-
+    #if params[:variable][:origin_fields_list]
+    #  @variable.origin_fields.delete_all
+    #  @variable.set_origin_fields(params[:variable][:origin_fields_list])
+    #end
     respond_to do |format|
-      if @variable.update(variable_params.merge(status))
+      if @variable.update(variable_params.merge(status)
+        .merge("origin_field_ids" => select2_fix(params[:origin_field_ids][0]) ) )
         format.html { redirect_to root_path({ status: "variable", notice: "#{Variable.model_name.human.capitalize} atualizada com sucesso" }) }
         format.json { render :show, status: :ok, location: @variable }
       else

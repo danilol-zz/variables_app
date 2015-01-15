@@ -37,8 +37,6 @@ class TablesController < ApplicationController
       .merge(status: Constants::STATUS[:SALA1])
       .merge("variable_ids" => select2_fix(params[:variable_ids][0]) )
     )
-    #@table = Table.new(table_params.merge(status: Constants::STATUS[:SALA1]))
-    #@table.set_variables(params[:table][:variable_list])
     respond_to do |format|
       if @table.save
         format.html { redirect_to root_path({ status: "table", notice: "#{Table.model_name.human.capitalize} criada com sucesso" }) }
@@ -52,10 +50,6 @@ class TablesController < ApplicationController
 
   def update
     status = params[:update_status] ? { status: params[:update_status] } : {}
-    #if params[:table][:variable_list]
-    #  @table.variables.delete_all
-    #  @table.set_variables(params[:table][:variable_list])
-    #end
     respond_to do |format|
       if @table.update(table_params.merge(status).
         merge("variable_ids" => select2_fix(params[:variable_ids][0]) ) )

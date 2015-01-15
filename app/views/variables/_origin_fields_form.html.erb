@@ -3,12 +3,10 @@
     <h3 class="line-bottom">>>> Selecione abaixo os <span class="destaque"><%= OriginField.model_name.human.capitalize.pluralize %></span> para a <%= Variable.model_name.human.capitalize %></h3>
     <fieldset>
       <div class="row clearfix">
-        <% @origin_fields.each do |field| %>
-          <p class="left" style="font-family: courier new,monospace;">
-            <%= check_box_tag( "variable[origin_fields_list][#{field.id}]", "checked", @variable.origin_fields.detect{|o| o == field} ) %>
-            <%= truncate("#{field.origin.file_name}:#{field.field_name}".ljust(30,'.').gsub(' ','.'), length: 30) %>
-          </p>
-        <% end %>
+        <input id="variable_id"            type="hidden" value="<%= @variable.id %>">
+        </input>
+        <input id="variable_origin_fields" type="hidden" value="|" name="origin_field_ids[]">
+        </input>
       </div>
     </fieldset>
   <% else %>
