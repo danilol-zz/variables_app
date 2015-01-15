@@ -6,22 +6,22 @@
         <div class="botoes clearfix">
           <% if @current_user.room1? %>
             <div class="row clearfix">
-              <%= link_to capitalized_name(Origin),   new_origin_path,   :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Origin),   new_origin_path,   id: "new_origin",   :class => "btn btn-secundario left txt-no-transform" %>
             </div>
             <div class="row clearfix">
-              <%= link_to capitalized_name(Campaign), new_campaign_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Campaign), new_campaign_path, id: "new_campaign", :class => "btn btn-secundario left txt-no-transform" %>
             </div>
             <div class="row clearfix">
-              <%= link_to capitalized_name(Variable), new_variable_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Variable), new_variable_path, id: "new_variable", :class => "btn btn-secundario left txt-no-transform" %>
             </div>
             <div class="row clearfix">
-              <%= link_to capitalized_name(Table),    new_table_path,    :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Table),    new_table_path,    id: "new_table",    :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>
 
           <% if @current_user.room2? %>
             <div class="row clearfix">
-              <%= link_to capitalized_name(Processid), new_processid_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to capitalized_name(Processid), new_processid_path, id: "new_processid", :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           <% end %>
 
@@ -33,7 +33,7 @@
           <h4>Utilitários</h4>
           <div class="botoes clearfix">
             <div class="row clearfix">
-              <%= link_to "Exportar", export_script_path, :class => "btn btn-secundario left txt-no-transform" %>
+              <%= link_to "Exportar", export_script_path, id: "export", :class => "btn btn-secundario left txt-no-transform" %>
             </div>
           </div>
         </div>

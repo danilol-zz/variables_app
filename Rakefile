@@ -4,3 +4,7 @@
 require File.expand_path('../config/application', __FILE__)
 
 Rails.application.load_tasks
+
+unless ['cucumber', 'production'].include? Rails.env
+  task default: [:spec, :cucumber]
+end

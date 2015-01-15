@@ -9,7 +9,7 @@ end
 
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
-if ENV['HEADLESS']
+if ENV['BROWSER']
   Capybara.default_driver = Capybara.javascript_driver = :selenium
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(app, :browser => :chrome)
