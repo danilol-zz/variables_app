@@ -31,4 +31,12 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'capybara-page-object'
+  gem 'cucumber-rails'
+  gem 'selenium'
+  gem 'selenium-webdriver'
+  gem 'headless'
+  gem 'chromedriver-helper'
 end
