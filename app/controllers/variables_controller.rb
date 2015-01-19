@@ -17,7 +17,7 @@ class VariablesController < ApplicationController
     result = []
     y = {}
     if params[:id].present?
-      Variable.find(params[:id]).origin_fields.each { |r| y[:id] = r.id; y[:text] = r.field_name; result << y; y = {} }
+      Variable.find(params[:id]).origin_fields.each { |r| y[:id] = r.id; y[:text] = r.origin_file_field_name; result << y; y = {} }
     else
       OriginField.all.each { |r| y[:id] = r.id; y[:text] = r.field_name; result << y; y = {} }
     end

@@ -5,7 +5,7 @@ class OriginsController < ApplicationController
 
   def name_search
     if params[:term].present?
-      @origin_fields = OriginField.where( "origin_fields.field_name like ?", "%#{params[:term]}%" )
+      @origin_fields = OriginField.where( "origin_fields.origin_file_field_name like ?", "%#{params[:term]}%" )
     else
       @origin_fields = OriginField.all
     end
