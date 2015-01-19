@@ -1,5 +1,5 @@
-Feature: Table management
-  In order to handle with tables
+Feature: Table create
+  In order to create tables
   As a user
   I want it to work properly
 
