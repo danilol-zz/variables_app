@@ -9,6 +9,7 @@ describe OriginField do
 
     describe 'when user profile is room1' do
       it { expect(subject).to validate_presence_of(:field_name) }
+#      it { expect(subject).to validate_presence_of(:origin_file_field_name) }
       it { expect(subject).to validate_presence_of(:data_type) }
       it { expect(subject).to validate_inclusion_of(:data_type).in_array(Constants::DATA_TYPES) }
       it { expect(subject).to ensure_length_of(:mask).is_at_most(30) }
@@ -62,7 +63,6 @@ describe OriginField do
       v1 = FactoryGirl.create(:variable, name: "v1", current_user_id: current_user_id)
       v2 = FactoryGirl.create(:variable, name: "v2", current_user_id: current_user_id)
       v3 = FactoryGirl.create(:variable, name: "v3", current_user_id: current_user_id)
-
       @origin_field = FactoryGirl.create(:origin_field, variables: [v1, v2, v3], current_user_id: current_user_id)
     end
 
@@ -193,6 +193,16 @@ describe OriginField do
   end
 
   describe "before_save calculate fields" do
+    context "define origin_file_field_name concatenate origin.file_name and field_name" do
+      before do
+        origin        = FactoryGirl.create(:origin      , file_name: "CD5.BASE.FCC0I1", current_user_id: current_user_id)
+        @origin_field = FactoryGirl.create(:origin_field, origin_id: origin.id, field_name:"cod_indc_vip"   , current_user_id: current_user_id)
+      end
+      it "when origin.file_name and origin_field.field_name are fill out" do
+        expect(@origin_field.origin_file_field_name).to eq "CD5.BASE.FCC0I1:cod_indc_vip"
+      end
+    end
+
     context "define cd5_variable_name concatenate cd5_variable_number and field_name" do
       let(:o) { FactoryGirl.create(:origin_field, cd5_variable_number: 555, field_name: "TXT_VALUE", current_user_id: current_user_id) }
 

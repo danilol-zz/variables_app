@@ -9,6 +9,7 @@ class OriginField < ActiveRecord::Base
   before_save :calculate_field_default_value
   before_save :calculate_field_cd5_format_desc
   before_save :calculate_field_cd5_format
+  before_save :calculate_origin_file_field_name
 
   belongs_to :origin
   has_and_belongs_to_many :variables
@@ -26,6 +27,12 @@ class OriginField < ActiveRecord::Base
   validates :cd5_variable_number, presence: true, if: lambda { current_user_is_room2? && !self.is_key && self.will_use }
   validates :cd5_variable_number, uniqueness: true, if: :current_user_is_room2?
   validates :cd5_output_order, presence: true, if: lambda { current_user_is_room2? && self.cd5_variable_number }
+
+  def calculate_origin_file_field_name
+    unless self.origin.nil?
+      self.origin_file_field_name = self.origin.file_name + ':' + field_name
+    end
+  end
 
   def self.text_parser(origin_type, text_value, origin_id, current_user_id)
     text_value = text_value.to_s.gsub(/\n/, '').gsub(/\r/, '')

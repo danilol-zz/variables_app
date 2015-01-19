@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :origin_field do
     field_name "MyString"
+    origin_file_field_name "MyString"
     origin_pic "MyString"
     data_type "Numérico"
     decimal 1

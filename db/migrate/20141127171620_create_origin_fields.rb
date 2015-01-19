@@ -2,6 +2,7 @@ class CreateOriginFields < ActiveRecord::Migration
   def change
     create_table :origin_fields do |t|
       t.string  :field_name
+      t.string  :origin_file_field_name
       t.string  :origin_pic
       t.string  :data_type
       t.string  :fmbase_format_type

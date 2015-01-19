@@ -24,7 +24,7 @@ $(document).on('page:change', function() {
         return {
           results: $.map(data, function (item) {
             return {
-              text: item.field_name,
+              text: item.origin_file_field_name,
               id: item.id
             }
           })
